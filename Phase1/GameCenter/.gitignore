@@ -1,4 +1,7 @@
 *.iml
+*.jar
+*.properties
+*.bat
 .gradle
 /local.properties
 /.idea/caches/build_file_checksums.ser
@@ -9,3 +12,6 @@
 /build
 /captures
 .externalNativeBuild
+/gradle
+app/gradlew
+/gradlew.bat

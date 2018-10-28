@@ -29,7 +29,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      */
     private Tile[][] tiles = new Tile[NUM_ROWS][NUM_COLS];
 
-
     /**
      * A new board of tiles in row-major order.
      * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
@@ -45,7 +44,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
             }
         }
     }
-
 
     /**
      * Return the number of tiles on the board.
@@ -109,7 +107,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
 
         @Override
         public Tile next() {
-
             int row = nextIndex / Board.NUM_COLS;
             int col = nextIndex % Board.NUM_COLS;
             Tile tile = tiles[row][col];
@@ -117,6 +114,4 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
             return tile;
         }
     }
-
-
 }

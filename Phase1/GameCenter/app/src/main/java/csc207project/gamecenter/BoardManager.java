@@ -93,8 +93,6 @@ class BoardManager implements Serializable {
         int row = position / Board.NUM_ROWS;
         int col = position % Board.NUM_COLS;
         int blankId = board.numTiles();
-
-
         // tiles is the blank tile, swap by calling Board's swap method.
         if (row != 0 && board.getTile(row - 1, col).getId() == blankId) {
             board.swapTiles(row, col, row - 1, col);    // swap with tile above
