@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="csc207project.gamecenter.StartingActivity">
+        <activity android:name=".GameCentre">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="csc207project.gamecenter.GameActivity"></activity>
+        <activity android:name=".GameActivity" />
     </application>
 
 </manifest>
