@@ -23,14 +23,12 @@ public class GameCentre extends AppCompatActivity {
         username = (TextView) findViewById(R.id.userName);
         password = (TextView) findViewById(R.id.Password);
 
-        String name = username.getText().toString();
-        String pw = password.getText().toString();
         addSignInButtonListener();
         addSignUpButtonListener();
     }
 
     private void addSignUpButtonListener() {
-        signUpButton = (Button) findViewById(R.id.SignUpButton);
+
         signUpButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,7 +38,8 @@ public class GameCentre extends AppCompatActivity {
     }
 
     private void addSignInButtonListener() {
-        signInButton = (Button) findViewById(R.id.SignInButton);
+        String name = username.getText().toString();
+        String pw = password.getText().toString();
         signInButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
