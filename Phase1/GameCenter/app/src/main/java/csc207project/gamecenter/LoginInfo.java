@@ -1,11 +1,12 @@
 package csc207project.gamecenter;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * The class that manages login info for users.
  */
-public class LoginInfo {
+public class LoginInfo implements Serializable {
 
     /**
      * The collection of username and passwords.
@@ -55,15 +56,15 @@ public class LoginInfo {
      * @return If the registration is successful.
      */
     public static String Register (String username, String password, String repeat) {
-        if(username.equals("")){
+        if (username.equals("")) {
             return "Empty Username";
-        }else if(password.equals("") || repeat.equals("")){
+        } else if (password.equals("") || repeat.equals("")) {
             return "Empty Password";
-        }else if(userInfo.containsKey(username)){
+        } else if (userInfo.containsKey(username)) {
             return "Repeat Username!";
-        }else if (!password.equals(repeat)) {
+        } else if (!password.equals(repeat)) {
             return "Password entered do not match!";
-        }else{
+        } else {
             userInfo.put(username, password);
             return "Registered!";
         }
