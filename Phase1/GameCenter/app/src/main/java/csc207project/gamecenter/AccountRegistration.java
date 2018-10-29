@@ -43,7 +43,7 @@ public class AccountRegistration extends AppCompatActivity {
                 pw_repeat = password_repeat.getText().toString();
 
                 String response = LoginInfo.Register(usrname, pw, pw_repeat);
-                Toast.makeText(getApplication(), response, Toast.LENGTH_SHORT);
+                Toast.makeText(getApplication(), response, Toast.LENGTH_SHORT).show();
                 if (response.equals("Registered!")) {
                     startActivity(new Intent(AccountRegistration.this, GameCentre.class));
 
