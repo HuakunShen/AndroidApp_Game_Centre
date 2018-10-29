@@ -1,61 +1,73 @@
 package csc207project.gamecenter;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.net.PasswordAuthentication;
 
-public class GameCentre extends AppCompatActivity {
-
-    private TextView username;
-    private TextView password;
+public class GameCentre extends AppCompatActivity implements View.OnClickListener {
 
 
+    private String name;
+    private String pw;
+    private Button signInButton;
+    private Button signUpButton;
+    private EditText username;
+    private EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_centre);
-        username = (TextView) findViewById(R.id.userName);
-        password = (TextView) findViewById(R.id.Password);
-
-        addSignInButtonListener();
-        addSignUpButtonListener();
+        username = findViewById(R.id.userName);
+        password = findViewById(R.id.Password);
+        signInButton = findViewById(R.id.SignInButton);
+        signUpButton = findViewById(R.id.SignUpButton);
+        signInButton.setOnClickListener(this);
+        signUpButton.setOnClickListener(this);
     }
 
-    private void addSignUpButtonListener() {
-        Button signUpButton = findViewById(R.id.SignUpButton);
-        signUpButton.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeToastText("Sign up");
-            }
+    /**
+     *
+     * @param v Buttons, any button that can be clicked
+     */
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            // When Sign in button is clicked
+            case R.id.SignInButton:
+                name = username.getText().toString();
+                pw = password.getText().toString();
+                if(LoginInfo.IsValidUserName(name)){
+                    if(LoginInfo.Authenticate(name, pw)){
+                        Intent intent = new Intent(GameCentre.this, StartingActivity.class);
+                        startActivity(intent);
+                        makeToastText("Successfully Signed In!");
+                    }else{
+                        makeToastText("Wrong Password!");
+                    }
+                }else{
+                    makeToastText("Username does not exist");
+                }
+                break;
 
-
-        }));
+            // When Sign in button is clicked
+            case R.id.SignUpButton:
+                startActivity(new Intent(GameCentre.this, AccountRegistration.class));
+                break;
+        }
     }
+
     private void makeToastText(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
-
-    private void addSignInButtonListener() {
-        Button signInButton = findViewById(R.id.SignInButton);
-
-        String name = username.getText().toString();
-        String pw = password.getText().toString();
-        signInButton.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeToastText("Sign in");
-            }
-        })
-        );
     }
-
-
-}

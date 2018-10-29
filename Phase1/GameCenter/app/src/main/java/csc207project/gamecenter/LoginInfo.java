@@ -10,7 +10,17 @@ public class LoginInfo {
     /**
      * The collection of username and passwords.
      */
-    private HashMap<String, String> userInfo = new HashMap<String, String>();
+    private static HashMap<String, String> userInfo = new HashMap<String, String>(){
+         {put(new String("admin"),new String("admin"));
+        }
+    };
+
+//    private static HashMap<String, String> createMap()
+//    {
+//        HashMap<String,String> map= new HashMap<String,String>();
+//        map.put("admin", "admin");
+//        return map;
+//    }
 
     /**
      * Returns whether the username is already registered.
@@ -18,8 +28,9 @@ public class LoginInfo {
      * @param username The username that the client entered.
      * @return Whether the entered the user name is registered.
      */
-    public boolean IsValidUserName (String username) {
-        return userInfo.keySet().contains(username);
+    public static boolean IsValidUserName (String username) {
+        boolean result = userInfo.containsKey(username);
+        return result;
     }
 
     /**
@@ -29,8 +40,9 @@ public class LoginInfo {
      * @param password The password that the user attempts to login with.
      * @return Whether the username and password is valid.
      */
-    public boolean Authenticate (String username, String password) {
+    public static boolean Authenticate (String username, String password) {
         return userInfo.get(username).equals(password);
+
     }
 
     /**
@@ -42,11 +54,19 @@ public class LoginInfo {
      * @param repeat The password that the user entered for a second time.
      * @return If the registration is successful.
      */
-    public boolean Register (String username, String password, String repeat) {
-        if (password.equals(repeat)) {
+    public static String Register (String username, String password, String repeat) {
+        if(username.equals("")){
+            return "Empty Username";
+        }else if(password.equals("") || repeat.equals("")){
+            return "Empty Password";
+        }else if(userInfo.containsKey(username)){
+            return "Repeat Username!";
+        }else if (!password.equals(repeat)) {
+            return "Password entered do not match!";
+        }else{
             userInfo.put(username, password);
-            return true;
+            return "Registered!";
         }
-        return false;
+
     }
 }
