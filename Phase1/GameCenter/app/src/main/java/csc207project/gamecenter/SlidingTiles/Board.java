@@ -1,8 +1,7 @@
-package csc207project.gamecenter;
+package csc207project.gamecenter.SlidingTiles;
 
 import android.support.annotation.NonNull;
 
-import java.util.NoSuchElementException;
 import java.util.Observable;
 
 import java.io.Serializable;

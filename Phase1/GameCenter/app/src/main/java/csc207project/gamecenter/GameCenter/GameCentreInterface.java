@@ -1,10 +1,13 @@
-package csc207project.gamecenter;
+package csc207project.gamecenter.GameCenter;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import csc207project.gamecenter.R;
+import csc207project.gamecenter.SlidingTiles.StartingActivity;
 
 public class GameCentreInterface extends AppCompatActivity implements View.OnClickListener{
 

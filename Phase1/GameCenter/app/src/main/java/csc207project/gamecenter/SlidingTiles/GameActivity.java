@@ -1,4 +1,4 @@
-package csc207project.gamecenter;
+package csc207project.gamecenter.SlidingTiles;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +15,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import csc207project.gamecenter.R;
 
 /**
  * The game activity.

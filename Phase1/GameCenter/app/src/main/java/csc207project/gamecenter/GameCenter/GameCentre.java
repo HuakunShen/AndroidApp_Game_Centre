@@ -1,4 +1,4 @@
-package csc207project.gamecenter;
+package csc207project.gamecenter.GameCenter;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import csc207project.gamecenter.R;
 
 public class GameCentre extends AppCompatActivity implements View.OnClickListener {
 

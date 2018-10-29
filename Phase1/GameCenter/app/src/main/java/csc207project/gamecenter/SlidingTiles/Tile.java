@@ -1,8 +1,6 @@
-package csc207project.gamecenter;
+package csc207project.gamecenter.SlidingTiles;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.widget.Button;
 
 import java.io.Serializable;
 

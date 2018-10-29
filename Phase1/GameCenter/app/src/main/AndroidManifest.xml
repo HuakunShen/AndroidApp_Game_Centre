@@ -14,17 +14,17 @@
         android:roundIcon="@mipmap/cool_jason"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".GameCentre">
+        <activity android:name=".GameCenter.GameCentre">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StartingActivity" />
-        <activity android:name=".GameActivity" />
-        <activity android:name=".AccountRegistration" />
-        <activity android:name=".GameCentreInterface"></activity>
+        <activity android:name=".SlidingTiles.StartingActivity" />
+        <activity android:name=".SlidingTiles.GameActivity" />
+        <activity android:name=".GameCenter.AccountRegistration" />
+        <activity android:name=".GameCenter.GameCentreInterface"></activity>
     </application>
 
 </manifest>

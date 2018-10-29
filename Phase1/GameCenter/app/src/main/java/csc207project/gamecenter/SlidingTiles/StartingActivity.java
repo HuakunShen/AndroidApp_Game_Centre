@@ -1,4 +1,4 @@
-package csc207project.gamecenter;
+package csc207project.gamecenter.SlidingTiles;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import csc207project.gamecenter.R;
 
 /**
  * The initial activity for the sliding puzzle tile game.

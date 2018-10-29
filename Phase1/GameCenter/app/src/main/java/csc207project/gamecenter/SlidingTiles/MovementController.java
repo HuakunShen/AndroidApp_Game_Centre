@@ -1,4 +1,4 @@
-package csc207project.gamecenter;
+package csc207project.gamecenter.SlidingTiles;
 
 import android.content.Context;
 import android.widget.Toast;
