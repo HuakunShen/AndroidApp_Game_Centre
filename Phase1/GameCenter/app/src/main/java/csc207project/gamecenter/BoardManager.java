@@ -52,14 +52,13 @@ class BoardManager implements Serializable {
      * @return whether the tiles are in row-major order
      */
     boolean puzzleSolved() {
-        boolean solved = true;
         Iterator<Tile> itr = board.iterator();
-        for (int i = 1; i <= board.NUM_ROWS * board.NUM_COLS; i++) {
+        for (int i = 1; i <= board.numTiles(); i++) {
             if (itr.hasNext() && itr.next().getId() != i) {
                 return false;
             }
         }
-        return solved;
+        return true;
     }
 
     /**
