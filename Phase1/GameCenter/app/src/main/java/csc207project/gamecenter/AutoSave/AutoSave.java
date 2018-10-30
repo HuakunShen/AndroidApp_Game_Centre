@@ -5,7 +5,7 @@ import java.util.TimerTask;
 public interface AutoSave{
     int timeInterval = 3;
 
-//    default int getTimeInterval(){return timeInterval;}
+    default int getTimeInterval(){return timeInterval;}
 
     default void setTimer(){
         Timer t = new Timer("AutoSaveTimer");
@@ -14,7 +14,7 @@ public interface AutoSave{
             public void run() {
                 saveToFile();
             }
-        },getTimeInterval(), getTimeInterval());
+        },getTimeInterval() * 1000, getTimeInterval() * 1000);
     }
 
     void saveToFile();
