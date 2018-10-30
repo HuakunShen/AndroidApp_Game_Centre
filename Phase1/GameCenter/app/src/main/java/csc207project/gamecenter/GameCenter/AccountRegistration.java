@@ -51,9 +51,6 @@ public class AccountRegistration extends AppCompatActivity {
                 pw_repeat = password_repeat.getText().toString();
 
                 String message = checkPassword(usrname, pw, pw_repeat);
-
-
-
                 Boolean response = loginInfo.Register(usrname, pw, pw_repeat);
                 saveToFile(GameCentre.TEMP_SAVE_FILENAME);
                 saveToFile(GameCentre.SAVE_FILENAME);
@@ -61,7 +58,9 @@ public class AccountRegistration extends AppCompatActivity {
 
                 Toast.makeText(getApplication(), message, Toast.LENGTH_SHORT).show();
                 if (response.equals(true)) {
-                    startActivity(new Intent(AccountRegistration.this, GameCentre.class));
+                    Intent intent = new Intent(AccountRegistration.this, GameCentre.class);
+                    intent.putExtra("loginInfo", loginInfo);
+                    startActivity(intent);
 
                 }
             }

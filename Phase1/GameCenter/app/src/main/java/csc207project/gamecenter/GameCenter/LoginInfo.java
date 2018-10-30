@@ -14,9 +14,7 @@ public class LoginInfo implements Serializable {
     /**
      * The collection of username and passwords.
      */
-    private HashMap<String, String> userInfo = new HashMap<String, String>(){{
-        put(admin, admin);
-    }};
+    private HashMap<String, String> userInfo;
 
 //    private static HashMap<String, String> createMap()
 //    {
@@ -25,6 +23,13 @@ public class LoginInfo implements Serializable {
 //        return map;
 //    }
 
+    public LoginInfo(){
+        this.userInfo = new HashMap<String, String>();
+        this.userInfo.put("admin", "admin");
+    }
+
+
+
     /**
      * Returns whether the username is already registered.
      *
@@ -32,9 +37,16 @@ public class LoginInfo implements Serializable {
      * @return Whether the entered the user name is registered.
      */
     public boolean isValidUserName(String username) {
-        boolean result = !userInfo.containsKey(username);
+        boolean result = !userInfo.containsKey(username) && !username.equals("");
         return result;
     }
+
+
+    public boolean checkUsername(String username){
+        boolean result = userInfo.containsKey(username);
+        return result;
+    }
+
 
     /**
      * Returns whether the entered username and password matches the one in the system.
@@ -47,6 +59,9 @@ public class LoginInfo implements Serializable {
         return userInfo.get(username).equals(password);
 
     }
+
+
+
 
     /**
      * Registers a new user into the system. Returns true if and only if the registration

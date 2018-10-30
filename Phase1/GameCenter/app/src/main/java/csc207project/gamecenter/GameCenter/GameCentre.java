@@ -67,7 +67,6 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
 
 
     private void loadFromFile(String fileName) {
-
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
@@ -91,6 +90,7 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         loadFromFile(TEMP_SAVE_FILENAME);
     }
 
+
     /**
      * @param v Buttons, any button that can be clicked
      */
@@ -99,8 +99,7 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         switch (v.getId()) {
             // When Sign in button is clicked
             case R.id.SignInButton:
-                loadFromFile(SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
+                loadFromFile(TEMP_SAVE_FILENAME);
                 name = username.getText().toString();
                 pw = password.getText().toString();
                 loginCheck();
@@ -114,7 +113,7 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
     }
 
     private void loginCheck() {
-        if (loginInfo.isValidUserName(name)) {
+        if (loginInfo.checkUsername(name)) {
             if (loginInfo.Authenticate(name, pw)) {
                 Intent intent = new Intent(GameCentre.this, GameCentreInterface.class);
                 startActivity(intent);
