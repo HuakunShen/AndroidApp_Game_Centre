@@ -7,15 +7,15 @@ public interface AutoSave{
 
 //    default int getTimeInterval(){return timeInterval;}
 
-//    default void setTimer(){
-//        Timer t = new Timer("AutoSaveTimer");
-//        t.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                saveToFile();
-//            }
-//        },getTimeInterval(), getTimeInterval());
-//    }
+    default void setTimer(){
+        Timer t = new Timer("AutoSaveTimer");
+        t.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                saveToFile();
+            }
+        },getTimeInterval(), getTimeInterval());
+    }
 
     void saveToFile();
 
