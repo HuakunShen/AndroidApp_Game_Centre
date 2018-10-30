@@ -117,6 +117,7 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         if (loginInfo.checkUsername(name)) {
             if (loginInfo.Authenticate(name, pw)) {
                 Intent intent = new Intent(GameCentre.this, GameCentreInterface.class);
+                intent.putExtra("username", name);
                 startActivity(intent);
                 makeToastText("Successfully Signed In!");
             } else {
