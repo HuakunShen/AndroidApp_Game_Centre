@@ -87,7 +87,8 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        loadFromFile(TEMP_SAVE_FILENAME);
+        loadFromFile(SAVE_FILENAME);
+        saveToFile(TEMP_SAVE_FILENAME);
     }
 
 
