@@ -8,13 +8,13 @@ import java.util.HashMap;
  */
 public class LoginInfo implements Serializable {
 
+
+    private String admin = new String("admin");
+
     /**
      * The collection of username and passwords.
      */
-    private static HashMap<String, String> userInfo = new HashMap<String, String>(){
-         {put(new String("admin"),new String("admin"));
-        }
-    };
+    private HashMap<String, String> userInfo;
 
 //    private static HashMap<String, String> createMap()
 //    {
@@ -23,16 +23,30 @@ public class LoginInfo implements Serializable {
 //        return map;
 //    }
 
+    public LoginInfo(){
+        this.userInfo = new HashMap<String, String>();
+        this.userInfo.put("admin", "admin");
+    }
+
+
+
     /**
      * Returns whether the username is already registered.
      *
      * @param username The username that the client entered.
      * @return Whether the entered the user name is registered.
      */
-    public static boolean IsValidUserName (String username) {
+    public boolean isValidUserName(String username) {
+        boolean result = !userInfo.containsKey(username) && !username.equals("");
+        return result;
+    }
+
+
+    public boolean checkUsername(String username){
         boolean result = userInfo.containsKey(username);
         return result;
     }
+
 
     /**
      * Returns whether the entered username and password matches the one in the system.
@@ -41,10 +55,13 @@ public class LoginInfo implements Serializable {
      * @param password The password that the user attempts to login with.
      * @return Whether the username and password is valid.
      */
-    public static boolean Authenticate (String username, String password) {
+    public boolean Authenticate (String username, String password) {
         return userInfo.get(username).equals(password);
 
     }
+
+
+
 
     /**
      * Registers a new user into the system. Returns true if and only if the registration
@@ -55,19 +72,16 @@ public class LoginInfo implements Serializable {
      * @param repeat The password that the user entered for a second time.
      * @return If the registration is successful.
      */
-    public static String Register (String username, String password, String repeat) {
-        if (username.equals("")) {
-            return "Empty Username";
-        } else if (password.equals("") || repeat.equals("")) {
-            return "Empty Password";
-        } else if (userInfo.containsKey(username)) {
-            return "Repeat Username!";
-        } else if (!password.equals(repeat)) {
-            return "Password entered do not match!";
-        } else {
+    public boolean Register (String username, String password, String repeat) {
+
+        if(password.equals(repeat) && isValidUserName(username)){
             userInfo.put(username, password);
-            return "Registered!";
+            return true;
+        }else{
+            return false;
         }
+
+
 
     }
 }

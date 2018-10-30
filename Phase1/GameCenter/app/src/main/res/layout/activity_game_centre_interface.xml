@@ -28,7 +28,7 @@
                 android:id="@+id/SlidingTiles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SlidingTiles"
+                android:text="@string/slidingTileGame_name"
                 tools:layout_editor_absoluteX="7dp"
                 tools:layout_editor_absoluteY="27dp" />
 
