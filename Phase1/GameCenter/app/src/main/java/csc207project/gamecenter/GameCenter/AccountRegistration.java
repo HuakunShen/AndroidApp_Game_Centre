@@ -50,18 +50,34 @@ public class AccountRegistration extends AppCompatActivity {
                 pw = password.getText().toString();
                 pw_repeat = password_repeat.getText().toString();
 
-                String response = loginInfo.Register(usrname, pw, pw_repeat);
+                String message = checkPassword(usrname, pw, pw_repeat);
+
+
+
+                Boolean response = loginInfo.Register(usrname, pw, pw_repeat);
                 saveToFile(GameCentre.TEMP_SAVE_FILENAME);
                 saveToFile(GameCentre.SAVE_FILENAME);
 
 
-                Toast.makeText(getApplication(), response, Toast.LENGTH_SHORT).show();
-                if (response.equals("Registered!")) {
+                Toast.makeText(getApplication(), message, Toast.LENGTH_SHORT).show();
+                if (response.equals(true)) {
                     startActivity(new Intent(AccountRegistration.this, GameCentre.class));
 
                 }
             }
         }));
+    }
+
+    private String checkPassword(String usrname, String pw, String pw_repeat) {
+        if(usrname.equals("")){
+            return "Empty Username!";
+        }else if(!loginInfo.isValidUserName(usrname)){
+            return "Username Exists!";
+        }else if(!pw.equals(pw_repeat)){
+            return "Password Do Not Match!";
+        }else{
+            return "Successfully Registered!";
+        }
     }
 
     private void loadFromFile(String fileName) {

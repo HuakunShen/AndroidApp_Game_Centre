@@ -16,7 +16,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import csc207project.gamecenter.R;
-import csc207project.gamecenter.SlidingTiles.StartingActivity;
 
 
 public class GameCentre extends AppCompatActivity implements View.OnClickListener {
@@ -115,7 +114,7 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
     }
 
     private void loginCheck() {
-        if (loginInfo.IsValidUserName(name)) {
+        if (loginInfo.isValidUserName(name)) {
             if (loginInfo.Authenticate(name, pw)) {
                 Intent intent = new Intent(GameCentre.this, GameCentreInterface.class);
                 startActivity(intent);

@@ -31,8 +31,8 @@ public class LoginInfo implements Serializable {
      * @param username The username that the client entered.
      * @return Whether the entered the user name is registered.
      */
-    public boolean IsValidUserName (String username) {
-        boolean result = userInfo.containsKey(username);
+    public boolean isValidUserName(String username) {
+        boolean result = !userInfo.containsKey(username);
         return result;
     }
 
@@ -57,19 +57,16 @@ public class LoginInfo implements Serializable {
      * @param repeat The password that the user entered for a second time.
      * @return If the registration is successful.
      */
-    public String Register (String username, String password, String repeat) {
-        if (username.equals("")) {
-            return "Empty Username";
-        } else if (password.equals("") || repeat.equals("")) {
-            return "Empty Password";
-        } else if (userInfo.containsKey(username)) {
-            return "Repeat Username!";
-        } else if (!password.equals(repeat)) {
-            return "Password entered do not match!";
-        } else {
+    public boolean Register (String username, String password, String repeat) {
+
+        if(password.equals(repeat) && isValidUserName(username)){
             userInfo.put(username, password);
-            return "Registered!";
+            return true;
+        }else{
+            return false;
         }
+
+
 
     }
 }
