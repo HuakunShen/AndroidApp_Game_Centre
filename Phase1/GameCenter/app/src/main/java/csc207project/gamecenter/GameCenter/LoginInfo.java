@@ -8,13 +8,15 @@ import java.util.HashMap;
  */
 public class LoginInfo implements Serializable {
 
+
+    private String admin = new String("admin");
+
     /**
      * The collection of username and passwords.
      */
-    private static HashMap<String, String> userInfo = new HashMap<String, String>(){
-         {put(new String("admin"),new String("admin"));
-        }
-    };
+    private HashMap<String, String> userInfo = new HashMap<String, String>(){{
+        put(admin, admin);
+    }};
 
 //    private static HashMap<String, String> createMap()
 //    {
@@ -29,7 +31,7 @@ public class LoginInfo implements Serializable {
      * @param username The username that the client entered.
      * @return Whether the entered the user name is registered.
      */
-    public static boolean IsValidUserName (String username) {
+    public boolean IsValidUserName (String username) {
         boolean result = userInfo.containsKey(username);
         return result;
     }
@@ -41,7 +43,7 @@ public class LoginInfo implements Serializable {
      * @param password The password that the user attempts to login with.
      * @return Whether the username and password is valid.
      */
-    public static boolean Authenticate (String username, String password) {
+    public boolean Authenticate (String username, String password) {
         return userInfo.get(username).equals(password);
 
     }
@@ -55,7 +57,7 @@ public class LoginInfo implements Serializable {
      * @param repeat The password that the user entered for a second time.
      * @return If the registration is successful.
      */
-    public static String Register (String username, String password, String repeat) {
+    public String Register (String username, String password, String repeat) {
         if (username.equals("")) {
             return "Empty Username";
         } else if (password.equals("") || repeat.equals("")) {
