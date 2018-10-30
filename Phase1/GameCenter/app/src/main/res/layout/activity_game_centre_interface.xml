@@ -19,13 +19,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/SlidingTiles"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SlidingTiles"
-            tools:layout_editor_absoluteX="7dp"
-            tools:layout_editor_absoluteY="27dp" />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/SlidingTiles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SlidingTiles"
+                tools:layout_editor_absoluteX="7dp"
+                tools:layout_editor_absoluteY="27dp" />
+
+        </LinearLayout>
     </ScrollView>
 
     <TextView
@@ -42,4 +49,5 @@
         app:layout_constraintStart_toStartOf="@+id/scrollView2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
 </android.support.constraint.ConstraintLayout>
