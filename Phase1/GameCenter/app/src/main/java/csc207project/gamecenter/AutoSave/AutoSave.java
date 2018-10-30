@@ -2,9 +2,10 @@ package csc207project.gamecenter.AutoSave;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public interface AutoSave {
+public interface AutoSave{
+    int timeInterval = 3;
 
-    int getTimeInterval();
+    default int getTimeInterval(){return timeInterval;}
 
     default void setTimer(){
         Timer t = new Timer("AutoSaveTimer");
