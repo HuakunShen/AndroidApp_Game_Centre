@@ -18,7 +18,7 @@ import java.io.ObjectOutputStream;
 import csc207project.gamecenter.R;
 
 
-public class AccountRegistration extends AppCompatActivity {
+public class AccountRegistration extends AppCompatActivity implements View.OnClickListener {
 
     private EditText nickname;
     private EditText username;
@@ -41,40 +41,37 @@ public class AccountRegistration extends AppCompatActivity {
         username = findViewById(R.id.usernameInput);
         password = findViewById(R.id.passwordInput);
         password_repeat = findViewById(R.id.password_repeat_Input);
-        register_button.setOnClickListener((new View.OnClickListener() {
+        register_button.setOnClickListener(this);
+    }
 
-            @Override
-            public void onClick(View v) {
-                name = nickname.getText().toString();
-                usrname = username.getText().toString();
-                pw = password.getText().toString();
-                pw_repeat = password_repeat.getText().toString();
+    @Override
+    public void onClick(View view) {
+        name = nickname.getText().toString();
+        usrname = username.getText().toString();
+        pw = password.getText().toString();
+        pw_repeat = password_repeat.getText().toString();
+        String message = checkPassword(usrname, pw, pw_repeat);
+        Boolean response = loginInfo.Register(usrname, pw, pw_repeat);
+        saveToFile(GameCentre.TEMP_SAVE_FILENAME);
+        saveToFile(GameCentre.SAVE_FILENAME);
+        Toast.makeText(getApplication(), message, Toast.LENGTH_SHORT).show();
+        if (response.equals(true)) {
+            Intent intent = new Intent(AccountRegistration.this, GameCentre.class);
+            intent.putExtra("loginInfo", loginInfo);
+            startActivity(intent);
 
-                String message = checkPassword(usrname, pw, pw_repeat);
-                Boolean response = loginInfo.Register(usrname, pw, pw_repeat);
-                saveToFile(GameCentre.TEMP_SAVE_FILENAME);
-                saveToFile(GameCentre.SAVE_FILENAME);
+        }
 
-
-                Toast.makeText(getApplication(), message, Toast.LENGTH_SHORT).show();
-                if (response.equals(true)) {
-                    Intent intent = new Intent(AccountRegistration.this, GameCentre.class);
-                    intent.putExtra("loginInfo", loginInfo);
-                    startActivity(intent);
-
-                }
-            }
-        }));
     }
 
     private String checkPassword(String usrname, String pw, String pw_repeat) {
-        if(usrname.equals("")){
+        if (usrname.equals("")) {
             return "Empty Username!";
-        }else if(!loginInfo.isValidUserName(usrname)){
+        } else if (!loginInfo.isValidUserName(usrname)) {
             return "Username Exists!";
-        }else if(!pw.equals(pw_repeat)){
+        } else if (!pw.equals(pw_repeat)) {
             return "Password Do Not Match!";
-        }else{
+        } else {
             return "Successfully Registered!";
         }
     }
@@ -116,6 +113,7 @@ public class AccountRegistration extends AppCompatActivity {
         super.onPause();
         saveToFile(GameCentre.TEMP_SAVE_FILENAME);
     }
+
 
 
 }
