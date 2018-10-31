@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,13 +17,15 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import csc207project.gamecenter.AutoSave.AutoSave;
 import csc207project.gamecenter.R;
 
 /**
  * The game activity.
  */
-public class GameActivity extends AppCompatActivity implements Observer {
+public class GameActivity extends AppCompatActivity implements Observer, AutoSave {
 
+    private int counter;
     /**
      * The board manager.
      */
@@ -148,6 +151,20 @@ public class GameActivity extends AppCompatActivity implements Observer {
         }
     }
 
+    @Override
+    public void saveAfter() {
+        counter += 1;
+        if(counter == 3){
+            counter = 0;
+            saveToFile(StartingActivity.SAVE_FILENAME);
+            makeToastSavedText();
+        }
+    }
+
+    private void makeToastSavedText() {
+        Toast.makeText(this, "Game Saved Automatically", Toast.LENGTH_SHORT).show();
+    }
+
     /**
      * Save the board manager to fileName.
      *
@@ -167,5 +184,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         display();
+        saveAfter();
     }
 }
