@@ -54,8 +54,12 @@ public class StartingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardManager = new BoardManager();
-                switchToGame();
+                //original code
+                //boardManager = new BoardManager();
+                //switchToGame();
+
+                Intent to_new_game = new Intent(StartingActivity.this, NewGameActivity.class);
+                startActivity(to_new_game);
             }
         });
     }

@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".SlidingTiles.StartingActivity" />
         <activity android:name=".SlidingTiles.GameActivity" />
+        <activity android:name=".SlidingTiles.NewGameActivity" />
         <activity android:name=".GameCenter.AccountRegistration" />
         <activity android:name=".GameCenter.GameCentreInterface"></activity>
     </application>
