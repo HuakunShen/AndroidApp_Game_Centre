@@ -5,17 +5,17 @@ import java.util.TimerTask;
 public interface AutoSave{
     int timeInterval = 3;
 
-    default int getTimeInterval(){return timeInterval;}
-
-    default void setTimer(){
-        Timer t = new Timer("AutoSaveTimer");
-        t.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                saveToFile();
-            }
-        },getTimeInterval() * 1000, getTimeInterval() * 1000);
-    }
+//    default int getTimeInterval(){return timeInterval;}
+//
+//    default void setTimer(){
+//        Timer t = new Timer("AutoSaveTimer");
+//        t.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                saveToFile();
+//            }
+//        },getTimeInterval() * 1000, getTimeInterval() * 1000);
+//    }
 
     void saveToFile();
 
