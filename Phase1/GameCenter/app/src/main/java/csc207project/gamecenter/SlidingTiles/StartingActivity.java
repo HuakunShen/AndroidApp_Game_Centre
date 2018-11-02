@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -33,6 +36,14 @@ public class StartingActivity extends AppCompatActivity {
      * The board manager.
      */
     private BoardManager boardManager;
+
+    /**
+     * The difficulties can be selected.
+     */
+    Spinner select_diff;
+    private String[] list_diff = new String[] {"Easy(3x3)", "Normal(4x4)", "Hard(5x5)"};
+    //this will be used later
+    private int selected_diff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
