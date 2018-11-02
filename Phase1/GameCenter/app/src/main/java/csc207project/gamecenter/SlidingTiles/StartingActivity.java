@@ -44,6 +44,31 @@ public class StartingActivity extends AppCompatActivity {
         addStartButtonListener();
         addLoadButtonListener();
         addSaveButtonListener();
+
+        select_diff = findViewById(R.id.list_diff_sele);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
+        select_diff.setAdapter(arrayAdapter);
+
+        select_diff.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position) == list_diff[0]) {
+                    selected_diff = 3;
+                }
+                else if (parent.getItemAtPosition(position) == list_diff[1]) {
+                    selected_diff = 4;
+                }
+                else if (parent.getItemAtPosition(position) == list_diff[2]) {
+                    selected_diff = 5;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selected_diff = 4;
+            }
+        });
     }
 
     /**
