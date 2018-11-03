@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 import csc207project.gamecenter.AutoSave.AutoSave;
@@ -66,6 +67,17 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
         createTileButtons(this);
         setContentView(R.layout.activity_main);
+
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                saveToFile(StartingActivity.SAVE_FILENAME);
+//                saveToast();
+            }
+        };
+        timer.schedule(task, 0, 5000);
+
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
@@ -153,20 +165,6 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         }
     }
 
-//    @Override
-//    public void saveAfter() {
-//        counter += 1;
-//        if(counter == 3){
-//            counter = 0;
-//            saveToFile(StartingActivity.SAVE_FILENAME);
-//            makeToastSavedText();
-//        }
-//    }
-//
-//    private void makeToastSavedText() {
-//        Toast.makeText(this, "Game Saved Automatically", Toast.LENGTH_SHORT).show();
-//    }
-
     /**
      * Save the board manager to fileName.
      *
@@ -193,6 +191,5 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
             boardManager.addState(username, boardManager.getBoard());
         }
         display();
-//        saveAfter();
     }
 }

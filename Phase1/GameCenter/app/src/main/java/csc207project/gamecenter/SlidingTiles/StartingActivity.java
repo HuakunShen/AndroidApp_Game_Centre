@@ -16,7 +16,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import csc207project.gamecenter.AutoSave.AutoSave;
 import csc207project.gamecenter.R;
 
 /**
@@ -59,6 +62,8 @@ public class StartingActivity extends AppCompatActivity {
         addLoadButtonListener();
         addSaveButtonListener();
 
+
+
         select_diff = findViewById(R.id.list_diff_sele);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
@@ -94,12 +99,11 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //original code
-                //boardManager = new BoardManager();
-                //switchToGame();
-
-                Intent to_new_game = new Intent(StartingActivity.this, NewGameActivity.class);
-                to_new_game.putExtra("username", currentUser);
-                startActivity(to_new_game);
+                boardManager = new BoardManager();
+                switchToGame();
+//                Intent to_new_game = new Intent(StartingActivity.this, GameActivity.class);
+//                to_new_game.putExtra("username", currentUser);
+//                startActivity(to_new_game);
             }
         });
     }
