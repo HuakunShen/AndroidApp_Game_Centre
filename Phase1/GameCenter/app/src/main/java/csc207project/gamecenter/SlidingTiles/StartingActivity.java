@@ -37,6 +37,8 @@ public class StartingActivity extends AppCompatActivity {
      */
     private BoardManager boardManager;
 
+    private String currentUser;
+
     /**
      * The difficulties can be selected.
      */
@@ -51,6 +53,7 @@ public class StartingActivity extends AppCompatActivity {
         boardManager = new BoardManager();
         saveToFile(TEMP_SAVE_FILENAME);
 
+        currentUser = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_starting_);
         addStartButtonListener();
         addLoadButtonListener();
@@ -95,6 +98,7 @@ public class StartingActivity extends AppCompatActivity {
                 //switchToGame();
 
                 Intent to_new_game = new Intent(StartingActivity.this, NewGameActivity.class);
+                to_new_game.putExtra("username", currentUser);
                 startActivity(to_new_game);
             }
         });
@@ -112,6 +116,7 @@ public class StartingActivity extends AppCompatActivity {
                 saveToFile(TEMP_SAVE_FILENAME);
                 makeToastLoadedText();
                 switchToGame();
+
             }
         });
     }
@@ -158,6 +163,8 @@ public class StartingActivity extends AppCompatActivity {
      */
     private void switchToGame() {
         Intent tmp = new Intent(this, GameActivity.class);
+        tmp.putExtra("username", currentUser);
+
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }
