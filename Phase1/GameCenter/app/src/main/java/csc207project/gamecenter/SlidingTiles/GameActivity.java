@@ -1,24 +1,32 @@
 package csc207project.gamecenter.SlidingTiles;
 
+
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import java.time.Duration;
+import java.time.LocalTime;
 
 import csc207project.gamecenter.AutoSave.AutoSave;
 import csc207project.gamecenter.R;
@@ -38,6 +46,8 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
      * The buttons to display.
      */
     private ArrayList<Button> tileButtons;
+
+    private static LocalTime startingTime;
 
     /**
      * Constants for swiping directions. Should be an enum, probably.
@@ -69,7 +79,7 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         createTileButtons(this);
         setContentView(R.layout.activity_main);
         username = getIntent().getStringExtra("username");
-//        Toast.makeText(this,username, Toast.LENGTH_LONG).show();
+        startingTime = LocalTime.now();
 
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
@@ -80,7 +90,23 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         };
         timer.schedule(task, 0, 5000);
 
-        // Add View to activity
+        TextView timePlayed = new TextView(this);
+        timePlayed = (TextView) findViewById(R.id.time_display_view);
+
+        Timer timer2 = new Timer();
+        final TextView finalTimePlayed = timePlayed;
+        TimerTask task2 = new TimerTask() {
+            @Override
+            public void run() {
+                long time = Duration.between(GameActivity.startingTime, LocalTime.now()).toMillis();
+
+                String timeToDisplay = timeToString(time);
+                finalTimePlayed.setText(timeToDisplay);
+            }
+        };
+        timer2.schedule(task2, 0, 1000);
+
+                // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(Board.NUM_COLS);
         gridView.setBoardManager(boardManager);
@@ -103,7 +129,26 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
                 });
     }
 
-    /**
+
+    String timeToString(long time){
+        Integer hour = (int) (time / 3600000);
+        Integer min = (int) ((time % 3600000) / 60000);
+        Integer sec = (int) ((time % 3600000 % 60000) / 1000);
+        String hourStr = hour.toString();
+        String minStr = min.toString();
+        String secStr = sec.toString();
+        if(hour < 10){
+            hourStr = "0" + hourStr;
+        }
+        if(min < 10){
+            minStr = "0" + minStr;
+        }
+        if(sec < 10){
+            secStr = "0" + secStr;
+        }
+        return hourStr + ":" + minStr + ":" + secStr;
+    }
+   /**
      * Create the buttons for displaying the tiles.
      *
      * @param context the context

@@ -88,6 +88,7 @@ class BoardManager implements Serializable {
      *
      * @param userName
      * @return
+     *
      */
     Object getState(String userName) {
         return gameStates.get(userName).popLast();
