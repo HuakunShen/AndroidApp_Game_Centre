@@ -83,6 +83,19 @@ class BoardManager implements Serializable {
         }
     }
 
+    boolean checkUserStackIsNotEmpty(String user){
+        if(gameStates.get(user).size()!=0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    void setBoard(Board board){
+        this.board = board;
+    }
+
     /**
      * Return the latest state from the gameStates.
      *

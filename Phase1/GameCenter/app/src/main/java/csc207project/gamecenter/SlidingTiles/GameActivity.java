@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,7 +27,7 @@ import csc207project.gamecenter.R;
 /**
  * The game activity.
  */
-public class GameActivity extends AppCompatActivity implements Observer, AutoSave {
+public class GameActivity extends AppCompatActivity implements Observer, AutoSave, View.OnClickListener{
 
     private String username;
     /**
@@ -42,6 +43,7 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
     /**
      * Constants for swiping directions. Should be an enum, probably.
      */
+    private Button undoButton;
     public static final int UP = 1;
     public static final int DOWN = 2;
     public static final int LEFT = 3;
@@ -62,15 +64,19 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
     }
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
         createTileButtons(this);
         setContentView(R.layout.activity_main);
+        undoButton = findViewById(R.id.undo_button);                    //undo button assignment
+        undoButton.setOnClickListener(this);
         username = getIntent().getStringExtra("username");
 //        Toast.makeText(this,username, Toast.LENGTH_LONG).show();
-
+        checkUserExist();
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -102,6 +108,27 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
                     }
                 });
     }
+
+    private void checkUserExist() {
+        if (!boardManager.userExist(username)) {boardManager.addUser(username); }
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.undo_button:
+                if(boardManager.checkUserStackIsNotEmpty(username)){
+                    boardManager.setBoard((Board) boardManager.getState(username));
+                }
+                else{
+                    Toast.makeText(this, "Cannot undo, you suck", Toast.LENGTH_SHORT).show();
+                }
+                Log.d("Undo: ", "onClick: undo");
+                break;
+        }
+    }
+
 
     /**
      * Create the buttons for displaying the tiles.
@@ -184,12 +211,9 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
 
     @Override
     public void update(Observable o, Object arg) {
-        if (boardManager.userExist(username)) {
-            boardManager.addState(username, boardManager.getBoard());
-        } else {
-            boardManager.addUser(username);
-            boardManager.addState(username, boardManager.getBoard());
-        }
         display();
+        Log.d("update called", "update: ");
     }
+
+
 }
