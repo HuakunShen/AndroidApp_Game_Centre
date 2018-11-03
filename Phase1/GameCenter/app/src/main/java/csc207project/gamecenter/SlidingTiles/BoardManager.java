@@ -14,12 +14,12 @@ import csc207project.gamecenter.Data.StateStack;
  */
 class BoardManager implements Serializable {
 
-    private static int capacity;
+    private static int capacity = 100;
     /**
      * The HaspMap used to store each user's username and a stack of their Sliding tile game states.
      */
 
-    private static HashMap<String, StateStack<Object>> gameStates;
+    private static HashMap<String, StateStack<Object>> gameStates = new HashMap<>();
 
 
     /**
@@ -94,8 +94,8 @@ class BoardManager implements Serializable {
      * @param user
      * @return
      */
-    boolean userExist(String user) {
-        return gameStates.containsKey(user);
+    boolean userExist(String user){
+        return gameStates.keySet().contains(user);
     }
 
     /**

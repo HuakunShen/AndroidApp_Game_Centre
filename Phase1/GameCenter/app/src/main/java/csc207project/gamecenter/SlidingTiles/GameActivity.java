@@ -61,12 +61,15 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
         createTileButtons(this);
         setContentView(R.layout.activity_main);
+        username = getIntent().getStringExtra("username");
+//        Toast.makeText(this,username, Toast.LENGTH_LONG).show();
 
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
