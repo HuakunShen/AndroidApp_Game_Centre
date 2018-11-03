@@ -17,12 +17,12 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     /**
      * Time taken so far.
      */
-    private static int timeTaken;
+    private static int timePlayed;
 
     /**
      * Steps taken so far.
      */
-    private static int stepsTaken;
+    private int stepsTaken;
 
     /**
      * The number of rows.
@@ -54,7 +54,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
             }
         }
     }
-
 
 
     /**

@@ -107,6 +107,14 @@ class BoardManager implements Serializable {
     }
 
     /**
+     * Add a new user to gameStates.
+     * @param userName
+     */
+    void addUser(String userName){
+        gameStates.put(userName, new StateStack<>());
+    }
+
+    /**
      * Return whether the tiles are in row-major order.
      *
      * @return whether the tiles are in row-major order

@@ -16,7 +16,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import csc207project.gamecenter.AutoSave.AutoSave;
 import csc207project.gamecenter.R;
 
 /**
@@ -37,6 +40,8 @@ public class StartingActivity extends AppCompatActivity {
      */
     private BoardManager boardManager;
 
+    private String currentUser;
+
     /**
      * The difficulties can be selected.
      */
@@ -51,10 +56,20 @@ public class StartingActivity extends AppCompatActivity {
         boardManager = new BoardManager();
         saveToFile(TEMP_SAVE_FILENAME);
 
+        currentUser = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_starting_);
         addStartButtonListener();
         addLoadButtonListener();
         addSaveButtonListener();
+
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                saveToFile(TEMP_SAVE_FILENAME);
+            }
+        };
+        timer.schedule(task, 0, 5000);
 
         select_diff = findViewById(R.id.list_diff_sele);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
@@ -95,6 +110,7 @@ public class StartingActivity extends AppCompatActivity {
                 //switchToGame();
 
                 Intent to_new_game = new Intent(StartingActivity.this, NewGameActivity.class);
+                to_new_game.putExtra("username", currentUser);
                 startActivity(to_new_game);
             }
         });
@@ -112,6 +128,7 @@ public class StartingActivity extends AppCompatActivity {
                 saveToFile(TEMP_SAVE_FILENAME);
                 makeToastLoadedText();
                 switchToGame();
+
             }
         });
     }
@@ -158,6 +175,8 @@ public class StartingActivity extends AppCompatActivity {
      */
     private void switchToGame() {
         Intent tmp = new Intent(this, GameActivity.class);
+        tmp.putExtra("username", currentUser);
+
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
         startActivity(tmp);
     }

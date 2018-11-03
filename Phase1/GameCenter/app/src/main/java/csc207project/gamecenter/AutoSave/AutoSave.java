@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public interface AutoSave {
+
 //    String TEMP_SAVE_FILENAME = null;
 //    Timer timer = new Timer();
 //    TimerTask task = new TimerTask() {
@@ -16,5 +17,6 @@ public interface AutoSave {
 //    timer.schedule(task, 0, 5000);
 //
 //    void saveToFile(String fileName);
+
 
 }
