@@ -57,21 +57,21 @@ class BoardManager implements Serializable {
         this.board = new Board(tiles);
     }
 
-    HashMap getGameStates(){
+    HashMap getGameStates() {
         return gameStates;
     }
 
     /**
      * Add a new game state into the gameStates.
+     *
      * @param userName
      * @param boardToAdd
      */
-    void addState(String userName, Board boardToAdd){
+    void addState(String userName, Board boardToAdd) {
         StateStack<Object> theStack = gameStates.get(userName);
-        if(theStack.size() < capacity) {
+        if (theStack.size() < capacity) {
             theStack.push(boardToAdd);
-        }
-        else{
+        } else {
             theStack.popFirst();
             theStack.push(boardToAdd);
 
@@ -80,42 +80,45 @@ class BoardManager implements Serializable {
 
     /**
      * Return the latest state from the gameStates.
+     *
      * @param userName
      * @return
      */
-    Object getState(String userName){
+    Object getState(String userName) {
         return gameStates.get(userName).popLast();
     }
 
     /**
      * Return true if user exists, otherwise, return false.
+     *
      * @param user
      * @return
      */
-    boolean userExist(String user){
+    boolean userExist(String user) {
         return gameStates.containsKey(user);
     }
 
     /**
      * Return true if removing user succeed, otherwise, return false.
+     *
      * @param user
      * @return
      */
-    boolean removeUser(String user){
-        if(userExist(user)){
+    boolean removeUser(String user) {
+        if (userExist(user)) {
             gameStates.remove(user);
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
     /**
      * Add a new user to gameStates.
+     *
      * @param userName
      */
-    void addUser(String userName){
+    void addUser(String userName) {
         gameStates.put(userName, new StateStack<>());
     }
 

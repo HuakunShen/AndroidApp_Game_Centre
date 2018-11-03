@@ -73,11 +73,9 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
             @Override
             public void run() {
                 saveToFile(StartingActivity.SAVE_FILENAME);
-//                saveToast();
             }
         };
         timer.schedule(task, 0, 5000);
-
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
@@ -183,10 +181,9 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
 
     @Override
     public void update(Observable o, Object arg) {
-        if(boardManager.userExist(username)) {
+        if (boardManager.userExist(username)) {
             boardManager.addState(username, boardManager.getBoard());
-        }
-        else{
+        } else {
             boardManager.addUser(username);
             boardManager.addState(username, boardManager.getBoard());
         }

@@ -18,8 +18,8 @@ import csc207project.gamecenter.R;
 /**
  * An extension of StartingActivity on clicking NewGame
  * The basic function of this activity is to let user be able to
- *  - select difficulty
- *  - import their own image
+ * - select difficulty
+ * - import their own image
  */
 public class NewGameActivity extends AppCompatActivity {
 
@@ -84,7 +84,7 @@ public class NewGameActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == SELECT_IMAGE && resultCode == RESULT_OK) {
+        if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK) {
             imageUri = data.getData();
             //TODO we need to chop this photo to be a square
             image_selected.setImageURI(imageUri);

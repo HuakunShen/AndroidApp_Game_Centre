@@ -46,7 +46,7 @@ public class StartingActivity extends AppCompatActivity {
      * The difficulties can be selected.
      */
     Spinner select_diff;
-    private String[] list_diff = new String[] {"Easy(3x3)", "Normal(4x4)", "Hard(5x5)"};
+    private String[] list_diff = new String[]{"Easy(3x3)", "Normal(4x4)", "Hard(5x5)"};
     //this will be used later
     private int selected_diff;
 
@@ -63,7 +63,6 @@ public class StartingActivity extends AppCompatActivity {
         addSaveButtonListener();
 
 
-
         select_diff = findViewById(R.id.list_diff_sele);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
@@ -74,11 +73,9 @@ public class StartingActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position) == list_diff[0]) {
                     selected_diff = 3;
-                }
-                else if (parent.getItemAtPosition(position) == list_diff[1]) {
+                } else if (parent.getItemAtPosition(position) == list_diff[1]) {
                     selected_diff = 4;
-                }
-                else if (parent.getItemAtPosition(position) == list_diff[2]) {
+                } else if (parent.getItemAtPosition(position) == list_diff[2]) {
                     selected_diff = 5;
                 }
             }
@@ -144,7 +141,7 @@ public class StartingActivity extends AppCompatActivity {
                 saveToFile(TEMP_SAVE_FILENAME);
                 makeToastSavedText();
             }
-            });
+        });
     }
 
     /**
@@ -153,6 +150,7 @@ public class StartingActivity extends AppCompatActivity {
     private void makeToastSavedText() {
         Toast.makeText(this, "Game Saved", Toast.LENGTH_SHORT).show();
     }
+
     /**
      * Read the temporary board from disk.
      */
