@@ -69,7 +69,7 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         createTileButtons(this);
         setContentView(R.layout.activity_main);
         username = getIntent().getStringExtra("username");
-        Toast.makeText(this,username, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this,username, Toast.LENGTH_LONG).show();
 
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
@@ -186,7 +186,7 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
 
     @Override
     public void update(Observable o, Object arg) {
-        if(boardManager.userExist(username)) {
+        if (boardManager.userExist(username)) {
             boardManager.addState(username, boardManager.getBoard());
         }
         else{
