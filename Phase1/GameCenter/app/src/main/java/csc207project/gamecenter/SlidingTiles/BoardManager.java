@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 
 import csc207project.gamecenter.Data.StateStack;
 
@@ -19,7 +18,9 @@ class BoardManager implements Serializable {
     /**
      * The HaspMap used to store each user's username and a stack of their Sliding tile game states.
      */
-    private static HashMap<String, StateStack<Board>> gameStates;
+
+    private static HashMap<String, StateStack<Object>> gameStates;
+
 
     /**
      * The board being managed.
@@ -56,13 +57,17 @@ class BoardManager implements Serializable {
         this.board = new Board(tiles);
     }
 
+    HashMap getGameStates(){
+        return gameStates;
+    }
+
     /**
      * Add a new game state into the gameStates.
      * @param userName
      * @param boardToAdd
      */
     void addState(String userName, Board boardToAdd){
-        StateStack<Board> theStack = gameStates.get(userName);
+        StateStack<Object> theStack = gameStates.get(userName);
         if(theStack.size() < capacity) {
             theStack.push(boardToAdd);
         }
@@ -78,7 +83,7 @@ class BoardManager implements Serializable {
      * @param userName
      * @return
      */
-    Board getState(String userName){
+    Object getState(String userName){
         return gameStates.get(userName).popLast();
     }
 

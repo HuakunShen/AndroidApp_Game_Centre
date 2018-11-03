@@ -28,7 +28,7 @@ import csc207project.gamecenter.R;
  */
 public class GameActivity extends AppCompatActivity implements Observer, AutoSave {
 
-    private int counter;
+    private String username;
     /**
      * The board manager.
      */
@@ -72,10 +72,12 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+                saveToFile(StartingActivity.SAVE_FILENAME);
+//                saveToast();
             }
         };
         timer.schedule(task, 0, 5000);
+
 
         // Add View to activity
         gridView = findViewById(R.id.grid);
@@ -163,20 +165,6 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         }
     }
 
-//    @Override
-//    public void saveAfter() {
-//        counter += 1;
-//        if(counter == 3){
-//            counter = 0;
-//            saveToFile(StartingActivity.SAVE_FILENAME);
-//            makeToastSavedText();
-//        }
-//    }
-
-    private void makeToastSavedText() {
-        Toast.makeText(this, "Game Saved Automatically", Toast.LENGTH_SHORT).show();
-    }
-
     /**
      * Save the board manager to fileName.
      *
@@ -195,7 +183,13 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
 
     @Override
     public void update(Observable o, Object arg) {
+        if(boardManager.userExist(username)) {
+            boardManager.addState(username, boardManager.getBoard());
+        }
+        else{
+            boardManager.addUser(username);
+            boardManager.addState(username, boardManager.getBoard());
+        }
         display();
-//        saveAfter();
     }
 }
