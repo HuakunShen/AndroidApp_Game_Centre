@@ -34,7 +34,7 @@ import csc207project.gamecenter.R;
 /**
  * The game activity.
  */
-public class GameActivity extends AppCompatActivity implements Observer, AutoSave, View.OnClickListener{
+public class GameActivity extends AppCompatActivity implements Observer, View.OnClickListener{
 
     private String username;
     /**
@@ -72,9 +72,6 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
     }
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,37 +103,33 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
             @Override
             public void run() {
                 long time = Duration.between(GameActivity.startingTime, LocalTime.now()).toMillis();
-
-                String timeToDisplay = timeToString(time);
-                finalTimePlayed.setText(timeToDisplay);
+                finalTimePlayed.setText(timeToString(time));
             }
         };
         timer2.schedule(task2, 0, 1000);
 
-                // Add View to activity
+        // Add View to activity
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(Board.NUM_COLS);
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
-                                this);
-                        int displayWidth = gridView.getMeasuredWidth();
-                        int displayHeight = gridView.getMeasuredHeight();
+            new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
+                            this);
+                    int displayWidth = gridView.getMeasuredWidth();
+                    int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = displayWidth / Board.NUM_COLS;
-                        columnHeight = displayHeight / Board.NUM_ROWS;
+                    columnWidth = displayWidth / Board.NUM_COLS;
+                    columnHeight = displayHeight / Board.NUM_ROWS;
 
-                        display();
-                    }
-                });
+                    display();
+                }
+            });
     }
-
-
 
     String timeToString(long time){
         Integer hour = (int) (time / 3600000);
@@ -157,10 +150,7 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         return hourStr + ":" + minStr + ":" + secStr;
     }
 
-
-
-
-    /**
+   /**
      * Create the buttons for displaying the tiles.
      *
      * @param context the context
@@ -246,4 +236,11 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.undo_button:
+                if (boardManager.)
+        }
+    }
 }
