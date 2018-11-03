@@ -3,13 +3,23 @@ package csc207project.gamecenter.SlidingTiles;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
+
+import csc207project.gamecenter.Data.StateStack;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
 class BoardManager implements Serializable {
+
+    private static int capacity;
+    /**
+     * The HaspMap used to store each user's username and a stack of their Sliding tile game states.
+     */
+    private static HashMap<String, StateStack<Board>> gameStates;
 
     /**
      * The board being managed.
@@ -44,6 +54,56 @@ class BoardManager implements Serializable {
 
         Collections.shuffle(tiles);
         this.board = new Board(tiles);
+    }
+
+    /**
+     * Add a new game state into the gameStates.
+     * @param userName
+     * @param boardToAdd
+     */
+    void addState(String userName, Board boardToAdd){
+        StateStack<Board> theStack = gameStates.get(userName);
+        if(theStack.size() < capacity) {
+            theStack.push(boardToAdd);
+        }
+        else{
+            theStack.popFirst();
+            theStack.push(boardToAdd);
+
+        }
+    }
+
+    /**
+     * Return the latest state from the gameStates.
+     * @param userName
+     * @return
+     */
+    Board getState(String userName){
+        return gameStates.get(userName).popLast();
+    }
+
+    /**
+     * Return true if user exists, otherwise, return false.
+     * @param user
+     * @return
+     */
+    boolean userExist(String user){
+        return gameStates.containsKey(user);
+    }
+
+    /**
+     * Return true if removing user succeed, otherwise, return false.
+     * @param user
+     * @return
+     */
+    boolean removeUser(String user){
+        if(userExist(user)){
+            gameStates.remove(user);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**
