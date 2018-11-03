@@ -62,14 +62,7 @@ public class StartingActivity extends AppCompatActivity {
         addLoadButtonListener();
         addSaveButtonListener();
 
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                saveToFile(TEMP_SAVE_FILENAME);
-            }
-        };
-        timer.schedule(task, 0, 5000);
+
 
         select_diff = findViewById(R.id.list_diff_sele);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
@@ -106,12 +99,11 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //original code
-                //boardManager = new BoardManager();
-                //switchToGame();
-
-                Intent to_new_game = new Intent(StartingActivity.this, NewGameActivity.class);
-                to_new_game.putExtra("username", currentUser);
-                startActivity(to_new_game);
+                boardManager = new BoardManager();
+                switchToGame();
+//                Intent to_new_game = new Intent(StartingActivity.this, GameActivity.class);
+//                to_new_game.putExtra("username", currentUser);
+//                startActivity(to_new_game);
             }
         });
     }
