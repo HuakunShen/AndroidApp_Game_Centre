@@ -34,7 +34,7 @@ import csc207project.gamecenter.R;
 /**
  * The game activity.
  */
-public class GameActivity extends AppCompatActivity implements Observer, AutoSave {
+public class GameActivity extends AppCompatActivity implements Observer, AutoSave, View.OnClickListener{
 
     private String username;
     /**
@@ -52,6 +52,7 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
     /**
      * Constants for swiping directions. Should be an enum, probably.
      */
+    private Button undoButton;
     public static final int UP = 1;
     public static final int DOWN = 2;
     public static final int LEFT = 3;
@@ -72,14 +73,20 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
     }
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
         createTileButtons(this);
         setContentView(R.layout.activity_main);
+        undoButton = findViewById(R.id.undo_button);                    //undo button assignment
+        undoButton.setOnClickListener(this);
         username = getIntent().getStringExtra("username");
+
         startingTime = LocalTime.now();
+
 
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
@@ -130,6 +137,7 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
     }
 
 
+
     String timeToString(long time){
         Integer hour = (int) (time / 3600000);
         Integer min = (int) ((time % 3600000) / 60000);
@@ -148,7 +156,11 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         }
         return hourStr + ":" + minStr + ":" + secStr;
     }
-   /**
+
+
+
+
+    /**
      * Create the buttons for displaying the tiles.
      *
      * @param context the context
@@ -229,12 +241,9 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
 
     @Override
     public void update(Observable o, Object arg) {
-        if (boardManager.userExist(username)) {
-            boardManager.addState(username, boardManager.getBoard());
-        } else {
-            boardManager.addUser(username);
-            boardManager.addState(username, boardManager.getBoard());
-        }
         display();
+        Log.d("update called", "update: ");
     }
+
+
 }
