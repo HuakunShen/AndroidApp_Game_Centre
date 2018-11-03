@@ -168,7 +168,6 @@ public class StartingActivity extends AppCompatActivity {
      * @param fileName the name of the file
      */
     private void loadFromFile(String fileName) {
-
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
