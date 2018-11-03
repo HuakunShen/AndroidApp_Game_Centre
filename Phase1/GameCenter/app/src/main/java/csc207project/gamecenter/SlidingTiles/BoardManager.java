@@ -14,7 +14,7 @@ import csc207project.gamecenter.Data.StateStack;
  */
 class BoardManager implements Serializable {
 
-    private static int capacity = 100;
+    private static int capacity = 3;
     /**
      * The HaspMap used to store each user's username and a stack of their Sliding tile game states.
      */
@@ -59,6 +59,11 @@ class BoardManager implements Serializable {
 
     HashMap getGameStates() {
         return gameStates;
+    }
+
+
+    public static void setCapacity(int capacity) {
+        BoardManager.capacity = capacity;
     }
 
     /**
