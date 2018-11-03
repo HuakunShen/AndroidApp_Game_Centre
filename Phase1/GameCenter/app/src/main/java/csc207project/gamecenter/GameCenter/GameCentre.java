@@ -45,7 +45,6 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         loginInfo = new LoginInfo();
         saveToFile(TEMP_SAVE_FILENAME);
 
-
         username = findViewById(R.id.userName);
         password = findViewById(R.id.Password);
         signInButton = findViewById(R.id.SignInButton);

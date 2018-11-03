@@ -1,6 +1,11 @@
 package csc207project.gamecenter.Data;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import java.util.ArrayList;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class StateStack<E> {
     private ArrayList<E> stack;
@@ -12,7 +17,9 @@ public class StateStack<E> {
     }
 
     public void push(E item){
+        Log.d("StateStack push check: ", "push item board");
         stack.add(item);
+
     }
 
     public boolean isEmpty(){

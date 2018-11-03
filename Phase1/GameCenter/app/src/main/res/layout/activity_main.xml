@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<csc207project.gamecenter.SlidingTiles.GestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
+<csc207project.gamecenter.SlidingTiles.GestureDetectGridView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/grid"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="csc207project.gamecenter.SlidingTiles.GameActivity" />
+    android:layout_width="410dp"
+    android:layout_height="570dp"
+    android:layout_gravity="bottom"
+    tools:context="csc207project.gamecenter.SlidingTiles.GameActivity" >
+
+
+</csc207project.gamecenter.SlidingTiles.GestureDetectGridView>
