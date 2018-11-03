@@ -19,7 +19,7 @@ class BoardManager implements Serializable {
     /**
      * The HaspMap used to store each user's username and a stack of their Sliding tile game states.
      */
-    private static HashMap<String, StateStack<Board>> gameStates;
+    private static HashMap<String, StateStack<Board>> gameStates = new HashMap<>();
 
     /**
      * The board being managed.
@@ -54,6 +54,10 @@ class BoardManager implements Serializable {
 
         Collections.shuffle(tiles);
         this.board = new Board(tiles);
+    }
+
+    HashMap getGameStates(){
+        return gameStates;
     }
 
     /**
