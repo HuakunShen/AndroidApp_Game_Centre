@@ -18,40 +18,47 @@
 
     <Button
         android:id="@+id/StartButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/GameText"
-        android:layout_centerHorizontal="true"
+        android:layout_alignEnd="@+id/_diif_sele"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="7dp"
         android:text="New Game" />
 
     <Button
         android:id="@+id/LoadButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/GameText"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="17dp"
         android:layout_toStartOf="@+id/StartButton"
-        android:text="Load Saved Game" />
+        android:text="Load Saved Game"
+        android:textSize="12sp" />
 
     <Button
         android:id="@+id/SaveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/GameText"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="-1dp"
         android:layout_toEndOf="@+id/StartButton"
         android:text="Save Game" />
 
     <Spinner
         android:id="@+id/list_diff_sele"
-        android:layout_width="191dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignTop="@+id/_diif_sele"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="110dp"
-        android:layout_marginTop="501dp"
+        android:layout_marginTop="-13dp"
         android:layout_marginEnd="110dp"
-        android:layout_marginBottom="118dp" />
+        android:layout_marginBottom="62dp" />
 
     <TextView
         android:id="@+id/_diif_sele"
