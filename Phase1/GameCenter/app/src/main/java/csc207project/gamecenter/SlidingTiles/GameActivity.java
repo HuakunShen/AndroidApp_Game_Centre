@@ -110,7 +110,7 @@ public class GameActivity extends AppCompatActivity implements Observer{
         gridView = findViewById(R.id.grid);
         gridView.setNumColumns(Board.NUM_COLS);
         gridView.setBoardManager(boardManager);
-        boardManager.getBoard().addObserver(this);
+        boardManager.getBoard(username).addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
             new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -154,7 +154,7 @@ public class GameActivity extends AppCompatActivity implements Observer{
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        Board board = boardManager.getBoard();
+        Board board = boardManager.getBoard(username);
         tileButtons = new ArrayList<>();
         for (int row = 0; row != Board.NUM_ROWS; row++) {
             for (int col = 0; col != Board.NUM_COLS; col++) {
@@ -169,7 +169,7 @@ public class GameActivity extends AppCompatActivity implements Observer{
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        Board board = boardManager.getBoard();
+        Board board = boardManager.getBoard(username);
         int nextPos = 0;
         for (Button b : tileButtons) {
             int row = nextPos / Board.NUM_ROWS;

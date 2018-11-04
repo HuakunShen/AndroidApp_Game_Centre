@@ -70,6 +70,17 @@ class BoardManager implements Serializable {
     }
 
     /**
+     * Return the current board.
+     */
+    Board getBoard(String username) {
+        if (gameStates.containsKey(username)) {
+            return (Board) gameStates.get(username).get();
+        } else {
+            return getBoard();
+        }
+    }
+
+    /**
      * Sets the current board
      */
     void setBoard(Board board) {
@@ -84,6 +95,9 @@ class BoardManager implements Serializable {
         return gameStates;
     }
 
+    /**
+     * Sets how many times could the user undo.
+     */
     public void setCapacity(String username, int capacity) {
         gameStates.get(username).setCapacity(capacity);
     }
