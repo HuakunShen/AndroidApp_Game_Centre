@@ -54,8 +54,16 @@ public class StateStack<E> implements Serializable {
      * Gets the item on the top of the stack.
      */
     public E get() {
+        return stack.get(stack.size() - 1);
+    }
+
+    /**
+     * Gets the item on the top of the stack.
+     */
+    public E pop() {
         return stack.remove(stack.size() - 1);
     }
+
 
     /**
      * Returns if the StateStack is Empty.

@@ -82,7 +82,7 @@ public class GameActivity extends AppCompatActivity implements Observer{
 
         startingTime = LocalTime.now();
 
-
+        addUndoButtonListener();
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -127,6 +127,19 @@ public class GameActivity extends AppCompatActivity implements Observer{
                     display();
                 }
             });
+    }
+
+    private void addUndoButtonListener() {
+        Button undoButton = findViewById(R.id.undo_button);
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boardManager.popBoard(username);
+                boardManager.getBoard().notifyObservers();
+                display();
+
+            }
+        });
     }
 
     String timeToString(long time){
@@ -230,10 +243,10 @@ public class GameActivity extends AppCompatActivity implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         if (boardManager.userExist(username)) {
-            boardManager.addState(username, boardManager.getBoard());
+            boardManager.addState(username, new Board(boardManager.getBoard().getTiles()));
         } else {
             boardManager.addUser(username);
-            boardManager.addState(username, boardManager.getBoard());
+            boardManager.addState(username, new Board(boardManager.getBoard().getTiles()));
         }
         display();
     }

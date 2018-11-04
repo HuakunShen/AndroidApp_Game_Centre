@@ -2,6 +2,7 @@ package csc207project.gamecenter.SlidingTiles;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Observable;
 
 import java.io.Serializable;
@@ -54,7 +55,6 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
             }
         }
     }
-
 
     /**
      * Return the number of tiles on the board.
@@ -124,5 +124,15 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
             nextIndex++;
             return tile;
         }
+    }
+
+    public ArrayList<Tile> getTiles() {
+        ArrayList<Tile> tileLst = new ArrayList<>();
+        for (int i = 0; i < Board.NUM_ROWS; i++) {
+            for (int j = 0; j < Board.NUM_COLS; j++) {
+                tileLst.add(tiles[i][j]);
+            }
+        }
+        return tileLst;
     }
 }

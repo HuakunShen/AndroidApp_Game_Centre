@@ -18,7 +18,8 @@
         android:padding="8dp"
         tools:context="csc207project.gamecenter.SlidingTiles.GameActivity"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="28dp">
+        tools:layout_editor_absoluteY="28dp"
+        tools:ignore="MissingConstraints">
     </csc207project.gamecenter.SlidingTiles.GestureDetectGridView>
 
     <Button

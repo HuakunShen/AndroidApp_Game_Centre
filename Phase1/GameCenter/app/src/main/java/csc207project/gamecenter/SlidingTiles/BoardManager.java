@@ -22,7 +22,7 @@ class BoardManager implements Serializable {
     /**
      * The HaspMap used to store each user's username and a stack of their Sliding tile game states.
      */
-    private static HashMap<String, StateStack<Object>> gameStates = new HashMap<>();
+    private HashMap<String, StateStack<Object>> gameStates = new HashMap<>();
 
     /**
      * The board being managed.
@@ -77,6 +77,20 @@ class BoardManager implements Serializable {
             return (Board) gameStates.get(username).get();
         } else {
             return getBoard();
+        }
+    }
+
+    /**
+     * Return the current board.
+     */
+    Board popBoard(String username) {
+        if (gameStates.get(username).size() == 1) {
+            return (Board) gameStates.get(username).get();
+        } else {
+            StateStack stack = gameStates.get(username);
+            Board result = (Board) stack.pop();
+            gameStates.put(username, stack);
+            return result;
         }
     }
 
