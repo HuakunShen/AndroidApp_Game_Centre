@@ -95,11 +95,11 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //original code
-                boardManager = new BoardManager();
-                switchToGame();
-//                Intent to_new_game = new Intent(StartingActivity.this, GameActivity.class);
-//                to_new_game.putExtra("username", currentUser);
-//                startActivity(to_new_game);
+//                boardManager = new BoardManager();
+//                switchToGame();
+                Intent to_new_game = new Intent(StartingActivity.this, GameActivity.class);
+                to_new_game.putExtra("username", currentUser);
+                startActivity(to_new_game);
             }
         });
     }

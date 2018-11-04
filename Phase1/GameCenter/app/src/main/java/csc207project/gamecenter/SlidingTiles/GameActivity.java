@@ -79,6 +79,7 @@ public class GameActivity extends AppCompatActivity implements Observer{
         createTileButtons(this);
         setContentView(R.layout.activity_main);
         username = getIntent().getStringExtra("username");
+        boardManager.setCurrentUser(username);
 
         startingTime = LocalTime.now();
 
@@ -134,9 +135,9 @@ public class GameActivity extends AppCompatActivity implements Observer{
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boardManager.popBoard(username);
-                boardManager.getBoard().notifyObservers();
-                display();
+                if (boardManager.undoAvailable(username)) {
+                    boardManager.touchMove(boardManager.popUndo(username));
+                }
 
             }
         });
