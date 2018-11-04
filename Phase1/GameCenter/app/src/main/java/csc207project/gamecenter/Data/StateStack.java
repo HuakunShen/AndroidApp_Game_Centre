@@ -1,42 +1,73 @@
 package csc207project.gamecenter.Data;
 
 import android.util.Log;
-import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-import static android.widget.Toast.LENGTH_LONG;
+public class StateStack<E> implements Serializable {
 
-public class StateStack<E> {
+    /**
+     * The stack for information storage.
+     */
     private ArrayList<E> stack;
 
+    /**
+     * The capacity of the stack.
+     */
+    private int capacity;
 
-    public StateStack(){
+    /**
+     * Constructor for the StateStack class.
+     *
+     * @param capacity: The user's setting for capacity.
+     */
+    public StateStack(int capacity) {
         this.stack = new ArrayList<E>();
-
+        this.capacity = capacity;
     }
 
-    public void push(E item){
-        Log.d("StateStack push check: ", "push item board");
-        stack.add(item);
-
+    public int getCapacity() {
+        return capacity;
     }
 
-    public boolean isEmpty(){
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    /**
+     * Puts an item into the stack.
+     *
+     * @param item The item to be put into the stack.
+     */
+    public void put(E item) {
+        if (stack.size() == capacity) {
+            stack.remove(0);
+            stack.add(item);
+            Log.d("Push into Stack", "stackSize = " + ((Integer) stack.size()).toString());
+        } else {
+            stack.add(item);
+        }
+    }
+
+    /**
+     * Gets the item on the top of the stack.
+     */
+    public E get() {
+        return stack.remove(stack.size() - 1);
+    }
+
+    /**
+     * Returns if the StateStack is Empty.
+     */
+    public boolean isEmpty() {
         return stack.size() == 0;
     }
 
-    public E popLast(){
-        E item = stack.get(stack.size()-1);
-        stack.remove(stack.size() - 1);
-        return item;
-    }
-
-    public void popFirst(){
-        this.stack.remove(0);
-    }
-
-    public int size(){
+    /**
+     * Returns the size of the StateStack.
+     */
+    public int size() {
         return stack.size();
     }
 }

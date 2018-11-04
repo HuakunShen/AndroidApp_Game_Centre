@@ -34,7 +34,7 @@ import csc207project.gamecenter.R;
 /**
  * The game activity.
  */
-public class GameActivity extends AppCompatActivity implements Observer, View.OnClickListener{
+public class GameActivity extends AppCompatActivity implements Observer{
 
     private String username;
     /**
@@ -78,8 +78,6 @@ public class GameActivity extends AppCompatActivity implements Observer, View.On
         loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
         createTileButtons(this);
         setContentView(R.layout.activity_main);
-        undoButton = findViewById(R.id.undo_button);                    //undo button assignment
-        undoButton.setOnClickListener(this);
         username = getIntent().getStringExtra("username");
 
         startingTime = LocalTime.now();
@@ -231,16 +229,14 @@ public class GameActivity extends AppCompatActivity implements Observer, View.On
 
     @Override
     public void update(Observable o, Object arg) {
-        display();
-        Log.d("update called", "update: ");
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.undo_button:
-                if (boardManager.)
+        if (boardManager.userExist(username)) {
+            boardManager.addState(username, boardManager.getBoard());
+        } else {
+            boardManager.addUser(username);
+            boardManager.addState(username, boardManager.getBoard());
         }
+        display();
     }
+
+
 }

@@ -14,34 +14,20 @@ import csc207project.gamecenter.Data.StateStack;
  */
 class BoardManager implements Serializable {
 
+    /**
+     * The size of the capacity with default value 3/
+     */
     private static int capacity = 3;
+
     /**
      * The HaspMap used to store each user's username and a stack of their Sliding tile game states.
      */
-
     private static HashMap<String, StateStack<Object>> gameStates = new HashMap<>();
-
 
     /**
      * The board being managed.
      */
     private Board board;
-
-    /**
-     * Manage a board that has been pre-populated.
-     *
-     * @param board the board
-     */
-    BoardManager(Board board) {
-        this.board = board;
-    }
-
-    /**
-     * Return the current board.
-     */
-    Board getBoard() {
-        return board;
-    }
 
     /**
      * Manage a new shuffled board.
@@ -57,13 +43,49 @@ class BoardManager implements Serializable {
         this.board = new Board(tiles);
     }
 
+    /**
+     * Manage a board that has been pre-populated.
+     *
+     * @param board the board
+     */
+    BoardManager(Board board) {
+        this.board = board;
+    }
+
+    /**
+     * Return the latest state from the gameStates.
+     *
+     * @param userName
+     * @return
+     */
+    Object getState(String userName) {
+        return gameStates.get(userName).get();
+    }
+
+    /**
+     * Return the current board.
+     */
+    Board getBoard() {
+        return board;
+    }
+
+    /**
+     * Sets the current board
+     */
+    void setBoard(Board board) {
+        this.board = board;
+        this.board.notifyObservers();
+    }
+
+    /**
+     * Returns the status file of the game.
+     */
     HashMap getGameStates() {
         return gameStates;
     }
 
-
-    public static void setCapacity(int capacity) {
-        BoardManager.capacity = capacity;
+    public void setCapacity(String username, int capacity) {
+        gameStates.get(username).setCapacity(capacity);
     }
 
     /**
@@ -74,54 +96,27 @@ class BoardManager implements Serializable {
      */
     void addState(String userName, Board boardToAdd) {
         StateStack<Object> theStack = gameStates.get(userName);
-        if (theStack.size() < capacity) {
-            theStack.push(boardToAdd);
-        } else {
-            theStack.popFirst();
-            theStack.push(boardToAdd);
-
-        }
-    }
-
-    boolean checkUserStackIsNotEmpty(String user){
-        if(gameStates.get(user).size()!=0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    void setBoard(Board board){
-        this.board = board;
+        theStack.put(boardToAdd);
+        gameStates.put(userName, theStack);
     }
 
     /**
-     * Return the latest state from the gameStates.
-     *
-     * @param userName
-     * @return
-     *
+     * Returns whether the user has any undo steps.
      */
-    Object getState(String userName) {
-        return gameStates.get(userName).popLast();
+    boolean undoAvailable(String user) {
+        return gameStates.keySet().contains(user) &&
+                !gameStates.get(user).isEmpty();
     }
 
     /**
      * Return true if user exists, otherwise, return false.
-     *
-     * @param user
-     * @return
      */
-    boolean userExist(String user){
+    boolean userExist(String user) {
         return gameStates.keySet().contains(user);
     }
 
     /**
      * Return true if removing user succeed, otherwise, return false.
-     *
-     * @param user
-     * @return
      */
     boolean removeUser(String user) {
         if (userExist(user)) {
@@ -134,11 +129,9 @@ class BoardManager implements Serializable {
 
     /**
      * Add a new user to gameStates.
-     *
-     * @param userName
      */
     void addUser(String userName) {
-        gameStates.put(userName, new StateStack<>());
+        gameStates.put(userName, new StateStack<>(capacity));
     }
 
     /**
@@ -163,7 +156,6 @@ class BoardManager implements Serializable {
      * @return whether the tile at position is surrounded by a blank tile
      */
     boolean isValidTap(int position) {
-
         int row = position / Board.NUM_COLS;
         int col = position % Board.NUM_COLS;
         int blankId = board.numTiles();
@@ -187,18 +179,18 @@ class BoardManager implements Serializable {
         int row = position / Board.NUM_ROWS;
         int col = position % Board.NUM_COLS;
         int blankId = board.numTiles();
-        // tiles is the blank tile, swap by calling Board's swap method.
-        if (row != 0 && board.getTile(row - 1, col).getId() == blankId) {
-            board.swapTiles(row, col, row - 1, col);    // swap with tile above
-        } else if (row != 3 && board.getTile(row + 1, col).getId() == blankId) {
-            board.swapTiles(row, col, row + 1, col);    // swap with tile below
-        } else if (col != 0 && board.getTile(row, col - 1).getId() == blankId) {
-            board.swapTiles(row, col, row, col - 1);    // swap with tile left
-        } else if (col != 3 && board.getTile(row, col + 1).getId() == blankId) {
-            board.swapTiles(row, col, row, col + 1);    // swap with tile right
+        Tile above = row == 0 ? null : board.getTile(row - 1, col);
+        Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
+        Tile left = col == 0 ? null : board.getTile(row, col - 1);
+        if (above != null && above.getId() == blankId) {
+            this.board.swapTiles(row - 1, col, row, col);
+        } else if (below != null && below.getId() == blankId) {
+            this.board.swapTiles(row + 1, col, row, col);
+        } else if (left != null && left.getId() == blankId) {
+            this.board.swapTiles(row, col - 1, row, col);
+        } else {
+            this.board.swapTiles(row, col + 1, row, col);
         }
-
-
     }
 
 }
