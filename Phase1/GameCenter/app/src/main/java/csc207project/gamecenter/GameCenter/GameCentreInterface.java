@@ -2,6 +2,7 @@ package csc207project.gamecenter.GameCenter;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,9 +37,11 @@ public class GameCentreInterface extends AppCompatActivity
     public static final String SAVE_NICKNAMES = "save_nick_names.ser";
 
     private HashMap<String, String> nickNames = new HashMap<>();
+    private HashMap<String, Uri> avatars;
     private Button SlidingTiles;
     private String username;
     private TextView userNickName;
+    private ImageButton icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +59,7 @@ public class GameCentreInterface extends AppCompatActivity
 
         View headerView = navigationView.getHeaderView(0);
         LinearLayout header =  headerView.findViewById(R.id.nav_header);
-        ImageButton icon = header.findViewById(R.id.userIcon);
+        icon = header.findViewById(R.id.userIcon);
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +92,10 @@ public class GameCentreInterface extends AppCompatActivity
         super.onResume();
         loadFromFile(SAVE_NICKNAMES);
         userNickName.setText(nickNames.get(username));
+//        ImageView image_selected = findViewById(R.id.imageView);
+        if (avatars != null && avatars.containsKey(username)) {
+            icon.setImageURI(avatars.get(username));
+        }
 
     }
 
@@ -153,6 +161,7 @@ public class GameCentreInterface extends AppCompatActivity
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
                 nickNames = (HashMap<String, String>) input.readObject();
+                avatars = (HashMap<String, Uri>) input.readObject();
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -174,6 +183,7 @@ public class GameCentreInterface extends AppCompatActivity
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
             outputStream.writeObject(nickNames);
+            outputStream.writeObject(avatars);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
