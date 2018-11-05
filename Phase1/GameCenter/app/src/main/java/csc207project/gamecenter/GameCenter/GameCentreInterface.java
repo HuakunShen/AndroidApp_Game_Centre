@@ -118,15 +118,15 @@ public class GameCentreInterface extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
-        ImageButton icon = findViewById(R.id.userIcon);
-        icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent toSetting = new Intent(this, GameCentreInterface.class);
-//                startActivity(toSetting);
-                makeToast();
-            }
-        });
+//        ImageButton icon = findViewById(R.id.userIcon);
+//        icon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Intent toSetting = new Intent(this, GameCentreInterface.class);
+////                startActivity(toSetting);
+//                makeToast();
+//            }
+//        });
 
 //        FragmentManager fragmentManager = getFragmentManager();
 
