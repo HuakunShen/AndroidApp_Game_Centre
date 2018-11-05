@@ -30,17 +30,19 @@ import csc207project.gamecenter.R;
 import csc207project.gamecenter.SlidingTiles.StartingActivity;
 
 public class GameCentreInterface extends AppCompatActivity
-        implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener,Serializable {
+        implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
 
     public static final String SAVE_NICKNAMES = "save_nick_names.ser";
 
     private HashMap<String, String> nickNames = new HashMap<>();
     private Button SlidingTiles;
     private String username;
+    private TextView userNickName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         loadFromFile(SAVE_NICKNAMES);
         setContentView(R.layout.activity_game_centre_interface);
         SlidingTiles = findViewById(R.id.SlidingTiles);
@@ -65,7 +67,7 @@ public class GameCentreInterface extends AppCompatActivity
         });
         TextView userAccountName = headerView.findViewById(R.id.userAccountName);
         userAccountName.setText(username);
-        TextView userNickName = headerView.findViewById(R.id.userNickName);
+        userNickName = headerView.findViewById(R.id.userNickName);
         if ( !nickNames.containsKey(username)) {
             nickNames.put(username, username);
             userNickName.setText(username);
@@ -73,10 +75,6 @@ public class GameCentreInterface extends AppCompatActivity
             userNickName.setText(nickNames.get(username));
         }
         saveToFile(SAVE_NICKNAMES);
-
-
-
-
 
 
 //        Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
@@ -89,13 +87,14 @@ public class GameCentreInterface extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         loadFromFile(SAVE_NICKNAMES);
-        TextView userNickName = findViewById(R.id.userNickName);
-        try {
-            username = getIntent().toString();
-            userNickName.setText(nickNames.get(username));
-        }catch(Exception e){
+        userNickName.setText(nickNames.get(username));
 
-        }
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        saveToFile(SAVE_NICKNAMES);
     }
 
     public void onClick(View v) {

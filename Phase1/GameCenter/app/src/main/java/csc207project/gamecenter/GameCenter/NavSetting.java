@@ -24,6 +24,7 @@ public class NavSetting extends AppCompatActivity {
 
     private HashMap<String, String> nickNames;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,17 +46,13 @@ public class NavSetting extends AppCompatActivity {
                 nickNames.put(username, newNickname);
                 saveToFile(GameCentreInterface.SAVE_NICKNAMES);
                 Toast.makeText(NavSetting.this, "change nickname Successfully", Toast.LENGTH_SHORT).show();
-                Intent toGCInterface = new Intent(NavSetting.this, GameCentreInterface.class);
-//                toGCInterface.putExtra("username", username);
-                startActivity(toGCInterface);
             }
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toGCInterface = new Intent(NavSetting.this, GameCentreInterface.class);
-                startActivity(toGCInterface);
+
             }
         });
 
