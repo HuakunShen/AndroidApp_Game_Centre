@@ -61,7 +61,7 @@ public class StartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         boardManager = new BoardManager();
         saveToFile(TEMP_SAVE_FILENAME);
-        undoLimit = findViewById(R.id.undoLimitTextView);
+
         currentUser = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_starting_);
         addStartButtonListener();
@@ -97,6 +97,7 @@ public class StartingActivity extends AppCompatActivity {
      */
     private void addStartButtonListener() {
         Button startButton = findViewById(R.id.StartButton);
+        undoLimit = findViewById(R.id.undoLimitInput);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +123,7 @@ public class StartingActivity extends AppCompatActivity {
 
     public void setUndoSteps() {
         String inputStr = undoLimit.getText().toString();
+
         int input;
         if (inputStr.matches("")){
             input = 3;
