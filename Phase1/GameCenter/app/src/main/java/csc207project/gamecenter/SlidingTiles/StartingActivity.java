@@ -1,5 +1,6 @@
 package csc207project.gamecenter.SlidingTiles;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -42,6 +44,8 @@ public class StartingActivity extends AppCompatActivity {
 
     public static String currentUser;
 
+    private EditText undoLimit;
+
     /**
      * The difficulties can be selected.
      */
@@ -55,7 +59,7 @@ public class StartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         boardManager = new BoardManager();
         saveToFile(TEMP_SAVE_FILENAME);
-
+        undoLimit = findViewById(R.id.undoLimitTextView);
         currentUser = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_starting_);
         addStartButtonListener();
@@ -105,6 +109,14 @@ public class StartingActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     boardManager = new BoardManager();
                 }
+
+                int limit = 0;
+                if(undoLimit.getText().toString().equals("")){
+                    limit = 3;
+                }else{
+                    limit = Integer.parseInt(undoLimit.getText().toString());
+                }
+//                boardManager.setCapacity(limit);
                 saveToFile(TEMP_SAVE_FILENAME);
                 switchToGame();
             }
