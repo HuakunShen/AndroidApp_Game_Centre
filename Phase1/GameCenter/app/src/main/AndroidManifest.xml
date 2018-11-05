@@ -7,8 +7,6 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-    
-    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/handle"
@@ -16,7 +14,7 @@
         android:roundIcon="@mipmap/handle"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".GameCenter.GameCentre">
+        <activity android:name=".ScoreBoard.ScoreBoardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,8 +25,8 @@
         <activity android:name=".SlidingTiles.GameActivity" />
         <activity android:name=".SlidingTiles.NewGameActivity" />
         <activity android:name=".GameCenter.AccountRegistration" />
-        <activity android:name=".GameCenter.GameCentreInterface"></activity>
+        <activity android:name=".GameCenter.GameCentreInterface" />
+        <!--<activity android:name=".ScoreBoard.ScoreBoardActivity"></activity>-->
     </application>
-    
 
 </manifest>
