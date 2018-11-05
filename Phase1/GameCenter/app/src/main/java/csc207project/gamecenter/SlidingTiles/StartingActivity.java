@@ -46,6 +46,8 @@ public class StartingActivity extends AppCompatActivity {
 
     private EditText undoLimit;
 
+    private final int MAX_UNDO_LIMIT = 20;
+
     /**
      * The difficulties can be selected.
      */
@@ -110,18 +112,31 @@ public class StartingActivity extends AppCompatActivity {
                     boardManager = new BoardManager();
                 }
 
-                int limit = 0;
-                if(undoLimit.getText().toString().equals("")){
-                    limit = 3;
-                }else{
-                    limit = Integer.parseInt(undoLimit.getText().toString());
-                }
-//                boardManager.setCapacity(limit);
+                setUndoSteps();
                 saveToFile(TEMP_SAVE_FILENAME);
                 switchToGame();
             }
         });
     }
+
+
+    public void setUndoSteps() {
+        String inputStr = undoLimit.getText().toString();
+        int input;
+        if (inputStr.matches("")){
+            input = 3;
+        }else{
+            input = Integer.parseInt(inputStr);
+        }
+
+        if(input > MAX_UNDO_LIMIT){
+            Toast.makeText(this, "Exceeds Undo Limit: " +
+                    MAX_UNDO_LIMIT, Toast.LENGTH_SHORT).show();
+        }else{
+            boardManager.setCapacity(input);
+        }
+    }
+
 
     /**
      * Activate the load button.
