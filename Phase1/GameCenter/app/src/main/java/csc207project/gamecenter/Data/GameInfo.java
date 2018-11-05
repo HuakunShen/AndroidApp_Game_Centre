@@ -1,12 +1,13 @@
 package csc207project.gamecenter.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
 /**
  * User marks system.
  */
-public class GameInfo {
+public class GameInfo implements Serializable {
     /**
      * The database recording the steps and time used by
      * the user for a specific game.
