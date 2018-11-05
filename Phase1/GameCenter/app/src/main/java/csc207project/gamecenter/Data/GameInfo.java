@@ -75,10 +75,10 @@ public class GameInfo {
         return false;
     }
 
-    public boolean isHighestInGame(String gameType, int score){
-        boolean result = false;
-        for(int )
-    }
+//    public boolean isHighestInGame(String gameType, int score){
+//        boolean result = false;
+//        for(int )
+//    }
 
     public boolean gameInfoExist(String username, String gameType){
         for (int i = 0; i < dataBase.size(); i++){

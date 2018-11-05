@@ -2,6 +2,7 @@ package csc207project.gamecenter.SlidingTiles;
 
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,6 +50,8 @@ public class GameActivity extends AppCompatActivity implements Observer{
 
     private static LocalTime startingTime;
 
+    private TextView warning;
+
     /**
      * Constants for swiping directions. Should be an enum, probably.
      */
@@ -92,7 +95,7 @@ public class GameActivity extends AppCompatActivity implements Observer{
         setContentView(R.layout.activity_main);
         username = StartingActivity.currentUser;
         boardManager.setCurrentUser(username);
-
+        addWarningTextViewListener();
         startingTime = LocalTime.now();
 
         addUndoButtonListener();
@@ -142,6 +145,11 @@ public class GameActivity extends AppCompatActivity implements Observer{
             });
     }
 
+    private void addWarningTextViewListener() {
+        warning = findViewById(R.id.warningTextView);
+        warning.setVisibility(View.INVISIBLE);
+    }
+
     private void addUndoButtonListener() {
         Button undoButton = findViewById(R.id.undo_button);
         undoButton.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +158,15 @@ public class GameActivity extends AppCompatActivity implements Observer{
                 if (boardManager.undoAvailable(username)) {
                     boardManager.touchMove(boardManager.popUndo(username));
                 }else{
-
+                    warning.setVisibility(View.VISIBLE);
+                    warning.setError("Exceeds Undo-Limit! ");
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            warning.setVisibility(View.INVISIBLE);
+                        }
+                    }, 1000);
                 }
 
             }
