@@ -40,7 +40,7 @@ public class StartingActivity extends AppCompatActivity {
      */
     private BoardManager boardManager;
 
-    private String currentUser;
+    public static String currentUser;
 
     /**
      * The difficulties can be selected.
@@ -95,11 +95,18 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //original code
-//                boardManager = new BoardManager();
-//                switchToGame();
-                Intent to_new_game = new Intent(StartingActivity.this, GameActivity.class);
-                to_new_game.putExtra("username", currentUser);
-                startActivity(to_new_game);
+                try {
+                    loadFromFile(SAVE_FILENAME);
+                    if (!boardManager.userExist(currentUser)) {
+                        boardManager.addUser(currentUser);
+                    }
+                    boardManager.addState(currentUser, (new BoardManager()).getBoard());
+                    boardManager.setBoard(boardManager.getBoard(currentUser));
+                } catch (Exception e) {
+                    boardManager = new BoardManager();
+                }
+                saveToFile(TEMP_SAVE_FILENAME);
+                switchToGame();
             }
         });
     }
@@ -113,9 +120,25 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadFromFile(SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
-                makeToastLoadedText();
-                switchToGame();
+                if (boardManager.userExist(currentUser)) {
+                    boardManager.setBoard(boardManager.getBoard(currentUser));
+                    saveToFile(TEMP_SAVE_FILENAME);
+                    makeToastLoadedText();
+                    switchToGame();
+                } else {
+                    try {
+                        loadFromFile(SAVE_FILENAME);
+                        if (!boardManager.userExist(currentUser)) {
+                            boardManager.addUser(currentUser);
+                        }
+                        boardManager.addState(currentUser, (new BoardManager()).getBoard());
+                        boardManager.setBoard(boardManager.getBoard(currentUser));
+                    } catch (Exception e) {
+                        boardManager = new BoardManager();
+                    }
+                    saveToFile(TEMP_SAVE_FILENAME);
+                    switchToGame();
+                }
 
             }
         });
@@ -181,6 +204,7 @@ public class StartingActivity extends AppCompatActivity {
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
                 boardManager = (BoardManager) input.readObject();
+//                boardManager.setCurrentUser(currentUser);
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {

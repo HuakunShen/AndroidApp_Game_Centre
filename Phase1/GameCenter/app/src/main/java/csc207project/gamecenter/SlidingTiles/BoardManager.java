@@ -87,7 +87,7 @@ class BoardManager implements Serializable {
         if (gameStates.containsKey(username)) {
             return (Board) gameStates.get(username).get();
         } else {
-            return getBoard();
+            return (new BoardManager()).getBoard();
         }
     }
 

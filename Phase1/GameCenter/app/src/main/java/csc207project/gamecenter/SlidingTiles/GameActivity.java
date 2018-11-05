@@ -73,12 +73,24 @@ public class GameActivity extends AppCompatActivity implements Observer{
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        saveToFile(StartingActivity.SAVE_FILENAME);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
         createTileButtons(this);
         setContentView(R.layout.activity_main);
-        username = getIntent().getStringExtra("username");
+        username = StartingActivity.currentUser;
         boardManager.setCurrentUser(username);
 
         startingTime = LocalTime.now();
@@ -201,6 +213,7 @@ public class GameActivity extends AppCompatActivity implements Observer{
         super.onPause();
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
     }
+
 
     /**
      * Load the board manager from fileName.
