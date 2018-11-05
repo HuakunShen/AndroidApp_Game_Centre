@@ -125,17 +125,17 @@ public class StartingActivity extends AppCompatActivity {
         String inputStr = undoLimit.getText().toString();
 
         int input;
-        if (inputStr.matches("")){
+        if (inputStr.matches("")) {
             input = 3;
-        }else{
+        } else {
             input = Integer.parseInt(inputStr);
         }
 
-        if(input > MAX_UNDO_LIMIT){
+        if (input > MAX_UNDO_LIMIT) {
             Toast.makeText(this, "Exceeds Undo Limit: " +
                     MAX_UNDO_LIMIT, Toast.LENGTH_SHORT).show();
-        }else{
-            boardManager.setCapacity(input);
+        } else {
+            boardManager.setCapacity(currentUser, input);
         }
     }
 

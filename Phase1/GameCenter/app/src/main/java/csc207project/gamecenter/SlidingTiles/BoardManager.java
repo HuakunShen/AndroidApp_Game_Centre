@@ -129,8 +129,8 @@ class BoardManager implements Serializable {
     /**
      * Sets how many times could the user undo.
      */
-    public void setCapacity(int capacity) {
-        undoStack.get(currentUser).setCapacity(capacity);
+    public void setCapacity(String username, int capacity) {
+        undoStack.get(username).setCapacity(capacity);
     }
 
     /**
