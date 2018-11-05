@@ -1,11 +1,15 @@
 package csc207project.gamecenter.GameCenter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,12 +28,36 @@ public class NavSetting extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_setting);
-        String username = getIntent().getStringExtra("userName");
+        final String username = getIntent().getStringExtra("userName");
 
         loadFromFile(GameCentreInterface.SAVE_NICKNAMES);
 
-        EditText nickName = findViewById(R.id.nick_name);
-        nickName.setText(nickNames.get("username"));
+        final EditText nickName = findViewById(R.id.nick_name);
+        nickName.setText(nickNames.get(username));
+
+        Button applyButton = findViewById(R.id.apply_Button);
+        Button cancelButton = findViewById(R.id.cancel_button);
+
+        applyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newNickname = nickName.getText().toString();
+                nickNames.put(username, newNickname);
+                saveToFile(GameCentreInterface.SAVE_NICKNAMES);
+                Toast.makeText(NavSetting.this, "change nickname Successfully", Toast.LENGTH_SHORT).show();
+                Intent toGCInterface = new Intent(NavSetting.this, GameCentreInterface.class);
+//                toGCInterface.putExtra("username", username);
+                startActivity(toGCInterface);
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toGCInterface = new Intent(NavSetting.this, GameCentreInterface.class);
+                startActivity(toGCInterface);
+            }
+        });
 
 
     }

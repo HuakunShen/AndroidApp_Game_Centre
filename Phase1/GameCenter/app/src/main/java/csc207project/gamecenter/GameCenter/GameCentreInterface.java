@@ -23,13 +23,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 
 import csc207project.gamecenter.R;
 import csc207project.gamecenter.SlidingTiles.StartingActivity;
 
 public class GameCentreInterface extends AppCompatActivity
-        implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
+        implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener,Serializable {
 
     public static final String SAVE_NICKNAMES = "save_nick_names.ser";
 
@@ -71,6 +72,8 @@ public class GameCentreInterface extends AppCompatActivity
         }else{
             userNickName.setText(nickNames.get(username));
         }
+        saveToFile(SAVE_NICKNAMES);
+
 
 
 
@@ -79,6 +82,20 @@ public class GameCentreInterface extends AppCompatActivity
 //        Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
 //        Toolbar toolbar =  findViewById(R.id.toolBar);
 //        setSupportActionBar(toolbar);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadFromFile(SAVE_NICKNAMES);
+        TextView userNickName = findViewById(R.id.userNickName);
+        try {
+            username = getIntent().toString();
+            userNickName.setText(nickNames.get(username));
+        }catch(Exception e){
+
+        }
     }
 
     public void onClick(View v) {
