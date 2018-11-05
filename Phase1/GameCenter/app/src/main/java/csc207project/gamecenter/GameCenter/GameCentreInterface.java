@@ -35,9 +35,10 @@ public class GameCentreInterface extends AppCompatActivity
         implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
 
     public static final String SAVE_NICKNAMES = "save_nick_names.ser";
+    public static final String SAVE_AVATARS = "save_avatars.ser";
 
     private HashMap<String, String> nickNames = new HashMap<>();
-    private HashMap<String, Uri> avatars;
+    private HashMap<String, String> avatars = new HashMap<>();
     private Button SlidingTiles;
     private String username;
     private TextView userNickName;
@@ -48,6 +49,7 @@ public class GameCentreInterface extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         loadFromFile(SAVE_NICKNAMES);
+        loadFromFile(SAVE_AVATARS);
         setContentView(R.layout.activity_game_centre_interface);
         SlidingTiles = findViewById(R.id.SlidingTiles);
 
@@ -60,6 +62,13 @@ public class GameCentreInterface extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         LinearLayout header =  headerView.findViewById(R.id.nav_header);
         icon = header.findViewById(R.id.userIcon);
+        icon.setImageResource(R.mipmap.cool_jason);
+        if (avatars.containsKey(username)) {
+            icon.setImageURI(Uri.parse(avatars.get(username)));
+        }else{
+            icon.setImageResource(R.mipmap.cool_jason);
+        }
+        saveToFile(SAVE_AVATARS);
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +90,7 @@ public class GameCentreInterface extends AppCompatActivity
         saveToFile(SAVE_NICKNAMES);
 
 
+
 //        Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
 //        Toolbar toolbar =  findViewById(R.id.toolBar);
 //        setSupportActionBar(toolbar);
@@ -92,9 +102,9 @@ public class GameCentreInterface extends AppCompatActivity
         super.onResume();
         loadFromFile(SAVE_NICKNAMES);
         userNickName.setText(nickNames.get(username));
-//        ImageView image_selected = findViewById(R.id.imageView);
-        if (avatars != null && avatars.containsKey(username)) {
-            icon.setImageURI(avatars.get(username));
+        loadFromFile(SAVE_AVATARS);
+        if (avatars.containsKey(username)) {
+            icon.setImageURI(Uri.parse(avatars.get(username)));
         }
 
     }
@@ -103,6 +113,7 @@ public class GameCentreInterface extends AppCompatActivity
     protected void onPause(){
         super.onPause();
         saveToFile(SAVE_NICKNAMES);
+        saveToFile(SAVE_AVATARS);
     }
 
     public void onClick(View v) {
@@ -111,36 +122,22 @@ public class GameCentreInterface extends AppCompatActivity
             case R.id.SlidingTiles:
                 Intent intent = new Intent(GameCentreInterface.this,
                         StartingActivity.class);
-                intent.putExtra("username", username);
+                intent.putExtra("userName", username);
                 startActivity(intent);
                 break;
         }
     }
 
-    private void makeToast(){
-        Toast.makeText(this, "123456", Toast.LENGTH_LONG).show();
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
-//        ImageButton icon = findViewById(R.id.userIcon);
-//        icon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Intent toSetting = new Intent(this, GameCentreInterface.class);
-////                startActivity(toSetting);
-//                makeToast();
-//            }
-//        });
-
-//        FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_first_layout) {
-            Intent toSetting = new Intent(this, NavSetting.class);
-            startActivity(toSetting);
-//            Toast.makeText(this, "I'm setting", Toast.LENGTH_SHORT).show();
+            Intent toChangePassword = new Intent(this, NavChangePassword.class);
+            toChangePassword.putExtra("userName",username);
+            startActivity(toChangePassword);
         } else if (id == R.id.nav_second_layout) {
             Intent toScoreBoard = new Intent(this, NavScoreBoard.class);
             startActivity(toScoreBoard);
@@ -160,8 +157,11 @@ public class GameCentreInterface extends AppCompatActivity
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                nickNames = (HashMap<String, String>) input.readObject();
-                avatars = (HashMap<String, Uri>) input.readObject();
+                if (fileName.equals(SAVE_NICKNAMES)){
+                    nickNames = (HashMap<String, String>) input.readObject();
+                }else if (fileName.equals(SAVE_AVATARS)){
+                    avatars = (HashMap<String, String>) input.readObject();
+                }
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -182,8 +182,11 @@ public class GameCentreInterface extends AppCompatActivity
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(nickNames);
-            outputStream.writeObject(avatars);
+            if (fileName.equals(SAVE_NICKNAMES)){
+                outputStream.writeObject(nickNames);
+            }else if (fileName.equals(SAVE_AVATARS)){
+                outputStream.writeObject(avatars);
+            }
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());

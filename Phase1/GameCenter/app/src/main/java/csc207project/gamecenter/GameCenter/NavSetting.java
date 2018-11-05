@@ -25,12 +25,13 @@ import csc207project.gamecenter.R;
 
 public class NavSetting extends AppCompatActivity {
 
-    private HashMap<String, String> nickNames;
-    private HashMap<String, Uri> avatars;
+    private HashMap<String, String> nickNames = new HashMap<>();
+    private HashMap<String, String> avatars = new HashMap<>();
     private String username;
 
     private static final int SELECT_IMAGE = 1801;
     Uri imageUri;
+    String stringURI;
     ImageView image_selected;
 
 
@@ -41,6 +42,7 @@ public class NavSetting extends AppCompatActivity {
         username = getIntent().getStringExtra("userName");
 
         loadFromFile(GameCentreInterface.SAVE_NICKNAMES);
+        loadFromFile(GameCentreInterface.SAVE_AVATARS);
 
         final EditText nickName = findViewById(R.id.nick_name);
         nickName.setText(nickNames.get(username));
@@ -54,14 +56,17 @@ public class NavSetting extends AppCompatActivity {
                 String newNickname = nickName.getText().toString();
                 nickNames.put(username, newNickname);
                 saveToFile(GameCentreInterface.SAVE_NICKNAMES);
-                Toast.makeText(NavSetting.this, "change nickname Successfully", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(NavSetting.this,
+                        "change nickname and avatar Successfully", Toast.LENGTH_SHORT).show();
             }
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(NavSetting.this, "Nothing happens, haha!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NavSetting.this,
+                        "Nothing happens, haha!", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -74,6 +79,9 @@ public class NavSetting extends AppCompatActivity {
             }
         });
         image_selected = findViewById(R.id.imageView);
+        if (avatars.containsKey(username)){
+            image_selected.setImageURI(Uri.parse(avatars.get(username)));
+        }
 
 
     }
@@ -89,11 +97,9 @@ public class NavSetting extends AppCompatActivity {
         if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK){
             imageUri = data.getData();
             image_selected.setImageURI(imageUri);
-            if (avatars == null){
-                avatars = new HashMap<>();
-            }
-            avatars.put(username, imageUri);
-            saveToFile(GameCentreInterface.SAVE_NICKNAMES);
+            stringURI = imageUri.toString();
+            avatars.put(username, stringURI);
+            saveToFile(GameCentreInterface.SAVE_AVATARS);
         }
     }
 
@@ -107,8 +113,11 @@ public class NavSetting extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                nickNames = (HashMap<String, String>) input.readObject();
-                avatars = (HashMap<String, Uri>) input.readObject();
+                if (fileName.equals(GameCentreInterface.SAVE_NICKNAMES)){
+                    nickNames = (HashMap<String, String>) input.readObject();
+                }else if (fileName.equals(GameCentreInterface.SAVE_AVATARS)){
+                    avatars = (HashMap<String, String>) input.readObject();
+                }
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -124,8 +133,11 @@ public class NavSetting extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(nickNames);
-            outputStream.writeObject(avatars);
+            if (fileName.equals(GameCentreInterface.SAVE_NICKNAMES)){
+                outputStream.writeObject(nickNames);
+            }else if (fileName.equals(GameCentreInterface.SAVE_AVATARS)){
+                outputStream.writeObject(avatars);
+            }
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());

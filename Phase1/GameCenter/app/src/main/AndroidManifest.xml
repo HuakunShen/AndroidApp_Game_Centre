@@ -29,6 +29,7 @@
         <activity android:name=".GameCenter.AccountRegistration" />
         <activity android:name=".GameCenter.GameCentreInterface"/>
         <activity android:name=".GameCenter.NavSetting"/>
+        <activity android:name=".GameCenter.NavChangePassword"/>
         <activity android:name=".GameCenter.NavScoreBoard">
         </activity>
 
