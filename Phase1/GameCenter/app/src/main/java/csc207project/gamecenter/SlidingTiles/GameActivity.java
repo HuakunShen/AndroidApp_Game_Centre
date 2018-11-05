@@ -149,6 +149,8 @@ public class GameActivity extends AppCompatActivity implements Observer{
             public void onClick(View view) {
                 if (boardManager.undoAvailable(username)) {
                     boardManager.touchMove(boardManager.popUndo(username));
+                }else{
+
                 }
 
             }
