@@ -103,6 +103,6 @@
         android:layout_marginBottom="267dp"
         android:ems="10"
         android:hint="3"
-        android:inputType="text" />
+        android:inputType="number" />
 
 </RelativeLayout>
