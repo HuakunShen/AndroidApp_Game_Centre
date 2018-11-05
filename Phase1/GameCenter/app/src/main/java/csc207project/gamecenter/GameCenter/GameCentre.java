@@ -55,8 +55,8 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_game_centre);
         loginInfo = new LoginInfo();
         userData = new GameInfo();
-        saveToFile1(TEMP_SAVE_FILENAME);
-        saveToFile2(TEMP_USER_DATA_FILE);
+        saveToFile(TEMP_SAVE_FILENAME, loginInfo);
+        saveToFile(TEMP_USER_DATA_FILE, userData);
         username = findViewById(R.id.userName);
         password = findViewById(R.id.Password);
         signInButton = findViewById(R.id.SignInButton);
@@ -65,52 +65,23 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         signUpButton.setOnClickListener(this);
     }
 
-    private void saveToFile1(String fileName) {
+    private void saveToFile(String fileName, Object file) {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(loginInfo);
+            outputStream.writeObject(file);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
 
-    private void saveToFile2(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(userData);
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
-
-
-    private void loadFromFile1(String fileName) {
+    private void loadFromFile(String fileName, Object file) {
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                loginInfo = (LoginInfo) input.readObject();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
-    private void loadFromFile2(String fileName) {
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                userData = (GameInfo) input.readObject();
+                file = input.readObject();
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -125,10 +96,10 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        loadFromFile1(SAVE_FILENAME);
-        loadFromFile2(USER_DATA_FILE);
-        saveToFile1(TEMP_SAVE_FILENAME);
-        saveToFile2(TEMP_USER_DATA_FILE);
+        loadFromFile(SAVE_FILENAME, loginInfo);
+        loadFromFile(USER_DATA_FILE, userData);
+        saveToFile(TEMP_SAVE_FILENAME,loginInfo);
+        saveToFile(TEMP_USER_DATA_FILE, userData);
     }
 
 
@@ -140,16 +111,16 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         switch (v.getId()) {
             // When Sign in button is clicked
             case R.id.SignInButton:
-                loadFromFile1(TEMP_SAVE_FILENAME);
-                loadFromFile2(TEMP_USER_DATA_FILE);
+                loadFromFile(TEMP_SAVE_FILENAME, loginInfo);
+                loadFromFile(TEMP_USER_DATA_FILE, userData);
                 name = username.getText().toString();
                 pw = password.getText().toString();
                 loginCheck();
                 break;
             // When Sign in button is clicked
             case R.id.SignUpButton:
-                saveToFile1(TEMP_SAVE_FILENAME);
-                saveToFile2(TEMP_USER_DATA_FILE);
+                saveToFile(TEMP_SAVE_FILENAME, loginInfo);
+                saveToFile(TEMP_USER_DATA_FILE, userData);
                 startActivity(new Intent(GameCentre.this, AccountRegistration.class));
                 break;
         }
