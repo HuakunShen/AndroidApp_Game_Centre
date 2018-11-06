@@ -110,6 +110,7 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         Toast.makeText(GameActivity.this, username, Toast.LENGTH_SHORT).show();
         scoreDatabase = loadFromFile(SCORE_SAVE_FILE).equals(-1) ? new ScoreDatabase() :
                 (ScoreDatabase) loadFromFile(SCORE_SAVE_FILE);
+        saveToFile(SCORE_SAVE_FILE, scoreDatabase);
 
         //Load the boardManager that Starting Activity loaded/created.
         boardManager = loadFromFile(StartingActivity.TEMP_SAVE_FILENAME).equals(-1) ?
@@ -209,7 +210,8 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
     @Override
     protected void onResume() {
         super.onResume();
-        userData = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
+        userData = loadFromFile(GameCentre.USER_DATA_FILE).equals(-1)?
+                new WQWDatabase() : (WQWDatabase)loadFromFile(GameCentre.USER_DATA_FILE);
         preStartTime = userData.getTime(username, "SlidingTiles");
         startingTime = LocalTime.now();
 //        scoreDatabase.storeData(username, "Sliding Tiles", 1000);
@@ -229,31 +231,31 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         saveToFile(GameCentre.USER_DATA_FILE, userData);
     }
 
-    /**
-     * Save files on stop.
-     */
-    @Override
-    protected void onStop() {
-        super.onStop();
-        userData.setTime(username, "SlidingTiles",
-                Duration.between(startingTime, LocalTime.now()).toMillis()
-                        + preStartTime);
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME, boardManager);
-        saveToFile(GameCentre.USER_DATA_FILE, userData);
-    }
+//    /**
+//     * Save files on stop.
+//     */
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        userData.setTime(username, "SlidingTiles",
+//                Duration.between(startingTime, LocalTime.now()).toMillis()
+//                        + preStartTime);
+//        saveToFile(StartingActivity.TEMP_SAVE_FILENAME, boardManager);
+//        saveToFile(GameCentre.USER_DATA_FILE, userData);
+//    }
 
-    /**
-     * Save files on destroy.
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        userData.setTime(username, "SlidingTiles",
-                Duration.between(startingTime, LocalTime.now()).toMillis()
-                        + preStartTime);
-        saveToFile(StartingActivity.SAVE_FILENAME, boardManager);
-        saveToFile(GameCentre.USER_DATA_FILE, userData);
-    }
+//    /**
+//     * Save files on destroy.
+//     */
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        userData.setTime(username, "SlidingTiles",
+//                Duration.between(startingTime, LocalTime.now()).toMillis()
+//                        + preStartTime);
+//        saveToFile(StartingActivity.SAVE_FILENAME, boardManager);
+//        saveToFile(GameCentre.USER_DATA_FILE, userData);
+//    }
 
     /**
      * Update the observables.

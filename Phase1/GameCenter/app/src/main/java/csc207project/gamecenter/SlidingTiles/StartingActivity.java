@@ -364,7 +364,7 @@ public class StartingActivity extends AppCompatActivity implements AutoSave {
     @Override
     protected void onStop() {
         super.onStop();
-        WQWDatabase userData = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
+//        WQWDatabase userData = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
         saveToFile(SAVE_FILENAME, boardManager);
         saveToFile(GameCentre.USER_DATA_FILE, userData);
     }
@@ -373,7 +373,7 @@ public class StartingActivity extends AppCompatActivity implements AutoSave {
     protected void onDestroy() {
         super.onDestroy();
         clearImages();
-        WQWDatabase userData = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
+//        WQWDatabase userData = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
         saveToFile(SAVE_FILENAME, boardManager);
         saveToFile(GameCentre.USER_DATA_FILE, userData);
     }
@@ -499,7 +499,7 @@ public class StartingActivity extends AppCompatActivity implements AutoSave {
     /**
      * Save the board manager to fileName.
      *
-     * @param fileName the name of the file
+     * @param fileName the name of the file+
      */
     public void saveToFile(String fileName, Object file) {
         try {
