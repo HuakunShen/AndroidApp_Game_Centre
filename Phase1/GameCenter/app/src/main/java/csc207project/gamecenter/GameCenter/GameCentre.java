@@ -44,10 +44,22 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
 
     private LoginInfo loginInfo;
     public WQWDatabase userData;
+    /**
+     * name of the current user.
+     */
     private String name;
+    /**
+     * password that the user entered.
+     */
     private String pw;
+    /**
+     * Buttons on the Game Center activity.
+     */
     private Button signInButton;
     private Button signUpButton;
+    /**
+     * Edit text on the Game Center activity.
+     */
     private EditText username;
     private EditText password;
 
@@ -67,6 +79,12 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         signUpButton.setOnClickListener(this);
     }
 
+
+    /**
+     * Save an Object file to fileName.
+     * @param fileName the fileName that we want to save to.
+     * @param file the Object that we want to save.
+     */
     private void saveToFile(String fileName, Object file) {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
@@ -78,6 +96,11 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    /**
+     * load from the nameName
+     * @param fileName the name of the file.
+     * @return Object that load from the file.
+     */
     private Object loadFromFile(String fileName) {
         try {
             InputStream inputStream = this.openFileInput(fileName);
@@ -134,6 +157,9 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    /**
+     * check wether this is a valid login.
+     */
     private void loginCheck() {
         if (loginInfo.checkUsername(name)) {
             if (loginInfo.Authenticate(name, pw)) {
@@ -149,6 +175,10 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    /**
+     * make a toast message.
+     * @param message the message we want to display.
+     */
     private void makeToastText(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
