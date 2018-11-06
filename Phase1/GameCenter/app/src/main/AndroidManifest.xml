@@ -25,8 +25,12 @@
         <activity android:name=".SlidingTiles.GameActivity" />
         <activity android:name=".SlidingTiles.NewGameActivity" />
         <activity android:name=".GameCenter.AccountRegistration" />
-        <activity android:name=".GameCenter.GameCentreInterface" />
-        <activity android:name=".ScoreBoard.ScoreBoardActivity"></activity>
+        <activity android:name=".GameCenter.GameCentreInterface"/>
+        <activity android:name=".GameCenter.NavSetting"/>
+        <activity android:name=".GameCenter.NavChangePassword"/>
+        <activity android:name=".GameCenter.NavScoreBoard"/>
+        <activity android:name=".ScoreBoard.ScoreBoardActivity">
+        </activity>
     </application>
 
 </manifest>

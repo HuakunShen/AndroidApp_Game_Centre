@@ -81,7 +81,9 @@ public class LoginInfo implements Serializable {
             return false;
         }
 
+    }
 
-
+    public void resetPassword(String userName, String password){
+        userInfo.put(userName, password);
     }
 }
