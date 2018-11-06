@@ -19,11 +19,11 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:contentDescription="icon"
-        android:paddingTop="8dp"
+        android:padding="0dp"
         app:srcCompat="@mipmap/cool_jason"
-        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
         />
-
 
 
     <TextView
