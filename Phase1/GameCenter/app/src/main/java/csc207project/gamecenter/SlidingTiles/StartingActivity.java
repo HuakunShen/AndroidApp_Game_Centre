@@ -70,6 +70,7 @@ public class StartingActivity extends AppCompatActivity {
     public RadioButton withImageButton;
     public RadioButton withNumberButton;
     public RadioGroup radioButtonGroup;
+    private boolean withImage;
 
     Uri imageUri;
     ImageButton importButton;
@@ -92,6 +93,8 @@ public class StartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         PACKAGE_NAME = getApplicationContext().getPackageName();
         RESOURCES = getResources();
+        bitmapCut = null;
+        withImage = false;
 
         boardManager = new BoardManager();
         saveToFile(TEMP_SAVE_FILENAME, boardManager);
@@ -135,15 +138,21 @@ public class StartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(StartingActivity.this, "With Image Selected",
                         Toast.LENGTH_SHORT).show();
+                if (bitmapCut != null && tileImages3x3[0] == null) {
+                    cutImageToTiles();
+                }
                 importButton.setVisibility(View.VISIBLE);
+                withImage = true;
             }
         });
         withNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(StartingActivity.this, "With Image Selected",
+                Toast.makeText(StartingActivity.this, "With Number Selected",
                         Toast.LENGTH_SHORT).show();
+                clearImages();
                 importButton.setVisibility(View.INVISIBLE);
+                withImage = false;
             }
         });
     }
@@ -231,6 +240,12 @@ public class StartingActivity extends AppCompatActivity {
         }
     }
 
+    public void clearImages() {
+        tileImages3x3  = new Bitmap[9];
+        tileImages4x4  = new Bitmap[16];
+        tileImages5x5  = new Bitmap[25];
+    }
+
     /**
      * Activate the start button.
      */
@@ -241,23 +256,29 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //original code
-                try {
-                    boardManager = loadFromFile(SAVE_FILENAME).equals(-1) ?
-                            new BoardManager() : (BoardManager) loadFromFile(SAVE_FILENAME);
-                    if (!boardManager.userExist(currentUser)) {
-                        boardManager.addUser(currentUser);
-                    }
-                    setDifficulty(selected_diff);
-                    boardManager.addState(currentUser, (new BoardManager()).getBoard());
-                    boardManager.setBoard(boardManager.getBoard(currentUser));
-                } catch (Exception e) {
-                    setDifficulty(selected_diff);
-                    boardManager = new BoardManager();
+                if (withImage && tileImages3x3[0] == null) {
+                    Toast.makeText(StartingActivity.this,
+                            "You need to import image!", Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    try {
+                        boardManager = loadFromFile(SAVE_FILENAME).equals(-1) ?
+                                new BoardManager() : (BoardManager) loadFromFile(SAVE_FILENAME);
+                        if (!boardManager.userExist(currentUser)) {
+                            boardManager.addUser(currentUser);
+                        }
+                        setDifficulty(selected_diff);
+                        boardManager.addState(currentUser, (new BoardManager()).getBoard());
+                        boardManager.setBoard(boardManager.getBoard(currentUser));
+                    } catch (Exception e) {
+                        setDifficulty(selected_diff);
+                        boardManager = new BoardManager();
+                    }
 
-                setUndoSteps();
-                saveToFile(TEMP_SAVE_FILENAME, boardManager);
-                switchToGame();
+                    setUndoSteps();
+                    saveToFile(TEMP_SAVE_FILENAME, boardManager);
+                    switchToGame();
+                }
             }
         });
     }
@@ -292,9 +313,7 @@ public class StartingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        tileImages3x3  = new Bitmap[9];
-        tileImages4x4  = new Bitmap[16];
-        tileImages5x5  = new Bitmap[25];
+        clearImages();
         WQWDatabase userData = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
         saveToFile(SAVE_FILENAME, boardManager);
         saveToFile(GameCentre.USER_DATA_FILE, userData);
@@ -308,32 +327,37 @@ public class StartingActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardManager = loadFromFile(SAVE_FILENAME).equals(-1) ?
-                        new BoardManager() : (BoardManager) loadFromFile(SAVE_FILENAME);
-                if (boardManager.userExist(currentUser)) {
-                    boardManager.setBoard(boardManager.getBoard(currentUser));
-                    saveToFile(TEMP_SAVE_FILENAME, boardManager);
-                    setDifficulty(boardManager.getDifficulty());
-                    makeToastLoadedText();
-                    switchToGame();
-                } else {
-                    try {
-                        boardManager = loadFromFile(SAVE_FILENAME).equals(-1) ?
-                                new BoardManager() : (BoardManager) loadFromFile(SAVE_FILENAME);
-                        if (!boardManager.userExist(currentUser)) {
-                            boardManager.addUser(currentUser);
-                        }
-                        setDifficulty(selected_diff);
-                        boardManager.addState(currentUser, (new BoardManager()).getBoard());
-                        boardManager.setBoard(boardManager.getBoard(currentUser));
-                    } catch (Exception e) {
-                        setDifficulty(selected_diff);
-                        boardManager = new BoardManager();
-                    }
-                    saveToFile(TEMP_SAVE_FILENAME, boardManager);
-                    switchToGame();
+                if (withImage && tileImages3x3[0] == null) {
+                    Toast.makeText(StartingActivity.this,
+                            "You need to import image!", Toast.LENGTH_SHORT).show();
                 }
-
+                else {
+                    boardManager = loadFromFile(SAVE_FILENAME).equals(-1) ?
+                            new BoardManager() : (BoardManager) loadFromFile(SAVE_FILENAME);
+                    if (boardManager.userExist(currentUser)) {
+                        boardManager.setBoard(boardManager.getBoard(currentUser));
+                        saveToFile(TEMP_SAVE_FILENAME, boardManager);
+                        setDifficulty(boardManager.getDifficulty());
+                        makeToastLoadedText();
+                        switchToGame();
+                    } else {
+                        try {
+                            boardManager = loadFromFile(SAVE_FILENAME).equals(-1) ?
+                                    new BoardManager() : (BoardManager) loadFromFile(SAVE_FILENAME);
+                            if (!boardManager.userExist(currentUser)) {
+                                boardManager.addUser(currentUser);
+                            }
+                            setDifficulty(selected_diff);
+                            boardManager.addState(currentUser, (new BoardManager()).getBoard());
+                            boardManager.setBoard(boardManager.getBoard(currentUser));
+                        } catch (Exception e) {
+                            setDifficulty(selected_diff);
+                            boardManager = new BoardManager();
+                        }
+                        saveToFile(TEMP_SAVE_FILENAME, boardManager);
+                        switchToGame();
+                    }
+                }
             }
         });
     }
@@ -430,6 +454,5 @@ public class StartingActivity extends AppCompatActivity {
     public void setDifficulty(int diff){
         Board.NUM_COLS = diff;
         Board.NUM_ROWS = diff;
-
     }
 }
