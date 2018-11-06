@@ -17,32 +17,50 @@ import java.io.ObjectOutputStream;
 
 import csc207project.gamecenter.R;
 
+/**
+ * A change password activity.
+ */
 public class NavChangePassword extends AppCompatActivity {
 
-
+    /**
+     * username and password database.
+     */
     private LoginInfo loginInfo;
 
+    /**
+     * current user username.
+     */
     private String username;
+    /**
+     * A Edit text for original password.
+     */
     private EditText original_password;
+    /**
+     * A Edit text for new password.
+     */
     private EditText new_password;
+    /**
+     * A Edit text for re-enter password.
+     */
     private EditText reenter_password;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.change_password);
-
         loadFromFile(GameCentre.SAVE_FILENAME);
-
         username = getIntent().getStringExtra("userName");
-
         original_password = findViewById(R.id.original_password);
         new_password = findViewById(R.id.new_password);
         reenter_password = findViewById(R.id.reenter_password);
+        addConfirmButton();
+    }
 
+    /**
+     * add confirm Button to change password activity.
+     */
+    private void addConfirmButton() {
         Button confirm_button = findViewById(R.id.confirm_button);
-
         confirm_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,27 +71,43 @@ public class NavChangePassword extends AppCompatActivity {
                     Toast.makeText(NavChangePassword.this,
                             "Passwords Do Not Match", Toast.LENGTH_SHORT).show();
                 } else {
-                     loginInfo.resetPassword(username, new_password.getText().toString());
-                     saveToFile(GameCentre.TEMP_SAVE_FILENAME);
-                     saveToFile(GameCentre.SAVE_FILENAME);
-                     Toast.makeText(NavChangePassword.this,
-                             "Password change successfully", Toast.LENGTH_SHORT).show();
+                    loginInfo.resetPassword(username, new_password.getText().toString());
+                    saveToFile(GameCentre.TEMP_SAVE_FILENAME);
+                    saveToFile(GameCentre.SAVE_FILENAME);
+                    Toast.makeText(NavChangePassword.this,
+                            "Password change successfully", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
     }
 
+    /**
+     * check whether original password match to current user.
+     *
+     * @param userName current user username.
+     * @param password the password user entered.
+     * @return true if the entered password match user password.
+     */
     private boolean checkOriginalPassword(String userName, EditText password) {
         return loginInfo.Authenticate(userName, password.getText().toString());
     }
 
+    /**
+     * compare whether two passwords user entered match.
+     *
+     * @param new_password     new password that user entered.
+     * @param reenter_password re-entered user password.
+     * @return true if two passwords match.
+     */
     private boolean compareTwoPassword(EditText new_password, EditText reenter_password) {
         return new_password.getText().toString().equals(reenter_password.getText().toString());
     }
 
-
+    /**
+     * Load loginInfo from fileName.
+     *
+     * @param fileName the name of the file
+     */
     private void loadFromFile(String fileName) {
         try {
             InputStream inputStream = this.openFileInput(fileName);
@@ -91,7 +125,11 @@ public class NavChangePassword extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Save loginInfo from fileName.
+     *
+     * @param fileName the name of the file
+     */
     public void saveToFile(String fileName) {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
