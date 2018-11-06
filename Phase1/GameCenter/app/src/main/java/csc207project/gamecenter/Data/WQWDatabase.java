@@ -2,6 +2,9 @@ package csc207project.gamecenter.Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 
 
 /**
@@ -9,56 +12,70 @@ import java.util.ArrayList;
  */
 public class WQWDatabase implements Serializable {
     /**
-     * The database recording the steps and time used by
-     * the user for a specific game.
+     * The database recording user's game's ID.
      */
-    private ArrayList<ArrayList<Object>> userData;
+    private HashMap<String, HashMap<String, Integer>> userID;
+
+    /**
+     * The database recording user's steps
+     */
+    private HashMap<Integer, Integer> stepStack;
+
+    /**
+     * The database recording user's runtime.
+     */
+    private HashMap<Integer, Long> timeStack;
 
     /**
      * The database storing the user's marks for each
      * specific game.
      */
-    private ArrayList<ArrayList<Object>> highestScore;
+    private HashMap<Integer, Integer> highestScore;
 
     private static final int USERNAME_INDEX = 0;
     private static final int GAME_TYPE_INDEX = 1;
     private static final int STEP_INDEX = 2;
     private static final int TIME_INDEX = 3;
-    private static final int SCORE_INDEX = 2;
-
+    private static final int SCORE_INDEX = 4;
+    private static int id = 0;
 
     /**
      * Initialize the WQWDatabase class.
      */
     public WQWDatabase() {
-        userData = new ArrayList<ArrayList<Object>>();
-        highestScore = new ArrayList<ArrayList<Object>>();
+        userID = new HashMap<String, HashMap<String, Integer>>();
+        stepStack = new HashMap<Integer, Integer>();
+        timeStack = new HashMap<Integer, Long>();
+        highestScore = new HashMap<Integer, Integer>();
+        highestScore.put(-1, 0);
     }
 
     /**
      * Set the correct data object to the correct index in the database
      * for the game played by the user.
      */
-    private void setData(ArrayList<ArrayList<Object>> database, String username,
-                         String gameType, int index, Object info) {
-        boolean userExists = false;
-        for (int i = 0; i < database.size(); i++) {
-            ArrayList<Object> data = database.get(i);
-            if (data.get(USERNAME_INDEX).equals(username) &&
-                    data.get(GAME_TYPE_INDEX).equals(gameType)) {
-                database.get(i).set(index, info);
-                userExists = true;
-                break;
-            }
-        }
-        if (!userExists) {
-            ArrayList<Object> newUser = new ArrayList<>();
-            newUser.add(username);
-            newUser.add(gameType);
-            newUser.add((Integer) 0);
-            newUser.add(new Long(0));
-            newUser.set(index, info);
-            database.add(newUser);
+    private void setData(String username, String gameType, int index, Object info) {
+        boolean userExists = userID.containsKey(username) &&
+                userID.get(username).containsKey(gameType);
+        if (userExists) {
+           Integer user = userID.get(username).get(gameType);
+           switch (index) {
+               case STEP_INDEX : stepStack.put(user, (Integer) info);
+                    break;
+               case TIME_INDEX : timeStack.put(user, (Long) info);
+                    break;
+               case SCORE_INDEX : highestScore.put(user, (Integer) info);
+                    break;
+           }
+        } else if (userID.containsKey(username)) {
+            userID.get(username).put(gameType, id++);
+            stepStack.put(id - 1, (Integer) 0);
+            timeStack.put(id - 1, new Long(0));
+            highestScore.put(id - 1, (Integer) 0);
+            setData(username, gameType, index, info);
+        } else {
+            userID.put(username, new HashMap<String, Integer>());
+            setData(username, gameType, index, info);
         }
 
     }
@@ -67,47 +84,51 @@ public class WQWDatabase implements Serializable {
      * Get the data from the specified index in the database
      * for the game played by the user.
      */
-    private Object getData(ArrayList<ArrayList<Object>> database, String username,
-                                  String gameType, int index) {
-        for (int i = 0; i < database.size(); i++) {
-            ArrayList<Object> data = database.get(i);
-            if (data.get(USERNAME_INDEX).equals(username) &&
-                    data.get(GAME_TYPE_INDEX).equals(gameType)) {
-                return data.get(index);
+    private Object getData(String username, String gameType, int index) {
+        if (userID.containsKey(username) && userID.get(username).containsKey(gameType)) {
+            int user = userID.get(username).get(gameType);
+            switch (index) {
+                case STEP_INDEX :
+                    return stepStack.containsKey(user) ? stepStack.get(user) : (Integer) 0;
+                case TIME_INDEX :
+                    return timeStack.containsKey(user) ? timeStack.get(user) : new Long(0);
+                case SCORE_INDEX :
+                    return highestScore.containsKey(user) ? highestScore.get(user) : (Integer)0;
             }
+            return -1;
+        } else {
+            return -1;
         }
-        return -1;
     }
 
     /**
      * Set the steps user performed in the game.
      */
     public void setStep(String username, String gameType, Integer step) {
-        setData(userData, username, gameType, STEP_INDEX, step);
+        setData(username, gameType, STEP_INDEX, step);
     }
 
     /**
      * Get the steps user performed in the game.
      */
-    public int getStep(String username, String gameType) {
-        return (getData(userData, username, gameType, STEP_INDEX)).equals(-1) ?
-                0 : (int) getData(userData, username, gameType, STEP_INDEX);
+    public Integer getStep(String username, String gameType) {
+        return getData(username, gameType, STEP_INDEX).equals(-1) ?
+                0 : (Integer) getData(username, gameType, STEP_INDEX);
     }
 
     /**
      * Set the time user (has) used playing the game.
      */
     public void setTime(String username, String gameType, long time) {
-        Long runtime = new Long(time);
-        setData(userData, username, gameType, TIME_INDEX, runtime);
+        setData(username, gameType, TIME_INDEX, time);
     }
 
     /**
      * Get the time user (has) used playing the game.
      */
     public long getTime(String username, String gameType) {
-        return getData(userData, username, gameType, TIME_INDEX).equals(-1) ?
-                0L : (Long) getData(userData, username, gameType, TIME_INDEX);
+        return getData(username, gameType, TIME_INDEX).equals(-1) ?
+                0L: (long) getData(username, gameType, TIME_INDEX);
     }
 
     /**
@@ -115,7 +136,7 @@ public class WQWDatabase implements Serializable {
      */
     public void setScore(String username, String gameType, int score) {
         if (isHigherThanSelf(username, gameType, score)) {
-            setData(highestScore, username, gameType, SCORE_INDEX, score);
+            setData(username, gameType, SCORE_INDEX, score);
         }
     }
 
@@ -123,8 +144,8 @@ public class WQWDatabase implements Serializable {
      * Get the score for the game played by the user.
      */
     public int getScore(String username, String gameType) {
-        return (getData(highestScore, username, gameType, GAME_TYPE_INDEX)).equals(-1)?
-                0 : (int) getData(highestScore, username, gameType, GAME_TYPE_INDEX);
+        return getData(username, gameType, GAME_TYPE_INDEX).equals(-1) ?
+                0 : (int) getData(username, gameType, GAME_TYPE_INDEX);
     }
 
     /**
@@ -138,13 +159,6 @@ public class WQWDatabase implements Serializable {
      * Returns whether the user achieved the world record.
      */
     public boolean isHighestInGame(String username, String gameType) {
-        int maximumScore = 0;
-        for (ArrayList<Object> data : highestScore) {
-            if (data.get(GAME_TYPE_INDEX).equals(gameType) &&
-                    (int) data.get(SCORE_INDEX) > maximumScore) {
-                maximumScore = (int) data.get(SCORE_INDEX);
-            }
-        }
-        return getScore(username, gameType) >= maximumScore;
+        return Collections.max(highestScore.values()) == getScore(username, gameType);
     }
 }

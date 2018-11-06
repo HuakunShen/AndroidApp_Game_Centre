@@ -22,6 +22,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import csc207project.gamecenter.AutoSave.AutoSave;
+import csc207project.gamecenter.Data.WQWDatabase;
+import csc207project.gamecenter.GameCenter.GameCentre;
 import csc207project.gamecenter.R;
 
 /**
@@ -48,6 +50,7 @@ public class StartingActivity extends AppCompatActivity {
 
     private final int MAX_UNDO_LIMIT = 20;
 
+
     /**
      * The difficulties can be selected.
      */
@@ -60,7 +63,7 @@ public class StartingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         boardManager = new BoardManager();
-        saveToFile(TEMP_SAVE_FILENAME);
+        saveToFile(TEMP_SAVE_FILENAME, boardManager);
 
         currentUser = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_starting_);
@@ -114,7 +117,7 @@ public class StartingActivity extends AppCompatActivity {
                 }
 
                 setUndoSteps();
-                saveToFile(TEMP_SAVE_FILENAME);
+                saveToFile(TEMP_SAVE_FILENAME, boardManager);
                 switchToGame();
             }
         });
@@ -139,6 +142,21 @@ public class StartingActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        WQWDatabase userData = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
+        saveToFile(SAVE_FILENAME, boardManager);
+        saveToFile(GameCentre.USER_DATA_FILE, userData);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        WQWDatabase userData = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
+        saveToFile(SAVE_FILENAME, boardManager);
+        saveToFile(GameCentre.USER_DATA_FILE, userData);
+    }
 
     /**
      * Activate the load button.
@@ -152,7 +170,7 @@ public class StartingActivity extends AppCompatActivity {
                         new BoardManager() : (BoardManager) loadFromFile(SAVE_FILENAME);
                 if (boardManager.userExist(currentUser)) {
                     boardManager.setBoard(boardManager.getBoard(currentUser));
-                    saveToFile(TEMP_SAVE_FILENAME);
+                    saveToFile(TEMP_SAVE_FILENAME, boardManager);
                     makeToastLoadedText();
                     switchToGame();
                 } else {
@@ -167,7 +185,7 @@ public class StartingActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         boardManager = new BoardManager();
                     }
-                    saveToFile(TEMP_SAVE_FILENAME);
+                    saveToFile(TEMP_SAVE_FILENAME, boardManager);
                     switchToGame();
                 }
 
@@ -190,8 +208,8 @@ public class StartingActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveToFile(SAVE_FILENAME);
-                saveToFile(TEMP_SAVE_FILENAME);
+                saveToFile(SAVE_FILENAME, boardManager);
+                saveToFile(TEMP_SAVE_FILENAME, boardManager);
                 makeToastSavedText();
             }
         });
@@ -221,7 +239,7 @@ public class StartingActivity extends AppCompatActivity {
         Intent tmp = new Intent(this, GameActivity.class);
         tmp.putExtra("username", currentUser);
 
-        saveToFile(StartingActivity.TEMP_SAVE_FILENAME);
+        saveToFile(StartingActivity.TEMP_SAVE_FILENAME, boardManager);
         startActivity(tmp);
     }
 
@@ -254,11 +272,11 @@ public class StartingActivity extends AppCompatActivity {
      *
      * @param fileName the name of the file
      */
-    public void saveToFile(String fileName) {
+    public void saveToFile(String fileName, Object file) {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            outputStream.writeObject(boardManager);
+            outputStream.writeObject(file);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());

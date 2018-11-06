@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity implements Observer{
     /**
      * The time which the user has played before starting this game.
      */
-    private Long preStartTime;
+    private static Long preStartTime;
 
     /**
      * Constants for swiping directions. Should be an enum, probably.
