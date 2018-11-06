@@ -25,6 +25,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 import csc207project.gamecenter.R;
+import csc207project.gamecenter.ScoreBoard.ScoreBoardActivity;
 import csc207project.gamecenter.SlidingTiles.StartingActivity;
 
 /**
@@ -162,7 +163,7 @@ public class GameCentreInterface extends AppCompatActivity
      * go to scoreBoard.
      */
     private void goToScoreBoard() {
-        Intent toScoreBoard = new Intent(this, NavScoreBoard.class);
+        Intent toScoreBoard = new Intent(this, ScoreBoardActivity.class);
         startActivity(toScoreBoard);
     }
 
