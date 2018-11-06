@@ -55,8 +55,8 @@ public class WQWDatabase implements Serializable {
             ArrayList<Object> newUser = new ArrayList<>();
             newUser.add(username);
             newUser.add(gameType);
-            newUser.add(0);
-            newUser.add(0L);
+            newUser.add((Integer) 0);
+            newUser.add(new Long(0));
             newUser.set(index, info);
             database.add(newUser);
         }
@@ -83,7 +83,7 @@ public class WQWDatabase implements Serializable {
      * Set the steps user performed in the game.
      */
     public void setStep(String username, String gameType, Integer step) {
-        setData(userData, username, gameType, STEP_INDEX, (Integer) step);
+        setData(userData, username, gameType, STEP_INDEX, step);
     }
 
     /**
@@ -91,14 +91,15 @@ public class WQWDatabase implements Serializable {
      */
     public int getStep(String username, String gameType) {
         return (getData(userData, username, gameType, STEP_INDEX)).equals(-1) ?
-                0 : (Integer) getData(userData, username, gameType, STEP_INDEX);
+                0 : (int) getData(userData, username, gameType, STEP_INDEX);
     }
 
     /**
      * Set the time user (has) used playing the game.
      */
     public void setTime(String username, String gameType, long time) {
-        setData(userData, username, gameType, TIME_INDEX, new Long(time));
+        Long runtime = new Long(time);
+        setData(userData, username, gameType, TIME_INDEX, runtime);
     }
 
     /**
@@ -106,7 +107,7 @@ public class WQWDatabase implements Serializable {
      */
     public long getTime(String username, String gameType) {
         return getData(userData, username, gameType, TIME_INDEX).equals(-1) ?
-                0L : ((Long) getData(userData, username, gameType, TIME_INDEX)).longValue();
+                0L : (Long) getData(userData, username, gameType, TIME_INDEX);
     }
 
     /**
