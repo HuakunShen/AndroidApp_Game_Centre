@@ -28,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.time.Duration;
 
+import csc207project.gamecenter.AutoSave.AutoSave;
 import csc207project.gamecenter.Data.ScoreDatabase;
 import csc207project.gamecenter.Data.WQWDatabase;
 import csc207project.gamecenter.GameCenter.GameCentre;
@@ -36,7 +37,7 @@ import csc207project.gamecenter.R;
 /**
  * The game activity.
  */
-public class GameActivity extends AppCompatActivity implements Observer {
+public class GameActivity extends AppCompatActivity implements Observer, AutoSave {
 
     public static final String SCORE_SAVE_FILE = "score_save_file.ser";
 //    public static final String TEMP_SCORE_SAVE_FILE = "temp_score_save_file.ser";
@@ -365,7 +366,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
      *
      * @param fileName the name of the file
      */
-    private Object loadFromFile(String fileName) {
+    public Object loadFromFile(String fileName) {
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {

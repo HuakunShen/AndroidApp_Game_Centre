@@ -40,7 +40,7 @@ import static android.graphics.Bitmap.createBitmap;
 /**
  * The initial activity for the sliding puzzle tile game.
  */
-public class StartingActivity extends AppCompatActivity {
+public class StartingActivity extends AppCompatActivity implements AutoSave {
 
     /**
      * The main save file.
@@ -427,7 +427,7 @@ public class StartingActivity extends AppCompatActivity {
      *
      * @param fileName the name of the file
      */
-    private Object loadFromFile(String fileName) {
+    public Object loadFromFile(String fileName) {
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
