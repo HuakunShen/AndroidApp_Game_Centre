@@ -265,8 +265,6 @@ public class GameActivity extends AppCompatActivity implements Observer{
             public void onClick(View view) {
                 if (boardManager.undoAvailable(username)) {
                     boardManager.touchMove(boardManager.popUndo(username));
-                    userData.setStep(username, "SlidingTiles",
-                            userData.getStep(username, "SlidingTiles" + 1));
                 }else{
                     warning.setText("Exceeds Undo-Limit!");
                     warning.setVisibility(View.VISIBLE);
