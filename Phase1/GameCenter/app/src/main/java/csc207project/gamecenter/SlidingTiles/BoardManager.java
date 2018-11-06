@@ -106,7 +106,9 @@ class BoardManager implements Serializable {
         gameStates.get(userName).put(boardToAdd);
     }
 
-
+    /**
+     * Get the next undo for the current user.
+     */
     void addUndo(int move) {
         StateStack<Integer> theStack = undoStack.get(currentUser);
         theStack.put(move);
@@ -203,7 +205,9 @@ class BoardManager implements Serializable {
         return blank_pos;
     }
 
-
+    /**
+     * Get the difficulty of the current stored board.
+     */
     public int getDifficulty() {
         return board.difficulty;
     }
