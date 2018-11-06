@@ -1,6 +1,8 @@
 package csc207project.gamecenter.GameCenter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -32,6 +34,7 @@ public class NavSetting extends AppCompatActivity {
     private static final int SELECT_IMAGE = 1801;
     Uri imageUri;
     String stringURI;
+//    String UriPath;
     ImageView image_selected;
 
 
@@ -97,6 +100,10 @@ public class NavSetting extends AppCompatActivity {
         if (requestCode == SELECT_IMAGE && resultCode == RESULT_OK){
             imageUri = data.getData();
             image_selected.setImageURI(imageUri);
+//            UriPath = imageUri.getPath();
+//            Bitmap bmp = BitmapFactory.decodeFile(UriPath);
+//            Toast.makeText(NavSetting.this, UriPath, Toast.LENGTH_LONG).show();
+//            image_selected.setImageBitmap(bmp);
             stringURI = imageUri.toString();
             avatars.put(username, stringURI);
             saveToFile(GameCentreInterface.SAVE_AVATARS);

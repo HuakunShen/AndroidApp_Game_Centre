@@ -2,6 +2,8 @@ package csc207project.gamecenter.GameCenter;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -64,11 +66,13 @@ public class GameCentreInterface extends AppCompatActivity
         LinearLayout header =  headerView.findViewById(R.id.nav_header);
         icon = header.findViewById(R.id.userIcon);
 
-        if (avatars.containsKey(username)) {
-            icon.setImageURI(Uri.parse(avatars.get(username)));
-        }else{
-            icon.setImageResource(R.mipmap.cool_jason);
-        }
+//        if (avatars.containsKey(username)) {
+////            Bitmap bmp = BitmapFactory.decodeFile(avatars.get(username));
+////            icon.setImageBitmap(bmp);
+//            icon.setImageURI(Uri.parse(avatars.get(username)));
+//        }else{
+        icon.setImageResource(R.mipmap.cool_jason);
+//        }
         saveToFile(SAVE_AVATARS);
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +110,10 @@ public class GameCentreInterface extends AppCompatActivity
         userNickName.setText(nickNames.get(username));
         loadFromFile(SAVE_AVATARS);
         if (avatars.containsKey(username)) {
+//            Bitmap bmp = BitmapFactory.decodeFile(Uri.parse(avatars.get(username)).getPath());
+//            icon.setImageBitmap(bmp);
             icon.setImageURI(Uri.parse(avatars.get(username)));
+//            Toast.makeText(GameCentreInterface.this,avatars.get(username),Toast.LENGTH_LONG).show();
         }
 
     }
