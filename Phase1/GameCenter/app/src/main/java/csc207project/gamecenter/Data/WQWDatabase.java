@@ -166,14 +166,14 @@ public class WQWDatabase implements Serializable {
 
 
 
-    public ArrayList<Object[]> getDataForScoreBoard() {
-        ArrayList<Object[]> result = new ArrayList<Object[]>();
+    public ArrayList<String[]> getDataForScoreBoard() {
+        ArrayList<String[]> result = new ArrayList<>();
         for (String i : userID.keySet()) {
             for (String j: userID.get(i).keySet()) {
-                Object[] cache = new Object[3];
+                String[] cache = (String[]) new Object[3];
                 cache[0] = i;
                 cache[1] = j;
-                cache[2] = getScore(i, j);
+                cache[2] = ((Integer) getScore(i, j)).toString();
                 result.add(cache);
             }
         }
