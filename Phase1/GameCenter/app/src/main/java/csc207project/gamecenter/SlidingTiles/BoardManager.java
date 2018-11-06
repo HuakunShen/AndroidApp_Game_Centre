@@ -251,5 +251,7 @@ class BoardManager implements Serializable {
     }
 
 
-
+    public int getDifficulty() {
+        return board.difficulty;
+    }
 }

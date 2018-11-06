@@ -11,9 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="154dp"
+        android:layout_centerVertical="true"
         android:gravity="center"
         android:text="Welcome To Sliding Tiles \n A Puzzle Game where you must arrange the numbers in the correct order"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
@@ -74,6 +72,21 @@
         android:text="select game difficulty"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
+    <ImageButton
+        android:id="@+id/select_image"
+        android:layout_width="125dp"
+        android:layout_height="160dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginBottom="420dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/import_image" />
+
     <EditText
         android:id="@+id/undoLimitInput"
         android:layout_width="100dp"
@@ -82,12 +95,12 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="173dp"
-        android:layout_marginTop="348dp"
-        android:layout_marginEnd="138dp"
-        android:layout_marginBottom="266dp"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="413dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginBottom="201dp"
         android:ems="10"
         android:hint="Undo Limit"
         android:inputType="number" />
-
 </RelativeLayout>
+

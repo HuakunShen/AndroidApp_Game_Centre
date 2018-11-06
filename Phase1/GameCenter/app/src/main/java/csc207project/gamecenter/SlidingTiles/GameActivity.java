@@ -2,6 +2,7 @@ package csc207project.gamecenter.SlidingTiles;
 
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -312,10 +313,26 @@ public class GameActivity extends AppCompatActivity implements Observer{
         for (Button b : tileButtons) {
             int row = nextPos / Board.NUM_ROWS;
             int col = nextPos % Board.NUM_COLS;
-            b.setBackgroundResource(board.getTile(row, col).getBackground());
+
+            int tile_id = board.getTile(row, col).getId();
+            if (tile_id == Board.NUM_ROWS * Board.NUM_COLS || StartingActivity.tileImages3x3[0] == null) {
+                b.setBackgroundResource(board.getTile(row, col).getBackground());
+            }
+            else if (board.difficulty == 3) {
+                b.setBackground(new BitmapDrawable(StartingActivity.tileImages3x3[tile_id]));
+            }
+            else if (board.difficulty == 4) {
+                b.setBackground(new BitmapDrawable(StartingActivity.tileImages4x4[tile_id]));
+            }
+            else if (board.difficulty == 5) {
+                b.setBackground(new BitmapDrawable(StartingActivity.tileImages5x5[tile_id]));
+            }
             nextPos++;
         }
     }
+
+
+
 
     /**
      * Load the board manager from fileName.
