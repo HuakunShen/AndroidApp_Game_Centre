@@ -34,7 +34,7 @@ import csc207project.gamecenter.R;
 import csc207project.gamecenter.SlidingTiles.StartingActivity;
 
 public class GameCentreInterface extends AppCompatActivity
-        implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     public static final String SAVE_NICKNAMES = "save_nick_names.ser";
     public static final String SAVE_AVATARS = "save_avatars.ser";
@@ -50,40 +50,32 @@ public class GameCentreInterface extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_centre_interface);
-
         loadFromFile(SAVE_NICKNAMES);
         loadFromFile(SAVE_AVATARS);
-
-        SlidingTiles = findViewById(R.id.SlidingTiles);
-        SlidingTiles.setOnClickListener(this);
-
+        addSlidingTilesButton();
+        // get name from previous activity.
         username = getIntent().getStringExtra("username");
+        addNavigationView();
 
+    }
+
+    /**
+     * add Navigation View to GameCenterInterface.
+     */
+    private void addNavigationView() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         View headerView = navigationView.getHeaderView(0);
         LinearLayout header =  headerView.findViewById(R.id.nav_header);
-        icon = header.findViewById(R.id.userIcon);
+        addIconButton(header);
+        setTextView(headerView);
+    }
 
-//        if (avatars.containsKey(username)) {
-////            Bitmap bmp = BitmapFactory.decodeFile(avatars.get(username));
-////            icon.setImageBitmap(bmp);
-//            icon.setImageURI(Uri.parse(avatars.get(username)));
-//        }else{
-        icon.setImageResource(R.mipmap.cool_jason);
-//        }
-        saveToFile(SAVE_AVATARS);
-        icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent toSetting = new Intent(GameCentreInterface.this, NavSetting.class);
-                toSetting.putExtra("userName", username);
-                startActivity(toSetting);
-//                drawer.closeDrawer(GravityCompat.START);
-            }
-        });
-
+    /**
+     * add textView to headerView
+     * @param headerView A view where we should put textView.
+     */
+    private void setTextView(View headerView) {
         TextView userAccountName = headerView.findViewById(R.id.userAccountName);
         userAccountName.setText(username);
         userNickName = headerView.findViewById(R.id.userNickName);
@@ -94,12 +86,40 @@ public class GameCentreInterface extends AppCompatActivity
             userNickName.setText(nickNames.get(username));
         }
         saveToFile(SAVE_NICKNAMES);
+    }
 
+    /**
+     * add Icon button to linearLayout header.
+     * @param header A Linear Layout where we put Icon button.
+     */
+    private void addIconButton(LinearLayout header) {
+        icon = header.findViewById(R.id.userIcon);
+        icon.setImageResource(R.mipmap.cool_jason);
+        saveToFile(SAVE_AVATARS);
+        icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toSetting = new Intent(GameCentreInterface.this, NavSetting.class);
+                toSetting.putExtra("userName", username);
+                startActivity(toSetting);
+            }
+        });
+    }
 
-
-//        Toast.makeText(this, username, Toast.LENGTH_SHORT).show();
-//        Toolbar toolbar =  findViewById(R.id.toolBar);
-//        setSupportActionBar(toolbar);
+    /**
+     * add sliding tile button to GameCenterInterface.
+     */
+    private void addSlidingTilesButton() {
+        SlidingTiles = findViewById(R.id.SlidingTiles);
+        SlidingTiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameCentreInterface.this,
+                        StartingActivity.class);
+                intent.putExtra("userName", username);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -110,34 +130,26 @@ public class GameCentreInterface extends AppCompatActivity
         userNickName.setText(nickNames.get(username));
         loadFromFile(SAVE_AVATARS);
         if (avatars.containsKey(username)) {
-//            Bitmap bmp = BitmapFactory.decodeFile(Uri.parse(avatars.get(username)).getPath());
-//            icon.setImageBitmap(bmp);
             icon.setImageURI(Uri.parse(avatars.get(username)));
-//            Toast.makeText(GameCentreInterface.this,avatars.get(username),Toast.LENGTH_LONG).show();
         }
 
     }
+
 
     @Override
     protected void onPause(){
         super.onPause();
+        avatars.remove(username);
         saveToFile(SAVE_NICKNAMES);
         saveToFile(SAVE_AVATARS);
     }
 
-    public void onClick(View v) {
-        switch (v.getId()) {
-            // When Sign in button is clicked
-            case R.id.SlidingTiles:
-                Intent intent = new Intent(GameCentreInterface.this,
-                        StartingActivity.class);
-                intent.putExtra("userName", username);
-                startActivity(intent);
-                break;
-        }
-    }
 
-
+    /**
+     * When Click Items in Navigation layout, intent to another Activity
+     * @param item menu items in Navigation layout
+     * @return boolean
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -162,7 +174,7 @@ public class GameCentreInterface extends AppCompatActivity
     }
 
     /**
-     * Load the board manager from fileName.
+     * Load the nickNames or avatars from fileName.
      *
      * @param fileName the name of the file
      */
@@ -188,7 +200,7 @@ public class GameCentreInterface extends AppCompatActivity
     }
 
     /**
-     * Save the board manager to fileName.
+     * Save the nickNames or avatars to fileName.
      *
      * @param fileName the name of the file
      */
