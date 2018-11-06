@@ -1,9 +1,6 @@
 package csc207project.gamecenter.GameCenter;
 
-import android.app.FragmentManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -16,34 +13,49 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.HashMap;
 
 import csc207project.gamecenter.R;
 import csc207project.gamecenter.SlidingTiles.StartingActivity;
 
+/**
+ * A Game Center Interface.
+ */
 public class GameCentreInterface extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
-
+        implements NavigationView.OnNavigationItemSelectedListener {
+    /**
+     * File name where we save to and load from
+     */
     public static final String SAVE_NICKNAMES = "save_nick_names.ser";
     public static final String SAVE_AVATARS = "save_avatars.ser";
-
+    /**
+     * A nickName HashMap to store user and their corresponding nickName.
+     */
     private HashMap<String, String> nickNames = new HashMap<>();
+    /**
+     * A avatar HashMap to store user and their corresponding avatar.
+     */
     private HashMap<String, String> avatars = new HashMap<>();
-    private Button SlidingTiles;
+    /**
+     * current user name.
+     */
     private String username;
+    /**
+     * A TextView to display.
+     */
     private TextView userNickName;
+    /**
+     * A image Button to display.
+     */
     private ImageButton icon;
 
     @Override
@@ -66,23 +78,24 @@ public class GameCentreInterface extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-        LinearLayout header =  headerView.findViewById(R.id.nav_header);
+        LinearLayout header = headerView.findViewById(R.id.nav_header);
         addIconButton(header);
         setTextView(headerView);
     }
 
     /**
      * add textView to headerView
+     *
      * @param headerView A view where we should put textView.
      */
     private void setTextView(View headerView) {
         TextView userAccountName = headerView.findViewById(R.id.userAccountName);
         userAccountName.setText(username);
         userNickName = headerView.findViewById(R.id.userNickName);
-        if ( !nickNames.containsKey(username)) {
+        if (!nickNames.containsKey(username)) {
             nickNames.put(username, username);
             userNickName.setText(username);
-        }else{
+        } else {
             userNickName.setText(nickNames.get(username));
         }
         saveToFile(SAVE_NICKNAMES);
@@ -90,6 +103,7 @@ public class GameCentreInterface extends AppCompatActivity
 
     /**
      * add Icon button to linearLayout header.
+     *
      * @param header A Linear Layout where we put Icon button.
      */
     private void addIconButton(LinearLayout header) {
@@ -110,8 +124,8 @@ public class GameCentreInterface extends AppCompatActivity
      * add sliding tile button to GameCenterInterface.
      */
     private void addSlidingTilesButton() {
-        SlidingTiles = findViewById(R.id.SlidingTiles);
-        SlidingTiles.setOnClickListener(new View.OnClickListener() {
+        Button slidingTiles = findViewById(R.id.SlidingTiles);
+        slidingTiles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(GameCentreInterface.this,
@@ -122,6 +136,35 @@ public class GameCentreInterface extends AppCompatActivity
         });
     }
 
+
+    /**
+     * When Click Items in Navigation layout, intent to another Activity
+     *
+     * @param item menu items in Navigation layout
+     * @return boolean
+     */
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.nav_first_layout) {
+            if (username.equals("admin")) {
+                Toast.makeText(GameCentreInterface.this,
+                        "admin cannot change password!", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent toChangePassword = new Intent(this, NavChangePassword.class);
+                toChangePassword.putExtra("userName", username);
+                startActivity(toChangePassword);
+            }
+        } else if (id == R.id.nav_second_layout) {
+            Intent toScoreBoard = new Intent(this, NavScoreBoard.class);
+            startActivity(toScoreBoard);
+        }
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
     @Override
     protected void onResume() {
@@ -137,40 +180,11 @@ public class GameCentreInterface extends AppCompatActivity
 
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         avatars.remove(username);
         saveToFile(SAVE_NICKNAMES);
         saveToFile(SAVE_AVATARS);
-    }
-
-
-    /**
-     * When Click Items in Navigation layout, intent to another Activity
-     * @param item menu items in Navigation layout
-     * @return boolean
-     */
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.nav_first_layout) {
-            if (username.equals("admin")){
-                Toast.makeText(GameCentreInterface.this,
-                        "admin cannot change password!", Toast.LENGTH_SHORT).show();
-            }else {
-                Intent toChangePassword = new Intent(this, NavChangePassword.class);
-                toChangePassword.putExtra("userName", username);
-                startActivity(toChangePassword);
-            }
-        } else if (id == R.id.nav_second_layout) {
-            Intent toScoreBoard = new Intent(this, NavScoreBoard.class);
-            startActivity(toScoreBoard);
-        }
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     /**
@@ -178,14 +192,15 @@ public class GameCentreInterface extends AppCompatActivity
      *
      * @param fileName the name of the file
      */
+    @SuppressWarnings("unchecked")
     private void loadFromFile(String fileName) {
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(SAVE_NICKNAMES)){
+                if (fileName.equals(SAVE_NICKNAMES)) {
                     nickNames = (HashMap<String, String>) input.readObject();
-                }else if (fileName.equals(SAVE_AVATARS)){
+                } else if (fileName.equals(SAVE_AVATARS)) {
                     avatars = (HashMap<String, String>) input.readObject();
                 }
                 inputStream.close();
@@ -208,9 +223,9 @@ public class GameCentreInterface extends AppCompatActivity
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(SAVE_NICKNAMES)){
+            if (fileName.equals(SAVE_NICKNAMES)) {
                 outputStream.writeObject(nickNames);
-            }else if (fileName.equals(SAVE_AVATARS)){
+            } else if (fileName.equals(SAVE_AVATARS)) {
                 outputStream.writeObject(avatars);
             }
             outputStream.close();
