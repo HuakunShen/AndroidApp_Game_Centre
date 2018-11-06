@@ -17,18 +17,37 @@ import java.io.ObjectOutputStream;
 
 import csc207project.gamecenter.R;
 
-
+/**
+ * An activity for user to create their own account.
+ */
 public class AccountRegistration extends AppCompatActivity implements View.OnClickListener {
 
+    /**
+     * Edit text for nickname, username, password, password_repeat.
+     */
     private EditText nickname;
     private EditText username;
     private EditText password;
     private EditText password_repeat;
+    /**
+     * Button on AccountRegistration activity.
+     */
     private Button register_button;
-    private String name;
+    /**
+     * current username.
+     */
     private String usrname;
+    /**
+     * password entered.
+     */
     private String pw;
+    /**
+     * password re-entered.
+     */
     private String pw_repeat;
+    /**
+     * user login information.
+     */
     private LoginInfo loginInfo;
 
     @Override
@@ -46,7 +65,7 @@ public class AccountRegistration extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view) {
-        name = nickname.getText().toString();
+        String name = nickname.getText().toString();
         usrname = username.getText().toString();
         pw = password.getText().toString();
         pw_repeat = password_repeat.getText().toString();
@@ -64,6 +83,13 @@ public class AccountRegistration extends AppCompatActivity implements View.OnCli
 
     }
 
+    /**
+     * check whether
+     * @param usrname
+     * @param pw
+     * @param pw_repeat
+     * @return
+     */
     private String checkPassword(String usrname, String pw, String pw_repeat) {
         if (usrname.equals("")) {
             return "Empty Username!";
@@ -76,6 +102,10 @@ public class AccountRegistration extends AppCompatActivity implements View.OnCli
         }
     }
 
+    /**
+     * load loginInfo from file.
+     * @param fileName the name of the file we want to load from.
+     */
     private void loadFromFile(String fileName) {
         try {
             InputStream inputStream = this.openFileInput(fileName);
@@ -93,7 +123,10 @@ public class AccountRegistration extends AppCompatActivity implements View.OnCli
         }
     }
 
-
+    /**
+     * Save loginInfo to file.
+     * @param fileName the name of the file we want to save to.
+     */
     public void saveToFile(String fileName) {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(

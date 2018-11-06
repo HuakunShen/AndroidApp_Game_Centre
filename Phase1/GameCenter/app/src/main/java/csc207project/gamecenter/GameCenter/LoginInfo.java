@@ -16,18 +16,13 @@ public class LoginInfo implements Serializable {
      */
     private HashMap<String, String> userInfo;
 
-//    private static HashMap<String, String> createMap()
-//    {
-//        HashMap<String,String> map= new HashMap<String,String>();
-//        map.put("admin", "admin");
-//        return map;
-//    }
-
-    public LoginInfo(){
+    /**
+     * a constructor for LoginInfo.
+     */
+    public LoginInfo() {
         this.userInfo = new HashMap<String, String>();
         this.userInfo.put("admin", "admin");
     }
-
 
 
     /**
@@ -41,8 +36,13 @@ public class LoginInfo implements Serializable {
         return result;
     }
 
-
-    public boolean checkUsername(String username){
+    /**
+     * check whether userInfo contains current user.
+     *
+     * @param username the name of current user.
+     * @return true if current user exist.
+     */
+    public boolean checkUsername(String username) {
         boolean result = userInfo.containsKey(username);
         return result;
     }
@@ -55,12 +55,10 @@ public class LoginInfo implements Serializable {
      * @param password The password that the user attempts to login with.
      * @return Whether the username and password is valid.
      */
-    public boolean Authenticate (String username, String password) {
+    public boolean Authenticate(String username, String password) {
         return userInfo.get(username).equals(password);
 
     }
-
-
 
 
     /**
@@ -69,21 +67,26 @@ public class LoginInfo implements Serializable {
      *
      * @param username The username to register.
      * @param password The password to use.
-     * @param repeat The password that the user entered for a second time.
+     * @param repeat   The password that the user entered for a second time.
      * @return If the registration is successful.
      */
-    public boolean Register (String username, String password, String repeat) {
+    public boolean Register(String username, String password, String repeat) {
 
-        if(password.equals(repeat) && isValidUserName(username)){
+        if (password.equals(repeat) && isValidUserName(username)) {
             userInfo.put(username, password);
             return true;
-        }else{
+        } else {
             return false;
         }
 
     }
 
-    public void resetPassword(String userName, String password){
+    /**
+     * reset the user password
+     * @param userName the current user name.
+     * @param password the new password.
+     */
+    public void resetPassword(String userName, String password) {
         userInfo.put(userName, password);
     }
 }
