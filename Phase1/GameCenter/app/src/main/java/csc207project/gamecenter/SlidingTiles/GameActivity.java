@@ -123,6 +123,7 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         //Load the database.
         userData = loadFromFile(GameCentre.USER_DATA_FILE).equals(-1) ?
                 new WQWDatabase() : (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
+        saveToFile(GameCentre.USER_DATA_FILE, userData);
 
         //Update the time which the user played before starting the game.
         preStartTime = userData.getTime(username, "SlidingTiles");
@@ -150,7 +151,7 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
                 saveToFile(GameCentre.USER_DATA_FILE, userData);
             }
         };
-        timer.schedule(task, 0, 5000);
+        timer.schedule(task, 0, 1000);
 
         //Set up the timer displayed on the system UI.
         TextView timePlayed;
