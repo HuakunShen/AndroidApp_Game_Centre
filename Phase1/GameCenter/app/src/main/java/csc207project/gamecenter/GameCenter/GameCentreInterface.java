@@ -148,22 +148,36 @@ public class GameCentreInterface extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_first_layout) {
-            if (username.equals("admin")) {
-                Toast.makeText(GameCentreInterface.this,
-                        "admin cannot change password!", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent toChangePassword = new Intent(this, NavChangePassword.class);
-                toChangePassword.putExtra("userName", username);
-                startActivity(toChangePassword);
-            }
-        } else if (id == R.id.nav_second_layout) {
-            Intent toScoreBoard = new Intent(this, NavScoreBoard.class);
-            startActivity(toScoreBoard);
+        if (id == R.id.change_password) {
+            goToSetting();
+        } else if (id == R.id.score_board) {
+            goToScoreBoard();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * go to scoreBoard.
+     */
+    private void goToScoreBoard() {
+        Intent toScoreBoard = new Intent(this, NavScoreBoard.class);
+        startActivity(toScoreBoard);
+    }
+
+    /**
+     * things need to do when click setting.
+     */
+    private void goToSetting() {
+        if (username.equals("admin")) {
+            Toast.makeText(GameCentreInterface.this,
+                    "admin cannot change password!", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent toChangePassword = new Intent(this, NavChangePassword.class);
+            toChangePassword.putExtra("userName", username);
+            startActivity(toChangePassword);
+        }
     }
 
     @Override

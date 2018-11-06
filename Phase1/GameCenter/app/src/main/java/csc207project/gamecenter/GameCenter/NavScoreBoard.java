@@ -12,6 +12,4 @@ public class NavScoreBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_scoreboard);
     }
-
-
 }
