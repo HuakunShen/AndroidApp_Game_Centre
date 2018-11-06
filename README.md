@@ -8,7 +8,9 @@
 
 3. Build and run the app
 
+## Meeting Note
 
+* notes are recorded in a folder called note in the group folder.
 
    ## SaveFiles
 
@@ -42,7 +44,7 @@ Not implemented yet:
   - Or click sign up, and set username and password (repeat password must match)
 
 * Basic Menu: On the user interface immediately after logging in, user can slide from the left most
-            edge to the right side to open menu. (the left most edge is important)
+        ​    edge to the right side to open menu. (the left most edge is important)
 
 * Change Password: There is an option in setting for the user to change password.
 
