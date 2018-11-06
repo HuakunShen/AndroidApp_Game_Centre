@@ -1,6 +1,5 @@
 package csc207project.gamecenter.SlidingTiles;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -27,8 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import csc207project.gamecenter.AutoSave.AutoSave;
 import csc207project.gamecenter.Data.WQWDatabase;
@@ -50,44 +47,97 @@ public class StartingActivity extends AppCompatActivity implements AutoSave {
      * A temporary save file.
      */
     public static final String TEMP_SAVE_FILENAME = "save_file_tmp.ser";
+    /**
+     * The request code.
+     */
     private static final int SELECT_IMAGE = 1801;
     /**
      * The board manager.
      */
     private BoardManager boardManager;
 
+    /**
+     * The current user.
+     */
     private String currentUser;
 
+    /**
+     * A data base that stores info for current user.
+     */
     private WQWDatabase userData;
 
+    /**
+     * The maximum undoes that a user can access in a game.
+     */
     private EditText undoLimit;
 
+    /**
+     * The max undo limit that the user can set.
+     */
     private final int MAX_UNDO_LIMIT = 20;
 
+    /**
+     * The package name.
+     */
     public static String PACKAGE_NAME;
+    /**
+     * The resources.
+     */
     public static Resources RESOURCES;
 
-    private static final int SELECTED_IMAGE = 1801;
-
+    /**
+     * A button that checks play with image.
+     */
     public RadioButton withImageButton;
+    /**
+     * A button that checks play with numbers.
+     */
     public RadioButton withNumberButton;
+    /**
+     * A group that stores the previous buttons.
+     */
     public RadioGroup radioButtonGroup;
+    /**
+     * If play with image is checked.
+     */
     private boolean withImage;
 
+    /**
+     * The uri of the imported image.
+     */
     Uri imageUri;
+    /**
+     * The button to switch to import image.
+     */
     ImageButton importButton;
+    /**
+     * The imported image in the correct ratio.
+     */
     Bitmap bitmapCut;
+    /**
+     * An array that stores 9 slices of the imported image.
+     */
     public static Bitmap[] tileImages3x3  = new Bitmap[9];
+    /**
+     * An array that stores 16 slices of the imported image.
+     */
     public static Bitmap[] tileImages4x4  = new Bitmap[16];
+    /**
+     * An array that stores 25 slices of the imported image.
+     */
     public static Bitmap[] tileImages5x5  = new Bitmap[25];
-
-
 
     /**
      * The difficulties can be selected.
      */
     Spinner select_diff;
+    /**
+     * The difficulties that the user will see.
+     */
     private String[] list_diff = new String[]{"Easy(3x3)", "Normal(4x4)", "Hard(5x5)"};
+    /**
+     * The difficulties that the user selects.
+     */
     private int selected_diff;
 
     @Override
