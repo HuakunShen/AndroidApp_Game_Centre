@@ -11,6 +11,8 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,6 +65,10 @@ public class GameActivity extends AppCompatActivity implements Observer{
      */
     private TextView warning;
 
+    /**
+     * Display steps
+     */
+    private TextView displayStep;
 
     /**
      * The time which the user has played before starting this game.
@@ -115,6 +121,8 @@ public class GameActivity extends AppCompatActivity implements Observer{
 
         addUndoButtonListener();
 
+        addStepDisplayListener();
+
         //Set up the Auto-saving function.
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
@@ -164,6 +172,8 @@ public class GameActivity extends AppCompatActivity implements Observer{
             });
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -208,6 +218,9 @@ public class GameActivity extends AppCompatActivity implements Observer{
     public void update(Observable o, Object arg) {
         userData.setStep(username, "SlidingTiles",
                 userData.getStep(username, "SlidingTiles") + 1);
+        String textToDisplay = "Steps: " +
+                ((Integer) userData.getStep(username, "SlidingTiles")).toString();
+        displayStep.setText(textToDisplay);
         if (boardManager.userExist(username)) {
             boardManager.addState(username, new Board(boardManager.getBoard().getTiles()));
         } else {
@@ -235,6 +248,14 @@ public class GameActivity extends AppCompatActivity implements Observer{
     }
 
     /**
+     * Set up the step display textView
+     */
+    private void addStepDisplayListener() {
+        displayStep = findViewById(R.id.stepTextView);
+        displayStep.setText("Step: 0");
+    }
+
+    /**
      * Set up the undo button.
      */
     private void addUndoButtonListener() {
@@ -250,14 +271,19 @@ public class GameActivity extends AppCompatActivity implements Observer{
                     warning.setText("Exceeds Undo-Limit!");
                     warning.setVisibility(View.VISIBLE);
                     warning.setError("Exceeds Undo-Limit! ");
+                    displayStep.setVisibility(View.INVISIBLE);
+
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             warning.setVisibility(View.INVISIBLE);
+                            displayStep.setVisibility(View.VISIBLE);
                         }
                     }, 1000);
                 }
+
+
             }
         });
     }
