@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -27,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.time.Duration;
 
+import csc207project.gamecenter.Data.ScoreDatabase;
 import csc207project.gamecenter.Data.WQWDatabase;
 import csc207project.gamecenter.GameCenter.GameCentre;
 import csc207project.gamecenter.R;
@@ -34,7 +36,11 @@ import csc207project.gamecenter.R;
 /**
  * The game activity.
  */
-public class GameActivity extends AppCompatActivity implements Observer{
+public class GameActivity extends AppCompatActivity implements Observer {
+
+    public static final String SCORE_SAVE_FILE = "score_save_file.ser";
+    public static final String TEMP_SCORE_SAVE_FILE = "temp_score_save_file.ser";
+
 
     /**
      * The username of the current player
@@ -89,16 +95,24 @@ public class GameActivity extends AppCompatActivity implements Observer{
     private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
 
+    private ScoreDatabase scoreDatabase;
+    private long time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        username = getIntent().getStringExtra("username");
+
+        Log.d("GameActivity get username", "Username: " + username);
+        Toast.makeText(GameActivity.this, username, Toast.LENGTH_SHORT).show();
+        scoreDatabase = loadFromFile(SCORE_SAVE_FILE).equals(-1) ? new ScoreDatabase() :
+                (ScoreDatabase) loadFromFile(SCORE_SAVE_FILE);
 
         //Load the boardManager that Starting Activity loaded/created.
         boardManager = loadFromFile(StartingActivity.TEMP_SAVE_FILENAME).equals(-1) ?
                 new BoardManager() : (BoardManager) loadFromFile(StartingActivity.TEMP_SAVE_FILENAME);
 
         //Set the username to the current user.
-        username = StartingActivity.currentUser;
 
         //Update the user's username to boardManager.
         boardManager.setCurrentUser(username);
@@ -142,7 +156,7 @@ public class GameActivity extends AppCompatActivity implements Observer{
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
-                long time = Duration.between(startingTime, LocalTime.now()).toMillis()
+                time = Duration.between(startingTime, LocalTime.now()).toMillis()
                         + preStartTime;
                 finalTimePlayed.setText(timeToString(time));
             }
@@ -157,23 +171,29 @@ public class GameActivity extends AppCompatActivity implements Observer{
 
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
-            new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
-                            this);
-                    int displayWidth = gridView.getMeasuredWidth();
-                    int displayHeight = gridView.getMeasuredHeight();
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
+                                this);
+                        int displayWidth = gridView.getMeasuredWidth();
+                        int displayHeight = gridView.getMeasuredHeight();
 
-                    columnWidth = displayWidth / Board.NUM_COLS;
-                    columnHeight = displayHeight / Board.NUM_ROWS;
+                        columnWidth = displayWidth / Board.NUM_COLS;
+                        columnHeight = displayHeight / Board.NUM_ROWS;
 
-                    display();
-                }
-            });
+                        display();
+                    }
+                });
+
     }
 
-
+    private Integer calculateScore() {
+        int step = userData.getStep(username, "SlidingTiles") + 1;
+        int timeInSec = (int) time / 1000;
+        Integer score = new Integer(10000 / (step + timeInSec));
+        return score;
+    }
 
     @Override
     protected void onResume() {
@@ -228,7 +248,13 @@ public class GameActivity extends AppCompatActivity implements Observer{
             boardManager.addUser(username);
             boardManager.addState(username, new Board(boardManager.getBoard().getTiles()));
         }
+        if (boardManager.puzzleSolved()) {
+            Integer score = calculateScore();
+            scoreDatabase.storeData(username, "Sliding Tile", score);
+            saveToFile(SCORE_SAVE_FILE, scoreDatabase);
+        }
         display();
+
     }
 
     /**
@@ -266,7 +292,7 @@ public class GameActivity extends AppCompatActivity implements Observer{
             public void onClick(View view) {
                 if (boardManager.undoAvailable(username)) {
                     boardManager.touchMove(boardManager.popUndo(username));
-                }else{
+                } else {
                     warning.setText("Exceeds Undo-Limit!");
                     warning.setVisibility(View.VISIBLE);
                     warning.setError("Exceeds Undo-Limit! ");
@@ -318,21 +344,16 @@ public class GameActivity extends AppCompatActivity implements Observer{
             if (tile_id == Board.NUM_ROWS * Board.NUM_COLS
                     || StartingActivity.tileImages3x3[0] == null) {
                 b.setBackgroundResource(board.getTile(row, col).getBackground());
-            }
-            else if (board.difficulty == 3) {
+            } else if (board.difficulty == 3) {
                 b.setBackground(new BitmapDrawable(StartingActivity.tileImages3x3[tile_id]));
-            }
-            else if (board.difficulty == 4) {
+            } else if (board.difficulty == 4) {
                 b.setBackground(new BitmapDrawable(StartingActivity.tileImages4x4[tile_id]));
-            }
-            else if (board.difficulty == 5) {
+            } else if (board.difficulty == 5) {
                 b.setBackground(new BitmapDrawable(StartingActivity.tileImages5x5[tile_id]));
             }
             nextPos++;
         }
     }
-
-
 
 
     /**
@@ -378,20 +399,20 @@ public class GameActivity extends AppCompatActivity implements Observer{
     /**
      * Formats the time in milliseconds to HH:MM:SS.
      */
-    String timeToString(long time){
+    String timeToString(long time) {
         Integer hour = (int) (time / 3600000);
         Integer min = (int) ((time % 3600000) / 60000);
         Integer sec = (int) ((time % 3600000 % 60000) / 1000);
         String hourStr = hour.toString();
         String minStr = min.toString();
         String secStr = sec.toString();
-        if(hour < 10){
+        if (hour < 10) {
             hourStr = "0" + hourStr;
         }
-        if(min < 10){
+        if (min < 10) {
             minStr = "0" + minStr;
         }
-        if(sec < 10){
+        if (sec < 10) {
             secStr = "0" + secStr;
         }
         return hourStr + ":" + minStr + ":" + secStr;

@@ -68,6 +68,7 @@ public class GameCentreInterface extends AppCompatActivity
         addSlidingTilesButton();
         // get name from previous activity.
         username = getIntent().getStringExtra("username");
+        Log.d("Game Center Interface", "username: " + username);
         addNavigationView();
 
     }
@@ -131,7 +132,7 @@ public class GameCentreInterface extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent = new Intent(GameCentreInterface.this,
                         StartingActivity.class);
-                intent.putExtra("userName", username);
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });

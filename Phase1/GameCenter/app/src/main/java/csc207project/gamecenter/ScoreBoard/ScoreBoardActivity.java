@@ -16,9 +16,11 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
+import csc207project.gamecenter.Data.ScoreDatabase;
 import csc207project.gamecenter.Data.WQWDatabase;
 import csc207project.gamecenter.GameCenter.GameCentre;
 import csc207project.gamecenter.R;
+import csc207project.gamecenter.SlidingTiles.GameActivity;
 
 public class ScoreBoardActivity extends AppCompatActivity {
 
@@ -26,16 +28,19 @@ public class ScoreBoardActivity extends AppCompatActivity {
     private String username;
     private String score;
     private WQWDatabase database;
-    private ArrayList<String[]> dataList;
+    private ArrayList<ArrayList<Object>> dataList;
     private TableLayout scoreboardTable;
+    private ScoreDatabase scoreDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_score_board);
         scoreboardTable = findViewById(R.id.scoreboardTable);
-        database = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
-        dataList = database.getDataForScoreBoard();     // ArrayList<String[]>
+        scoreDatabase = loadFromFile(GameActivity.SCORE_SAVE_FILE).equals(-1) ?
+                new ScoreDatabase(): (ScoreDatabase) loadFromFile(GameActivity.SCORE_SAVE_FILE);
+        dataList = scoreDatabase.getDataForScoreBoard();     // ArrayList<String[]>
 
 
         addText();
@@ -44,9 +49,13 @@ public class ScoreBoardActivity extends AppCompatActivity {
     private void addText() {
         for (int rowNum = 0; rowNum < dataList.size(); rowNum++) {
             TableRow row = new TableRow(this);
-            for (int colNum = 0; colNum < dataList.get(rowNum).length; colNum++) {
+            for (int colNum = 0; colNum < dataList.get(rowNum).size(); colNum++) {
                 TextView text = new TextView(this);
-                text.setText(dataList.get(rowNum)[colNum]);
+                if(colNum != 2){
+                    text.setText((String) dataList.get(rowNum).get(colNum));
+                }else{
+                    text.setText((dataList.get(rowNum).get(colNum)).toString());
+                }
                 switch (colNum) {
                     case 0:
                         text.setWidth(70);

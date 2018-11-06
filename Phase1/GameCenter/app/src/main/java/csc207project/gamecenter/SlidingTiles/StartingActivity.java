@@ -56,7 +56,7 @@ public class StartingActivity extends AppCompatActivity {
      */
     private BoardManager boardManager;
 
-    public static String currentUser;
+    private String currentUser;
 
     private EditText undoLimit;
 
@@ -100,6 +100,8 @@ public class StartingActivity extends AppCompatActivity {
         saveToFile(TEMP_SAVE_FILENAME, boardManager);
 
         currentUser = getIntent().getStringExtra("username");
+
+        Log.d("Starting Activity get username", "Username: " + currentUser);
         setContentView(R.layout.activity_starting_);
         addStartButtonListener();
         addLoadButtonListener();
@@ -409,6 +411,7 @@ public class StartingActivity extends AppCompatActivity {
     private void switchToGame() {
         Intent tmp = new Intent(this, GameActivity.class);
         tmp.putExtra("username", currentUser);
+        Log.d("Switch TO Game", "Username: " + currentUser);
 
         saveToFile(StartingActivity.TEMP_SAVE_FILENAME, boardManager);
         startActivity(tmp);

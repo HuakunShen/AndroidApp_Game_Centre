@@ -15,8 +15,10 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import csc207project.gamecenter.Data.ScoreDatabase;
 import csc207project.gamecenter.Data.WQWDatabase;
 import csc207project.gamecenter.R;
+import csc207project.gamecenter.SlidingTiles.GameActivity;
 
 
 public class GameCentre extends AppCompatActivity implements View.OnClickListener {
@@ -53,6 +55,7 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_centre);
+        saveToFile(GameActivity.TEMP_SCORE_SAVE_FILE, new ScoreDatabase());
         loginInfo = new LoginInfo();
         userData = new WQWDatabase();
         saveToFile(TEMP_SAVE_FILENAME, loginInfo);
