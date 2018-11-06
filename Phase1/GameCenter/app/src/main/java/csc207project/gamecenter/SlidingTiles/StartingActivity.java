@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -64,6 +66,11 @@ public class StartingActivity extends AppCompatActivity {
     public static Resources RESOURCES;
 
     private static final int SELECTED_IMAGE = 1801;
+
+    public RadioButton withImageButton;
+    public RadioButton withNumberButton;
+    public RadioGroup radioButtonGroup;
+
     Uri imageUri;
     ImageButton importButton;
     Bitmap bitmapCut;
@@ -95,6 +102,7 @@ public class StartingActivity extends AppCompatActivity {
         addLoadButtonListener();
         addSaveButtonListener();
         addImportButtonListener();
+        addRadioButtonListener();
         select_diff = findViewById(R.id.list_diff_sele);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
@@ -118,8 +126,31 @@ public class StartingActivity extends AppCompatActivity {
         });
     }
 
+    private void addRadioButtonListener() {
+        radioButtonGroup = findViewById(R.id.radioGroup);
+        withImageButton = findViewById(R.id.withImageButton);
+        withNumberButton = findViewById(R.id.withNumberButton);
+        withImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(StartingActivity.this, "With Image Selected",
+                        Toast.LENGTH_SHORT).show();
+                importButton.setVisibility(View.VISIBLE);
+            }
+        });
+        withNumberButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(StartingActivity.this, "With Image Selected",
+                        Toast.LENGTH_SHORT).show();
+                importButton.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
     private void addImportButtonListener() {
         importButton = findViewById(R.id.select_image);
+        importButton.setVisibility(View.INVISIBLE);
         importButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
