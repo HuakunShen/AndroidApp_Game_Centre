@@ -47,22 +47,23 @@ public class GameCentreInterface extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game_centre_interface);
 
         loadFromFile(SAVE_NICKNAMES);
         loadFromFile(SAVE_AVATARS);
-        setContentView(R.layout.activity_game_centre_interface);
+
         SlidingTiles = findViewById(R.id.SlidingTiles);
+        SlidingTiles.setOnClickListener(this);
 
         username = getIntent().getStringExtra("username");
 
-        SlidingTiles.setOnClickListener(this);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerView = navigationView.getHeaderView(0);
         LinearLayout header =  headerView.findViewById(R.id.nav_header);
         icon = header.findViewById(R.id.userIcon);
-        icon.setImageResource(R.mipmap.cool_jason);
+
         if (avatars.containsKey(username)) {
             icon.setImageURI(Uri.parse(avatars.get(username)));
         }else{
@@ -78,6 +79,7 @@ public class GameCentreInterface extends AppCompatActivity
 //                drawer.closeDrawer(GravityCompat.START);
             }
         });
+
         TextView userAccountName = headerView.findViewById(R.id.userAccountName);
         userAccountName.setText(username);
         userNickName = headerView.findViewById(R.id.userNickName);
@@ -135,9 +137,14 @@ public class GameCentreInterface extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_first_layout) {
-            Intent toChangePassword = new Intent(this, NavChangePassword.class);
-            toChangePassword.putExtra("userName",username);
-            startActivity(toChangePassword);
+            if (username.equals("admin")){
+                Toast.makeText(GameCentreInterface.this,
+                        "admin cannot change password!", Toast.LENGTH_SHORT).show();
+            }else {
+                Intent toChangePassword = new Intent(this, NavChangePassword.class);
+                toChangePassword.putExtra("userName", username);
+                startActivity(toChangePassword);
+            }
         } else if (id == R.id.nav_second_layout) {
             Intent toScoreBoard = new Intent(this, NavScoreBoard.class);
             startActivity(toScoreBoard);
