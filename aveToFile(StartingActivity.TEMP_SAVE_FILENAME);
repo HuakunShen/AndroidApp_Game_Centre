@@ -1,0 +1,483 @@
+[33mcommit a9b7726dbcedcb198d81637d6dc747544f7d59a5[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sun Nov 4 19:55:17 2018 -0500
+
+    Guys! Now different user can access their saved boards correctly!
+
+[33mcommit c4bad31249a8b95720e929e79b8bcae163d702fd[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sun Nov 4 16:00:44 2018 -0500
+
+    Finished the undo function. It now works perfectly. However, now different users loads the same board when loading the old game. Now working this issue...
+
+[33mcommit addddc48496dff64e3231f41d29487d5637d223f[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sat Nov 3 22:30:40 2018 -0400
+
+    One of the 8 wonders of the world! I made it! Undo now works! However, redo don't seem to be working... Still working on that...
+
+[33mcommit fb4df701ddc6b84da054935e47bd49d1fe3dfef3[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sat Nov 3 20:32:33 2018 -0400
+
+    Changed how the board should be loaded. The greatest experiment of the 21st century!
+
+[33mcommit f97d8f1915b60932e67f67bbdb1ff505088d58a0[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sat Nov 3 20:02:39 2018 -0400
+
+    Completed the StateStack class and changed the board manager.
+
+[33mcommit ca4fd55fe8d25a6fcedb70b082b95006baa46486[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sat Nov 3 15:31:11 2018 -0400
+
+    Trying to merge conflict.
+
+[33mcommit 0e7691592dc97bd00ee3425376bfcb3133915108[m
+Merge: fd7b292 0e46071
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sat Nov 3 15:25:25 2018 -0400
+
+    conflict fixed
+
+[33mcommit fd7b2927749227e40282a412839c06a9bb77a3bf[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sat Nov 3 15:19:09 2018 -0400
+
+    add time counting
+
+[33mcommit 0e4607196c093dd54ad7936cbc74cdd805e17fd5[m
+Author: HuakunShen <huakun.shen@mail.utoronto.ca>
+Date:   Sat Nov 3 12:43:22 2018 -0500
+
+    implement undo onclick
+
+[33mcommit f246b4b73a5cbbd5e7d6ae6daf30f6022edeaef3[m
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Sat Nov 3 02:57:30 2018 -0400
+
+    Add undo button and time display box on the layout of the game and, add a note about how to use log, Toast and debugger to debug
+
+[33mcommit ce33b0cc1e9c140f9246623c6ecfafc0b61b8d7e[m
+Merge: f160368 3b430c2
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Sat Nov 3 02:24:43 2018 -0400
+
+    Merge branch 'master' of https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0494
+
+[33mcommit f16036859e61913b220d3af39c9683c8ea0b0e9a[m
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Sat Nov 3 02:24:29 2018 -0400
+
+    change the height of the grid in activity_main.xml
+
+[33mcommit 3b430c2f6f2709ab51e9e89e42f29ff87af1d533[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 23:28:00 2018 -0400
+
+    Setter of capacity in boardManager was created.
+
+[33mcommit e3512df4eda70258e32d9a2e1de5ea797ac9ea95[m
+Merge: 785951f 5219012
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 23:21:29 2018 -0400
+
+    Conflict now fixed.
+
+[33mcommit 785951f885b67f4b48184cb5a987de7a4373fed6[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 23:19:33 2018 -0400
+
+    Reformated the code. Now looks much more comfortable.
+
+[33mcommit 5219012df48dcdb425f15f77b8b95f674aedf70b[m
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Fri Nov 2 23:15:55 2018 -0400
+
+    Fixed the problem of adding state. Many thanks to Weiqing Wang.
+
+[33mcommit bdee3039de941f6ea959bfb6bd92966eded2351a[m
+Merge: dc24096 b6685ea
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Fri Nov 2 23:01:34 2018 -0400
+
+    Merge branch 'master' of https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0494
+
+[33mcommit b6685ead66f17f2a292b51283577ba4ba6db6d07[m
+Author: Xu Wang <xuxu.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 23:00:49 2018 -0400
+
+    Ok
+
+[33mcommit dc240968c2c94e1ff7d7a76f911f1946dec4e6dc[m
+Merge: 46cb487 03312dc
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Fri Nov 2 22:59:36 2018 -0400
+
+    Merge branch 'master' of https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0494
+
+[33mcommit 03312dc2ce5dacfd4aea491422217a053a15130b[m
+Merge: c189ff3 258ee02
+Author: Xu Wang <xuxu.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 22:54:10 2018 -0400
+
+    Conflict fixed
+
+[33mcommit c189ff34a03a084532199efd3740bf95bf0e5ae5[m
+Author: Xu Wang <xuxu.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 22:51:44 2018 -0400
+
+    undo doing...
+
+[33mcommit 258ee02d01b514134e54e130ee7b32bbe90eecc7[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 22:49:47 2018 -0400
+
+    Finallygit add .! Now the autosave function is workinggit add .! Plz buy me a cup of coffee if you like it.
+
+[33mcommit 5d5f11561f643f5a148717a06730b0a6354d144d[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 21:26:00 2018 -0400
+
+    Fixed a conflict
+
+[33mcommit 46cb487c839d0b95017f1c6e5c12f4fde4916652[m
+Merge: 24b0499 aa273bb
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Fri Nov 2 21:23:20 2018 -0400
+
+    commit
+
+[33mcommit 24b0499e6f70df21fc506a5c7a841870e259a10b[m
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Fri Nov 2 21:22:03 2018 -0400
+
+    commit
+
+[33mcommit aa273bb8593873bd1048a960c1c6ba221c355c2c[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 21:19:49 2018 -0400
+
+    Second trial for autosave.
+
+[33mcommit c143874e18bc4b4a1e9811d47819a360c9178f3d[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 21:15:55 2018 -0400
+
+    Second trial for autosave.
+
+[33mcommit fac9ef6e2e5897e3fd62a465491aa1b29f6382fe[m
+Merge: eaf2d0d ffe0098
+Author: Xu Wang <xuxu.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 21:04:24 2018 -0400
+
+    Merge branch 'master' of https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0494
+
+[33mcommit eaf2d0d83ac87afb74293a25700a73a085b490a3[m
+Author: Xu Wang <xuxu.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 21:04:19 2018 -0400
+
+    newest version
+
+[33mcommit ffe0098ecf668482ffe3764238f0410e65eff370[m
+Merge: ebb85a6 7d441b7
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 20:43:13 2018 -0400
+
+    erge branch 'master' of https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0494
+    
+    q Please enter a commit message to explain why this merge is necessary,
+
+[33mcommit ebb85a6420f74d10304f4aa6c64302898f0f88a5[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 20:41:44 2018 -0400
+
+    Started auto save interface.
+
+[33mcommit 7d441b7997bf5978b4b64d935e512d949afd10a8[m
+Author: Xu Wang <xuxu.wang@mail.utoronto.ca>
+Date:   Fri Nov 2 20:27:28 2018 -0400
+
+    add stacks for undo
+
+[33mcommit 56696a5c4c0239080420b1d1f2714e06e4239edd[m
+Merge: 603e965 914f7e3
+Author: Jato Xiang <jiatao.xiang@mail.utoronto.ca>
+Date:   Thu Nov 1 22:12:49 2018 -0400
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 603e96576cd0f310be3ff3cfe224c606ab09ab15[m
+Author: Jato Xiang <jiatao.xiang@mail.utoronto.ca>
+Date:   Thu Nov 1 22:12:28 2018 -0400
+
+    add Undo interface
+
+[33mcommit 914f7e3c6a7f1f15e432a8c13234cdce3e32ab56[m
+Author: Yuan Xu <xuyuan.xu@mail.utoronto.ca>
+Date:   Thu Nov 1 22:06:58 2018 -0400
+
+    add import image to NewGame(v2 fix)
+
+[33mcommit 0142259ef88ce343705f748a3dca1dd67c2e9d5b[m
+Author: Yuan Xu <xuyuan.xu@mail.utoronto.ca>
+Date:   Thu Nov 1 22:04:08 2018 -0400
+
+    added spinner for the user to choose difficulty
+
+[33mcommit 56c6027bc0ef0b975b16a88f09d14a59319beca3[m
+Author: Jato Xiang <jiatao.xiang@mail.utoronto.ca>
+Date:   Wed Oct 31 01:45:57 2018 -0400
+
+    add autoSave feature to slidingTile
+
+[33mcommit b5bd38eb7d4b0605c7b89e1de2f281de6ff9a224[m
+Author: Jato Xiang <jiatao.xiang@mail.utoronto.ca>
+Date:   Wed Oct 31 01:41:54 2018 -0400
+
+    modify AutoSave Interface
+
+[33mcommit b4fafa4eee547341baead9dfe7ce7daab5594837[m
+Author: Yuan Xu <xuyuan.xu@mail.utoronto.ca>
+Date:   Wed Oct 31 01:26:40 2018 -0400
+
+    add import image to NewGame
+
+[33mcommit 2d3ac933ed5999a226fa07483c85cc21f2d98c8e[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Wed Oct 31 01:08:31 2018 -0400
+
+    add a note about time counting
+
+[33mcommit 3aa53611db28adff8bd16ced3639a8761050893d[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Wed Oct 31 00:49:26 2018 -0400
+
+    commit
+
+[33mcommit e80f8089402bde22390d84d171eff6c6dd75977f[m
+Author: Yuan Xu <xuyuan.xu@mail.utoronto.ca>
+Date:   Tue Oct 30 21:34:16 2018 -0400
+
+    NewGameActivity added
+
+[33mcommit 3c400cebd052ec31c5a277a1f6d9eb2ce10693b8[m
+Author: Jato Xiang <jiatao.xiang@mail.utoronto.ca>
+Date:   Tue Oct 30 15:45:31 2018 -0400
+
+    modify AutoSave Interface
+
+[33mcommit e8a88940a7eca3bb1287668de32501cb8c6b6b3f[m
+Merge: f7bbcf9 91fed47
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Tue Oct 30 14:32:27 2018 -0400
+
+    Merge branch 'master' of https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0494
+
+[33mcommit f7bbcf9065380b5f1fc03d9282798fa9be11fd8d[m
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Tue Oct 30 14:32:18 2018 -0400
+
+    use putExtra to send username to Sliding Tiles for getting game history
+
+[33mcommit 91fed472b6dd33b7636c0d374d28b981afa4ea51[m
+Author: Jato Xiang <jiatao.xiang@mail.utoronto.ca>
+Date:   Tue Oct 30 14:22:19 2018 -0400
+
+    Uncommented the setTimer method.
+
+[33mcommit 3504809d43541d8b2cba5b9d9f5e6cec41c1dd7a[m
+Merge: cf83721 584ea67
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Tue Oct 30 14:14:04 2018 -0400
+
+    Merge branch 'master' of https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0494
+
+[33mcommit cf8372188215592d431183f1b514f39575c09786[m
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Tue Oct 30 14:13:51 2018 -0400
+
+    extract onClick method in AccountRegistration
+
+[33mcommit 584ea67b399a660cd31e849c837a6584db579f58[m
+Merge: 3da5ca7 24913eb
+Author: Jato Xiang <jiatao.xiang@mail.utoronto.ca>
+Date:   Tue Oct 30 14:08:10 2018 -0400
+
+    Merge branch 'master' of https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0494
+
+[33mcommit 3da5ca7540b585395586976fdbf69ef1dd8fccbe[m
+Author: Jato Xiang <jiatao.xiang@mail.utoronto.ca>
+Date:   Tue Oct 30 14:02:26 2018 -0400
+
+    add field in autoSave
+
+[33mcommit 24913eb1be7336fec59753f3137d891492e1b416[m
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Tue Oct 30 13:56:13 2018 -0400
+
+    sign up serializable problem fixed, now can register
+
+[33mcommit 7047899e267a460a43ebd0e5107df08a56fc70fe[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Tue Oct 30 05:26:46 2018 -0400
+
+    update
+
+[33mcommit 596cf340b5bc967f988e169cd641a7d0eb65223b[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Tue Oct 30 04:40:24 2018 -0400
+
+    serializable bug not fixed
+
+[33mcommit c9efe5673257cdee0eaf2efb4a780d9062eb01f2[m
+Merge: 38ae2bd 2da306e
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Tue Oct 30 03:49:02 2018 -0400
+
+    Merge branch 'master' of https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0494
+
+[33mcommit 38ae2bd99c478877820bd96d837e79e3281d0b1f[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Tue Oct 30 03:48:58 2018 -0400
+
+    serializable implemented to GameCenter and AccountRegistration. But not working now, don't know why
+
+[33mcommit 2da306e04d5beaf0ca37e8d6cc91601376ff6264[m
+Author: Jato Xiang <jiatao.xiang@mail.utoronto.ca>
+Date:   Mon Oct 29 22:49:59 2018 -0400
+
+    add AutoSave Interface
+
+[33mcommit b882dc1494995bfbbcf83b177c5639f81e13cfc5[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Mon Oct 29 22:12:52 2018 -0400
+
+    add linear layout (vertical) to scroll view, fix app menu. Not important
+
+[33mcommit afdfd8900db298aa85e398c79d29312dc6fc3895[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Mon Oct 29 21:38:54 2018 -0400
+
+    change app launcher icon
+
+[33mcommit 5a0032dd1349234f2acdfe35531bf8fd2bf708f3[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Mon Oct 29 19:42:44 2018 -0400
+
+    seperate all class files into two packages for clarity
+
+[33mcommit 4ead04f5174d88094dcf3136480949ef65b74d15[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Mon Oct 29 16:48:54 2018 -0400
+
+    change launcher icon to jason :)
+
+[33mcommit 67b8a5916b79f08db79637acd488a77f33df3372[m
+Author: Shen Huakun <shenhuak@teach.cs.toronto.edu>
+Date:   Mon Oct 29 15:00:11 2018 -0400
+
+    tutorial end, update commit
+
+[33mcommit 2bf69f1a3e52fea2d3e777e8a776325d69d15e7a[m
+Author: Shen Huakun <shenhuak@teach.cs.toronto.edu>
+Date:   Mon Oct 29 14:47:27 2018 -0400
+
+    Created the game centre interface!
+
+[33mcommit f9de03b8240a5522613c4583b95c8154411a7708[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Mon Oct 29 04:06:57 2018 -0400
+
+    implemented login and register functions
+
+[33mcommit e5df6ab46c3492634c01a4313b7373d99d2039f2[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sun Oct 28 23:59:46 2018 -0400
+
+    Edited BoardManager.java
+
+[33mcommit ab698accdeec6ed3c03f654a14be8bf1779500fb[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sun Oct 28 22:54:50 2018 -0400
+
+    Created the account registration layout.
+
+[33mcommit 45ab6769b12e2ec8dab7bb0204f4863b150c5b57[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sun Oct 28 22:36:58 2018 -0400
+
+    Completed the LoginInfo class.
+
+[33mcommit 19c009c7ea5715204bec7a92b96b45d8c24d9fcc[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Sun Oct 28 18:39:18 2018 -0400
+
+    add notes folder to Folder group_0494, contains all notes about using android studio and git commands
+
+[33mcommit 9ff994f1b1789e542e78b696006125d2c54f4272[m
+Author: Huakun Shen <huakun.shen@mail.utoronto.ca>
+Date:   Sun Oct 28 18:25:15 2018 -0400
+
+    change the app name to Game Centre, add StartingActivity to Manifests, then we can navigate to sliding tiles from GameCentre.
+
+[33mcommit 904dfaee3fed9489a5f9500b0beb0a52fe3694d9[m
+Author: Huakun Shen <shenhuakun@outlook.com>
+Date:   Sun Oct 28 17:15:06 2018 -0400
+
+    add activity_game_centre.xml landscape layout
+
+[33mcommit 859879a6be4ea3cff7b5ba9f0c1bf71cb0fa216e[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sun Oct 28 15:12:59 2018 -0400
+
+    successfully added sign in sign up button
+
+[33mcommit 4cecacfdd7e7b34ba73f52d1b55a1ccfdc327444[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sun Oct 28 14:47:05 2018 -0400
+
+    Edited the sign in layout
+
+[33mcommit 47c6d2972b556fdc32dc7e1c5fb7044288f74d18[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sun Oct 28 14:34:23 2018 -0400
+
+    added signin, signup listener
+
+[33mcommit fd9c97e4f7263ad90dcb781e4eef9ad4e0c46384[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sun Oct 28 14:13:47 2018 -0400
+
+    Created a layout for log in.
+
+[33mcommit b7afcd09f761a6a5c172cf6d1fea5518d18eb9ea[m
+Author: Weiqing Wang <weiqing.wang@mail.utoronto.ca>
+Date:   Sun Oct 28 13:14:32 2018 -0400
+
+    Edited .gitignore
+
+[33mcommit 1d3e722e7c1e55fcba123ec9f4a49c6f3d205599[m
+Author: Huakun <huakun.shen@mail.utoronto.ca>
+Date:   Thu Oct 25 14:58:21 2018 -0400
+
+    successfully migrate A2 to GameCenter, everyone should clone now
+
+[33mcommit ee23baade8fe6ff55fe501f6e9e646eb9f1ae11e[m
+Author: Huakun Shen <shenhuakun@outlook.com>
+Date:   Wed Oct 24 17:08:03 2018 -0400
+
+    add .gitignore
+
+[33mcommit b203460987e0db1337f9fa867fecad32af5b07c6[m
+Author: Markus <markus@markus.com>
+Date:   Tue Oct 16 11:44:43 2018 -0400
+
+    Update files
+
+[33mcommit a9e23f4a6e171937caca8c973cfcb58f98032ba8[m
+Author: Markus <markus@markus.com>
+Date:   Tue Oct 16 11:44:43 2018 -0400
+
+    Initial commit.
