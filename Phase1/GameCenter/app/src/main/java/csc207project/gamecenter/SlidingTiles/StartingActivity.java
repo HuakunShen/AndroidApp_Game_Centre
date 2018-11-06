@@ -106,6 +106,8 @@ public class StartingActivity extends AppCompatActivity {
         addSaveButtonListener();
         addImportButtonListener();
         addRadioButtonListener();
+        withNumberButton.setChecked(true);
+
         select_diff = findViewById(R.id.list_diff_sele);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
