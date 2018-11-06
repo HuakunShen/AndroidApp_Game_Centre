@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import csc207project.gamecenter.Data.StateStack;
+import csc207project.gamecenter.Data.WQWDatabase;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
@@ -19,10 +20,21 @@ class BoardManager implements Serializable {
      */
     private static int capacity = 3;
 
+
     /**
-     * The HaspMap used to store each user's username and a stack of their Sliding tile game states.
+     * The current user of the SlidingTile game.
+     */
+    private String currentUser = null;
+
+    /**
+     * The HashMap used to store each user's username and a stack of their Sliding tile game states.
      */
     private HashMap<String, StateStack<Object>> gameStates = new HashMap<>();
+
+    /**
+     * The HashMap used to store each user's undo movements.
+     */
+    private HashMap<String, StateStack<Integer>> undoStack = new HashMap<>();
 
     /**
      * The board being managed.
@@ -76,7 +88,7 @@ class BoardManager implements Serializable {
         if (gameStates.containsKey(username)) {
             return (Board) gameStates.get(username).get();
         } else {
-            return getBoard();
+            return (new BoardManager()).getBoard();
         }
     }
 
@@ -94,6 +106,15 @@ class BoardManager implements Serializable {
         }
     }
 
+
+
+    /**
+     * Return the current board.
+     */
+    int popUndo(String username) {
+        return undoStack.get(username).pop();
+    }
+
     /**
      * Sets the current board
      */
@@ -102,38 +123,39 @@ class BoardManager implements Serializable {
         this.board.notifyObservers();
     }
 
-    /**
-     * Returns the status file of the game.
-     */
-    HashMap getGameStates() {
-        return gameStates;
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
     }
 
     /**
      * Sets how many times could the user undo.
      */
     public void setCapacity(String username, int capacity) {
-        gameStates.get(username).setCapacity(capacity);
+        undoStack.get(username).setCapacity(capacity);
     }
 
     /**
-     * Add a new game state into the gameStates.
+     * Add a new game state into the gameStates.admin
      *
      * @param userName
      * @param boardToAdd
      */
     void addState(String userName, Board boardToAdd) {
-        StateStack<Object> theStack = gameStates.get(userName);
-        theStack.put(boardToAdd);
-        gameStates.put(userName, theStack);
+        gameStates.get(userName).put(boardToAdd);
+    }
+
+    void addUndo(int move) {
+        StateStack<Integer> theStack = undoStack.get(currentUser);
+        theStack.put(move);
+        undoStack.put(currentUser, theStack);
     }
 
     /**
      * Returns whether the user has any undo steps.
      */
     boolean undoAvailable(String user) {
-        return gameStates.keySet().contains(user) &&
-                !gameStates.get(user).isEmpty();
+        return undoStack.keySet().contains(user) &&
+                !undoStack.get(user).isEmpty();
     }
 
     /**
@@ -160,6 +182,7 @@ class BoardManager implements Serializable {
      */
     void addUser(String userName) {
         gameStates.put(userName, new StateStack<>(capacity));
+        undoStack.put(userName, new StateStack<Integer>(capacity));
     }
 
     /**
@@ -203,22 +226,32 @@ class BoardManager implements Serializable {
      *
      * @param position the position
      */
-    void touchMove(int position) {
+    int touchMove(int position) {
         int row = position / Board.NUM_ROWS;
         int col = position % Board.NUM_COLS;
         int blankId = board.numTiles();
+        int blank_pos;
         Tile above = row == 0 ? null : board.getTile(row - 1, col);
         Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
         Tile left = col == 0 ? null : board.getTile(row, col - 1);
         if (above != null && above.getId() == blankId) {
             this.board.swapTiles(row - 1, col, row, col);
+            blank_pos = (row - 1) * Board.NUM_ROWS + col;
         } else if (below != null && below.getId() == blankId) {
             this.board.swapTiles(row + 1, col, row, col);
+            blank_pos = (row + 1) * Board.NUM_ROWS + col;
         } else if (left != null && left.getId() == blankId) {
             this.board.swapTiles(row, col - 1, row, col);
+            blank_pos = row * Board.NUM_ROWS + (col - 1);
         } else {
             this.board.swapTiles(row, col + 1, row, col);
+            blank_pos = row * Board.NUM_ROWS + (col + 1)    ;
         }
+        return blank_pos;
     }
 
+
+    public int getDifficulty() {
+        return board.difficulty;
+    }
 }

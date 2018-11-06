@@ -31,6 +31,10 @@ public class StateStack<E> implements Serializable {
         return capacity;
     }
 
+    /**
+     * set undo limit (capacity for this stack)
+     * @param capacity
+     */
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }

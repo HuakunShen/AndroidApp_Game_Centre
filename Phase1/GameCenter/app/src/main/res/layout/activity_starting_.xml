@@ -22,17 +22,19 @@
         android:layout_height="50dp"
         android:layout_below="@+id/GameText"
         android:layout_alignEnd="@+id/_diif_sele"
-        android:layout_marginTop="-1dp"
-        android:layout_marginEnd="7dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="-73dp"
         android:text="New Game" />
 
     <Button
         android:id="@+id/LoadButton"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/GameText"
-        android:layout_marginTop="-1dp"
-        android:layout_marginEnd="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="357dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="252dp"
         android:layout_toStartOf="@+id/StartButton"
         android:text="Load Saved Game"
         android:textSize="12sp" />
@@ -42,8 +44,8 @@
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_below="@+id/GameText"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="-1dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/StartButton"
         android:text="Save Game" />
 
@@ -51,25 +53,88 @@
         android:id="@+id/list_diff_sele"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:layout_alignTop="@+id/_diif_sele"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="-13dp"
-        android:layout_marginEnd="110dp"
-        android:layout_marginBottom="62dp" />
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="482dp"
+        android:layout_marginEnd="193dp"
+        android:layout_marginBottom="50dp" />
 
     <TextView
         android:id="@+id/_diif_sele"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="482dp"
-        android:layout_marginBottom="156dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="495dp"
+        android:layout_marginBottom="143dp"
         android:text="select game difficulty"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
+    <ImageButton
+        android:id="@+id/select_image"
+        android:layout_width="125dp"
+        android:layout_height="160dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginBottom="420dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/import_image" />
+
+    <EditText
+        android:id="@+id/undoLimitInput"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="413dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginBottom="201dp"
+        android:ems="10"
+        android:hint="Undo Limit"
+        android:inputType="number" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginBottom="100dp">
+
+        <RadioButton
+            android:id="@+id/withImageButton"
+            android:layout_width="match_parent"
+            android:textSize="14dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="With Image" />
+
+        <RadioButton
+            android:id="@+id/withNumberButton"
+            android:layout_width="match_parent"
+            android:textSize="14dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="With Number" />
+    </RadioGroup>
+
+
 </RelativeLayout>
+

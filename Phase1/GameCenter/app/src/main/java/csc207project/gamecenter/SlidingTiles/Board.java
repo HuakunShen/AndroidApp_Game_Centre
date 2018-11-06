@@ -28,13 +28,17 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     /**
      * The number of rows.
      */
-    final static int NUM_ROWS = 4;
+    static int NUM_ROWS = 4;
 
     /**
      * The number of rows.
      */
-    final static int NUM_COLS = 4;
+    static int NUM_COLS = 4;
 
+    /**
+     * The difficulty: 3x3 or 4x4 or 5x5
+     */
+    public int difficulty;
     /**
      * The tiles on the board in row-major order.
      */
@@ -47,8 +51,8 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * @param tiles the tiles for the board
      */
     Board(List<Tile> tiles) {
+        difficulty = NUM_ROWS;
         Iterator<Tile> iter = tiles.iterator();
-
         for (int row = 0; row != Board.NUM_ROWS; row++) {
             for (int col = 0; col != Board.NUM_COLS; col++) {
                 this.tiles[row][col] = iter.next();
