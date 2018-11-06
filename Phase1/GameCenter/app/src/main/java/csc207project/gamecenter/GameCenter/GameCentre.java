@@ -146,7 +146,7 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
                         new LoginInfo() : (LoginInfo) loadFromFile(TEMP_SAVE_FILENAME);
                 name = username.getText().toString();
                 pw = password.getText().toString();
-                saveToFile(TEMP_SAVE_FILENAME, userData);
+                saveToFile(TEMP_SAVE_FILENAME, loginInfo);
                 loginCheck();
                 break;
             // When Sign in button is clicked
