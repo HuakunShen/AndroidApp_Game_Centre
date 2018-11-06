@@ -1,8 +1,9 @@
 package csc207project.gamecenter.Data;
 
 import java.io.Serializable;
+import java.lang.Integer;
+import java.lang.Long;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -32,22 +33,21 @@ public class WQWDatabase implements Serializable {
      */
     private HashMap<Integer, Integer> highestScore;
 
-    private static final int USERNAME_INDEX = 0;
-    private static final int GAME_TYPE_INDEX = 1;
-    private static final int STEP_INDEX = 2;
-    private static final int TIME_INDEX = 3;
-    private static final int SCORE_INDEX = 4;
-    private static int id = 0;
+    private final int GAME_TYPE_INDEX = 1;
+    private final int STEP_INDEX = 2;
+    private final int TIME_INDEX = 3;
+    private final int SCORE_INDEX = 4;
+    private int id;
 
     /**
      * Initialize the WQWDatabase class.
      */
     public WQWDatabase() {
-        userID = new HashMap<String, HashMap<String, Integer>>();
-        stepStack = new HashMap<Integer, Integer>();
-        timeStack = new HashMap<Integer, Long>();
-        highestScore = new HashMap<Integer, Integer>();
-        highestScore.put(-1, 0);
+        this.userID = new HashMap<String, HashMap<String, Integer>>();
+        this.stepStack = new HashMap<Integer, Integer>();
+        this.timeStack = new HashMap<Integer, Long>();
+        this.highestScore = new HashMap<Integer, Integer>();
+        this.id = timeStack.keySet().size();
     }
 
     /**
@@ -160,5 +160,22 @@ public class WQWDatabase implements Serializable {
      */
     public boolean isHighestInGame(String username, String gameType) {
         return Collections.max(highestScore.values()) == getScore(username, gameType);
+    }
+
+    /**
+     * Returns the ArrayList of strings for the score board.
+     */
+    public ArrayList<Object[]> getDataForScoreBoard() {
+        ArrayList<Object[]> result = new ArrayList<Object[]>();
+        for (String i : userID.keySet()) {
+            for (String j: userID.get(i).keySet()) {
+                Object[] cache = new Object[3];
+                cache[0] = i;
+                cache[1] = j;
+                cache[2] = getScore(i, j);
+                result.add(cache);
+            }
+        }
+        return result;
     }
 }
