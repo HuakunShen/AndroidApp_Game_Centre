@@ -315,7 +315,8 @@ public class GameActivity extends AppCompatActivity implements Observer{
             int col = nextPos % Board.NUM_COLS;
 
             int tile_id = board.getTile(row, col).getId();
-            if (tile_id == Board.NUM_ROWS * Board.NUM_COLS || StartingActivity.tileImages3x3[0] == null) {
+            if (tile_id == Board.NUM_ROWS * Board.NUM_COLS
+                    || StartingActivity.tileImages3x3[0] == null) {
                 b.setBackgroundResource(board.getTile(row, col).getBackground());
             }
             else if (board.difficulty == 3) {
