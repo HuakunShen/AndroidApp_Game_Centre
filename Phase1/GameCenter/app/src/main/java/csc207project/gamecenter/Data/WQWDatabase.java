@@ -1,6 +1,7 @@
 package csc207project.gamecenter.Data;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -161,4 +162,20 @@ public class WQWDatabase implements Serializable {
     public boolean isHighestInGame(String username, String gameType) {
         return Collections.max(highestScore.values()) == getScore(username, gameType);
     }
+
+    /**
+     *
+     * @return [gameType, username, highest score]
+     */
+//    public ArrayList<String[]> getDataByGame(String gameType){
+//
+//    }
+//
+//    /**
+//     *
+//     * @return an ArrayList of all games
+//     */
+//    public ArrayList<String> getAllGame(){
+////        for()
+//    }
 }

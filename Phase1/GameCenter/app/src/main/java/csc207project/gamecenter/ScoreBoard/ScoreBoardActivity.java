@@ -2,6 +2,7 @@ package csc207project.gamecenter.ScoreBoard;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -9,8 +10,14 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
+import csc207project.gamecenter.Data.WQWDatabase;
+import csc207project.gamecenter.GameCenter.GameCentre;
 import csc207project.gamecenter.R;
 
 public class ScoreBoardActivity extends AppCompatActivity {
@@ -18,52 +25,63 @@ public class ScoreBoardActivity extends AppCompatActivity {
     private String game;
     private String username;
     private String score;
-    private ArrayList<String[]> data;
+    private WQWDatabase database;
+    private ArrayList<String[]> dataList;
     private TableLayout scoreboardTable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_board);
         scoreboardTable = findViewById(R.id.scoreboardTable);
-
-//        game = "Sliding Tiles";
-//        username = "admin";
-//        score = "10";
-        data = new ArrayList<String[]>();
-        String[] array = {"Sliding Tiles", "Cool_Jason", "10"};
-        data.add(array);
-
+        database = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
+        dataList = database.getDataForScoreBoard();     // ArrayList<String[]>
 
 
         addText();
     }
 
     private void addText() {
-        TableRow row = new TableRow(this);
-        for(int i = 0; i < 3; i++){
-            TextView text = new TextView(this);
-            if(i == 0){
-                text.setText(data.get(0)[i]);
-            }else if(i == 1){
-                text.setText(data.get(0)[i]);
-            }else{
-                text.setText(data.get(0)[i]);
+        for (int rowNum = 0; rowNum < dataList.size(); rowNum++) {
+            TableRow row = new TableRow(this);
+            for (int colNum = 0; colNum < dataList.get(rowNum).length; colNum++) {
+                TextView text = new TextView(this);
+                text.setText(dataList.get(rowNum)[colNum]);
+                switch (colNum) {
+                    case 0:
+                        text.setWidth(70);
+                        break;
+                    case 1:
+                        text.setWidth(100);
+                        break;
+                    case 2:
+                        text.setWidth(150);
+                        break;
+                }
+                text.setGravity(Gravity.CENTER);
+                row.addView(text);
             }
-
-//            text.setText(((Integer)i).toString());
-            if(i == 0) {
-                text.setWidth(70);
-            }else if(i == 1){
-                text.setWidth((100));
-            }else{
-                text.setWidth(150);
-            }
-            text.setGravity(Gravity.CENTER);
-//            if(i == 0){
-//                text.setGravity(Gravity.LEFT);
-//            }
-            row.addView(text);
+            scoreboardTable.addView(row);
         }
-        scoreboardTable.addView(row);
+    }
+
+
+    private Object loadFromFile(String fileName) {
+        try {
+            InputStream inputStream = this.openFileInput(fileName);
+            if (inputStream != null) {
+                ObjectInputStream input = new ObjectInputStream(inputStream);
+                Object file = input.readObject();
+                inputStream.close();
+                return file;
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("login activity", "File contained unexpected data type: " + e.toString());
+        }
+        return -1;
     }
 }
