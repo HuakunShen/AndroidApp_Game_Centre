@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,9 +37,11 @@ import csc207project.gamecenter.R;
  */
 public class GameActivity extends AppCompatActivity implements Observer, AutoSave {
 
+    /**
+     * The path to save score.
+     */
     public static final String SCORE_SAVE_FILE = "score_save_file.ser";
 //    public static final String TEMP_SCORE_SAVE_FILE = "temp_score_save_file.ser";
-
 
     /**
      * The username of the current player
@@ -84,19 +84,21 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
     private Long preStartTime;
 
     /**
-     * Constants for swiping directions. Should be an enum, probably.
+     * The grid view.
      */
-    private Button undoButton;
-    public static final int UP = 1;
-    public static final int DOWN = 2;
-    public static final int LEFT = 3;
-    public static final int RIGHT = 4;
-
-    // Grid View and calculated column height and width based on device size
     private GestureDetectGridView gridView;
+    /**
+     * Calculated column height and width based on device size.
+     */
     private static int columnWidth, columnHeight;
 
+    /**
+     * A data base that stores into for calculating scores.
+     */
     private ScoreDatabase scoreDatabase;
+    /**
+     * The time used of a finished game.
+     */
     private long timeForScore;
 
     @Override
@@ -190,6 +192,9 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
 
     }
 
+    /**
+     *The algorithm of calculating the score of a finished SlidingTiles game.
+     */
     private Integer calculateScore() {
         int step = userData.getStep(username, "SlidingTiles") + 1;
         int timeInSec = (int) timeForScore / 1000;
@@ -197,6 +202,9 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         return score;
     }
 
+    /**
+     * Update time when resume.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -220,6 +228,9 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         saveToFile(GameCentre.USER_DATA_FILE, userData);
     }
 
+    /**
+     * Save files on stop.
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -230,6 +241,9 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         saveToFile(GameCentre.USER_DATA_FILE, userData);
     }
 
+    /**
+     * Save files on destroy.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -240,6 +254,9 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
         saveToFile(GameCentre.USER_DATA_FILE, userData);
     }
 
+    /**
+     * Update the observables.
+     */
     @Override
     public void update(Observable o, Object arg) {
         userData.setStep(username, "SlidingTiles",
@@ -350,11 +367,14 @@ public class GameActivity extends AppCompatActivity implements Observer, AutoSav
                     || StartingActivity.tileImages3x3[0] == null) {
                 b.setBackgroundResource(board.getTile(row, col).getBackground());
             } else if (board.difficulty == 3) {
-                b.setBackground(new BitmapDrawable(StartingActivity.tileImages3x3[tile_id]));
+                b.setBackground(new BitmapDrawable(getResources(),
+                        StartingActivity.tileImages3x3[tile_id]));
             } else if (board.difficulty == 4) {
-                b.setBackground(new BitmapDrawable(StartingActivity.tileImages4x4[tile_id]));
+                b.setBackground(new BitmapDrawable(getResources(),
+                        StartingActivity.tileImages4x4[tile_id]));
             } else if (board.difficulty == 5) {
-                b.setBackground(new BitmapDrawable(StartingActivity.tileImages5x5[tile_id]));
+                b.setBackground(new BitmapDrawable(getResources(),
+                        StartingActivity.tileImages5x5[tile_id]));
             }
             nextPos++;
         }

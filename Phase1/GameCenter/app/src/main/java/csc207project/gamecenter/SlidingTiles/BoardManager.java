@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import csc207project.gamecenter.Data.StateStack;
-import csc207project.gamecenter.Data.WQWDatabase;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
@@ -99,8 +98,8 @@ class BoardManager implements Serializable {
     /**
      * Add a new game state into the gameStates.admin
      *
-     * @param userName:
-     * @param boardToAdd w
+     * @param userName the username
+     * @param boardToAdd the current board
      */
     void addState(String userName, Board boardToAdd) {
         gameStates.get(userName).put(boardToAdd);
