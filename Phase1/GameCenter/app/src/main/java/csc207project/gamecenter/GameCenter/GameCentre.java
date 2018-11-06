@@ -55,7 +55,7 @@ public class GameCentre extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_centre);
-        saveToFile(GameActivity.TEMP_SCORE_SAVE_FILE, new ScoreDatabase());
+//        saveToFile(GameActivity.TEMP_SCORE_SAVE_FILE, new ScoreDatabase());
         loginInfo = new LoginInfo();
         userData = new WQWDatabase();
         saveToFile(TEMP_SAVE_FILENAME, loginInfo);

@@ -58,6 +58,8 @@ public class StartingActivity extends AppCompatActivity {
 
     private String currentUser;
 
+    private WQWDatabase userData;
+
     private EditText undoLimit;
 
     private final int MAX_UNDO_LIMIT = 20;
@@ -95,7 +97,7 @@ public class StartingActivity extends AppCompatActivity {
         RESOURCES = getResources();
         bitmapCut = null;
         withImage = false;
-
+        userData = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
         boardManager = new BoardManager();
         saveToFile(TEMP_SAVE_FILENAME, boardManager);
 
@@ -256,10 +258,13 @@ public class StartingActivity extends AppCompatActivity {
     private void addStartButtonListener() {
         Button startButton = findViewById(R.id.StartButton);
         undoLimit = findViewById(R.id.undoLimitInput);
+
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //original code
+                userData.setTime(currentUser, "SlidingTiles", 0L);
+                saveToFile(GameCentre.USER_DATA_FILE, userData);
                 if (withImage && tileImages3x3[0] == null) {
                     Toast.makeText(StartingActivity.this,
                             "You need to import image!", Toast.LENGTH_SHORT).show();

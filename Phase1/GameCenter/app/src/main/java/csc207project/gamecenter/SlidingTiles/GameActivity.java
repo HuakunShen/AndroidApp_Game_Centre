@@ -39,7 +39,7 @@ import csc207project.gamecenter.R;
 public class GameActivity extends AppCompatActivity implements Observer {
 
     public static final String SCORE_SAVE_FILE = "score_save_file.ser";
-    public static final String TEMP_SCORE_SAVE_FILE = "temp_score_save_file.ser";
+//    public static final String TEMP_SCORE_SAVE_FILE = "temp_score_save_file.ser";
 
 
     /**
@@ -96,7 +96,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
     private static int columnWidth, columnHeight;
 
     private ScoreDatabase scoreDatabase;
-    private long time;
+    private long timeForScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,8 +156,9 @@ public class GameActivity extends AppCompatActivity implements Observer {
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
-                time = Duration.between(startingTime, LocalTime.now()).toMillis()
+                long time = Duration.between(startingTime, LocalTime.now()).toMillis()
                         + preStartTime;
+                timeForScore = time;
                 finalTimePlayed.setText(timeToString(time));
             }
         };
@@ -190,7 +191,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
 
     private Integer calculateScore() {
         int step = userData.getStep(username, "SlidingTiles") + 1;
-        int timeInSec = (int) time / 1000;
+        int timeInSec = (int) timeForScore / 1000;
         Integer score = new Integer(10000 / (step + timeInSec));
         return score;
     }
@@ -198,8 +199,11 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onResume() {
         super.onResume();
+        userData = (WQWDatabase) loadFromFile(GameCentre.USER_DATA_FILE);
         preStartTime = userData.getTime(username, "SlidingTiles");
         startingTime = LocalTime.now();
+//        scoreDatabase.storeData(username, "Sliding Tiles", 1000);
+//        saveToFile(GameActivity.SCORE_SAVE_FILE, scoreDatabase);
     }
 
     /**
