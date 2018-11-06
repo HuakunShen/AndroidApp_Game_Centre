@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import csc207project.gamecenter.Data.StateStack;
+import csc207project.gamecenter.Data.WQWDatabase;
 
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
@@ -229,7 +230,7 @@ class BoardManager implements Serializable {
         int row = position / Board.NUM_ROWS;
         int col = position % Board.NUM_COLS;
         int blankId = board.numTiles();
-        int blank_pos = -1;
+        int blank_pos;
         Tile above = row == 0 ? null : board.getTile(row - 1, col);
         Tile below = row == Board.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
         Tile left = col == 0 ? null : board.getTile(row, col - 1);

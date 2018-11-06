@@ -84,7 +84,6 @@ public class StartingActivity extends AppCompatActivity {
                     selected_diff = 5;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 selected_diff = 4;
@@ -103,7 +102,8 @@ public class StartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //original code
                 try {
-                    loadFromFile(SAVE_FILENAME);
+                    boardManager = loadFromFile(SAVE_FILENAME).equals(-1) ?
+                            new BoardManager() : (BoardManager) loadFromFile(SAVE_FILENAME);
                     if (!boardManager.userExist(currentUser)) {
                         boardManager.addUser(currentUser);
                     }
@@ -148,7 +148,8 @@ public class StartingActivity extends AppCompatActivity {
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFromFile(SAVE_FILENAME);
+                boardManager = loadFromFile(SAVE_FILENAME).equals(-1) ?
+                        new BoardManager() : (BoardManager) loadFromFile(SAVE_FILENAME);
                 if (boardManager.userExist(currentUser)) {
                     boardManager.setBoard(boardManager.getBoard(currentUser));
                     saveToFile(TEMP_SAVE_FILENAME);
@@ -156,7 +157,8 @@ public class StartingActivity extends AppCompatActivity {
                     switchToGame();
                 } else {
                     try {
-                        loadFromFile(SAVE_FILENAME);
+                        boardManager = loadFromFile(SAVE_FILENAME).equals(-1) ?
+                                new BoardManager() : (BoardManager) loadFromFile(SAVE_FILENAME);
                         if (!boardManager.userExist(currentUser)) {
                             boardManager.addUser(currentUser);
                         }
@@ -208,7 +210,8 @@ public class StartingActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadFromFile(TEMP_SAVE_FILENAME);
+        boardManager = loadFromFile(TEMP_SAVE_FILENAME).equals(-1) ?
+                new BoardManager() : (BoardManager) loadFromFile(TEMP_SAVE_FILENAME);
     }
 
     /**
@@ -227,14 +230,14 @@ public class StartingActivity extends AppCompatActivity {
      *
      * @param fileName the name of the file
      */
-    private void loadFromFile(String fileName) {
+    private Object loadFromFile(String fileName) {
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (BoardManager) input.readObject();
-//                boardManager.setCurrentUser(currentUser);
+                Object file = input.readObject();
                 inputStream.close();
+                return file;
             }
         } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
@@ -243,6 +246,7 @@ public class StartingActivity extends AppCompatActivity {
         } catch (ClassNotFoundException e) {
             Log.e("login activity", "File contained unexpected data type: " + e.toString());
         }
+        return -1;
     }
 
     /**
