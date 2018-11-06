@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/handle"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".GameCenter.GameCentre">
+        <activity android:name=".ScoreBoard.ScoreBoardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +26,7 @@
         <activity android:name=".SlidingTiles.NewGameActivity" />
         <activity android:name=".GameCenter.AccountRegistration" />
         <activity android:name=".GameCenter.GameCentreInterface" />
-        <activity android:name=".ScoreBoard.ScoreBoardActivity"></activity>
+        <!--<activity android:name=".ScoreBoard.ScoreBoardActivity"></activity>-->
     </application>
 
 </manifest>

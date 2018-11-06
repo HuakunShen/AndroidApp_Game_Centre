@@ -6,43 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".ScoreBoard.ScoreBoardActivity">
 
-    <TableLayout
-        android:id="@+id/scoreboardTable"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp">
+        android:layout_height="match_parent">
 
-        <TableRow>
-            <TextView
-                android:text="Rank"
-                android:layout_width="90dp"
-                android:padding="10dip"
-                android:layout_gravity="center"
-                />
-
-            <TextView
-                android:text="Game"
-                android:padding="10dip"
-                android:layout_gravity="center"
-                android:layout_width="90dp"/>
-            <TextView
-                android:text="Username"
-                android:padding="10dip"
-                android:layout_gravity="center"
-                android:layout_width="100dp"/>
-            <TextView
-                android:text="Score"
-                android:padding="10dip"
-                android:layout_gravity="center"
-                android:layout_width="90dp"/>
-        </TableRow>
-
-        <View
-            android:layout_height="2dip"
+        <TableLayout
+            android:id="@+id/scoreboardTable"
             android:layout_width="match_parent"
-            android:background="#FF909090" />
+            android:layout_height="match_parent"
+            android:layout_margin="20dp">
+
+            <TableRow>
+
+
+                <TextView
+                    android:text="Game"
+                    android:padding="10dip"
+                    android:layout_gravity="left"
+                    android:textSize="18dp"
+                    android:layout_width="90dp"/>
+
+                <TextView
+                    android:text="Username"
+                    android:padding="10dip"
+                    android:textSize="18dp"
+                    android:layout_gravity="center"
+                    android:layout_width="120dp"/>
+                <TextView
+                    android:text="Highest Score"
+                    android:padding="10dip"
+                    android:textSize="18dp"
+                    android:layout_gravity="center"
+                    android:layout_width="150dp"/>
+            </TableRow>
+
+            <View
+                android:layout_height="2dip"
+                android:layout_width="match_parent"
+                android:background="#FF909090" />
 
 
 
-    </TableLayout>
+        </TableLayout>
+
+    </ScrollView>
+
+
 </RelativeLayout>
