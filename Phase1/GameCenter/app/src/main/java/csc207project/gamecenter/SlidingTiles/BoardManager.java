@@ -16,12 +16,6 @@ import csc207project.gamecenter.Data.WQWDatabase;
 class BoardManager implements Serializable {
 
     /**
-     * The size of the capacity with default value 3/
-     */
-    private static int capacity = 3;
-
-
-    /**
      * The current user of the SlidingTile game.
      */
     private String currentUser = null;
@@ -56,25 +50,6 @@ class BoardManager implements Serializable {
     }
 
     /**
-     * Manage a board that has been pre-populated.
-     *
-     * @param board the board
-     */
-    BoardManager(Board board) {
-        this.board = board;
-    }
-
-    /**
-     * Return the latest state from the gameStates.
-     *
-     * @param userName
-     * @return
-     */
-    Object getState(String userName) {
-        return gameStates.get(userName).get();
-    }
-
-    /**
      * Return the current board.
      */
     Board getBoard() {
@@ -95,22 +70,6 @@ class BoardManager implements Serializable {
     /**
      * Return the current board.
      */
-    Board popBoard(String username) {
-        if (gameStates.get(username).size() == 1) {
-            return (Board) gameStates.get(username).get();
-        } else {
-            StateStack stack = gameStates.get(username);
-            Board result = (Board) stack.pop();
-            gameStates.put(username, stack);
-            return result;
-        }
-    }
-
-
-
-    /**
-     * Return the current board.
-     */
     int popUndo(String username) {
         return undoStack.get(username).pop();
     }
@@ -123,6 +82,9 @@ class BoardManager implements Serializable {
         this.board.notifyObservers();
     }
 
+    /**
+     * Sets local field current User to be the current user.
+     */
     public void setCurrentUser(String currentUser) {
         this.currentUser = currentUser;
     }
@@ -137,12 +99,13 @@ class BoardManager implements Serializable {
     /**
      * Add a new game state into the gameStates.admin
      *
-     * @param userName
-     * @param boardToAdd
+     * @param userName:
+     * @param boardToAdd w
      */
     void addState(String userName, Board boardToAdd) {
         gameStates.get(userName).put(boardToAdd);
     }
+
 
     void addUndo(int move) {
         StateStack<Integer> theStack = undoStack.get(currentUser);
@@ -166,21 +129,11 @@ class BoardManager implements Serializable {
     }
 
     /**
-     * Return true if removing user succeed, otherwise, return false.
-     */
-    boolean removeUser(String user) {
-        if (userExist(user)) {
-            gameStates.remove(user);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Add a new user to gameStates.
      */
     void addUser(String userName) {
+        //The size of the capacity with default value 3
+        int capacity = 3;
         gameStates.put(userName, new StateStack<>(capacity));
         undoStack.put(userName, new StateStack<Integer>(capacity));
     }
@@ -245,7 +198,7 @@ class BoardManager implements Serializable {
             blank_pos = row * Board.NUM_ROWS + (col - 1);
         } else {
             this.board.swapTiles(row, col + 1, row, col);
-            blank_pos = row * Board.NUM_ROWS + (col + 1)    ;
+            blank_pos = row * Board.NUM_ROWS + (col + 1);
         }
         return blank_pos;
     }
