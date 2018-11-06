@@ -51,6 +51,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * @param tiles the tiles for the board
      */
     Board(List<Tile> tiles) {
+        //the initialized difficulty will be store in save files
         difficulty = NUM_ROWS;
         Iterator<Tile> iter = tiles.iterator();
         for (int row = 0; row != Board.NUM_ROWS; row++) {
@@ -130,6 +131,9 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         }
     }
 
+    /**
+     * Get tiles in this board.
+     */
     public ArrayList<Tile> getTiles() {
         ArrayList<Tile> tileLst = new ArrayList<>();
         for (int i = 0; i < Board.NUM_ROWS; i++) {
