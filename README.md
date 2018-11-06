@@ -10,6 +10,30 @@
 
 
 
+   ## SaveFiles
+
+* login.ser : store login info
+
+* login_tem.ser : store temporary login info
+
+* user_info.ser : store user info
+
+* user_info_temp.ser : store temporary user info
+
+* score_save_file.ser : store highest score for each game and each user
+
+* save_file.ser : save file of SlidingTiles
+
+* save_file_tmp.ser : temporary save file of SlidingTiles
+
+Not implemented yet:
+
+* save_nick_names.ser : store user nick names
+
+* save_avatars.ser : store user avatars(icons)
+
+
+
    ## Features
 
 * Sign in or sign up
@@ -30,7 +54,8 @@ Features in SlidingTiles:
 
 * Autosave: autosave game state every 5 sec.
 
-* Undo: user can undo previous 3 steps by default, but they can change that before the game starts.
+* Undo: user can undo previous 3 steps by default, but they can change that before the game starts,
+    the max undo can be set is 20.
 
 * Game Complexity: user can choose three different modes of the game. (including 3x3, 4x4, 5x5)
 
@@ -50,4 +75,6 @@ Features in SlidingTiles:
 
 * Can set nickname when register.
 
-* Can change nickname and avatar(icon)
+* Can change nickname and avatar(icon).
+
+* Complete Interfaces AutoSave and Undo.
