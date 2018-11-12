@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fall2018.csc2017.GameCentre">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/jason_with_hat"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/jason_with_hat"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <activity android:name=".GameCentre.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".GameCentre.SignUpActivity" />
+        <activity android:name=".GameCentre.GameCentreInterfaceActivity" />
+        <activity android:name=".SlidingTiles.StartingActivity" />
+        <activity android:name=".SlidingTiles.GameActivity" />
+        <activity android:name=".GameCentre.ScoreBoardActivity"/>
+        <activity android:name=".GameCentre.NavSetting"/>
+        <activity android:name=".GameCentre.NavChangePassword"></activity>
+
+    </application>
+
+</manifest>
