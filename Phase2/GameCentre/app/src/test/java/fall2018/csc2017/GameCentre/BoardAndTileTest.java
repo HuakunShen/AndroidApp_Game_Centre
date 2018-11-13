@@ -9,6 +9,10 @@ import fall2018.csc2017.GameCentre.SlidingTiles.Board;
 import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
 import fall2018.csc2017.GameCentre.SlidingTiles.Tile;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -17,27 +21,52 @@ import fall2018.csc2017.GameCentre.SlidingTiles.Tile;
 public class BoardAndTileTest {
 
     /** The board manager for testing. */
-    BoardManager boardManager;
+    private BoardManager boardManager;
 
     /**
      * Make a set of tiles that are in order.
      * @return a set of tiles that are in order
      */
-    private List<Tile> makeTiles() {
+    private List<Tile> makeTilesFourByFour() {
         List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+        final int numTiles = 16;
         for (int tileNum = 0; tileNum != numTiles; tileNum++) {
             tiles.add(new Tile(tileNum + 1, tileNum));
         }
+        return tiles;
+    }
 
+    /**
+     * Make a set of tiles that are in order.
+     * @return a set of tiles that are in order
+     */
+    private List<Tile> makeTilesThreeByThree() {
+        List<Tile> tiles = new ArrayList<>();
+        final int numTiles = 9;
+        for (int tileNum = 0; tileNum != numTiles; tileNum++) {
+            tiles.add(new Tile(tileNum + 1, tileNum));
+        }
         return tiles;
     }
 
     /**
      * Make a solved Board.
      */
-    private void setUpCorrect() {
-        List<Tile> tiles = makeTiles();
+    private void setUpCorrectFourByFour() {
+        List<Tile> tiles = makeTilesFourByFour();
+        Board.NUM_COLS = 4;
+        Board.NUM_ROWS = 4;
+        Board board = new Board(tiles);
+        boardManager = new BoardManager(board);
+    }
+
+    /**
+     * Make a solved Board.
+     */
+    private void setUpCorrectThreeByThree() {
+        List<Tile> tiles = makeTilesThreeByThree();
+        Board.NUM_COLS = 3;
+        Board.NUM_ROWS = 3;
         Board board = new Board(tiles);
         boardManager = new BoardManager(board);
     }
@@ -54,10 +83,10 @@ public class BoardAndTileTest {
      */
     @Test
     public void testIsSolved() {
-        setUpCorrect();
-        assertEquals(true, boardManager.puzzleSolved());
+        setUpCorrectFourByFour();
+        assertTrue(boardManager.puzzleSolved());
         swapFirstTwoTiles();
-        assertEquals(false, boardManager.puzzleSolved());
+        assertFalse(boardManager.puzzleSolved());
     }
 
     /**
@@ -65,7 +94,7 @@ public class BoardAndTileTest {
      */
     @Test
     public void testSwapFirstTwo() {
-        setUpCorrect();
+        setUpCorrectFourByFour();
         assertEquals(1, boardManager.getBoard().getTile(0, 0).getId());
         assertEquals(2, boardManager.getBoard().getTile(0, 1).getId());
         boardManager.getBoard().swapTiles(0, 0, 0, 1);
@@ -78,7 +107,7 @@ public class BoardAndTileTest {
      */
     @Test
     public void testSwapLastTwo() {
-        setUpCorrect();
+        setUpCorrectFourByFour();
         assertEquals(15, boardManager.getBoard().getTile(3, 2).getId());
         assertEquals(16, boardManager.getBoard().getTile(3, 3).getId());
         boardManager.getBoard().swapTiles(3, 3, 3, 2);
@@ -91,10 +120,33 @@ public class BoardAndTileTest {
      */
     @Test
     public void testIsValidTap() {
-        setUpCorrect();
-        assertEquals(true, boardManager.isValidTap(11));
-        assertEquals(true, boardManager.isValidTap(15));
-        assertEquals(false, boardManager.isValidTap(10));
+        setUpCorrectFourByFour();
+        assertTrue(boardManager.isValidTap(11));
+        assertTrue(boardManager.isValidTap(14));
+        assertFalse(boardManager.isValidTap(10));
     }
+
+    /**
+     * Test whether solvable method works.
+     */
+    @Test
+    public void testSolvableEvenWidth() {
+        setUpCorrectFourByFour();
+        assertTrue(boardManager.solvable());
+        swapFirstTwoTiles();
+        assertFalse(boardManager.solvable());
+    }
+
+    /**
+     * Test whether solvable method works.
+     */
+    @Test
+    public void testSolvableOddWidth() {
+        setUpCorrectThreeByThree();
+        assertTrue(boardManager.solvable());
+        swapFirstTwoTiles();
+        assertFalse(boardManager.solvable());
+    }
+
 }
 

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import fall2018.csc2017.GameCentre.SlidingTiles.*;
 
 /**
  * The sliding tiles board.
@@ -15,12 +16,12 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
     /**
      * The number of rows.
      */
-    static int NUM_ROWS = 4;
+    public static int NUM_ROWS = 4;
 
     /**
      * The number of rows.
      */
-    static int NUM_COLS = 4;
+    public static int NUM_COLS = 4;
 
     public int difficulty;
 
@@ -36,7 +37,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      *
      * @param tiles the tiles for the board
      */
-    Board(List<Tile> tiles) {
+    public Board(List<Tile> tiles) {
         difficulty = NUM_ROWS;
         Iterator<Tile> iter = tiles.iterator();
 
@@ -89,7 +90,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * @param col the tile column
      * @return the tile at (row, col)
      */
-    Tile getTile(int row, int col) {
+    public Tile getTile(int row, int col) {
         return tiles[row][col];
     }
 
@@ -101,7 +102,7 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
      * @param row2 the second tile row
      * @param col2 the second tile col
      */
-    void swapTiles(int row1, int col1, int row2, int col2) {
+    public void swapTiles(int row1, int col1, int row2, int col2) {
         // TODO: swap
         Tile t = this.tiles[row1][col1];
         this.tiles[row1][col1] = this.tiles[row2][col2];

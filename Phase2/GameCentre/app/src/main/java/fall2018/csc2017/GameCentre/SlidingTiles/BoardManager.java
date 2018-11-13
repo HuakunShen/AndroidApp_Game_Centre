@@ -29,14 +29,14 @@ public class BoardManager implements Serializable {
      *
      * @param board the board
      */
-    BoardManager(Board board) {
+    public BoardManager(Board board) {
         this.board = board;
     }
 
     /**
      * Return the current board.
      */
-    Board getBoard() {
+    public Board getBoard() {
         return board;
     }
 
@@ -82,7 +82,7 @@ public class BoardManager implements Serializable {
     /**
      * Determines whether the tile board is solvable.
      */
-    private boolean solvable() {
+    public boolean solvable() {
         Iterator<Tile> tiles = this.board.iterator();
         ArrayList<Integer> listOfTiles = new ArrayList<>(this.board.numTiles());
         while (tiles.hasNext()) {
@@ -112,12 +112,13 @@ public class BoardManager implements Serializable {
             return solvable;
         }
     }
+
     /**
      * Return whether the tiles are in row-major order.
      *
      * @return whether the tiles are in row-major order
      */
-    boolean puzzleSolved() {
+    public boolean puzzleSolved() {
         Iterator<Tile> itr = board.iterator();
         for (int i = 1; i <= (Board.NUM_ROWS * Board.NUM_COLS); i++) {
 
@@ -134,7 +135,7 @@ public class BoardManager implements Serializable {
      * @param position the tile to check
      * @return whether the tile at position is surrounded by a blank tile
      */
-    boolean isValidTap(int position) {
+    public boolean isValidTap(int position) {
 
         int row = position / Board.NUM_COLS;
         int col = position % Board.NUM_COLS;
