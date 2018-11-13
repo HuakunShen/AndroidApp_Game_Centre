@@ -114,7 +114,7 @@ class BoardManager implements Serializable {
     boolean puzzleSolved() {
         boolean solved = true;
         Iterator<Tile> itr = board.iterator();
-        for (int i = 1; i <= board.NUM_ROWS * board.NUM_COLS; i++) {
+        for (int i = 1; i <= Board.NUM_ROWS * Board.NUM_COLS; i++) {
             if (itr.hasNext() && itr.next().getId() != i) {
                 return false;
             }

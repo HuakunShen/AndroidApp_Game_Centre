@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/space"
+    android:background="@drawable/cloud"
     tools:context="fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity">
 
     <TextView
@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:textColor="#FFFFFF"
         android:gravity="center"
         android:text="Welcome To Sliding Tiles \n A Puzzle Game where you must arrange the numbers in the correct order"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
@@ -52,7 +51,6 @@
         android:text="Save Game" />
 
     <Spinner
-        android:textColor="#FFFFFF"
         android:id="@+id/list_diff_sele"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
@@ -66,7 +64,6 @@
         android:layout_marginBottom="50dp" />
 
     <TextView
-        android:textColor="#FFFFFF"
         android:id="@+id/_diif_sele"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
@@ -76,7 +73,7 @@
         android:layout_marginStart="55dp"
         android:layout_marginTop="495dp"
         android:layout_marginBottom="143dp"
-        android:text="select game difficulty"
+        android:text="Select Game Difficulty"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     <ImageButton
@@ -112,7 +109,6 @@
         android:inputType="number" />
 
     <RadioGroup
-        android:textColor="#FFFFFF"
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,21 +121,17 @@
         android:layout_marginBottom="100dp">
 
         <RadioButton
-            android:textColor="#FFFFFF"
             android:id="@+id/withImageButton"
             android:layout_width="match_parent"
             android:textSize="14dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:buttonTint="#FFFFFF"
             android:text="With Image" />
 
         <RadioButton
-            android:textColor="#FFFFFF"
             android:id="@+id/withNumberButton"
             android:layout_width="match_parent"
             android:textSize="14dp"
-            android:buttonTint="#FFFFFF"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="With Number" />
