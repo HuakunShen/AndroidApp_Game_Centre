@@ -86,6 +86,7 @@
         android:layout_marginBottom="8dp"
         android:textColorHint="#d4c8c8"
         android:ems="10"
+        android:textColor="#FFFFFF"
         android:hint="Nickname"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -97,6 +98,7 @@
 
     <EditText
         android:id="@+id/usernameInput"
+        android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -116,6 +118,7 @@
 
     <EditText
         android:id="@+id/password_repeat_Input"
+        android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -135,6 +138,7 @@
 
     <EditText
         android:id="@+id/passwordInput"
+        android:textColor="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
