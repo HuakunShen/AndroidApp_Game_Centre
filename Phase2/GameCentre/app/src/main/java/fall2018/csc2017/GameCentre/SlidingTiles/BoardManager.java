@@ -3,6 +3,7 @@ package fall2018.csc2017.GameCentre.SlidingTiles;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import fall2018.csc2017.GameCentre.Data.StateStack;
@@ -79,12 +80,10 @@ class BoardManager implements Serializable {
      */
     boolean puzzleSolved() {
         boolean solved = true;
-        // TODO: fix me
-        for (int row = 0; row < board.NUM_ROWS; row++) {
-            for (int col = 0; col < board.NUM_ROWS; col++) {
-                if (board.getTile(row, col).getId() != row * 4 + col + 1) {
-                    return false;
-                }
+        Iterator<Tile> itr = board.iterator();
+        for (int i = 1; i <= board.NUM_ROWS * board.NUM_COLS; i++) {
+            if (itr.hasNext() && itr.next().getId() != i) {
+                return false;
             }
         }
         return solved;
