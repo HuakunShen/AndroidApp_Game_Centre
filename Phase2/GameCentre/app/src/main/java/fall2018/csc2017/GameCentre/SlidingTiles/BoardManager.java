@@ -3,6 +3,7 @@ package fall2018.csc2017.GameCentre.SlidingTiles;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import fall2018.csc2017.GameCentre.Data.StateStack;
@@ -72,6 +73,39 @@ class BoardManager implements Serializable {
     }
 
 
+    /**
+     * Determines whether the tile board is solvable.
+     */
+    boolean solvable() {
+        Iterator<Tile> tiles = this.board.iterator();
+        ArrayList<Integer> listOfTiles = new ArrayList<>(this.board.numTiles());
+        while (tiles.hasNext()) {
+            listOfTiles.add(tiles.next().getId());
+        }
+        int totalInversion = 0;
+        for (int i = 0; i < this.board.numTiles(); i++) {
+            for (int j = this.board.numTiles() - 1; j >= i; j--) {
+                if (listOfTiles.get(i) > listOfTiles.get(j)) {
+                    totalInversion += 1;
+                }
+            }
+        }
+        if (this.board.numTiles() % 2 == 1) {
+            return totalInversion % 2 == 0;
+        } else {
+            boolean solvable = false;
+            for (int i = 1; i <= (int) Math.sqrt(board.numTiles()); i++) {
+                for (int j = 1; j <= (int) Math.sqrt(board.numTiles()); j++) {
+                    if (board.getTile(i, j).getId() == board.numTiles()) {
+                        solvable = (i % 2 == 0 && totalInversion % 2 == 1) ||
+                                (i % 2 == 1 && totalInversion % 2 == 0);
+                        break;
+                    }
+                }
+            }
+            return solvable;
+        }
+    }
     /**
      * Return whether the tiles are in row-major order.
      *
