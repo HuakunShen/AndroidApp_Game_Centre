@@ -2,6 +2,7 @@ package fall2018.csc2017.GameCentre.SlidingTiles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +12,7 @@ import fall2018.csc2017.GameCentre.Data.StateStack;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager implements Serializable {
+public class BoardManager implements Serializable {
 
     /**
      * The board being managed.
@@ -52,31 +53,36 @@ class BoardManager implements Serializable {
         this.timeTaken = 0L;
         Collections.shuffle(tiles);
         this.board = new Board(tiles);
+        boolean solvable = false;
+        while (!solvable) {
+            Collections.shuffle(tiles);
+            this.board = new Board(tiles);
+            solvable = solvable();
+        }
         this.undoStack = new StateStack(DEFAULT_UNDO_LIMIT);
     }
 
 
-    public int getStepsTaken() {
+    int getStepsTaken() {
         return stepsTaken;
     }
 
-    public void setStepsTaken(int stepsTakenSoFar) {
+    void setStepsTaken(int stepsTakenSoFar) {
         this.stepsTaken = stepsTakenSoFar;
     }
 
-    public long getTimeTaken() {
+    long getTimeTaken() {
         return timeTaken;
     }
 
-    public void setTimeTaken(long timeTakenSoFar) {
+    void setTimeTaken(long timeTakenSoFar) {
         this.timeTaken = timeTakenSoFar;
     }
-
 
     /**
      * Determines whether the tile board is solvable.
      */
-    boolean solvable() {
+    private boolean solvable() {
         Iterator<Tile> tiles = this.board.iterator();
         ArrayList<Integer> listOfTiles = new ArrayList<>(this.board.numTiles());
         while (tiles.hasNext()) {
@@ -84,7 +90,7 @@ class BoardManager implements Serializable {
         }
         int totalInversion = 0;
         for (int i = 0; i < this.board.numTiles(); i++) {
-            for (int j = this.board.numTiles() - 1; j >= i; j--) {
+            for (int j = this.board.numTiles() - 1; j > i; j--) {
                 if (listOfTiles.get(i) > listOfTiles.get(j)) {
                     totalInversion += 1;
                 }
@@ -94,11 +100,11 @@ class BoardManager implements Serializable {
             return totalInversion % 2 == 0;
         } else {
             boolean solvable = false;
-            for (int i = 1; i <= (int) Math.sqrt(board.numTiles()); i++) {
-                for (int j = 1; j <= (int) Math.sqrt(board.numTiles()); j++) {
+            for (int i = 0; i < Board.NUM_ROWS; i++) {
+                for (int j = 0; j < Board.NUM_COLS; j++) {
                     if (board.getTile(i, j).getId() == board.numTiles()) {
-                        solvable = (i % 2 == 0 && totalInversion % 2 == 1) ||
-                                (i % 2 == 1 && totalInversion % 2 == 0);
+                        solvable = ((Board.NUM_ROWS - i) % 2 == 0 && totalInversion % 2 == 1) ||
+                                ((Board.NUM_ROWS - i) == 1 && totalInversion % 2 == 0);
                         break;
                     }
                 }
@@ -112,14 +118,13 @@ class BoardManager implements Serializable {
      * @return whether the tiles are in row-major order
      */
     boolean puzzleSolved() {
-        boolean solved = true;
         Iterator<Tile> itr = board.iterator();
-        for (int i = 1; i <= board.NUM_ROWS * board.NUM_COLS; i++) {
+        for (int i = 1; i <= (Board.NUM_ROWS * Board.NUM_COLS); i++) {
             if (itr.hasNext() && itr.next().getId() != i) {
                 return false;
             }
         }
-        return solved;
+        return true;
     }
 
     /**
@@ -173,23 +178,23 @@ class BoardManager implements Serializable {
         return blank_pos;
     }
 
-    public void addUndo(int move) {
+    void addUndo(int move) {
         this.undoStack.put(move);
     }
 
-    public void setCapacity(int input) {
+    void setCapacity(int input) {
         this.undoStack.setCapacity(input);
     }
 
-    public boolean undoAvailable() {
+    boolean undoAvailable() {
         return !undoStack.isEmpty();
     }
 
-    public int popUndo() {
+    int popUndo() {
         return (int) undoStack.pop();
     }
 
-    public int getDifficulty() {
+    int getDifficulty() {
         return board.difficulty;
     }
 }
