@@ -15,16 +15,18 @@ public class BoardGenerator {
      */
     BoardGenerator() {
         boardInitializer();
-        for (int n = 0; n < 100; n++) {
-            seniorBoardShuffler(0);
+        for (int n = 0; n < 1000; n++) {
             juniorBoardShuffler(0);
-        }
-        for (int n = 0; n < 100; n++) {
-            seniorBoardShuffler(1);
             juniorBoardShuffler(1);
         }
-
-        System.out.println(Arrays.deepToString(board));
+        for (int n = 0; n < 1000; n++) {
+            juniorBoardShuffler(0);
+            seniorBoardShuffler(0);
+        }
+        for (int n = 0; n < 1000; n++) {
+            juniorBoardShuffler(1);
+            seniorBoardShuffler(1);
+        }
     }
 
     /**
@@ -64,21 +66,19 @@ public class BoardGenerator {
      * Shuffle the game board.
      */
     private void juniorBoardShuffler(int check) {
-        int k1, k2;
-        int max = 2;
-        int min = 0;
+        int k1 = 0, k2 = 0;
+        int startingIndex = 0;
         Random r = new Random();
         for (int i = 0; i < 3; i++) {
-            k1 = r.nextInt(max - min + 1) + min;
-            do {
-                k2 = r.nextInt(max - min + 1) + min;
-            } while (k1 == k2);
-            max += 3;
-            min += 3;
+            while (k1 == k2) {
+                k1 = r.nextInt(3) + startingIndex;
+                k2 = r.nextInt(3) + startingIndex;
+            }
             if (check == 1)
                 switchRows(k1, k2);
             else if (check == 0)
                 switchColumns(k1, k2);
+            startingIndex += 3;
         }
     }
 
