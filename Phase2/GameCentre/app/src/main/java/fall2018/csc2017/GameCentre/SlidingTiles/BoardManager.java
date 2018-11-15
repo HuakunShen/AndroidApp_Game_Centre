@@ -88,29 +88,36 @@ public class BoardManager implements Serializable {
         while (tiles.hasNext()) {
             listOfTiles.add(tiles.next().getId());
         }
-        int totalInversion = 0;
-        for (int i = 0; i < this.board.numTiles(); i++) {
-            for (int j = this.board.numTiles() - 1; j > i; j--) {
-                if (listOfTiles.get(i) > listOfTiles.get(j)) {
-                    totalInversion += 1;
-                }
-            }
-        }
-        if (this.board.numTiles() % 2 == 1) {
+
+        int totalInversion = getTotalInversion(listOfTiles);
+        if (this.board.numTiles() % 2 != 0) {
             return totalInversion % 2 == 0;
         } else {
             boolean solvable = false;
             for (int i = 0; i < Board.NUM_ROWS; i++) {
                 for (int j = 0; j < Board.NUM_COLS; j++) {
                     if (board.getTile(i, j).getId() == board.numTiles()) {
-                        solvable = ((Board.NUM_ROWS - i) % 2 == 0 && totalInversion % 2 == 1) ||
-                                ((Board.NUM_ROWS - i) == 1 && totalInversion % 2 == 0);
+                        solvable = ((Board.NUM_ROWS - i) % 2 == 0 && totalInversion % 2 != 0) ||
+                                ((Board.NUM_ROWS - i) != 0 && totalInversion % 2 == 0);
                         break;
+
                     }
                 }
             }
             return solvable;
         }
+    }
+
+    public int getTotalInversion(ArrayList<Integer> listOfTiles) {
+        int totalInversion = 0;
+        for (int i = 0; i < this.board.numTiles()-1; i++) {
+            for (int j = i + 1; j < this.board.numTiles(); j++) {
+                if (listOfTiles.get(i) != this.board.numTiles() && listOfTiles.get(i) > listOfTiles.get(j)) {
+                    totalInversion ++;
+                }
+            }
+        }
+        return totalInversion;
     }
 
     /**
