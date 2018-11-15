@@ -17,10 +17,6 @@ public class BoardGenerator {
         boardInitializer();
         for (int n = 0; n < 1000; n++) {
             juniorBoardShuffler(0);
-            juniorBoardShuffler(1);
-        }
-        for (int n = 0; n < 1000; n++) {
-            juniorBoardShuffler(0);
             seniorBoardShuffler(0);
         }
         for (int n = 0; n < 1000; n++) {
