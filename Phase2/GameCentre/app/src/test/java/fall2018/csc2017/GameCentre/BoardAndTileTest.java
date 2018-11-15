@@ -96,29 +96,29 @@ public class BoardAndTileTest {
         boardManager.getBoard().swapTiles(0, 0, 0, 1);
     }
 
-    /**
-     * Test whether swapping two tiles makes a solved board unsolved.
-     */
-    @Test
-    public void testIsSolved() {
-        setUpCorrectFourByFour();
-        assertTrue(boardManager.puzzleSolved());
-        swapFirstTwoTiles();
-        assertFalse(boardManager.puzzleSolved());
-    }
+//    /**
+//     * Test whether swapping two tiles makes a solved board unsolved.
+//     */
+//    @Test
+//    public void testIsSolved() {
+//        setUpCorrectFourByFour();
+//        assertTrue(boardManager.puzzleSolved());
+//        swapFirstTwoTiles();
+//        assertFalse(boardManager.puzzleSolved());
+//    }
 
-    /**
-     * Test whether swapping the first two tiles works.
-     */
-    @Test
-    public void testSwapFirstTwo() {
-        setUpCorrectFourByFour();
-        assertEquals(1, boardManager.getBoard().getTile(0, 0).getId());
-        assertEquals(2, boardManager.getBoard().getTile(0, 1).getId());
-        boardManager.getBoard().swapTiles(0, 0, 0, 1);
-        assertEquals(2, boardManager.getBoard().getTile(0, 0).getId());
-        assertEquals(1, boardManager.getBoard().getTile(0, 1).getId());
-    }
+//    /**
+//     * Test whether swapping the first two tiles works.
+//     */
+//    @Test
+//    public void testSwapFirstTwo() {
+//        setUpCorrectFourByFour();
+//        assertEquals(1, boardManager.getBoard().getTile(0, 0).getId());
+//        assertEquals(2, boardManager.getBoard().getTile(0, 1).getId());
+//        boardManager.getBoard().swapTiles(0, 0, 0, 1);
+//        assertEquals(2, boardManager.getBoard().getTile(0, 0).getId());
+//        assertEquals(1, boardManager.getBoard().getTile(0, 1).getId());
+//    }
 
 //    /**
 //     * Test whether swapping the last two tiles works.
@@ -133,17 +133,17 @@ public class BoardAndTileTest {
 //        assertEquals(15, boardManager.getBoard().getTile(3, 3).getId());
 //    }
 
-    /**
-     * Test whether isValidTap works.
-     */
-    @Test
-    public void testIsValidTap() {
-        setUpCorrectFourByFour();
-        assertTrue(boardManager.isValidTap(11));
-        assertTrue(boardManager.isValidTap(14));
-        assertFalse(boardManager.isValidTap(10));
-    }
-
+//    /**
+//     * Test whether isValidTap works.
+//     */
+//    @Test
+//    public void testIsValidTap() {
+//        setUpCorrectFourByFour();
+//        assertTrue(boardManager.isValidTap(11));
+//        assertTrue(boardManager.isValidTap(14));
+//        assertFalse(boardManager.isValidTap(10));
+//    }
+//
 //    /**
 //     * Test whether solvable method works.
 //     */
@@ -155,16 +155,16 @@ public class BoardAndTileTest {
 //        assertFalse(boardManager.solvable());
 //    }
 
-//    /**
-//     * Test whether solvable method works.
-//     */
-//    @Test
-//    public void testSolvableOddWidth() {
-//        setUpCorrectThreeByThree();
-//        assertTrue(boardManager.solvable());
-//        swapFirstTwoTiles();
-//        assertFalse(boardManager.solvable());
-//    }
+    /**
+     * Test whether solvable method works.
+     */
+    @Test
+    public void testSolvableOddWidth() {
+        setUpCorrectThreeByThree();
+        assertTrue(boardManager.solvable());
+        swapFirstTwoTiles();
+        assertFalse(boardManager.solvable());
+    }
 
 //    /**
 //     * Test whether solvable method works.
