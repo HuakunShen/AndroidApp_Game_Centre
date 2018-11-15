@@ -14,7 +14,7 @@ public class BoardManager {
     /**
      * The level of difficulty.
      */
-    private Integer levelOfDifficulty = 0;
+    private Integer levelOfDifficulty = 2;
 
     /**
      * Manage a board that has been pre-populated.
@@ -55,6 +55,14 @@ public class BoardManager {
             }
         }
         this.board = new Board(boxes);
+    }
+
+
+    /**
+     * Setter for level of difficulty.
+     */
+    public void setLevelOfDifficulty(int levelOfDifficulty) {
+        this.levelOfDifficulty = (Integer) levelOfDifficulty;
     }
 
     /**

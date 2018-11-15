@@ -2,6 +2,8 @@ package fall2018.csc2017.GameCentre.Soduku;
 
 import java.io.Serializable;
 
+import fall2018.csc2017.GameCentre.R;
+
 public class Box implements Serializable {
 
     /**
@@ -15,9 +17,14 @@ public class Box implements Serializable {
     private Integer faceValue;
 
     /**
-     * Whether the facevalue of the box can be edited.
+     * Whether the face value of the box can be edited.
      */
     private boolean editable;
+
+    /**
+     * The background ID to find the box image
+     */
+    private int background;
 
     /**
      * The default constructor of Box.
@@ -28,6 +35,38 @@ public class Box implements Serializable {
         this.solutionValue = value;
         this.faceValue = value;
         this.editable = false;
+        switch (faceValue) {
+            case 1:
+                background = R.drawable.tile_1;
+                break;
+            case 2:
+                background = R.drawable.tile_2;
+                break;
+            case 3:
+                background = R.drawable.tile_3;
+                break;
+            case 4:
+                background = R.drawable.tile_4;
+                break;
+            case 5:
+                background = R.drawable.tile_5;
+                break;
+            case 6:
+                background = R.drawable.tile_6;
+                break;
+            case 7:
+                background = R.drawable.tile_7;
+                break;
+            case 8:
+                background = R.drawable.tile_8;
+                break;
+            case 9:
+                background = R.drawable.tile_9;
+                break;
+            case 0:
+                background = R.drawable.tile_empty;
+                break;
+        }
     }
 
     /**
@@ -47,29 +86,62 @@ public class Box implements Serializable {
     /**
      * Set the face value of the box.
      */
-    public void setFaceValue(Integer faceValue) {
+    void setFaceValue(Integer faceValue) {
         this.faceValue = faceValue;
+        switch (faceValue) {
+            case 1:
+                background = R.drawable.tile_1;
+                break;
+            case 2:
+                background = R.drawable.tile_2;
+                break;
+            case 3:
+                background = R.drawable.tile_3;
+                break;
+            case 4:
+                background = R.drawable.tile_4;
+                break;
+            case 5:
+                background = R.drawable.tile_5;
+                break;
+            case 6:
+                background = R.drawable.tile_6;
+                break;
+            case 7:
+                background = R.drawable.tile_7;
+                break;
+            case 8:
+                background = R.drawable.tile_8;
+                break;
+            case 9:
+                background = R.drawable.tile_9;
+                break;
+            case 0:
+                background = R.drawable.tile_empty;
+                break;
+        }
     }
+
 
     /**
      * Returns whether the user successfully figured
      * out the value of the box.
      */
-    public boolean checkValue() {
+    boolean checkValue() {
         return faceValue.equals(solutionValue);
     }
 
     /**
      * Returns whether the box is editable.
      */
-    public boolean isEditable() {
+    boolean isEditable() {
         return editable;
     }
 
     /**
      * Make the box editable;
      */
-    public void makeEditable() {
+    void makeEditable() {
         this.editable = true;
     }
 }

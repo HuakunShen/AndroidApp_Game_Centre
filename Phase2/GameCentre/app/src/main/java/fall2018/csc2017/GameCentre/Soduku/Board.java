@@ -17,7 +17,7 @@ public class Board implements Serializable {
      *
      * @param boxes the boxes for the board
      */
-    public Board(List<Box> boxes) {
+    Board(List<Box> boxes) {
         Iterator<Box> iterator = boxes.iterator();
 
         for (int row = 0; row != 9; row++) {
@@ -30,7 +30,7 @@ public class Board implements Serializable {
     /**
      * Get the box at the ith row and jth column
      */
-    public Box getBox(int row, int column) {
+    Box getBox(int row, int column) {
         return this.boxes[row][column];
     }
 
@@ -38,7 +38,7 @@ public class Board implements Serializable {
      * Check whether the box at the ith row and jth column
      * has been correctly solved.
      */
-    public boolean checkBox(int row, int col) {
+    boolean checkBox(int row, int col) {
         return this.boxes[row][col].checkValue();
     }
 
@@ -46,7 +46,7 @@ public class Board implements Serializable {
      * Check whether the face value of box at the ith row and
      * jth column can be edited.
      */
-    public boolean checkEditable(int row, int col) {
+    boolean checkEditable(int row, int col) {
         return this.boxes[row][col].checkValue();
     }
 }
