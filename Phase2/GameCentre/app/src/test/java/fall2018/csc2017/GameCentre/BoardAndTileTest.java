@@ -3,6 +3,8 @@ package fall2018.csc2017.GameCentre;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import fall2018.csc2017.GameCentre.SlidingTiles.Board;
@@ -24,65 +26,29 @@ public class BoardAndTileTest {
     private BoardManager boardManager;
 
     /**
-     * Make a set of tiles that are in order.
-     * @return a set of tiles that are in order
+     * Generate an ArrayList of random tiles by the size.
      */
-    private List<Tile> makeTilesFourByFour() {
-        List<Tile> tiles = new ArrayList<>();
-        tiles.add(new Tile(3, 2));
-        tiles.add(new Tile(9, 8));
-        tiles.add(new Tile(1,0));
-        tiles.add(new Tile(15,14));
-        tiles.add(new Tile(14,13));
-        tiles.add(new Tile(11,10));
-        tiles.add(new Tile(4, 4));
-        tiles.add(new Tile(6,5));
-        tiles.add(new Tile(13,12));
-        tiles.add(new Tile(16,15));
-        tiles.add(new Tile(10,9));
-        tiles.add(new Tile(12,11));
-        tiles.add(new Tile(2,1));
-        tiles.add(new Tile(7,6));
-        tiles.add(new Tile(8,7));
-        tiles.add(new Tile(5,4));
+    private ArrayList<Integer> generateRandomNumber(int size){
+        ArrayList<Integer> listOfNum = new ArrayList<>();
+        for(int i = 1; i <= size*size; i++){
+            listOfNum.add(i);
+        }
+        Collections.shuffle(listOfNum);
+        return listOfNum;
+    }
 
-        return tiles;
+    private ArrayList<Tile> transformIntoTile(ArrayList<Integer> data){
+        ArrayList<Tile> theList = new ArrayList<>();
+        for(int i = 0; i < data.size(); i++){
+            theList.add(new Tile(data.get(i),data.get(i)-1));
+        }
+        return theList;
     }
 
     /**
-     * Make a set of tiles that are in order.
-     * @return a set of tiles that are in order
+     * Make a 3X3 Board.
      */
-    private List<Tile> makeTilesThreeByThree() {
-        List<Tile> tiles = new ArrayList<>();
-        tiles.add(new Tile(1, 0));
-        tiles.add(new Tile(8, 7));
-        tiles.add(new Tile(2,1));
-        tiles.add(new Tile(9,8));
-        tiles.add(new Tile(4,3));
-        tiles.add(new Tile(3,2));
-        tiles.add(new Tile(7, 6));
-        tiles.add(new Tile(6,5));
-        tiles.add(new Tile(5,4));
-        return tiles;
-    }
-
-    /**
-     * Make a solved Board.
-     */
-    private void setUpCorrectFourByFour() {
-        List<Tile> tiles = makeTilesFourByFour();
-        Board.NUM_COLS = 4;
-        Board.NUM_ROWS = 4;
-        Board board = new Board(tiles);
-        boardManager = new BoardManager(board);
-    }
-
-    /**
-     * Make a solved Board.
-     */
-    private void setUpCorrectThreeByThree() {
-        List<Tile> tiles = makeTilesThreeByThree();
+    private void setUpCorrectThreeByThree(List<Tile> tiles) {
         Board.NUM_COLS = 3;
         Board.NUM_ROWS = 3;
         Board board = new Board(tiles);
@@ -90,128 +56,123 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Shuffle a few tiles.
+     * Make a 4X4 Board.
      */
-    private void swapFirstTwoTiles() {
-        boardManager.getBoard().swapTiles(0, 0, 0, 1);
+    private void setUpCorrectFourByFour(List<Tile> tiles) {
+        Board.NUM_COLS = 4;
+        Board.NUM_ROWS = 4;
+        Board board = new Board(tiles);
+        boardManager = new BoardManager(board);
     }
 
-//    /**
-//     * Test whether swapping two tiles makes a solved board unsolved.
-//     */
-//    @Test
-//    public void testIsSolved() {
-//        setUpCorrectFourByFour();
-//        assertTrue(boardManager.puzzleSolved());
-//        swapFirstTwoTiles();
-//        assertFalse(boardManager.puzzleSolved());
-//    }
-
-//    /**
-//     * Test whether swapping the first two tiles works.
-//     */
-//    @Test
-//    public void testSwapFirstTwo() {
-//        setUpCorrectFourByFour();
-//        assertEquals(1, boardManager.getBoard().getTile(0, 0).getId());
-//        assertEquals(2, boardManager.getBoard().getTile(0, 1).getId());
-//        boardManager.getBoard().swapTiles(0, 0, 0, 1);
-//        assertEquals(2, boardManager.getBoard().getTile(0, 0).getId());
-//        assertEquals(1, boardManager.getBoard().getTile(0, 1).getId());
-//    }
-
-//    /**
-//     * Test whether swapping the last two tiles works.
-//     */
-//    @Test
-//    public void testSwapLastTwo() {
-//        setUpCorrectFourByFour();
-//        assertEquals(15, boardManager.getBoard().getTile(3, 2).getId());
-//        assertEquals(16, boardManager.getBoard().getTile(3, 3).getId());
-//        boardManager.getBoard().swapTiles(3, 3, 3, 2);
-//        assertEquals(16, boardManager.getBoard().getTile(3, 2).getId());
-//        assertEquals(15, boardManager.getBoard().getTile(3, 3).getId());
-//    }
-
-//    /**
-//     * Test whether isValidTap works.
-//     */
-//    @Test
-//    public void testIsValidTap() {
-//        setUpCorrectFourByFour();
-//        assertTrue(boardManager.isValidTap(11));
-//        assertTrue(boardManager.isValidTap(14));
-//        assertFalse(boardManager.isValidTap(10));
-//    }
-//
-//    /**
-//     * Test whether solvable method works.
-//     */
-//    @Test
-//    public void testSolvableEvenWidth() {
-//        setUpCorrectFourByFour();
-//        assertTrue(boardManager.solvable());
-//        swapFirstTwoTiles();
-//        assertFalse(boardManager.solvable());
-//    }
+    /**
+     * Make a 5X5 Board.
+     */
+    private void setUpCorrectFiveByFive(List<Tile> tiles) {
+        Board.NUM_COLS = 5;
+        Board.NUM_ROWS = 5;
+        Board board = new Board(tiles);
+        boardManager = new BoardManager(board);
+    }
 
     /**
      * Test whether solvable method works.
      */
     @Test
-    public void testSolvableOddWidth() {
-        setUpCorrectThreeByThree();
-        assertTrue(boardManager.solvable());
-        swapFirstTwoTiles();
-        assertFalse(boardManager.solvable());
+    public void testSolvableThreeByThree() {
+        ArrayList<Integer> listOfNum= generateRandomNumber(3);
+        ArrayList<Tile> listOfTile = transformIntoTile(listOfNum);
+        setUpCorrectThreeByThree(listOfTile);
+        if(boardManager.getTotalInversion(listOfNum)%2==0){
+            assertTrue(boardManager.solvable());
+        } else{
+            assertFalse(boardManager.solvable());
+        }
     }
-
-//    /**
-//     * Test whether solvable method works.
-//     */
-//    @Test
-//    public void testInversion(){
-//        setUpCorrectFourByFour();
-//        assertFalse(boardManager.solvable());
-//    }
 
     /**
      * Test whether solvable method works.
      */
     @Test
-    public void testThreeByThreeSolvable(){
-        setUpCorrectThreeByThree();
-        assertTrue(boardManager.solvable());
+    public void testSolvableFourByFour(){
+        ArrayList<Integer> listOfNum= generateRandomNumber(4);
+        ArrayList<Tile> listOfTile = transformIntoTile(listOfNum);
+        setUpCorrectFourByFour(listOfTile);
+        if(boardManager.getTotalInversion(listOfNum)%2==0){
+            if(boardManager.blankPosition()%2!=0){
+                assertTrue(boardManager.solvable());
+            }else{
+                assertFalse(boardManager.solvable());
+            }
+        } else{
+            if(boardManager.blankPosition()%2==0){
+                assertTrue(boardManager.solvable());
+            }else{
+                assertFalse(boardManager.solvable());
+            }
+        }
+    }
+
+    /**
+     * Test whether solvable method works.
+     */
+    @Test
+    public void testSolvableFiveByFive() {
+        ArrayList<Integer> listOfNum= generateRandomNumber(5);
+        ArrayList<Tile> listOfTile = transformIntoTile(listOfNum);
+        setUpCorrectFiveByFive(listOfTile);
+        if(boardManager.getTotalInversion(listOfNum)%2==0){
+            assertTrue(boardManager.solvable());
+        } else{
+            assertFalse(boardManager.solvable());
+        }
     }
 
     /**
      * Test whether getTotalInversion method works.
      */
     @Test
-    public void testGetTotalInversion(){
-        ArrayList<Integer> testCase = new ArrayList<>();
-        testCase.add(1);
-        testCase.add(8);
-        testCase.add(2);
-        testCase.add(9);
-        testCase.add(4);
-        testCase.add(3);
-        testCase.add(7);
-        testCase.add(6);
-        testCase.add(5);
-        setUpCorrectThreeByThree();
-        assertEquals(10, boardManager.getTotalInversion(testCase));
+    public void testGetTotalInversionOddWidth(){
+        ArrayList<Integer> data = new ArrayList<>(Arrays.asList(1,8,2,9,4,3,7,6,5));
+        ArrayList<Tile> listOfTile = transformIntoTile(data);
+        setUpCorrectThreeByThree(listOfTile);
+        assertEquals(10, boardManager.getTotalInversion(data));
     }
 
     /**
-     * Test whether solvable method works.
+     * Test whether getTotalInversion method works.
      */
     @Test
-    public void testFourByFourSolvable(){
-        setUpCorrectFourByFour();
-        assertTrue(boardManager.solvable());
+    public void testGetTotalInversionEvenWidth(){
+        ArrayList<Integer> data_1 = new ArrayList<>(Arrays.asList(13,2,10,3,1,12,8,4,5,16,9,
+                6,15,14,11,7));
+        ArrayList<Tile> listOfTile = transformIntoTile(data_1);
+        setUpCorrectFourByFour(listOfTile);
+        assertEquals(41, boardManager.getTotalInversion(data_1));
     }
 
+    /**
+     * Test whether blankPosition method works.
+     */
+    @Test
+    public void testBlankPositionOddWidth(){
+        ArrayList<Integer> data = new ArrayList<>(Arrays.asList(1,8,2,9,4,3,7,6,5));
+        ArrayList<Tile> listOfTile = transformIntoTile(data);
+        setUpCorrectThreeByThree(listOfTile);
+        assertEquals(2, boardManager.blankPosition());
+    }
+
+    /**
+     * Test whether blankPosition method works.
+     */
+    @Test
+    public void testBlankPositionEvenWidth(){
+        ArrayList<Integer> data_1 = new ArrayList<>(Arrays.asList(13,2,10,3,1,12,8,4,5,16,9,
+                6,15,14,11,7));
+        ArrayList<Tile> listOfTile = transformIntoTile(data_1);
+        setUpCorrectFourByFour(listOfTile);
+        assertEquals(2, boardManager.blankPosition());
+    }
 
 }
 

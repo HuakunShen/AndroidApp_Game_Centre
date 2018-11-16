@@ -90,24 +90,35 @@ public class BoardManager implements Serializable {
         }
 
         int totalInversion = getTotalInversion(listOfTiles);
+
         if (this.board.numTiles() % 2 != 0) {
             return totalInversion % 2 == 0;
         } else {
-            boolean solvable = false;
-            for (int i = 0; i < Board.NUM_ROWS; i++) {
-                for (int j = 0; j < Board.NUM_COLS; j++) {
-                    if (board.getTile(i, j).getId() == board.numTiles()) {
-                        solvable = ((Board.NUM_ROWS - i) % 2 == 0 && totalInversion % 2 != 0) ||
-                                ((Board.NUM_ROWS - i) != 0 && totalInversion % 2 == 0);
-                        break;
-
-                    }
-                }
+            if(board.numTiles()%2!=0){
+                return totalInversion%2==0;
+            }else{
+                return blankPosition()%2==0 && totalInversion%2!=0 ||
+                        blankPosition()%2!=0 && totalInversion%2==0;
             }
-            return solvable;
         }
     }
 
+    public int blankPosition() {
+        int position = 0;
+        for (int i = 0; i < Board.NUM_ROWS; i++) {
+            for (int j = 0; j < Board.NUM_COLS; j++) {
+                if (board.getTile(i, j).getId() == board.numTiles()) {
+                    position = Board.NUM_ROWS - i;
+                }
+            }
+        }
+        return position;
+    }
+
+
+    /**
+     * Return the number of inversions in a list of Integer.
+     */
     public int getTotalInversion(ArrayList<Integer> listOfTiles) {
         int totalInversion = 0;
         for (int i = 0; i < this.board.numTiles()-1; i++) {
