@@ -14,7 +14,6 @@
         android:roundIcon="@drawable/jason_with_hat"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
         <activity android:name=".GameCentre.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +25,11 @@
         <activity android:name=".GameCentre.GameCentreInterfaceActivity" />
         <activity android:name=".SlidingTiles.StartingActivity" />
         <activity android:name=".SlidingTiles.GameActivity" />
-        <activity android:name=".GameCentre.ScoreBoardActivity"/>
-        <activity android:name=".GameCentre.NavSetting"/>
-        <activity android:name=".GameCentre.NavChangePassword"></activity>
-
+        <activity android:name=".GameCentre.ScoreBoardActivity" />
+        <activity android:name=".GameCentre.NavSetting" />
+        <activity android:name=".GameCentre.NavChangePassword" />
+        <activity android:name=".Soduku.SudokuStartingActivity" />
+        <activity android:name=".Soduku.SudokuGameActivity"></activity>
     </application>
 
 </manifest>
