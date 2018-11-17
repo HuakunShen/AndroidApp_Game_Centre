@@ -31,6 +31,7 @@ public class Box implements Serializable {
      *
      * @param value The value of the box.
      */
+
     Box(int value) {
         this.solutionValue = value;
         this.editable = false;

@@ -4,12 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import fall2018.csc2017.GameCentre.Data.StateStack;
+
 public class BoardManager {
 
     /**
      * The board begin managed.
      */
     private Board board;
+
+    /**
+     * The steps has taken so far.
+     */
+    private int stepsTaken;
+
+    /**
+     * The time has taken so far.
+     */
+    private long timeTaken;
+
+    /**
+     * The undoStack storing steps has taken.(limited capacity)
+     */
+    private StateStack undoStack;
+
+    /**
+     * The default number of undo time.
+     */
+    private static final int DEFAULT_UNDO_LIMIT = 3;
 
     /**
      * The level of difficulty.
@@ -28,7 +50,7 @@ public class BoardManager {
     /**
      * Manage a new shuffled board.
      */
-    BoardManager() {
+    public BoardManager() {
         List<Box> boxes = new ArrayList<>();
         Integer[][] newBoard = new BoardGenerator().getBoard();
         for (int row = 0; row < 9; row++) {
@@ -48,13 +70,20 @@ public class BoardManager {
         while (!changed.equals(editable)) {
             Random r = new Random();
             int index = r.nextInt(81);
-            if (boxes.get(index).isEditable()) {
+            if (!boxes.get(index).isEditable()) {
                 boxes.get(index).makeEditable();
                 boxes.get(index).setFaceValue(0);
                 changed++;
             }
         }
         this.board = new Board(boxes);
+    }
+
+    /**
+     * Return the current board.
+     */
+    public Board getBoard() {
+        return board;
     }
 
 

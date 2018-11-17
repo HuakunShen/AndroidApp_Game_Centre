@@ -30,7 +30,7 @@ public class Board implements Serializable {
     /**
      * Get the box at the ith row and jth column
      */
-    Box getBox(int row, int column) {
+    public Box getBox(int row, int column) {
         return this.boxes[row][column];
     }
 

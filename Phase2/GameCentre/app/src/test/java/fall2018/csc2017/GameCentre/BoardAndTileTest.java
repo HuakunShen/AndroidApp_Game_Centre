@@ -36,7 +36,7 @@ public class BoardAndTileTest {
 
 
     /**
-     * Test whether swapping two tiles makes a solved board unsolved.
+     * SudokuUnitTest whether swapping two tiles makes a solved board unsolved.
      */
     @Test
     public void testIsSolved() {
@@ -47,7 +47,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Test whether swapping the first two tiles works.
+     * SudokuUnitTest whether swapping the first two tiles works.
      */
     @Test
     public void testSwapFirstTwo() {
@@ -60,7 +60,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Test whether swapping the last two tiles works.
+     * SudokuUnitTest whether swapping the last two tiles works.
      */
     @Test
     public void testSwapLastTwo() {
@@ -75,7 +75,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Test whether isValidHelp works.
+     * SudokuUnitTest whether isValidHelp works.
      */
     @Test
     public void testIsValidTap() {
@@ -140,7 +140,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Test whether solvable method works.
+     * SudokuUnitTest whether solvable method works.
      */
     @Test
     public void testSolvableThreeByThree() {
@@ -155,7 +155,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Test whether solvable method works.
+     * SudokuUnitTest whether solvable method works.
      */
     @Test
     public void testSolvableFourByFour(){
@@ -178,7 +178,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Test whether solvable method works.
+     * SudokuUnitTest whether solvable method works.
      */
     @Test
     public void testSolvableFiveByFive() {
@@ -193,7 +193,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Test whether getTotalInversion method works.
+     * SudokuUnitTest whether getTotalInversion method works.
      */
     @Test
     public void testGetTotalInversionOddWidth(){
@@ -204,7 +204,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Test whether getTotalInversion method works.
+     * SudokuUnitTest whether getTotalInversion method works.
      */
     @Test
     public void testGetTotalInversionEvenWidth(){
@@ -216,7 +216,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Test whether blankPosition method works.
+     * SudokuUnitTest whether blankPosition method works.
      */
     @Test
     public void testBlankPositionOddWidth(){
@@ -227,7 +227,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Test whether blankPosition method works.
+     * SudokuUnitTest whether blankPosition method works.
      */
     @Test
     public void testBlankPositionEvenWidth(){
@@ -247,7 +247,6 @@ public class BoardAndTileTest {
 
         return tiles;
     }
-
 
 
     /**
