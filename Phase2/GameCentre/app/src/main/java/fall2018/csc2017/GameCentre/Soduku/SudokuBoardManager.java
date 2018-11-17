@@ -15,11 +15,6 @@ public class SudokuBoardManager {
     private SudokuBoard board;
 
     /**
-     * The steps has taken so far.
-     */
-    private int stepsTaken;
-
-    /**
      * The time has taken so far.
      */
     private long timeTaken;
@@ -101,7 +96,7 @@ public class SudokuBoardManager {
     boolean sudokuSolved() {
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                if (!board.checkBox(row, column)) {
+                if (!board.checkCell(row, column)) {
                     return false;
                 }
             }
@@ -120,6 +115,6 @@ public class SudokuBoardManager {
      * Performs changes to the board.
      */
     void makeMove(int position, int value) {
-        this.board.getBox(position / 9, position % 9).setFaceValue(value);
+        this.board.getCell(position / 9, position % 9).setFaceValue(value);
     }
 }

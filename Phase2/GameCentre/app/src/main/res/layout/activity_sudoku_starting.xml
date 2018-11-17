@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/brownpaper"
+
     tools:context="fall2018.csc2017.GameCentre.Soduku.SudokuStartingActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/SudokuNewGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -21,7 +22,7 @@
         app:layout_constraintVertical_bias="0.583" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/SudokuLoadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -30,7 +31,7 @@
         android:layout_marginBottom="8dp"
         android:text="Load Game"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/SudokuNewGameButton"
         app:layout_constraintHorizontal_bias="0.63"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -51,6 +52,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.161"
         app:srcCompat="@drawable/sudokulogo" />
+
 
     <Spinner
         android:id="@+id/list_diff_sudoku"

@@ -39,7 +39,7 @@ public class SudokuUnitTest {
         for (int row = 0; row < 9; row++) {
             ArrayList<Integer> rows = new ArrayList<Integer>();
             for (int column = 0; column < 9; column++) {
-                rows.add(board.getBox(row, column).getSolutionValue());
+                rows.add(board.getCell(row, column).getSolutionValue());
             }
             horizontal.add(rows);
         }
@@ -62,7 +62,7 @@ public class SudokuUnitTest {
         for (int column = 0; column < 9; column++) {
             ArrayList<Integer> rows = new ArrayList<Integer>();
             for (int row = 0; row < 9; row++) {
-                rows.add(board.getBox(row, column).getSolutionValue());
+                rows.add(board.getCell(row, column).getSolutionValue());
             }
             horizontal.add(rows);
         }
@@ -98,7 +98,7 @@ public class SudokuUnitTest {
                     box = new ArrayList<Integer>();
                 }
                 for (int row = rowStarting; row < rowStarting + 3; row++) {
-                    box.add(board.getBox(row, column).getSolutionValue());
+                    box.add(board.getCell(row, column).getSolutionValue());
                 }
             }
             boxes.add(box);

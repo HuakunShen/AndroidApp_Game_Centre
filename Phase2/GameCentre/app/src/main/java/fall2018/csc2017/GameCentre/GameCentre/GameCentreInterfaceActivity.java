@@ -29,6 +29,7 @@ import fall2018.csc2017.GameCentre.Data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.Data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
+import fall2018.csc2017.GameCentre.Soduku.SudokuStartingActivity;
 
 public class GameCentreInterfaceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private User user;
@@ -52,6 +53,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
         setupUser();
 
         addSlidingTilesButton();
+        addSudokuButton();
         addNavigationView();
     }
 
@@ -128,6 +130,18 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
             @Override
             public void onClick(View view) {
                 Intent intent  = new Intent(getApplication(), StartingActivity.class);
+                intent.putExtra("user", user.getUsername());
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void addSudokuButton() {
+        Button game = findViewById(R.id.Sudoku);
+        game.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent  = new Intent(getApplication(), SudokuStartingActivity.class);
                 intent.putExtra("user", user.getUsername());
                 startActivity(intent);
             }

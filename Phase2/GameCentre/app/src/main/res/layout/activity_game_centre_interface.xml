@@ -53,6 +53,18 @@ android:fitsSystemWindows="true">
                     android:padding="14dp"
                     android:text="Sliding Tiles" />
 
+                <Button
+                    android:id="@+id/Sudoku"
+                    android:layout_width="357dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:padding="14dp"
+                    android:text="Sudoku" />
+
             </LinearLayout>
         </ScrollView>
 

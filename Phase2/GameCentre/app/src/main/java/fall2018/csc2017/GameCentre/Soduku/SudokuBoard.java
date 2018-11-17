@@ -3,9 +3,12 @@ package fall2018.csc2017.GameCentre.Soduku;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Observable;
 
-public class SudokuBoard implements Serializable {
+public class SudokuBoard extends Observable implements Serializable {
 
+    public static final int NUM_ROWS_SUDOKU = 9;
+    public static final int NUM_COLS_SUDOKU = 9;
     /**
      * The cells on the board.
      */
@@ -30,7 +33,7 @@ public class SudokuBoard implements Serializable {
     /**
      * Get the box at the ith row and jth column
      */
-    public Cell getBox(int row, int column) {
+    public Cell getCell(int row, int column) {
         return this.cells[row][column];
     }
 
@@ -38,7 +41,7 @@ public class SudokuBoard implements Serializable {
      * Check whether the box at the ith row and jth column
      * has been correctly solved.
      */
-    boolean checkBox(int row, int col) {
+    boolean checkCell(int row, int col) {
         return this.cells[row][col].checkValue();
     }
 
