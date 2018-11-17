@@ -113,4 +113,6 @@ public class Cell implements Serializable {
     void makeEditable() {
         this.editable = true;
     }
+
+    int getBackground(){return background;}
 }
