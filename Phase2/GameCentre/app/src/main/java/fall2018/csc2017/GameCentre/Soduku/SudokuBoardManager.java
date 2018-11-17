@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import fall2018.csc2017.GameCentre.Data.StateStack;
+import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
 
 public class SudokuBoardManager {
 
@@ -36,7 +37,7 @@ public class SudokuBoardManager {
     /**
      * The level of difficulty.
      */
-    private Integer levelOfDifficulty = 2;
+    private static Integer levelOfDifficulty = 2;
 
     /**
      * Manage a board that has been pre-populated.
@@ -90,8 +91,8 @@ public class SudokuBoardManager {
     /**
      * Setter for level of difficulty.
      */
-    public void setLevelOfDifficulty(int levelOfDifficulty) {
-        this.levelOfDifficulty = (Integer) levelOfDifficulty;
+    public static void setLevelOfDifficulty(int levelOfDifficulty) {
+        SudokuBoardManager.levelOfDifficulty = (Integer) levelOfDifficulty;
     }
 
     /**

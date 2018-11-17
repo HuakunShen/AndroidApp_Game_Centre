@@ -121,7 +121,61 @@ public class SudokuUnitTest {
         assertTrue(result);
     }
 
+    /**
+     * Test whether the level of difficulty works properly.
+     */
+    @Test
+    public void levelOfDifficultyEasy() {
+        SudokuBoardManager.setLevelOfDifficulty(1);
+        setUpCorrect();
+        int count = 0;
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                if (boardManager.getBoard().getBox(row, column)
+                        .getFaceValue().equals(0)) {
+                    count += 1;
+                }
+            }
+        }
+        assertEquals(count, 18);
+    }
 
+    /**
+     * Test whether the level of difficulty works properly.
+     */
+    @Test
+    public void levelOfDifficultyMedium() {
+        SudokuBoardManager.setLevelOfDifficulty(2);
+        setUpCorrect();
+        int count = 0;
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                if (boardManager.getBoard().getBox(row, column)
+                        .getFaceValue().equals(0)) {
+                    count += 1;
+                }
+            }
+        }
+        assertEquals(count, 36);
+    }
 
+    /**
+     * Test whether the level of difficulty works properly.
+     */
+    @Test
+    public void levelOfDifficultyHard() {
+        SudokuBoardManager.setLevelOfDifficulty(3);
+        setUpCorrect();
+        int count = 0;
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                if (boardManager.getBoard().getBox(row, column)
+                        .getFaceValue().equals(0)) {
+                    count += 1;
+                }
+            }
+        }
+        assertEquals(count, 54);
+    }
 
 }
