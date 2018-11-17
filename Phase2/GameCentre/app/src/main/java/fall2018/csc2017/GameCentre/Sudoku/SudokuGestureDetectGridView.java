@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre.Soduku;
+package fall2018.csc2017.GameCentre.Sudoku;
 
 /*
 Adapted from:
@@ -15,19 +15,16 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
 
-import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
-import fall2018.csc2017.GameCentre.SlidingTiles.MovementController;
-
 public class SudokuGestureDetectGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
     public static final int SWIPE_MAX_OFF_PATH = 100;
     public static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private GestureDetector gDetector;
-    private MovementController mController;
+    private SudokuMovementController mController;
     private boolean mFlingConfirmed = false;
     private float mTouchX;
     private float mTouchY;
-    private BoardManager boardManager;
+    private SudokuBoardManager boardManager;
 
     public SudokuGestureDetectGridView(Context context) {
         super(context);
@@ -52,12 +49,12 @@ public class SudokuGestureDetectGridView extends GridView {
     }
 
     private void init(final Context context) {
-        mController = new MovementController();
+        mController = new SudokuMovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
-                int position = fall2018.csc2017.GameCentre.SlidingTiles.GestureDetectGridView.this.pointToPosition
+                int position = fall2018.csc2017.GameCentre.Sudoku.SudokuGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
 
                 mController.processTapMovement(context, position, true);
@@ -104,7 +101,7 @@ public class SudokuGestureDetectGridView extends GridView {
         return gDetector.onTouchEvent(ev);
     }
 
-    public void setBoardManager(BoardManager boardManager) {
+    public void setBoardManager(SudokuBoardManager boardManager) {
         this.boardManager = boardManager;
         mController.setBoardManager(boardManager);
     }

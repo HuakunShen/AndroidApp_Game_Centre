@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import fall2018.csc2017.GameCentre.Soduku.SudokuBoard;
-import fall2018.csc2017.GameCentre.Soduku.SudokuBoardManager;
+import fall2018.csc2017.GameCentre.Sudoku.SudokuBoard;
+import fall2018.csc2017.GameCentre.Sudoku.SudokuBoardManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

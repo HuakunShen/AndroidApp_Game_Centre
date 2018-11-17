@@ -1,11 +1,9 @@
-package fall2018.csc2017.GameCentre.Soduku;
+package fall2018.csc2017.GameCentre.Sudoku;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,11 +24,7 @@ import java.util.TimerTask;
 import fall2018.csc2017.GameCentre.Data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.Data.User;
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.SlidingTiles.Board;
-import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
 import fall2018.csc2017.GameCentre.SlidingTiles.CustomAdapter;
-import fall2018.csc2017.GameCentre.SlidingTiles.GestureDetectGridView;
-import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
 
 public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
@@ -44,14 +38,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      */
     private ArrayList<Button> cellButtons;
 
-    /**
-     * Display steps
-     */
-    private TextView displayStep;
-
-
     // Grid View and calculated column height and width based on device size
-    private GestureDetectGridView gridView;
+    private SudokuGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
 
     private static final String GAME_NAME = "Sudoku";
@@ -74,6 +62,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      * The main save file.
      */
     private String gameStateFile;
+
     /**
      * A temporary save file.
      */
@@ -91,7 +80,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         createCellButtons(this);
 //        setupTime();
         // Add View to activity
-//        addGridViewToActivity();
+        addGridViewToActivity();
     }
 
     /**
@@ -129,10 +118,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
                 timeDisplay.setText(timeToString(time + preStartTime));
-//                timeDisplay.setText(timeToString(time));
                 totalTimeTaken = time + preStartTime;
                 boardManager.setTimeTaken(time + preStartTime);
-//                saveToFile(gameStateFile);
             }
         };
         timer.schedule(task2, 0, 1000);
@@ -165,7 +152,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      */
     private void addGridViewToActivity() {
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(Board.NUM_COLS);
+        gridView.setNumColumns(SudokuBoard.NUM_COLS_SUDOKU);
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -192,7 +179,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      */
     // Display
     public void display() {
-        updateTileButtons();
+        updateCellButtons();
         gridView.setAdapter(new CustomAdapter(cellButtons, columnWidth, columnHeight));
     }
 
@@ -217,14 +204,15 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     /**
      * Update the backgrounds on the buttons to match the tiles.
      */
-    private void updateTileButtons() {
+    private void updateCellButtons() {
         SudokuBoard board = boardManager.getBoard();
-//        int nextPos = 0;
-//        for (Button b : tileButtons) {
-//            int row = nextPos / Board.NUM_ROWS;
-//            int col = nextPos % Board.NUM_COLS;
-//            int tile_id = board.getTile(row, col).getId();
-//            if (tile_id == Board.NUM_ROWS * Board.NUM_COLS
+        int nextPos = 0;
+        for (Button b : cellButtons) {
+            int row = nextPos / SudokuBoard.NUM_ROWS_SUDOKU;
+            int col = nextPos % SudokuBoard.NUM_COLS_SUDOKU;
+//            int tile_id = board.getCell(row, col).get();
+            b.setBackgroundResource(board.getCell(row, col).getBackground());
+//            if (tile_id == SudokuBoard.NUM_ROWS * Board.NUM_COLS
 //                    || StartingActivity.tileImages3x3[0] == null) {
 //                b.setBackgroundResource(board.getTile(row, col).getBackground());
 //            } else if (board.difficulty == 3) {
@@ -237,8 +225,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
 //                b.setBackground(new BitmapDrawable(getResources(),
 //                        StartingActivity.tileImages5x5[tile_id]));
 //            }
-//            nextPos++;
-//        }
+            nextPos++;
+        }
     }
 
     /**

@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre.Soduku;
+package fall2018.csc2017.GameCentre.Sudoku;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,9 +20,6 @@ import java.io.ObjectOutputStream;
 import fall2018.csc2017.GameCentre.Data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.Data.User;
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
-import fall2018.csc2017.GameCentre.SlidingTiles.GameActivity;
-import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
 
 public class SudokuStartingActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre.Soduku;
+package fall2018.csc2017.GameCentre.Sudoku;
 
 import java.io.Serializable;
 import java.util.Iterator;

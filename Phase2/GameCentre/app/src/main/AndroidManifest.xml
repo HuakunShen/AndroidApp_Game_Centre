@@ -28,8 +28,8 @@
         <activity android:name=".GameCentre.ScoreBoardActivity" />
         <activity android:name=".GameCentre.NavSetting" />
         <activity android:name=".GameCentre.NavChangePassword" />
-        <activity android:name=".Soduku.SudokuStartingActivity" />
-        <activity android:name=".Soduku.SudokuGameActivity"></activity>
+        <activity android:name=".Sudoku.SudokuStartingActivity" />
+        <activity android:name=".Sudoku.SudokuGameActivity"></activity>
     </application>
 
 </manifest>
