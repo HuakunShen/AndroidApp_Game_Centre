@@ -131,7 +131,7 @@ public class SudokuUnitTest {
         int count = 0;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                if (boardManager.getBoard().getBox(row, column)
+                if (boardManager.getBoard().getCell(row, column)
                         .getFaceValue().equals(0)) {
                     count += 1;
                 }
@@ -150,7 +150,7 @@ public class SudokuUnitTest {
         int count = 0;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                if (boardManager.getBoard().getBox(row, column)
+                if (boardManager.getBoard().getCell(row, column)
                         .getFaceValue().equals(0)) {
                     count += 1;
                 }
@@ -169,7 +169,7 @@ public class SudokuUnitTest {
         int count = 0;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                if (boardManager.getBoard().getBox(row, column)
+                if (boardManager.getBoard().getCell(row, column)
                         .getFaceValue().equals(0)) {
                     count += 1;
                 }
