@@ -117,26 +117,26 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     }
 
 
-//    /**
-//     * Time counting, setup initial time based on the record in boardmanager
-//     */
-//    private void setupTime() {
-//        Timer timer = new Timer();
-//        preStartTime = boardManager.getTimeTaken();
-//        final TextView timeDisplay = findViewById(R.id.time_display_view);
-//        TimerTask task2 = new TimerTask() {
-//            @Override
-//            public void run() {
-//                long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-//                timeDisplay.setText(timeToString(time + preStartTime));
-////                timeDisplay.setText(timeToString(time));
-//                totalTimeTaken = time + preStartTime;
-//                boardManager.setTimeTaken(time + preStartTime);
-////                saveToFile(gameStateFile);
-//            }
-//        };
-//        timer.schedule(task2, 0, 1000);
-//    }
+    /**
+     * Time counting, setup initial time based on the record in boardmanager
+     */
+    private void setupTime() {
+        Timer timer = new Timer();
+        preStartTime = boardManager.getTimeTaken();
+        final TextView timeDisplay = findViewById(R.id.time_display_view);
+        TimerTask task2 = new TimerTask() {
+            @Override
+            public void run() {
+                long time = Duration.between(startingTime, LocalTime.now()).toMillis();
+                timeDisplay.setText(timeToString(time + preStartTime));
+//                timeDisplay.setText(timeToString(time));
+                totalTimeTaken = time + preStartTime;
+                boardManager.setTimeTaken(time + preStartTime);
+//                saveToFile(gameStateFile);
+            }
+        };
+        timer.schedule(task2, 0, 1000);
+    }
 
     /**
      * convert time in milli seconds (long type) to String which will be displayed
@@ -160,31 +160,31 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         return hourStr + ":" + minStr + ":" + secStr;
     }
 
-//    /**
-//     * Setup the gridview where the tiles are located
-//     */
-//    private void addGridViewToActivity() {
-//        gridView = findViewById(R.id.grid);
-//        gridView.setNumColumns(Board.NUM_COLS);
-//        gridView.setBoardManager(boardManager);
-//        boardManager.getBoard().addObserver(this);
-//        // Observer sets up desired dimensions as well as calls our display function
-//        gridView.getViewTreeObserver().addOnGlobalLayoutListener(
-//                new ViewTreeObserver.OnGlobalLayoutListener() {
-//                    @Override
-//                    public void onGlobalLayout() {
-//                        gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
-//                                this);
-//                        int displayWidth = gridView.getMeasuredWidth();
-//                        int displayHeight = gridView.getMeasuredHeight();
-//
-//                        columnWidth = displayWidth / SudokuBoard.NUM_COLS_SUDOKU;
-//                        columnHeight = displayHeight / SudokuBoard.NUM_ROWS_SUDOKU;
-//
-//                        display();
-//                    }
-//                });
-//    }
+    /**
+     * Setup the gridview where the tiles are located
+     */
+    private void addGridViewToActivity() {
+        gridView = findViewById(R.id.grid);
+        gridView.setNumColumns(Board.NUM_COLS);
+        gridView.setBoardManager(boardManager);
+        boardManager.getBoard().addObserver(this);
+        // Observer sets up desired dimensions as well as calls our display function
+        gridView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
+                                this);
+                        int displayWidth = gridView.getMeasuredWidth();
+                        int displayHeight = gridView.getMeasuredHeight();
+
+                        columnWidth = displayWidth / SudokuBoard.NUM_COLS_SUDOKU;
+                        columnHeight = displayHeight / SudokuBoard.NUM_ROWS_SUDOKU;
+
+                        display();
+                    }
+                });
+    }
 
     /**
      * Set up the background image for each button based on the master list
