@@ -4,25 +4,25 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-public class Board implements Serializable {
+public class SudokuBoard implements Serializable {
 
     /**
-     * The boxes on the board.
+     * The cells on the board.
      */
-    private Box[][] boxes = new Box[9][9];
+    private Cell[][] cells = new Cell[9][9];
 
     /**
-     * A new board of boxes in row-major order.
-     * Precondition: len(boxes) == 81.
+     * A new board of cells in row-major order.
+     * Precondition: len(cells) == 81.
      *
-     * @param boxes the boxes for the board
+     * @param cells the cells for the board
      */
-    Board(List<Box> boxes) {
-        Iterator<Box> iterator = boxes.iterator();
+    SudokuBoard(List<Cell> cells) {
+        Iterator<Cell> iterator = cells.iterator();
 
         for (int row = 0; row != 9; row++) {
             for (int col = 0; col != 9; col++) {
-                this.boxes[row][col] = iterator.next();
+                this.cells[row][col] = iterator.next();
             }
         }
     }
@@ -30,8 +30,8 @@ public class Board implements Serializable {
     /**
      * Get the box at the ith row and jth column
      */
-    public Box getBox(int row, int column) {
-        return this.boxes[row][column];
+    public Cell getBox(int row, int column) {
+        return this.cells[row][column];
     }
 
     /**
@@ -39,7 +39,7 @@ public class Board implements Serializable {
      * has been correctly solved.
      */
     boolean checkBox(int row, int col) {
-        return this.boxes[row][col].checkValue();
+        return this.cells[row][col].checkValue();
     }
 
     /**
@@ -47,6 +47,6 @@ public class Board implements Serializable {
      * jth column can be edited.
      */
     boolean checkEditable(int row, int col) {
-        return this.boxes[row][col].isEditable();
+        return this.cells[row][col].isEditable();
     }
 }

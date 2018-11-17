@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import fall2018.csc2017.GameCentre.R;
 
-public class Box implements Serializable {
+public class Cell implements Serializable {
 
     /**
      * The correct value of the box
@@ -27,12 +27,12 @@ public class Box implements Serializable {
     private int background;
 
     /**
-     * The default constructor of Box.
+     * The default constructor of Cell.
      *
      * @param value The value of the box.
      */
 
-    Box(int value) {
+    Cell(int value) {
         this.solutionValue = value;
         this.editable = false;
         setFaceValue(value);

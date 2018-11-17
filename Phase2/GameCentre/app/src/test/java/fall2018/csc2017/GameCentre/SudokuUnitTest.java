@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import fall2018.csc2017.GameCentre.Soduku.Board;
-import fall2018.csc2017.GameCentre.Soduku.BoardManager;
+import fall2018.csc2017.GameCentre.Soduku.SudokuBoard;
+import fall2018.csc2017.GameCentre.Soduku.SudokuBoardManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,15 +15,15 @@ import static org.junit.Assert.assertTrue;
 public class SudokuUnitTest {
 
     /**
-     * The BoardManager for test.
+     * The SudokuBoardManager for test.
      */
-    private BoardManager boardManager;
+    private SudokuBoardManager boardManager;
 
     /**
-     * Make a solved Board.
+     * Make a solved SudokuBoard.
      */
     private void setUpCorrect() {
-        this.boardManager = new BoardManager();
+        this.boardManager = new SudokuBoardManager();
     }
 
 
@@ -33,7 +33,7 @@ public class SudokuUnitTest {
     @Test
     public void horizontallySetUp() {
         setUpCorrect();
-        Board board = boardManager.getBoard();
+        SudokuBoard board = boardManager.getBoard();
         ArrayList<ArrayList<Integer>> horizontal =
                 new ArrayList<ArrayList<Integer>>();
         for (int row = 0; row < 9; row++) {
@@ -56,7 +56,7 @@ public class SudokuUnitTest {
     @Test
     public void verticallySetUp() {
         setUpCorrect();
-        Board board = boardManager.getBoard();
+        SudokuBoard board = boardManager.getBoard();
         ArrayList<ArrayList<Integer>> horizontal =
                 new ArrayList<ArrayList<Integer>>();
         for (int column = 0; column < 9; column++) {
@@ -84,7 +84,7 @@ public class SudokuUnitTest {
     @Test
     public void boxSetUp() {
         setUpCorrect();
-        Board board = boardManager.getBoard();
+        SudokuBoard board = boardManager.getBoard();
         ArrayList<ArrayList<Integer>> boxes =
                 new ArrayList<ArrayList<Integer>>();
         int columnStarting = 0;

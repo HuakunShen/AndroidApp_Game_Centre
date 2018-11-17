@@ -26,7 +26,7 @@ public class BoardAndTileTest {
     private BoardManager boardManager;
 
     /**
-     * Make a solved Board.
+     * Make a solved SudokuBoard.
      */
     private void setUpCorrect() {
         List<Tile> tiles = makeTiles();
@@ -110,7 +110,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Make a 3X3 Board.
+     * Make a 3X3 SudokuBoard.
      */
     private void setUpCorrectThreeByThree(List<Tile> tiles) {
         Board.NUM_COLS = 3;
@@ -120,7 +120,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Make a 4X4 Board.
+     * Make a 4X4 SudokuBoard.
      */
     private void setUpCorrectFourByFour(List<Tile> tiles) {
         Board.NUM_COLS = 4;
@@ -130,7 +130,7 @@ public class BoardAndTileTest {
     }
 
     /**
-     * Make a 5X5 Board.
+     * Make a 5X5 SudokuBoard.
      */
     private void setUpCorrectFiveByFive(List<Tile> tiles) {
         Board.NUM_COLS = 5;
