@@ -33,40 +33,8 @@ public class Box implements Serializable {
      */
     Box(int value) {
         this.solutionValue = value;
-        this.faceValue = value;
         this.editable = false;
-        switch (faceValue) {
-            case 1:
-                background = R.drawable.tile_1;
-                break;
-            case 2:
-                background = R.drawable.tile_2;
-                break;
-            case 3:
-                background = R.drawable.tile_3;
-                break;
-            case 4:
-                background = R.drawable.tile_4;
-                break;
-            case 5:
-                background = R.drawable.tile_5;
-                break;
-            case 6:
-                background = R.drawable.tile_6;
-                break;
-            case 7:
-                background = R.drawable.tile_7;
-                break;
-            case 8:
-                background = R.drawable.tile_8;
-                break;
-            case 9:
-                background = R.drawable.tile_9;
-                break;
-            case 0:
-                background = R.drawable.tile_empty;
-                break;
-        }
+        setFaceValue(value);
     }
 
     /**

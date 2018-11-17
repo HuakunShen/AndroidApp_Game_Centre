@@ -47,6 +47,6 @@ public class Board implements Serializable {
      * jth column can be edited.
      */
     boolean checkEditable(int row, int col) {
-        return this.boxes[row][col].checkValue();
+        return this.boxes[row][col].isEditable();
     }
 }
