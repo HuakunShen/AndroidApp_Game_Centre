@@ -52,4 +52,27 @@ public class SudokuBoard extends Observable implements Serializable {
     boolean checkEditable(int row, int col) {
         return this.cells[row][col].isEditable();
     }
+
+
+    void updateValue(int value) {
+        for(int i = 0; i < NUM_ROWS_SUDOKU; i++){
+            for(int j = 0; j < NUM_COLS_SUDOKU; j++){
+                if(cells[i][j].isHighlighted()){
+                    cells[i][j].setFaceValue(value);
+                    cells[i][j].setHighlighted(false);
+                    setChanged();
+                    notifyObservers();
+                }
+            }
+        }
+    }
+    void setHighLightedCell(){
+        for(int i = 0; i < NUM_ROWS_SUDOKU; i++){
+            for(int j = 0; j < NUM_COLS_SUDOKU; j++){
+                if(cells[i][j].isHighlighted()){
+                    cells[i][j].setHighlighted(false);
+                }
+            }
+        }
+    }
 }

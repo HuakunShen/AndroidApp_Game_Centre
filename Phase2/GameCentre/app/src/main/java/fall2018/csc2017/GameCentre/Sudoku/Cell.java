@@ -26,6 +26,8 @@ public class Cell implements Serializable {
      */
     private int background;
 
+    private boolean highlighted;
+
     /**
      * The default constructor of Cell.
      *
@@ -115,4 +117,13 @@ public class Cell implements Serializable {
     }
 
     int getBackground(){return background;}
+
+    boolean isHighlighted(){
+        return highlighted;
+    }
+
+    void setHighlighted(boolean value){
+        highlighted = value;
+    }
+
 }

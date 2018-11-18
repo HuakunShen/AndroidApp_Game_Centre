@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
@@ -81,6 +82,115 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
 //        setupTime();
         // Add View to activity
         addGridViewToActivity();
+
+        addButtonOneListener();
+        addButtonTwoListener();
+        addButtonThreeListener();
+        addButtonFourListener();
+        addButtonFiveListener();
+        addButtonSixListener();
+        addButtonSevenListener();
+        addButtonEightListener();
+        addButtonNineListener();
+    }
+
+    private void addButtonOneListener() {
+        Button buttonOne = findViewById(R.id.button_1);
+        buttonOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                boardManager.getBoard().updateValue(1);
+            }
+        });
+    }
+
+    private void addButtonTwoListener() {
+        Button buttonTwo = findViewById(R.id.button_2);
+        buttonTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                boardManager.getBoard().updateValue(2);
+            }
+        });
+    }
+
+    private void addButtonThreeListener() {
+        Button buttonThree = findViewById(R.id.button_3);
+        buttonThree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                boardManager.getBoard().updateValue(3);
+            }
+        });
+    }
+
+    private void addButtonFourListener() {
+        Button buttonFour = findViewById(R.id.button_4);
+        buttonFour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                boardManager.getBoard().updateValue(4);
+            }
+        });
+    }
+
+    private void addButtonFiveListener() {
+        Button buttonFive = findViewById(R.id.button_5);
+        buttonFive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                boardManager.getBoard().updateValue(5);
+            }
+        });
+    }
+
+    private void addButtonSixListener() {
+        Button buttonSix = findViewById(R.id.button_6);
+        buttonSix.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                boardManager.getBoard().updateValue(6);
+            }
+        });
+    }
+
+    private void addButtonSevenListener() {
+        Button buttonSeven = findViewById(R.id.button_7);
+        buttonSeven.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                boardManager.getBoard().updateValue(7);
+            }
+        });
+    }
+
+    private void addButtonEightListener() {
+        Button buttonEight = findViewById(R.id.button_8);
+        buttonEight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                boardManager.getBoard().updateValue(8);
+            }
+        });
+    }
+
+    private void addButtonNineListener() {
+        Button buttonNine = findViewById(R.id.button_9);
+        buttonNine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                boardManager.getBoard().updateValue(9);
+            }
+        });
     }
 
     /**
