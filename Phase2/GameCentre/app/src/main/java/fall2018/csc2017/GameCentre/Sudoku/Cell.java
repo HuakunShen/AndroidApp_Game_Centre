@@ -71,9 +71,9 @@ public class Cell implements Serializable {
         if (row / 3 == 0 || row / 3 == 2) {
             if (col / 3 == 1) {
                 if (this.editable){
-                    currentCellName = "red_blue_" + Integer.toString(faceValue);
+                    currentCellName = "red_grey_" + Integer.toString(faceValue);
                 }else{
-                    currentCellName = "black_blue_" + Integer.toString(faceValue);
+                    currentCellName = "black_grey_" + Integer.toString(faceValue);
                 }
 
             } else {
@@ -87,9 +87,9 @@ public class Cell implements Serializable {
         } else {
             if (col / 3 == 0 || col / 3 == 2) {
                 if (this.editable){
-                    currentCellName = "red_blue_" + Integer.toString(faceValue);
+                    currentCellName = "red_grey_" + Integer.toString(faceValue);
                 }else{
-                    currentCellName = "black_blue_" + Integer.toString(faceValue);
+                    currentCellName = "black_grey_" + Integer.toString(faceValue);
                 }
             } else {
                 if (this.editable){
