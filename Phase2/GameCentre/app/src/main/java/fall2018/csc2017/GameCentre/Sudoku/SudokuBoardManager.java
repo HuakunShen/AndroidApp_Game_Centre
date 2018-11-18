@@ -1,12 +1,13 @@
 package fall2018.csc2017.GameCentre.Sudoku;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import fall2018.csc2017.GameCentre.Data.StateStack;
 
-public class SudokuBoardManager {
+public class SudokuBoardManager implements Serializable {
 
     /**
      * The board begin managed.

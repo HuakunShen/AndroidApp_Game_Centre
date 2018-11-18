@@ -151,7 +151,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      * Setup the gridview where the tiles are located
      */
     private void addGridViewToActivity() {
-        gridView = findViewById(R.id.grid);
+        gridView = findViewById(R.id.SudokuGrid);
         gridView.setNumColumns(SudokuBoard.NUM_COLS_SUDOKU);
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
