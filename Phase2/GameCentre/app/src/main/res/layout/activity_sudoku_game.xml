@@ -30,128 +30,146 @@
 
     <Button
         android:id="@+id/button_1"
-        android:layout_width="34dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textSize="20dp"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="100dp"
         android:text="1"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_2"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.673"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grid" />
+        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button_2"
-        android:layout_width="34dp"
-        android:layout_height="38dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="100dp"
         android:text="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_3"
-        app:layout_constraintTop_toBottomOf="@+id/grid" />
+        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button_3"
-        android:layout_width="34dp"
-        android:layout_height="38dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="100dp"
         android:text="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_4"
-        app:layout_constraintTop_toBottomOf="@+id/grid" />
+        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button_4"
-        android:layout_width="34dp"
-        android:layout_height="38dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="100dp"
         android:text="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_5"
-        app:layout_constraintTop_toBottomOf="@+id/grid" />
+        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button_5"
-        android:layout_width="34dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="188dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textSize="20dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="100dp"
         android:text="5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_6"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grid" />
+        app:layout_constraintEnd_toStartOf="@+id/button_6" />
 
     <Button
         android:id="@+id/button_6"
-        android:layout_width="34dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="236dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textSize="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="100dp"
         android:text="6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_7"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grid" />
+        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button_7"
-        android:layout_width="34dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="268dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textSize="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="100dp"
         android:text="7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_8"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grid" />
+        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button_8"
-        android:layout_width="34dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="316dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textSize="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="100dp"
         android:text="8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_9"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grid" />
+        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button_9"
-        android:layout_width="34dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="360dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:textSize="20dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="44dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="100dp"
         android:text="9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
+        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/sudokuTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Time: "
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/SudokuGrid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.694"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/grid" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>

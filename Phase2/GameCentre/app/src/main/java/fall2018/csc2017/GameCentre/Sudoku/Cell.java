@@ -66,39 +66,26 @@ public class Cell implements Serializable {
      */
     void setFaceValue(Integer faceValue) {
         this.faceValue = faceValue;
-        String currentCellName;
+        String currentCellName = "";
+
+        if (this.editable)
+            currentCellName += "red_";
+        else
+            currentCellName += "black_";
 
         if (row / 3 == 0 || row / 3 == 2) {
-            if (col / 3 == 1) {
-                if (this.editable){
-                    currentCellName = "red_grey_" + Integer.toString(faceValue);
-                }else{
-                    currentCellName = "black_grey_" + Integer.toString(faceValue);
-                }
-
-            } else {
-                if (this.editable){
-                    currentCellName = "red_white_" + Integer.toString(faceValue);
-                }else{
-                    currentCellName = "black_white_" + Integer.toString(faceValue);
-                }
-
-            }
+            if (col / 3 == 1)
+                currentCellName += "grey_";
+            else
+                currentCellName += "white_";
         } else {
-            if (col / 3 == 0 || col / 3 == 2) {
-                if (this.editable){
-                    currentCellName = "red_grey_" + Integer.toString(faceValue);
-                }else{
-                    currentCellName = "black_grey_" + Integer.toString(faceValue);
-                }
-            } else {
-                if (this.editable){
-                    currentCellName = "red_white_" + Integer.toString(faceValue);
-                }else{
-                    currentCellName = "black_white_" + Integer.toString(faceValue);
-                }
-            }
+            if (col / 3 == 0 || col / 3 == 2)
+                currentCellName += "grey_";
+            else
+                currentCellName += "white_";
         }
+        currentCellName += Integer.toString(faceValue);
+
         int currentCellID = SudokuStartingActivity.RESOURCES.getIdentifier(currentCellName, "drawable", SudokuStartingActivity.PACKAGE_NAME);
         background = currentCellID;
     }
