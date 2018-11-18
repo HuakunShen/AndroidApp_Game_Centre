@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.Sudoku;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,8 @@ import fall2018.csc2017.GameCentre.R;
 
 public class SudokuStartingActivity extends AppCompatActivity {
 
+    public static Resources RESOURCES;
+    public static String PACKAGE_NAME;
     private static final int MAX_UNDO_LIMIT = 20;
     private User user;
     private String username;
@@ -51,6 +54,8 @@ public class SudokuStartingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sudoku_starting);
         db = new DatabaseHandler(this);
         username = getIntent().getStringExtra("user");
+        PACKAGE_NAME = getApplicationContext().getPackageName();
+        RESOURCES = getResources();
         setupUser();
         setupFile();
 

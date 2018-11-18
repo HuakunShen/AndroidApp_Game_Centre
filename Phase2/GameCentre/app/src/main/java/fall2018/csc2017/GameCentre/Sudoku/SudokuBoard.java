@@ -12,7 +12,7 @@ public class SudokuBoard extends Observable implements Serializable {
     /**
      * The cells on the board.
      */
-    private Cell[][] cells = new Cell[9][9];
+    private Cell[][] cells = new Cell[NUM_ROWS_SUDOKU][NUM_COLS_SUDOKU];
 
     /**
      * A new board of cells in row-major order.
@@ -23,8 +23,8 @@ public class SudokuBoard extends Observable implements Serializable {
     SudokuBoard(List<Cell> cells) {
         Iterator<Cell> iterator = cells.iterator();
 
-        for (int row = 0; row != 9; row++) {
-            for (int col = 0; col != 9; col++) {
+        for (int row = 0; row != NUM_ROWS_SUDOKU; row++) {
+            for (int col = 0; col != NUM_COLS_SUDOKU; col++) {
                 this.cells[row][col] = iterator.next();
             }
         }

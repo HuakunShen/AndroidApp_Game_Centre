@@ -211,8 +211,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = displayWidth / Board.NUM_COLS;
-                        columnHeight = displayHeight / Board.NUM_ROWS;
+                        columnWidth = (displayWidth / Board.NUM_COLS);
+                        columnHeight = (displayHeight / Board.NUM_ROWS);
 
                         display();
                     }

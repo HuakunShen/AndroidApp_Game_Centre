@@ -320,21 +320,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         for (Button b : cellButtons) {
             int row = nextPos / SudokuBoard.NUM_ROWS_SUDOKU;
             int col = nextPos % SudokuBoard.NUM_COLS_SUDOKU;
-//            int tile_id = board.getCell(row, col).get();
             b.setBackgroundResource(board.getCell(row, col).getBackground());
-//            if (tile_id == SudokuBoard.NUM_ROWS * Board.NUM_COLS
-//                    || StartingActivity.tileImages3x3[0] == null) {
-//                b.setBackgroundResource(board.getTile(row, col).getBackground());
-//            } else if (board.difficulty == 3) {
-//                b.setBackground(new BitmapDrawable(getResources(),
-//                        StartingActivity.tileImages3x3[tile_id]));
-//            } else if (board.difficulty == 4) {
-//                b.setBackground(new BitmapDrawable(getResources(),
-//                        StartingActivity.tileImages4x4[tile_id]));
-//            } else if (board.difficulty == 5) {
-//                b.setBackground(new BitmapDrawable(getResources(),
-//                        StartingActivity.tileImages5x5[tile_id]));
-//            }
             nextPos++;
         }
     }

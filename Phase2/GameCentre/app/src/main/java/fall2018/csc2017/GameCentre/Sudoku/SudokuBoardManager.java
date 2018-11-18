@@ -51,7 +51,7 @@ public class SudokuBoardManager implements Serializable {
         Integer[][] newBoard = new BoardGenerator().getBoard();
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
-                cells.add(new Cell(newBoard[row][column]));
+                cells.add(new Cell(row, column, newBoard[row][column]));
             }
         }
         Integer editable = 0;

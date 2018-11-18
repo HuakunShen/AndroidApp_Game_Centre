@@ -3,6 +3,8 @@ package fall2018.csc2017.GameCentre.Sudoku;
 import java.io.Serializable;
 
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.SlidingTiles.Board;
+import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
 
 public class Cell implements Serializable {
 
@@ -28,13 +30,18 @@ public class Cell implements Serializable {
 
     private boolean highlighted;
 
+    private int row;
+    private int col;
+
     /**
      * The default constructor of Cell.
      *
      * @param value The value of the box.
      */
 
-    Cell(int value) {
+    Cell(int row, int col, int value) {
+        this.row = row;
+        this.col = col;
         this.solutionValue = value;
         this.editable = false;
         setFaceValue(value);
@@ -59,38 +66,41 @@ public class Cell implements Serializable {
      */
     void setFaceValue(Integer faceValue) {
         this.faceValue = faceValue;
-        switch (faceValue) {
-            case 1:
-                background = R.drawable.tile_1;
-                break;
-            case 2:
-                background = R.drawable.tile_2;
-                break;
-            case 3:
-                background = R.drawable.tile_3;
-                break;
-            case 4:
-                background = R.drawable.tile_4;
-                break;
-            case 5:
-                background = R.drawable.tile_5;
-                break;
-            case 6:
-                background = R.drawable.tile_6;
-                break;
-            case 7:
-                background = R.drawable.tile_7;
-                break;
-            case 8:
-                background = R.drawable.tile_8;
-                break;
-            case 9:
-                background = R.drawable.tile_9;
-                break;
-            case 0:
-                background = R.drawable.tile_empty;
-                break;
+        String currentCellName;
+
+        if (row / 3 == 0 || row / 3 == 2) {
+            if (col / 3 == 1) {
+                if (this.editable){
+                    currentCellName = "red_blue_" + Integer.toString(faceValue);
+                }else{
+                    currentCellName = "black_blue_" + Integer.toString(faceValue);
+                }
+
+            } else {
+                if (this.editable){
+                    currentCellName = "red_white_" + Integer.toString(faceValue);
+                }else{
+                    currentCellName = "black_white_" + Integer.toString(faceValue);
+                }
+
+            }
+        } else {
+            if (col / 3 == 0 || col / 3 == 2) {
+                if (this.editable){
+                    currentCellName = "red_blue_" + Integer.toString(faceValue);
+                }else{
+                    currentCellName = "black_blue_" + Integer.toString(faceValue);
+                }
+            } else {
+                if (this.editable){
+                    currentCellName = "red_white_" + Integer.toString(faceValue);
+                }else{
+                    currentCellName = "black_white_" + Integer.toString(faceValue);
+                }
+            }
         }
+        int currentCellID = SudokuStartingActivity.RESOURCES.getIdentifier(currentCellName, "drawable", SudokuStartingActivity.PACKAGE_NAME);
+        background = currentCellID;
     }
 
 
@@ -116,13 +126,15 @@ public class Cell implements Serializable {
         this.editable = true;
     }
 
-    int getBackground(){return background;}
+    int getBackground() {
+        return background;
+    }
 
-    boolean isHighlighted(){
+    boolean isHighlighted() {
         return highlighted;
     }
 
-    void setHighlighted(boolean value){
+    void setHighlighted(boolean value) {
         highlighted = value;
     }
 
