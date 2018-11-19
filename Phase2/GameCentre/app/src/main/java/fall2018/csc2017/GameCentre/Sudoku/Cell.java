@@ -73,7 +73,9 @@ public class Cell implements Serializable {
         else
             currentCellName += "black_";
 
-        if (row / 3 == 0 || row / 3 == 2) {
+        if (this.highlighted){
+            currentCellName += "blue_";
+        }else if (row / 3 == 0 || row / 3 == 2) {
             if (col / 3 == 1)
                 currentCellName += "grey_";
             else

@@ -59,7 +59,6 @@ public class SudokuBoard extends Observable implements Serializable {
             for(int j = 0; j < NUM_COLS_SUDOKU; j++){
                 if(cells[i][j].isHighlighted()){
                     cells[i][j].setFaceValue(value);
-                    cells[i][j].setHighlighted(false);
                     setChanged();
                     notifyObservers();
                 }
@@ -71,6 +70,7 @@ public class SudokuBoard extends Observable implements Serializable {
             for(int j = 0; j < NUM_COLS_SUDOKU; j++){
                 if(cells[i][j].isHighlighted()){
                     cells[i][j].setHighlighted(false);
+                    cells[i][j].setFaceValue(cells[i][j].getFaceValue());
                 }
             }
         }
