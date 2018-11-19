@@ -51,7 +51,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     private DatabaseHandler db;
     //time
     private LocalTime startingTime;
-    private Long preStartTime;
+    private Long preStartTime = 0L;
     private Long totalTimeTaken;
 
     private Button button1;
@@ -82,6 +82,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startingTime = LocalTime.now();
         setContentView(R.layout.activity_sudoku_game);
         startingTime = LocalTime.now();
         db = new DatabaseHandler(this);
@@ -92,7 +93,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
 //        setupTime();
         // Add View to activity
         addGridViewToActivity();
-
+        setupTime();
         setUpButtons();
 
     }
@@ -181,7 +182,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     private void setupTime() {
         Timer timer = new Timer();
         preStartTime = boardManager.getTimeTaken();
-        final TextView timeDisplay = findViewById(R.id.time_display_view);
+        final TextView timeDisplay = findViewById(R.id.sudoku_time_text);
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
