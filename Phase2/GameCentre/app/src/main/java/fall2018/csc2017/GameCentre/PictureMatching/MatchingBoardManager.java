@@ -1,5 +1,7 @@
 package fall2018.csc2017.GameCentre.PictureMatching;
 
+import android.graphics.Picture;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +73,10 @@ public class MatchingBoardManager implements Serializable {
         return currentTile.getId() != MatchingBoard.NUM_COLS*MatchingBoard.NUM_ROWS;
     }
 
-    public void cancelPicture(){
+    public void cancelPicture(int row, int col){
+        this.board.getHighlightedTile().setBackground(this.board.getTotalTiles()-1);
+        this.board.getTile(row,col).setBackground(this.board.getTotalTiles()-1);
+        this.board.getHighlightedTile().setHighlighted(false);
     }
 
     int getDifficulty() {

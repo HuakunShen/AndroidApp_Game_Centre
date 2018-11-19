@@ -24,6 +24,8 @@ public class MatchingBoard extends Observable implements Serializable, Iterable<
 
     public int difficulty;
 
+    private PictureTile highlightedTile;
+
     /**
      * The tiles on the board in row-major order.
      */
@@ -46,6 +48,17 @@ public class MatchingBoard extends Observable implements Serializable, Iterable<
         }
     }
 
+    public void setHighlightedTile(int row, int col) {
+        if (row == 50 && col == 50){
+            this.highlightedTile = null;
+        }else {
+            this.highlightedTile = this.tiles[row][col];
+        }
+    }
+
+    public PictureTile getHighlightedTile(){
+        return this.highlightedTile;
+    }
 
     @Override
     public Iterator<PictureTile> iterator() {
@@ -68,6 +81,10 @@ public class MatchingBoard extends Observable implements Serializable, Iterable<
             nextIndex++;
             return tile;
         }
+    }
+
+    public int getTotalTiles(){
+        return NUM_COLS * NUM_ROWS;
     }
 
 

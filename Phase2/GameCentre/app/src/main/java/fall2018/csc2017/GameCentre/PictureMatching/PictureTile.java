@@ -3,6 +3,7 @@ package fall2018.csc2017.GameCentre.PictureMatching;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.Observable;
 
 import fall2018.csc2017.GameCentre.R;
 
@@ -20,6 +21,8 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
      * The unique id.
      */
     private int id;
+
+    private boolean highlighted = false;
 
     /**
      * Return the background id.
@@ -39,6 +42,10 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
         return id;
     }
 
+    public void setBackground(int background){
+        this.background = background;
+    }
+
 //    /**
 //     * A Tile with id and background. The background may not have a corresponding image.
 //     *
@@ -49,7 +56,12 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
 //        this.id = id;
 //        this.background = background;
 //    }
-
+    public void setHighlighted(boolean highlighted){
+        this.highlighted = highlighted;
+    }
+    public boolean getHighlighted(){
+        return this.highlighted;
+    }
     /**
      * A tile with a background id; look up and set the id.
      *
@@ -61,10 +73,14 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
         String currentTileName = "tile_" + Integer.toString(id);
         int currentTileID = PictureMatchingStartingActivity.RESOURCES.getIdentifier(currentTileName,
                 "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
+        int invisible = PictureMatchingStartingActivity.RESOURCES.getIdentifier("black_blue_0",
+                "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
         if (id == numTiles) {
             background = R.drawable.tile_empty;
-        }else{
+        }else if (highlighted){
             background = currentTileID;
+        }else{
+            background = invisible;
         }
 }
 
