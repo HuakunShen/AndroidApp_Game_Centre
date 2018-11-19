@@ -111,10 +111,4 @@ public class Board extends Observable implements Serializable, Iterable<Tile> {
         notifyObservers();
     }
 
-    @Override
-    public String toString() {
-        return "SudokuBoard{" +
-                "tiles=" + Arrays.toString(tiles) +
-                '}';
-    }
 }

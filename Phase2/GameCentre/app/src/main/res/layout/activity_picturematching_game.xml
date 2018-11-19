@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fall2018.csc2017.GameCentre.PictureMatching.PictureMatchingStartingActivity">
+
+    <fall2018.csc2017.GameCentre.PictureMatching.PictureMatchingGestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/PictureMatchingGrid"
+        android:layout_width="395dp"
+        android:layout_height="441dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="0dp"
+        android:layout_marginEnd="0dp"
+        android:padding="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:context="fall2018.csc2017.GameCentre.PictureMatching.PictureMatchingGameActivity"
+        tools:ignore="MissingConstraints"></fall2018.csc2017.GameCentre.PictureMatching.PictureMatchingGestureDetectGridView>
+
+</android.support.constraint.ConstraintLayout>

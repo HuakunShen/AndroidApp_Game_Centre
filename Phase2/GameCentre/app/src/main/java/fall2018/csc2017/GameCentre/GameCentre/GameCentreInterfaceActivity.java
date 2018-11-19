@@ -25,6 +25,7 @@ import java.io.ObjectInputStream;
 
 import fall2018.csc2017.GameCentre.Data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.Data.User;
+import fall2018.csc2017.GameCentre.PictureMatching.PictureMatchingStartingActivity;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
 import fall2018.csc2017.GameCentre.Sudoku.SudokuStartingActivity;
@@ -52,8 +53,11 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
 
         addSlidingTilesButton();
         addSudokuButton();
+        addPictureMatchingButton();
         addNavigationView();
     }
+
+
 
     @Override
     protected void onResume() {
@@ -140,6 +144,18 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
             @Override
             public void onClick(View view) {
                 Intent intent  = new Intent(getApplication(), SudokuStartingActivity.class);
+                intent.putExtra("user", user.getUsername());
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void addPictureMatchingButton() {
+        Button game = findViewById(R.id.PictureMatching);
+        game.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent  = new Intent(getApplication(), PictureMatchingStartingActivity.class);
                 intent.putExtra("user", user.getUsername());
                 startActivity(intent);
             }
