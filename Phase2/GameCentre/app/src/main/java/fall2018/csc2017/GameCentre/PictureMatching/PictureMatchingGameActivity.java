@@ -218,7 +218,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         for (int row = 0; row != MatchingBoard.NUM_ROWS; row++) {
             for (int col = 0; col != MatchingBoard.NUM_COLS; col++) {
                 Button tmp = new Button(context);
-                tmp.setBackgroundResource(board.getTile(row, col).getBackground());
+                tmp.setBackgroundResource(R.drawable.black_blue_0);
                 this.tileButtons.add(tmp);
             }
         }
@@ -233,7 +233,21 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         for (Button b : tileButtons) {
             int row = nextPos / MatchingBoard.NUM_COLS;
             int col = nextPos % MatchingBoard.NUM_COLS;
-            b.setBackgroundResource(board.getTile(row,col).getBackground());
+            PictureTile currentTile = this.boardManager.getBoard().getTile(row,col);
+            if (currentTile.getState().equals(PictureTile.FLIP)){
+                String name = "tile_"  + Integer.toString(currentTile.getId());
+                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier(name,
+                        "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
+                b.setBackgroundResource(id);
+            }else if(currentTile.getState().equals(PictureTile.COVERED)){
+                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier("black_blue_0",
+                        "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
+                b.setBackgroundResource(id);
+            }else if(currentTile.getState().equals(PictureTile.SOLVED)){
+                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier("tile_empty",
+                        "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
+                b.setBackgroundResource(id);
+            }
             nextPos++;
         }
     }
@@ -306,7 +320,8 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     public void update(Observable o, Object arg) {
         display();
         if (boardManager.puzzleSolved()) {
-            Integer score = calculateScore();
+//            Integer score = calculateScore();
+            Integer score = 0;
             user.updateScore(GAME_NAME, score);
             saveToFile(userFile);
             db.updateScore(user, GAME_NAME);

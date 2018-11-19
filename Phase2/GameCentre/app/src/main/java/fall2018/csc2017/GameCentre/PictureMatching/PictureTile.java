@@ -13,25 +13,25 @@ import fall2018.csc2017.GameCentre.R;
 public class PictureTile implements Comparable<PictureTile>, Serializable {
 
     /**
-     * The background id to find the tile image.
-     */
-    private int background;
-
-    /**
      * The unique id.
      */
     private int id;
+    public static final String SOLVED = "solved";
+    public static final String FLIP = "flip";
+    public static final String COVERED = "covered";
 
-    private boolean highlighted = false;
+    private String state;
+    private int row;
+    private int col;
 
-    /**
-     * Return the background id.
-     *
-     * @return the background id
-     */
-    public int getBackground() {
-        return background;
+    public int getRow() {
+        return row;
     }
+
+    public int getCol() {
+        return col;
+    }
+
 
     /**
      * Return the tile id.
@@ -42,47 +42,26 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
         return id;
     }
 
-    public void setBackground(int background){
-        this.background = background;
+    public String getState() {
+        return state;
     }
 
-//    /**
-//     * A Tile with id and background. The background may not have a corresponding image.
-//     *
-//     * @param id         the id
-//     * @param background the background
-//     */
-//    public PictureTile(int id, int background) {
-//        this.id = id;
-//        this.background = background;
-//    }
-    public void setHighlighted(boolean highlighted){
-        this.highlighted = highlighted;
+    public void setState(String state) {
+        this.state = state;
     }
-    public boolean getHighlighted(){
-        return this.highlighted;
-    }
+
     /**
      * A tile with a background id; look up and set the id.
      *
-     * @param backgroundId
+     * @param id
      */
-    public PictureTile(int backgroundId) {
-        id = backgroundId + 1;
-        int numTiles = MatchingBoard.NUM_ROWS * MatchingBoard.NUM_COLS;
-        String currentTileName = "tile_" + Integer.toString(id);
-        int currentTileID = PictureMatchingStartingActivity.RESOURCES.getIdentifier(currentTileName,
-                "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
-        int invisible = PictureMatchingStartingActivity.RESOURCES.getIdentifier("black_blue_0",
-                "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
-        if (id == numTiles) {
-            background = R.drawable.tile_empty;
-        }else if (highlighted){
-            background = currentTileID;
-        }else{
-            background = invisible;
+    public PictureTile(int id, int row, int col) {
+        this.id = id ;
+        this.state = COVERED;
+        this.row = row;
+        this.col = col;
         }
-}
+
 
     @Override
     public int compareTo(@NonNull PictureTile o) {
