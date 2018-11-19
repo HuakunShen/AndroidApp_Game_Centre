@@ -27,7 +27,7 @@ import fall2018.csc2017.GameCentre.Data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.SlidingTiles.CustomAdapter;
 
-public class SudokuGameActivity extends AppCompatActivity implements Observer {
+public class SudokuGameActivity extends AppCompatActivity implements Observer, View.OnClickListener {
 
     /**
      * The board manager.
@@ -51,8 +51,18 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     private DatabaseHandler db;
     //time
     private LocalTime startingTime;
-    private Long preStartTime;
+    private Long preStartTime = 0L;
     private Long totalTimeTaken;
+
+    private Button button1;
+    private Button button2;
+    private Button button3;
+    private Button button4;
+    private Button button5;
+    private Button button6;
+    private Button button7;
+    private Button button8;
+    private Button button9;
 
     /**
      * Warning message
@@ -72,6 +82,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startingTime = LocalTime.now();
         setContentView(R.layout.activity_sudoku_game);
         startingTime = LocalTime.now();
         db = new DatabaseHandler(this);
@@ -82,116 +93,65 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
 //        setupTime();
         // Add View to activity
         addGridViewToActivity();
+        setupTime();
+        setUpButtons();
 
-        addButtonOneListener();
-        addButtonTwoListener();
-        addButtonThreeListener();
-        addButtonFourListener();
-        addButtonFiveListener();
-        addButtonSixListener();
-        addButtonSevenListener();
-        addButtonEightListener();
-        addButtonNineListener();
     }
 
-    private void addButtonOneListener() {
-        Button buttonOne = findViewById(R.id.button_1);
-        buttonOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update the faceValue and background of the cell and set this cell's unhighlighted.
+    private void setUpButtons() {
+        button1 = findViewById(R.id.button_1);
+        button2 = findViewById(R.id.button_2);
+        button3 = findViewById(R.id.button_3);
+        button4 = findViewById(R.id.button_4);
+        button5 = findViewById(R.id.button_5);
+        button6 = findViewById(R.id.button_6);
+        button7 = findViewById(R.id.button_7);
+        button8 = findViewById(R.id.button_8);
+        button9 = findViewById(R.id.button_9);
+        button1.setOnClickListener(this);
+        button2.setOnClickListener(this);
+        button3.setOnClickListener(this);
+        button4.setOnClickListener(this);
+        button5.setOnClickListener(this);
+        button6.setOnClickListener(this);
+        button7.setOnClickListener(this);
+        button8.setOnClickListener(this);
+        button9.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.button_1:
                 boardManager.getBoard().updateValue(1);
-            }
-        });
-    }
-
-    private void addButtonTwoListener() {
-        Button buttonTwo = findViewById(R.id.button_2);
-        buttonTwo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                break;
+            case R.id.button_2:
                 boardManager.getBoard().updateValue(2);
-            }
-        });
-    }
-
-    private void addButtonThreeListener() {
-        Button buttonThree = findViewById(R.id.button_3);
-        buttonThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                break;
+            case R.id.button_3:
                 boardManager.getBoard().updateValue(3);
-            }
-        });
-    }
-
-    private void addButtonFourListener() {
-        Button buttonFour = findViewById(R.id.button_4);
-        buttonFour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                break;
+            case R.id.button_4:
                 boardManager.getBoard().updateValue(4);
-            }
-        });
-    }
-
-    private void addButtonFiveListener() {
-        Button buttonFive = findViewById(R.id.button_5);
-        buttonFive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                break;
+            case R.id.button_5:
                 boardManager.getBoard().updateValue(5);
-            }
-        });
-    }
-
-    private void addButtonSixListener() {
-        Button buttonSix = findViewById(R.id.button_6);
-        buttonSix.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                break;
+            case R.id.button_6:
                 boardManager.getBoard().updateValue(6);
-            }
-        });
-    }
-
-    private void addButtonSevenListener() {
-        Button buttonSeven = findViewById(R.id.button_7);
-        buttonSeven.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                break;
+            case R.id.button_7:
                 boardManager.getBoard().updateValue(7);
-            }
-        });
-    }
-
-    private void addButtonEightListener() {
-        Button buttonEight = findViewById(R.id.button_8);
-        buttonEight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update the faceValue and background of the cell and set this cell's unhighlighted.
+                break;
+            case R.id.button_8:
                 boardManager.getBoard().updateValue(8);
-            }
-        });
+                break;
+            case R.id.button_9:
+                boardManager.getBoard().updateValue(9);
+                break;
+        }
     }
 
-    private void addButtonNineListener() {
-        Button buttonNine = findViewById(R.id.button_9);
-        buttonNine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update the faceValue and background of the cell and set this cell's unhighlighted.
-                boardManager.getBoard().updateValue(9);
-            }
-        });
-    }
 
     /**
      * setup user object according to username and define the value of userFile (where user
@@ -222,7 +182,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     private void setupTime() {
         Timer timer = new Timer();
         preStartTime = boardManager.getTimeTaken();
-        final TextView timeDisplay = findViewById(R.id.time_display_view);
+        final TextView timeDisplay = findViewById(R.id.sudoku_time_text);
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
@@ -399,4 +359,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         Integer score = new Integer(10000 / timeInSec);
         return score;
     }
+
+
 }

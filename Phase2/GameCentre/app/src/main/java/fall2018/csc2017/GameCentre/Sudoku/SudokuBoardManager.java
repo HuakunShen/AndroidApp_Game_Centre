@@ -73,6 +73,7 @@ public class SudokuBoardManager implements Serializable {
             }
         }
         this.board = new SudokuBoard(cells);
+        this.timeTaken = 0L;
     }
 
     /**
