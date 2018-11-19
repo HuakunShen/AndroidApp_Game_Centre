@@ -21,6 +21,7 @@ import java.io.ObjectOutputStream;
 import fall2018.csc2017.GameCentre.Data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.Data.User;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
 
 public class SudokuStartingActivity extends AppCompatActivity {
 
@@ -89,17 +90,17 @@ public class SudokuStartingActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position) == list_diff[0]) {
-                    selected_difficulty = 3;
+                    selected_difficulty = 1;
                 } else if (parent.getItemAtPosition(position) == list_diff[1]) {
-                    selected_difficulty = 4;
+                    selected_difficulty = 2;
                 } else if (parent.getItemAtPosition(position) == list_diff[2]) {
-                    selected_difficulty = 5;
+                    selected_difficulty = 3;
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selected_difficulty = 4;
+                selected_difficulty = 2;
             }
         });
     }
@@ -113,6 +114,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SudokuBoardManager.setLevelOfDifficulty(selected_difficulty);
                 boardManager = new SudokuBoardManager();
                 switchToGame();
             }
