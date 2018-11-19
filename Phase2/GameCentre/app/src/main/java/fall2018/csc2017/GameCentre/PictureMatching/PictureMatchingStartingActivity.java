@@ -51,13 +51,14 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PACKAGE_NAME = getApplicationContext().getPackageName();
+        RESOURCES = getResources();
         setContentView(R.layout.activity_picturematching_starting);
         db = new DatabaseHandler(this);
         username = getIntent().getStringExtra("user");
-        PACKAGE_NAME = getApplicationContext().getPackageName();
-        RESOURCES = getResources();
 
-        selected_difficulty = 4;
+
+//        selected_difficulty = 4;
 
         setupUser();
         setupFile();

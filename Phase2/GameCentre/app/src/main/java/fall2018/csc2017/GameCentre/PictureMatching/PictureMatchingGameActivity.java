@@ -1,9 +1,7 @@
 package fall2018.csc2017.GameCentre.PictureMatching;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -83,7 +81,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         createTileButtons(this);
         setContentView(R.layout.activity_picturematching_game);
 //        setupTime();
-//        setUpStep();
         // Add View to activity
         addGridViewToActivity();
 //        addWarningTextViewListener();
@@ -113,26 +110,26 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 
 
 
-//    /**
-//     * Time counting, setup initial time based on the record in boardmanager
-//     */
-//    private void setupTime() {
-//        Timer timer = new Timer();
-//        preStartTime = boardManager.getTimeTaken();
-//        final TextView timeDisplay = findViewById(R.id.time_display_view);
-//        TimerTask task2 = new TimerTask() {
-//            @Override
-//            public void run() {
-//                long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-//                timeDisplay.setText(timeToString(time + preStartTime));
-////                timeDisplay.setText(timeToString(time));
-//                totalTimeTaken = time + preStartTime;
-//                boardManager.setTimeTaken(time + preStartTime);
-////                saveToFile(gameStateFile);
-//            }
-//        };
-//        timer.schedule(task2, 0, 1000);
-//    }
+    /**
+     * Time counting, setup initial time based on the record in boardmanager
+     */
+    private void setupTime() {
+        Timer timer = new Timer();
+        preStartTime = boardManager.getTimeTaken();
+        final TextView timeDisplay = findViewById(R.id.time_display_view);
+        TimerTask task2 = new TimerTask() {
+            @Override
+            public void run() {
+                long time = Duration.between(startingTime, LocalTime.now()).toMillis();
+                timeDisplay.setText(timeToString(time + preStartTime));
+//                timeDisplay.setText(timeToString(time));
+                totalTimeTaken = time + preStartTime;
+                boardManager.setTimeTaken(time + preStartTime);
+//                saveToFile(gameStateFile);
+            }
+        };
+        timer.schedule(task2, 0, 1000);
+    }
 
     /**
      * Set up the warning message displayed on the UI.
@@ -234,7 +231,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         MatchingBoard board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / MatchingBoard.NUM_ROWS;
+            int row = nextPos / MatchingBoard.NUM_COLS;
             int col = nextPos % MatchingBoard.NUM_COLS;
             b.setBackgroundResource(board.getTile(row,col).getBackground());
             nextPos++;

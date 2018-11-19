@@ -1,5 +1,12 @@
 package fall2018.csc2017.GameCentre.PictureMatching;
 
+/*
+Adapted from:
+https://github.com/DaveNOTDavid/sample-puzzle/blob/master/app/src/main/java/com/davenotdavid/samplepuzzle/GestureDetectGridView.java
+
+This extension of GridView contains built in logic for handling swipes between buttons
+ */
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -7,7 +14,6 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
-
 
 public class PictureMatchingGestureDetectGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;

@@ -12,6 +12,7 @@ public class MatchingBoardManager implements Serializable {
      * The board being managed.
      */
     private MatchingBoard board;
+    private long time;
 
     public MatchingBoardManager(MatchingBoard board){this.board = board;}
 
@@ -75,5 +76,13 @@ public class MatchingBoardManager implements Serializable {
 
     int getDifficulty() {
         return board.difficulty;
+    }
+
+    public void setTimeTaken(long l) {
+        this.time = l;
+    }
+
+    public Long getTimeTaken() {
+        return this.time;
     }
 }

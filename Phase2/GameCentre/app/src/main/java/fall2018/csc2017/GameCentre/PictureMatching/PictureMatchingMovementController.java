@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 public class PictureMatchingMovementController {
 
-    private MatchingBoardManager boardManager = null;
+    private MatchingBoardManager boardManager;
 
     public PictureMatchingMovementController() {
     }
