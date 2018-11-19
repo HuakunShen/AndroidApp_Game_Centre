@@ -16,11 +16,11 @@ public class BoardGenerator {
      */
     BoardGenerator() {
         boardInitializer();
-        for (int n = 0; n < 1; n++) {
+        for (int n = 0; n < 100; n++) {
             juniorBoardShuffler(0);
             seniorBoardShuffler(0);
         }
-        for (int n = 0; n < 1; n++) {
+        for (int n = 0; n < 100; n++) {
             juniorBoardShuffler(1);
             seniorBoardShuffler(1);
         }

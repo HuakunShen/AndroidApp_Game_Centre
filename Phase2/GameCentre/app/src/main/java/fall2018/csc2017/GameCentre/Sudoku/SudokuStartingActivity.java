@@ -21,7 +21,7 @@ import java.io.ObjectOutputStream;
 import fall2018.csc2017.GameCentre.Data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.Data.User;
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
+
 
 public class SudokuStartingActivity extends AppCompatActivity {
 
