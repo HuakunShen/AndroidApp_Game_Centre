@@ -7,7 +7,8 @@
     android:background="@drawable/brown_paper_background"
     tools:context="fall2018.csc2017.GameCentre.Sudoku.SudokuGameActivity">
 
-    <fall2018.csc2017.GameCentre.Sudoku.SudokuGestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    <fall2018.csc2017.GameCentre.Sudoku.SudokuGestureDetectGridView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/SudokuGrid"
