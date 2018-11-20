@@ -110,7 +110,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
      */
     private void addStartButtonListener() {
         Button startButton = findViewById(R.id.SudokuNewGameButton);
-//        final EditText undoLimit = findViewById(R.id.undoLimitInput);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +159,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
         username = getIntent().getStringExtra("user");
         userFile = db.getUserFile(username);
         loadFromFile(userFile);
-//        Toast.makeText(this, "Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -181,7 +179,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
      * @param fileName the name of the file
      */
     private void loadFromFile(String fileName) {
-
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {

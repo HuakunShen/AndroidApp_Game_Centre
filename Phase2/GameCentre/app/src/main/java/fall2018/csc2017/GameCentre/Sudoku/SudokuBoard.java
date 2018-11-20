@@ -3,16 +3,13 @@ package fall2018.csc2017.GameCentre.Sudoku;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Observable;
 
-public class SudokuBoard extends Observable implements Serializable {
+public class SudokuBoard implements Serializable {
 
-    public static final int NUM_ROWS_SUDOKU = 9;
-    public static final int NUM_COLS_SUDOKU = 9;
     /**
      * The cells on the board.
      */
-    private Cell[][] cells = new Cell[NUM_ROWS_SUDOKU][NUM_COLS_SUDOKU];
+    private Cell[][] cells = new Cell[9][9];
 
     /**
      * A new board of cells in row-major order.
@@ -23,8 +20,8 @@ public class SudokuBoard extends Observable implements Serializable {
     SudokuBoard(List<Cell> cells) {
         Iterator<Cell> iterator = cells.iterator();
 
-        for (int row = 0; row != NUM_ROWS_SUDOKU; row++) {
-            for (int col = 0; col != NUM_COLS_SUDOKU; col++) {
+        for (int row = 0; row != 9; row++) {
+            for (int col = 0; col != 9; col++) {
                 this.cells[row][col] = iterator.next();
             }
         }
@@ -51,28 +48,5 @@ public class SudokuBoard extends Observable implements Serializable {
      */
     boolean checkEditable(int row, int col) {
         return this.cells[row][col].isEditable();
-    }
-
-
-    void updateValue(int value) {
-        for(int i = 0; i < NUM_ROWS_SUDOKU; i++){
-            for(int j = 0; j < NUM_COLS_SUDOKU; j++){
-                if(cells[i][j].isHighlighted()){
-                    cells[i][j].setFaceValue(value);
-                    setChanged();
-                    notifyObservers();
-                }
-            }
-        }
-    }
-    void setHighLightedCell(){
-        for(int i = 0; i < NUM_ROWS_SUDOKU; i++){
-            for(int j = 0; j < NUM_COLS_SUDOKU; j++){
-                if(cells[i][j].isHighlighted()){
-                    cells[i][j].setHighlighted(false);
-                    cells[i][j].setFaceValue(cells[i][j].getFaceValue());
-                }
-            }
-        }
     }
 }

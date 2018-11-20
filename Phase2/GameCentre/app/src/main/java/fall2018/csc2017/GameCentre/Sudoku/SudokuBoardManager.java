@@ -3,11 +3,12 @@ package fall2018.csc2017.GameCentre.Sudoku;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.Random;
 
 import fall2018.csc2017.GameCentre.Data.StateStack;
 
-public class SudokuBoardManager implements Serializable {
+public class SudokuBoardManager extends Observable implements Serializable {
 
     /**
      * The board begin managed.
@@ -92,6 +93,20 @@ public class SudokuBoardManager implements Serializable {
     }
 
     /**
+     * Getter function for the time the user used.
+     */
+    long getTimeTaken() {
+        return timeTaken;
+    }
+
+    /**
+     * Setter function for the time the user used.
+     */
+    void setTimeTaken(long timeTakenSoFar) {
+        this.timeTaken = timeTakenSoFar;
+    }
+
+    /**
      * Returns whether the sudoku puzzle has been solved.
      */
     boolean sudokuSolved() {
@@ -115,18 +130,33 @@ public class SudokuBoardManager implements Serializable {
     /**
      * Performs changes to the board.
      */
-    void makeMove(int position) {
-        this.board.setHighLightedCell();
-        Cell cell = this.board.getCell(position/9, position%9);
-        cell.setHighlighted(true);
-        this.board.updateValue(cell.getFaceValue());
+    void makeMove(int position, int value) {
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(board.getCell(i, j).isHighlighted()){
+                    board.getCell(i, j).setHighlighted();
+                    board.getCell(i, j).setFaceValue(board.getCell(i, j).getFaceValue());
+                }
+            }
+        }
+        board.getCell(position / 9, position % 9).setHighlighted();
+        board.getCell(position / 9, position % 9).setFaceValue(value);
+        setChanged();
+        notifyObservers();
     }
 
-    long getTimeTaken() {
-        return timeTaken;
-    }
-
-    void setTimeTaken(long timeTakenSoFar) {
-        this.timeTaken = timeTakenSoFar;
+    /**
+     * Update the face value of the board.
+     */
+    void updateValue(int value) {
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(board.getCell(i, j).isHighlighted()){
+                    board.getCell(i, j).setFaceValue(value);
+                    setChanged();
+                    notifyObservers();
+                }
+            }
+        }
     }
 }
