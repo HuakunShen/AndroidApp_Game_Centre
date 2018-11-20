@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/picture_matching_background"
     tools:context="fall2018.csc2017.GameCentre.PictureMatching.PictureMatchingStartingActivity">
 
     <fall2018.csc2017.GameCentre.PictureMatching.PictureMatchingGestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
