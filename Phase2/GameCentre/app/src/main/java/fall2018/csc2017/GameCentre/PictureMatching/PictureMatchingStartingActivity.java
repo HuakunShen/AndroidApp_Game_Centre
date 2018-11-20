@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre.Sudoku;
+package fall2018.csc2017.GameCentre.PictureMatching;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,12 +23,10 @@ import fall2018.csc2017.GameCentre.Data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.Data.User;
 import fall2018.csc2017.GameCentre.R;
 
+public class PictureMatchingStartingActivity extends AppCompatActivity {
 
-public class SudokuStartingActivity extends AppCompatActivity {
-
-    public static Resources RESOURCES;
     public static String PACKAGE_NAME;
-    private static final int MAX_UNDO_LIMIT = 20;
+    public static Resources RESOURCES;
     private User user;
     private String username;
     private String userFile;
@@ -43,24 +42,28 @@ public class SudokuStartingActivity extends AppCompatActivity {
     /**
      * The board manager.
      */
-    public static final String GAME_NAME = "Sudoku";
-    private SudokuBoardManager boardManager;
-    private String[] list_diff = new String[]{"Easy", "Normal", "Hard"};
-    private int selected_difficulty;
+    public static final String GAME_NAME = "PictureMatch";
+    private MatchingBoardManager boardManager;
 
+    private String[] list_diff = new String[]{"Easy(4x4)", "Normal(6x6)", "Hard(8x8)"};
+    private int selected_difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sudoku_starting);
-        db = new DatabaseHandler(this);
-        username = getIntent().getStringExtra("user");
         PACKAGE_NAME = getApplicationContext().getPackageName();
         RESOURCES = getResources();
+        setContentView(R.layout.activity_picturematching_starting);
+        db = new DatabaseHandler(this);
+        username = getIntent().getStringExtra("user");
+
+
+        selected_difficulty = 2;
+
         setupUser();
         setupFile();
 
-        boardManager = new SudokuBoardManager();
+        boardManager = new MatchingBoardManager();
         saveToFile(tempGameStateFile);
 
         addStartButtonListener();
@@ -68,20 +71,8 @@ public class SudokuStartingActivity extends AppCompatActivity {
         addDiffSpinnerListener();
     }
 
-    /**
-     * Read the temporary board from disk.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadFromFile(tempGameStateFile);
-    }
-
-    /**
-     * Activate the spinner for selecting difficulty.
-     */
     private void addDiffSpinnerListener() {
-        Spinner select_diff = findViewById(R.id.list_diff_sudoku);
+        Spinner select_diff = findViewById(R.id.list_diff_picturematching);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
         select_diff.setAdapter(arrayAdapter);
@@ -90,54 +81,34 @@ public class SudokuStartingActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position) == list_diff[0]) {
-                    selected_difficulty = 1;
-                } else if (parent.getItemAtPosition(position) == list_diff[1]) {
                     selected_difficulty = 2;
-                } else if (parent.getItemAtPosition(position) == list_diff[2]) {
+                } else if (parent.getItemAtPosition(position) == list_diff[1]) {
                     selected_difficulty = 3;
+                } else if (parent.getItemAtPosition(position) == list_diff[2]) {
+                    selected_difficulty = 4;
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selected_difficulty = 2;
+                selected_difficulty = 4;
             }
         });
     }
 
-    /**
-     * Activate the start button.
-     */
-    private void addStartButtonListener() {
-        Button startButton = findViewById(R.id.SudokuNewGameButton);
-//        final EditText undoLimit = findViewById(R.id.undoLimitInput);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SudokuBoardManager.setLevelOfDifficulty(selected_difficulty);
-                boardManager = new SudokuBoardManager();
-                switchToGame();
-            }
-        });
-    }
-
-    /**
-     * Activate the load button.
-     */
     private void addLoadButtonListener() {
-        Button loadButton = findViewById(R.id.SudokuLoadButton);
+        Button loadButton = findViewById(R.id.PictureMatchingLoadButton);
         loadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadFromFile(gameStateFile);
                 saveToFile(tempGameStateFile);
+                setDifficulty(boardManager.getDifficulty());
                 makeToast("Loaded Game");
                 switchToGame();
-
             }
         });
     }
-
     private void makeToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -146,28 +117,31 @@ public class SudokuStartingActivity extends AppCompatActivity {
      * Switch to the GameActivity view to play the game.
      */
     private void switchToGame() {
-        Intent tmp = new Intent(this, SudokuGameActivity.class);
+        Intent tmp = new Intent(this, PictureMatchingGameActivity.class);
         saveToFile(tempGameStateFile);
         tmp.putExtra("user", username);
         startActivity(tmp);
     }
 
-    /**
-     * setup user object according to username and define the value of userFile (where user
-     * object is saved)
-     */
-    private void setupUser() {
+    private void addStartButtonListener() {
+        Button startButton = findViewById(R.id.PictureMatchingNewGameButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setDifficulty(selected_difficulty);
+                boardManager = new MatchingBoardManager();
+                switchToGame();
+            }
+        });
+    }
+
+    private void setupFile() {
         username = getIntent().getStringExtra("user");
         userFile = db.getUserFile(username);
         loadFromFile(userFile);
-//        Toast.makeText(this, "Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * setup file of the game
-     * get the filename of where the game state should be saved
-     */
-    private void setupFile() {
+    private void setupUser() {
         if (!db.dataExists(username, GAME_NAME)) {
             db.addData(username, GAME_NAME);
         }
@@ -175,13 +149,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
         tempGameStateFile = "temp_" + gameStateFile;
     }
 
-    /**
-     * Load the board manager from fileName.
-     *
-     * @param fileName the name of the file
-     */
     private void loadFromFile(String fileName) {
-
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
@@ -189,7 +157,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
                 if (fileName.equals(userFile)) {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
-                    boardManager = (SudokuBoardManager) input.readObject();
+                    boardManager = (MatchingBoardManager) input.readObject();
                 }
                 inputStream.close();
             }
@@ -222,4 +190,13 @@ public class SudokuStartingActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Set the size of board to match with difficulty.
+     *
+     * @param diff the difficulty to set as
+     */
+    private void setDifficulty(int diff) {
+        MatchingBoard.NUM_ROWS = diff*2;
+        MatchingBoard.NUM_COLS = diff*2;
+    }
 }

@@ -88,7 +88,8 @@ public class Cell implements Serializable {
         }
         currentCellName += Integer.toString(faceValue);
 
-        int currentCellID = SudokuStartingActivity.RESOURCES.getIdentifier(currentCellName, "drawable", SudokuStartingActivity.PACKAGE_NAME);
+        int currentCellID = SudokuStartingActivity.RESOURCES.getIdentifier(currentCellName,
+                "drawable", SudokuStartingActivity.PACKAGE_NAME);
         background = currentCellID;
     }
 

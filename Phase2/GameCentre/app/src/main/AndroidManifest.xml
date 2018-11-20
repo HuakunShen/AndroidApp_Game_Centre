@@ -29,7 +29,9 @@
         <activity android:name=".GameCentre.NavSetting" />
         <activity android:name=".GameCentre.NavChangePassword" />
         <activity android:name=".Sudoku.SudokuStartingActivity" />
-        <activity android:name=".Sudoku.SudokuGameActivity"></activity>
+        <activity android:name=".Sudoku.SudokuGameActivity" />
+        <activity android:name=".PictureMatching.PictureMatchingGameActivity" />
+        <activity android:name=".PictureMatching.PictureMatchingStartingActivity"></activity>
     </application>
 
 </manifest>

@@ -1,10 +1,8 @@
-package fall2018.csc2017.GameCentre.SlidingTiles;
+package fall2018.csc2017.GameCentre.PictureMatching;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -27,35 +25,27 @@ import java.util.TimerTask;
 import fall2018.csc2017.GameCentre.Data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.Data.User;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.SlidingTiles.CustomAdapter;
 
-/**
- * The game activity.
- */
-public class GameActivity extends AppCompatActivity implements Observer {
-
+public class PictureMatchingGameActivity extends AppCompatActivity implements Observer {
     /**
      * The board manager.
      */
-    private BoardManager boardManager;
+    private MatchingBoardManager boardManager;
 
     /**
      * The buttons to display.
      */
     private ArrayList<Button> tileButtons;
 
-    /**
-     * Display steps
-     */
-    private TextView displayStep;
 
 
     // Grid View and calculated column height and width based on device size
-    private GestureDetectGridView gridView;
+    private PictureMatchingGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
 
-    private static final String GAME_NAME = "SlidingTiles";
+    private static final String GAME_NAME = "PictureMatch";
 
-    private TextView stepDisplay;
     private User user;
     private String username;
     private String userFile;
@@ -64,7 +54,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
     private LocalTime startingTime;
     private Long preStartTime;
     private Long totalTimeTaken;
-    private int steps;
 
     /**
      * Warning message
@@ -90,14 +79,11 @@ public class GameActivity extends AppCompatActivity implements Observer {
         setupFile();
         loadFromFile(tempGameStateFile);
         createTileButtons(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_picturematching_game);
         setupTime();
-        setUpStep();
         // Add View to activity
         addGridViewToActivity();
-        addUndoButtonListener();
-        addWarningTextViewListener();
-        addStepDisplayListener();
+//        addWarningTextViewListener();
     }
 
     /**
@@ -122,15 +108,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
         tempGameStateFile = "temp_" + gameStateFile;
     }
 
-    /**
-     * setup initial step base on the record in boardmanager
-     */
-    private void setUpStep() {
-        stepDisplay = findViewById(R.id.stepDisplayTextView);
-        this.steps = boardManager.getStepsTaken();
-//        this.steps = 0;
-        stepDisplay.setText("Steps: " + Integer.toString(steps));
-    }
 
 
     /**
@@ -139,12 +116,12 @@ public class GameActivity extends AppCompatActivity implements Observer {
     private void setupTime() {
         Timer timer = new Timer();
         preStartTime = boardManager.getTimeTaken();
-        final TextView timeDisplay = findViewById(R.id.time_display_view);
+        final TextView timeDisplay = findViewById(R.id.time_display_view_in_picturematching);
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                timeDisplay.setText(timeToString(time + preStartTime));
+                timeDisplay.setText("Time: " + timeToString(time + preStartTime));
                 totalTimeTaken = time + preStartTime;
                 boardManager.setTimeTaken(time + preStartTime);
             }
@@ -160,13 +137,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
         warning.setVisibility(View.INVISIBLE);
     }
 
-    /**
-     * Set up the step display textView
-     */
-    private void addStepDisplayListener() {
-        displayStep = findViewById(R.id.stepDisplayTextView);
-        displayStep.setText("Step: 0");
-    }
 
     /**
      * convert time in milli seconds (long type) to String which will be displayed
@@ -195,8 +165,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Setup the gridview where the tiles are located
      */
     private void addGridViewToActivity() {
-        gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(Board.NUM_COLS);
+        gridView = findViewById(R.id.PictureMatchingGrid);
+        gridView.setNumColumns(MatchingBoard.NUM_COLS);
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -209,8 +179,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = (displayWidth / Board.NUM_COLS);
-                        columnHeight = (displayHeight / Board.NUM_ROWS);
+                        columnWidth = (displayWidth / MatchingBoard.NUM_COLS);
+                        columnHeight = (displayHeight / MatchingBoard.NUM_ROWS);
 
                         display();
                     }
@@ -234,12 +204,12 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        Board board = boardManager.getBoard();
+        MatchingBoard board = boardManager.getBoard();
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
+        for (int row = 0; row != MatchingBoard.NUM_ROWS; row++) {
+            for (int col = 0; col != MatchingBoard.NUM_COLS; col++) {
                 Button tmp = new Button(context);
-                tmp.setBackgroundResource(board.getTile(row, col).getBackground());
+                tmp.setBackgroundResource(R.drawable.black_blue_0);
                 this.tileButtons.add(tmp);
             }
         }
@@ -249,24 +219,25 @@ public class GameActivity extends AppCompatActivity implements Observer {
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        Board board = boardManager.getBoard();
+        MatchingBoard board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / Board.NUM_ROWS;
-            int col = nextPos % Board.NUM_COLS;
-            int tile_id = board.getTile(row, col).getId();
-            if (tile_id == Board.NUM_ROWS * Board.NUM_COLS
-                    || StartingActivity.tileImages3x3[0] == null) {
-                b.setBackgroundResource(board.getTile(row, col).getBackground());
-            } else if (board.difficulty == 3) {
-                b.setBackground(new BitmapDrawable(getResources(),
-                        StartingActivity.tileImages3x3[tile_id]));
-            } else if (board.difficulty == 4) {
-                b.setBackground(new BitmapDrawable(getResources(),
-                        StartingActivity.tileImages4x4[tile_id]));
-            } else if (board.difficulty == 5) {
-                b.setBackground(new BitmapDrawable(getResources(),
-                        StartingActivity.tileImages5x5[tile_id]));
+            int row = nextPos / MatchingBoard.NUM_COLS;
+            int col = nextPos % MatchingBoard.NUM_COLS;
+            PictureTile currentTile = this.boardManager.getBoard().getTile(row,col);
+            if (currentTile.getState().equals(PictureTile.FLIP)){
+                String name = "tile_"  + Integer.toString(currentTile.getId());
+                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier(name,
+                        "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
+                b.setBackgroundResource(id);
+            }else if(currentTile.getState().equals(PictureTile.COVERED)){
+                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier("black_blue_0",
+                        "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
+                b.setBackgroundResource(id);
+            }else if(currentTile.getState().equals(PictureTile.SOLVED)){
+                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier("tile_empty",
+                        "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
+                b.setBackgroundResource(id);
             }
             nextPos++;
         }
@@ -275,7 +246,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onResume() {
         super.onResume();
-        stepDisplay.setText("Steps: " + Integer.toString(this.steps));
     }
 
     /**
@@ -288,31 +258,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
         saveToFile(gameStateFile);
     }
 
-    private void addUndoButtonListener() {
-        Button undoButton = findViewById(R.id.undo_button);
-        undoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (boardManager.undoAvailable()) {
-                    boardManager.touchMove(boardManager.popUndo());
-                } else {
-                    warning.setText("Exceeds Undo-Limit!");
-                    warning.setVisibility(View.VISIBLE);
-                    warning.setError("Exceeds Undo-Limit! ");
-                    displayStep.setVisibility(View.INVISIBLE);
-
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            warning.setVisibility(View.INVISIBLE);
-                            displayStep.setVisibility(View.VISIBLE);
-                        }
-                    }, 1000);
-                }
-            }
-        });
-    }
 
     /**
      * Load the board manager from fileName.
@@ -329,7 +274,7 @@ public class GameActivity extends AppCompatActivity implements Observer {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) ||
                         fileName.equals(tempGameStateFile)) {
-                    boardManager = (BoardManager) input.readObject();
+                    boardManager = (MatchingBoardManager) input.readObject();
                 }
                 inputStream.close();
             }
@@ -365,9 +310,6 @@ public class GameActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         display();
-        this.steps++;
-        this.stepDisplay.setText("Steps: " + Integer.toString(steps));
-        boardManager.setStepsTaken(steps);
         if (boardManager.puzzleSolved()) {
             Integer score = calculateScore();
             user.updateScore(GAME_NAME, score);
@@ -377,9 +319,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
     }
 
     private Integer calculateScore() {
-        int step = steps;
         int timeInSec = totalTimeTaken.intValue() / 1000;
-        Integer score = new Integer(10000 / (step + timeInSec));
+        Integer score = 10000 / (timeInSec);
         return score;
     }
 }
