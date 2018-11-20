@@ -42,10 +42,10 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
     /**
      * The board manager.
      */
-    public static final String GAME_NAME = "PictureMatching";
+    public static final String GAME_NAME = "PictureMatch";
     private MatchingBoardManager boardManager;
 
-    private String[] list_diff = new String[]{"Easy(3x3)", "Normal(4x4)", "Hard(5x5)"};
+    private String[] list_diff = new String[]{"Easy(4x4)", "Normal(6x6)", "Hard(8x8)"};
     private int selected_difficulty;
 
     @Override
@@ -58,7 +58,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         username = getIntent().getStringExtra("user");
 
 
-//        selected_difficulty = 4;
+        selected_difficulty = 2;
 
         setupUser();
         setupFile();
@@ -81,11 +81,11 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position) == list_diff[0]) {
-                    selected_difficulty = 3;
+                    selected_difficulty = 2;
                 } else if (parent.getItemAtPosition(position) == list_diff[1]) {
-                    selected_difficulty = 4;
+                    selected_difficulty = 3;
                 } else if (parent.getItemAtPosition(position) == list_diff[2]) {
-                    selected_difficulty = 5;
+                    selected_difficulty = 4;
                 }
             }
 
@@ -103,7 +103,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadFromFile(gameStateFile);
                 saveToFile(tempGameStateFile);
-//                setDifficulty(boardManager.getDifficulty());
+                setDifficulty(boardManager.getDifficulty());
                 makeToast("Loaded Game");
                 switchToGame();
             }
@@ -128,8 +128,8 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setDifficulty(selected_difficulty);
                 boardManager = new MatchingBoardManager();
-//                setDifficulty(selected_difficulty);
                 switchToGame();
             }
         });
@@ -196,7 +196,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
      * @param diff the difficulty to set as
      */
     private void setDifficulty(int diff) {
-        MatchingBoard.NUM_ROWS = diff - 1;
-        MatchingBoard.NUM_COLS = diff;
+        MatchingBoard.NUM_ROWS = diff*2;
+        MatchingBoard.NUM_COLS = diff*2;
     }
 }

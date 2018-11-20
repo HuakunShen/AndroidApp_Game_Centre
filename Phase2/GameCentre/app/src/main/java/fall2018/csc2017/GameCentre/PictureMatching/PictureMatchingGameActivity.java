@@ -44,7 +44,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     private PictureMatchingGestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
 
-    private static final String GAME_NAME = "PictureMatching";
+    private static final String GAME_NAME = "PictureMatch";
 
     private User user;
     private String username;
@@ -80,7 +80,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         loadFromFile(tempGameStateFile);
         createTileButtons(this);
         setContentView(R.layout.activity_picturematching_game);
-//        setupTime();
+        setupTime();
         // Add View to activity
         addGridViewToActivity();
 //        addWarningTextViewListener();
@@ -116,16 +116,14 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     private void setupTime() {
         Timer timer = new Timer();
         preStartTime = boardManager.getTimeTaken();
-        final TextView timeDisplay = findViewById(R.id.time_display_view);
+        final TextView timeDisplay = findViewById(R.id.time_display_view_in_picturematching);
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                timeDisplay.setText(timeToString(time + preStartTime));
-//                timeDisplay.setText(timeToString(time));
+                timeDisplay.setText("Time: " + timeToString(time + preStartTime));
                 totalTimeTaken = time + preStartTime;
                 boardManager.setTimeTaken(time + preStartTime);
-//                saveToFile(gameStateFile);
             }
         };
         timer.schedule(task2, 0, 1000);
@@ -139,13 +137,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         warning.setVisibility(View.INVISIBLE);
     }
 
-//    /**
-//     * Set up the step display textView
-//     */
-//    private void addStepDisplayListener() {
-//        displayStep = findViewById(R.id.stepDisplayTextView);
-//        displayStep.setText("Step: 0");
-//    }
 
     /**
      * convert time in milli seconds (long type) to String which will be displayed
@@ -320,8 +311,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     public void update(Observable o, Object arg) {
         display();
         if (boardManager.puzzleSolved()) {
-//            Integer score = calculateScore();
-            Integer score = 0;
+            Integer score = calculateScore();
             user.updateScore(GAME_NAME, score);
             saveToFile(userFile);
             db.updateScore(user, GAME_NAME);
@@ -330,7 +320,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 
     private Integer calculateScore() {
         int timeInSec = totalTimeTaken.intValue() / 1000;
-        Integer score = new Integer(10000 / (timeInSec));
+        Integer score = 10000 / (timeInSec);
         return score;
     }
 }

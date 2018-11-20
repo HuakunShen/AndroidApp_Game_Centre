@@ -21,10 +21,10 @@ public class PictureMatchingMovementController {
             int col = position % MatchingBoard.NUM_COLS;
             this.boardManager.processTiles(row,col);
             if (boardManager.puzzleSolved()) {
-                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Invalid Tap", Toast.LENGTH_LONG).show();
         }
     }
 }

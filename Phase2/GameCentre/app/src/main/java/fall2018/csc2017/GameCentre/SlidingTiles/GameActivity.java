@@ -145,10 +145,8 @@ public class GameActivity extends AppCompatActivity implements Observer {
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
                 timeDisplay.setText(timeToString(time + preStartTime));
-//                timeDisplay.setText(timeToString(time));
                 totalTimeTaken = time + preStartTime;
                 boardManager.setTimeTaken(time + preStartTime);
-//                saveToFile(gameStateFile);
             }
         };
         timer.schedule(task2, 0, 1000);
