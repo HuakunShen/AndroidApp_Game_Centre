@@ -53,7 +53,9 @@ public class SudokuBoard extends Observable implements Serializable {
         return this.cells[row][col].isEditable();
     }
 
-
+    /**
+     * Updated the face value of highlighted cell to the input value
+     */
     void updateValue(int value) {
         for(int i = 0; i < NUM_ROWS_SUDOKU; i++){
             for(int j = 0; j < NUM_COLS_SUDOKU; j++){
@@ -65,11 +67,15 @@ public class SudokuBoard extends Observable implements Serializable {
             }
         }
     }
+
+    /**
+     * Update the face value of the highlighted cell.
+     */
     void setHighLightedCell(){
         for(int i = 0; i < NUM_ROWS_SUDOKU; i++){
             for(int j = 0; j < NUM_COLS_SUDOKU; j++){
                 if(cells[i][j].isHighlighted()){
-                    cells[i][j].setHighlighted(false);
+                    cells[i][j].setHighlighted();
                     cells[i][j].setFaceValue(cells[i][j].getFaceValue());
                 }
             }

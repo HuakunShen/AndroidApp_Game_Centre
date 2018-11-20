@@ -90,8 +90,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         setupFile();
         loadFromFile(tempGameStateFile);
         createCellButtons(this);
-//        setupTime();
-        // Add View to activity
         addGridViewToActivity();
         setupTime();
         setUpButtons();

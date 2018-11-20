@@ -119,10 +119,16 @@ public class SudokuBoardManager implements Serializable {
         this.board.getCell(position / 9, position % 9).setFaceValue(value);
     }
 
+    /**
+     * Getter function for the time the user used.
+     */
     long getTimeTaken() {
         return timeTaken;
     }
 
+    /**
+     * Setter function for the time the user used.
+     */
     void setTimeTaken(long timeTakenSoFar) {
         this.timeTaken = timeTakenSoFar;
     }

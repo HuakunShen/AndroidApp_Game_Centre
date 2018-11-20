@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class BoardGenerator {
+class BoardGenerator {
 
     /**
      * The board
