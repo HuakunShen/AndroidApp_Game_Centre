@@ -155,5 +155,4 @@ public class Cell implements Serializable {
     void setHighlighted() {
         highlighted = !highlighted;
     }
-
 }

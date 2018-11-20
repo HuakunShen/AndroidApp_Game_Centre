@@ -121,31 +121,31 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.button_1:
-                boardManager.getBoard().updateValue(1);
+                boardManager.updateValue(1);
                 break;
             case R.id.button_2:
-                boardManager.getBoard().updateValue(2);
+                boardManager.updateValue(2);
                 break;
             case R.id.button_3:
-                boardManager.getBoard().updateValue(3);
+                boardManager.updateValue(3);
                 break;
             case R.id.button_4:
-                boardManager.getBoard().updateValue(4);
+                boardManager.updateValue(4);
                 break;
             case R.id.button_5:
-                boardManager.getBoard().updateValue(5);
+                boardManager.updateValue(5);
                 break;
             case R.id.button_6:
-                boardManager.getBoard().updateValue(6);
+                boardManager.updateValue(6);
                 break;
             case R.id.button_7:
-                boardManager.getBoard().updateValue(7);
+                boardManager.updateValue(7);
                 break;
             case R.id.button_8:
-                boardManager.getBoard().updateValue(8);
+                boardManager.updateValue(8);
                 break;
             case R.id.button_9:
-                boardManager.getBoard().updateValue(9);
+                boardManager.updateValue(9);
                 break;
         }
     }
@@ -222,6 +222,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         gridView = findViewById(R.id.SudokuGrid);
         gridView.setNumColumns(SudokuBoard.NUM_COLS_SUDOKU);
         gridView.setBoardManager(boardManager);
+        boardManager.addObserver(this);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -354,8 +355,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
 
     private Integer calculateScore() {
         int timeInSec = totalTimeTaken.intValue() / 1000;
-        Integer score = new Integer(10000 / timeInSec);
-        return score;
+        return (new Integer(10000 / timeInSec));
     }
 
 
