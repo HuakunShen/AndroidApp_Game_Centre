@@ -17,10 +17,7 @@ public class SudokuMovementController {
 
     public void processTapMovement(Context context, int position, boolean display) {
         if (boardManager.isValidTap(position)) {
-            boardManager.getBoard().setHighLightedCell();
-            Cell cell = boardManager.getBoard().getCell(position/9, position%9);
-            cell.setHighlighted(true);
-            boardManager.getBoard().updateValue(cell.getFaceValue());
+            boardManager.makeMove(position);
             if (boardManager.sudokuSolved()) {
                 Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
             }

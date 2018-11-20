@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -311,6 +312,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     public void update(Observable o, Object arg) {
         display();
         if (boardManager.puzzleSolved()) {
+            Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = calculateScore();
             user.updateScore(GAME_NAME, score);
             saveToFile(userFile);

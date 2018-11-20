@@ -75,7 +75,9 @@ public class MatchingBoardManager implements Serializable {
         return true;
     }
 
-    public void processTiles(int row, int col){
+    public void processTiles(int position){
+        int row = position / MatchingBoard.NUM_COLS;
+        int col = position % MatchingBoard.NUM_COLS;
         this.board.flipTile(row,col);
 
         //set time here

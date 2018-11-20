@@ -17,12 +17,7 @@ public class PictureMatchingMovementController {
 
     public void processTapMovement(Context context, int position, boolean display) {
         if (boardManager.isValidTap(position)) {
-            int row = position / MatchingBoard.NUM_COLS;
-            int col = position % MatchingBoard.NUM_COLS;
-            this.boardManager.processTiles(row,col);
-            if (boardManager.puzzleSolved()) {
-                Toast.makeText(context, "YOU WIN!", Toast.LENGTH_LONG).show();
-            }
+            this.boardManager.processTiles(position);
         } else {
             Toast.makeText(context, "Invalid Tap", Toast.LENGTH_LONG).show();
         }

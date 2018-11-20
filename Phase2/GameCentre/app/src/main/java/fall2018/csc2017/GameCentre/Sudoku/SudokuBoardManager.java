@@ -115,8 +115,11 @@ public class SudokuBoardManager implements Serializable {
     /**
      * Performs changes to the board.
      */
-    void makeMove(int position, int value) {
-        this.board.getCell(position / 9, position % 9).setFaceValue(value);
+    void makeMove(int position) {
+        this.board.setHighLightedCell();
+        Cell cell = this.board.getCell(position/9, position%9);
+        cell.setHighlighted(true);
+        this.board.updateValue(cell.getFaceValue());
     }
 
     long getTimeTaken() {
