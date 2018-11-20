@@ -1,13 +1,11 @@
 package fall2018.csc2017.GameCentre.Sudoku;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
-class BoardGenerator {
+public class BoardGenerator {
 
     /**
-     * The board
+     * The board (to be) generated.
      */
     private Integer[][] board = new Integer[9][9];
 

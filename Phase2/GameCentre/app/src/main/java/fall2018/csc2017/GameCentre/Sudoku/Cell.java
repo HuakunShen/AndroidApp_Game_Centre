@@ -2,10 +2,6 @@ package fall2018.csc2017.GameCentre.Sudoku;
 
 import java.io.Serializable;
 
-import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.SlidingTiles.Board;
-import fall2018.csc2017.GameCentre.SlidingTiles.StartingActivity;
-
 public class Cell implements Serializable {
 
     /**
@@ -155,4 +151,5 @@ public class Cell implements Serializable {
     void setHighlighted() {
         highlighted = !highlighted;
     }
+
 }
