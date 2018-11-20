@@ -1,14 +1,17 @@
 package fall2018.csc2017.GameCentre.PictureMatching;
 
-import android.graphics.Picture;
+import android.net.wifi.p2p.WifiP2pManager;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 
 public class MatchingBoardManager implements Serializable {
@@ -18,6 +21,13 @@ public class MatchingBoardManager implements Serializable {
     private MatchingBoard board;
     private long time;
 
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
 
     /**
      * Return the current board.
@@ -67,35 +77,22 @@ public class MatchingBoardManager implements Serializable {
 
     public void processTiles(int row, int col){
         this.board.flipTile(row,col);
-        int col1 = this.board.getCol1();
-        int col2 = this.board.getCol2();
+
         //set time here
-        if (col1 != -1 && col2 != -1){
-            this.board.solveTile();
-        }
-//        Timer duration = new Timer();
-//        StuffToDo task = new StuffToDo(col1,col2, this.board);
-//        duration.schedule(task, 1000);
-//        this.board = task.board;
-//        this.board.notifies();
-    }
-    class StuffToDo extends TimerTask{
-
-        private final int col1;
-        private final int col2;
-        private final MatchingBoard board;
-
-        StuffToDo(int col1, int col2, MatchingBoard board){
-            this.col1 = col1;
-            this.col2 = col2;
-            this.board = board;
-        }
-        @Override
-        public void run() {
-            if (col1 != -1 && col2 != -1){
-                this.board.solveTile();
+        final android.os.Handler handler = new android.os.Handler();
+        handler.postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                MatchingBoard board = getBoard();
+                int col1 = board.getCol1();
+                int col2 = board.getCol2();
+                if (col1 != -1 && col2 != -1){
+                    board.solveTile();
+                }
             }
-        }
+        }, 1000);
+
+
     }
 
     /**

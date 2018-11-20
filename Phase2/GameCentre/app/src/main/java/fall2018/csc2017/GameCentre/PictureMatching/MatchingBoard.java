@@ -128,10 +128,6 @@ public class MatchingBoard extends Observable implements Serializable, Iterable<
         setChanged();
         notifyObservers();
     }
-    public void notifies(){
-        setChanged();
-        notifyObservers();
-    }
 
 
     @Override
