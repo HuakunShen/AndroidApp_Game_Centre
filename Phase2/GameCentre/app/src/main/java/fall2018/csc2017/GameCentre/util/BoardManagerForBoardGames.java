@@ -92,7 +92,7 @@ abstract public class BoardManagerForBoardGames extends Observable {
     /**
      * Performs changes to the board.
      */
-    public abstract Object makeMove(int position, int value);
+    public abstract void makeMove(int position, int value);
 
     /**
      * Add the last move to the undo stack.

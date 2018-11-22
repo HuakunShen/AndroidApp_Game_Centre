@@ -171,13 +171,12 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     /**
      * Performs changes to the board.
      */
-    public Object makeMove(int position, int value) {
+    public void makeMove(int position, int value) {
         updateValue(value, true);
         board.getCell(position / 9, position % 9).setHighlighted();
         board.getCell(position / 9, position % 9).setFaceValue(value);
         setChanged();
         notifyObservers();
-        return null;
     }
 
     /**

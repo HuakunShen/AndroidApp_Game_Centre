@@ -163,7 +163,7 @@ class BoardManager extends BoardManagerForBoardGames implements Serializable {
      *
      * @param position the position
      */
-    public Object makeMove(int position, int value) {
+    public void makeMove(int position, int value) {
         int row = position / Board.NUM_ROWS;
         int col = position % Board.NUM_COLS;
         int blankId = board.numTiles();
@@ -184,19 +184,11 @@ class BoardManager extends BoardManagerForBoardGames implements Serializable {
             this.board.swapTiles(row, col + 1, row, col);
             blank_pos = row * Board.NUM_ROWS + (col + 1);
         }
-        return blank_pos;
+        if (value == 1) {
+            Integer[] undoStep = new Integer[2];
+            undoStep[0] = blank_pos;
+            undoStep[1] = (Integer) 0;
+            addUndo(undoStep);
+        }
     }
-
-    /**
-     * A more convenient move function.
-     */
-    Object makeMove(int position) {
-        return this.makeMove(position, 0);
-    }
-
-
-
-
-
-
 }

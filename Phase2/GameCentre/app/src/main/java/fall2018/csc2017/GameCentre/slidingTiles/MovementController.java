@@ -17,10 +17,7 @@ public class MovementController {
 
     public void processTapMovement(Context context, int position, boolean display) {
         if (boardManager.isValidTap(position)) {
-            Integer[] undoStep = new Integer[2];
-            undoStep[0] = (Integer) boardManager.makeMove(position);
-            undoStep[1] = (Integer) 0;
-            boardManager.addUndo(undoStep);
+            boardManager.makeMove(position, 1);
             if (boardManager.boardSolved()) {
                 Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
             }
