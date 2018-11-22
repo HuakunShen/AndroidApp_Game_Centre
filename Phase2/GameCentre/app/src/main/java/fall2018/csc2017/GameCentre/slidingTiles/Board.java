@@ -102,7 +102,6 @@ public class Board extends BoardForBoardGames implements Serializable, Iterable<
      * @param col2 the second tile col
      */
     public void swapTiles(int row1, int col1, int row2, int col2) {
-        // TODO: swap
         Tile t = this.tiles[row1][col1];
         this.tiles[row1][col1] = this.tiles[row2][col2];
         this.tiles[row2][col2] = t;

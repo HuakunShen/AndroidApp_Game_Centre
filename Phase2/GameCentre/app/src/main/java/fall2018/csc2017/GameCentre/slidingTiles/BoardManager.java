@@ -3,6 +3,7 @@ package fall2018.csc2017.GameCentre.slidingTiles;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import fall2018.csc2017.GameCentre.data.StateStack;
 import fall2018.csc2017.GameCentre.util.BoardManagerForBoardGames;
@@ -10,7 +11,7 @@ import fall2018.csc2017.GameCentre.util.BoardManagerForBoardGames;
 /**
  * Manage a board, including swapping tiles, checking for a win, and managing taps.
  */
-class BoardManager extends BoardManagerForBoardGames implements Serializable {
+public class BoardManager extends BoardManagerForBoardGames implements Serializable {
 
     /**
      * The board being managed.
@@ -51,7 +52,20 @@ class BoardManager extends BoardManagerForBoardGames implements Serializable {
         this.timeTaken = 0L;
         Collections.shuffle(tiles);
         this.board = new Board(tiles);
+        boolean solvable = false;
+        while (!solvable) {
+            Collections.shuffle(tiles);
+            this.board = new Board(tiles);
+            solvable = solvable();
+        }
         this.undoStack = new StateStack<Integer>(DEFAULT_UNDO_LIMIT);
+    }
+
+    /**
+     * Manager a prepared board.
+     */
+    public BoardManager(Board board) {
+        this.board = board;
     }
 
     /**
@@ -71,21 +85,21 @@ class BoardManager extends BoardManagerForBoardGames implements Serializable {
     /**
      * Set undo limit.
      */
-    public void setCapacity(int input) {
+    void setCapacity(int input) {
         this.undoStack.setCapacity(input);
     }
 
     /**
      * Returns if undo is available.
      */
-    public boolean undoAvailable() {
+    boolean undoAvailable() {
         return !undoStack.isEmpty();
     }
 
     /**
      * Get the undo step.
      */
-    public Integer popUndo() {
+    Integer popUndo() {
         return undoStack.pop();
     }
 
@@ -122,6 +136,59 @@ class BoardManager extends BoardManagerForBoardGames implements Serializable {
      */
     public void setTimeTaken(long timeTakenSoFar) {
         this.timeTaken = timeTakenSoFar;
+    }
+
+
+    /**
+     * Determines whether the tile board is solvable.
+     */
+    public boolean solvable() {
+        Iterator<Tile> tiles = this.board.iterator();
+        ArrayList<Integer> listOfTiles = new ArrayList<>(this.board.numTiles());
+        while (tiles.hasNext()) {
+            listOfTiles.add(tiles.next().getId());
+        }
+
+        int totalInversion = getTotalInversion(listOfTiles);
+
+        if (this.board.numTiles() % 2 != 0) {
+            return totalInversion % 2 == 0;
+        } else {
+            if(board.numTiles()%2!=0){
+                return totalInversion%2==0;
+            }else{
+                return blankPosition()%2==0 && totalInversion%2!=0 ||
+                        blankPosition()%2!=0 && totalInversion%2==0;
+            }
+        }
+    }
+
+    public int blankPosition() {
+        int position = 0;
+        for (int i = 0; i < Board.NUM_ROWS; i++) {
+            for (int j = 0; j < Board.NUM_COLS; j++) {
+                if (board.getTile(i, j).getId() == board.numTiles()) {
+                    position = Board.NUM_ROWS - i;
+                }
+            }
+        }
+        return position;
+    }
+
+
+    /**
+     * Return the number of inversions in a list of Integer.
+     */
+    public int getTotalInversion(ArrayList<Integer> listOfTiles) {
+        int totalInversion = 0;
+        for (int i = 0; i < this.board.numTiles()-1; i++) {
+            for (int j = i + 1; j < this.board.numTiles(); j++) {
+                if (listOfTiles.get(i) != this.board.numTiles() && listOfTiles.get(i) > listOfTiles.get(j)) {
+                    totalInversion ++;
+                }
+            }
+        }
+        return totalInversion;
     }
 
     /**

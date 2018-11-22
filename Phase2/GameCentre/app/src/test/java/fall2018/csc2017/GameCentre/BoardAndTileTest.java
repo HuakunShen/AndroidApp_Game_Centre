@@ -34,12 +34,13 @@ public class BoardAndTileTest {
         boardManager = new BoardManager(board);
     }
 
-
     /**
      * SudokuUnitTest whether swapping two tiles makes a solved board unsolved.
      */
     @Test
     public void testIsSolved() {
+        Board.NUM_ROWS = 4;
+        Board.NUM_COLS = 4;
         setUpCorrect();
         assertEquals(true, boardManager.boardSolved());
         swapFirstTwoTiles();
