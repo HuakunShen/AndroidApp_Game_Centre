@@ -3,7 +3,6 @@ package fall2018.csc2017.GameCentre.util;
 import java.util.Observable;
 
 import fall2018.csc2017.GameCentre.data.StateStack;
-import fall2018.csc2017.GameCentre.sudoku.SudokuBoard;
 
 
 abstract public class BoardManagerForBoardGames extends Observable {
@@ -36,21 +35,12 @@ abstract public class BoardManagerForBoardGames extends Observable {
     /**
      * The default Constructor for the Board Manager.
      */
-    public BoardManagerForBoardGames() {
-
-    };
+    public BoardManagerForBoardGames() {};
 
     /**
      * Manage a board that has been pre-populated.
      */
     public BoardManagerForBoardGames(BoardForBoardGames board) {
-        this.board = board;
-    };
-
-    /**
-     * Constructor for the class.
-     */
-    public BoardManagerForBoardGames(SudokuBoard board) {
         this.board = board;
     };
 
@@ -93,24 +83,4 @@ abstract public class BoardManagerForBoardGames extends Observable {
      * Performs changes to the board.
      */
     public abstract void makeMove(int position, int value);
-
-    /**
-     * Add the last move to the undo stack.
-     */
-    public abstract void addUndo(Integer[] move);
-
-    /**
-     * Set undo limit.
-     */
-    public abstract void setCapacity(int input);
-
-    /**
-     * Returns if undo is available.
-     */
-    public abstract boolean undoAvailable();
-
-    /**
-     * Get the undo step.
-     */
-    public abstract Integer[] popUndo();
 }

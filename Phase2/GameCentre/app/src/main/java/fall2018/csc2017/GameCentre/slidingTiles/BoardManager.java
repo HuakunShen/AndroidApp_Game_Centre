@@ -26,7 +26,7 @@ class BoardManager extends BoardManagerForBoardGames implements Serializable {
     /**
      * The undoStack storing steps has taken.(limited capacity)
      */
-    private StateStack undoStack;
+    private StateStack<Integer> undoStack;
 
     /**
      * The default number of undo time.
@@ -51,7 +51,7 @@ class BoardManager extends BoardManagerForBoardGames implements Serializable {
         this.timeTaken = 0L;
         Collections.shuffle(tiles);
         this.board = new Board(tiles);
-        this.undoStack = new StateStack(DEFAULT_UNDO_LIMIT);
+        this.undoStack = new StateStack<Integer>(DEFAULT_UNDO_LIMIT);
     }
 
     /**
@@ -64,7 +64,7 @@ class BoardManager extends BoardManagerForBoardGames implements Serializable {
     /**
      * Add a move to the undo stack.
      */
-    public void addUndo(Integer[] move) {
+    private void addUndo(Integer move) {
         undoStack.put(move);
     }
 
@@ -85,8 +85,8 @@ class BoardManager extends BoardManagerForBoardGames implements Serializable {
     /**
      * Get the undo step.
      */
-    public Integer[] popUndo() {
-        return (Integer[]) undoStack.pop();
+    public Integer popUndo() {
+        return undoStack.pop();
     }
 
     /**
@@ -185,10 +185,7 @@ class BoardManager extends BoardManagerForBoardGames implements Serializable {
             blank_pos = row * Board.NUM_ROWS + (col + 1);
         }
         if (value == 1) {
-            Integer[] undoStep = new Integer[2];
-            undoStep[0] = blank_pos;
-            undoStep[1] = (Integer) 0;
-            addUndo(undoStep);
+            addUndo(blank_pos);
         }
     }
 }

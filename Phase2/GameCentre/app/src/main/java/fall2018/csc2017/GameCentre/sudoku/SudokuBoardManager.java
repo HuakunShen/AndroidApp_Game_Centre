@@ -3,7 +3,6 @@ package fall2018.csc2017.GameCentre.sudoku;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.Random;
 
 import fall2018.csc2017.GameCentre.data.StateStack;
@@ -24,7 +23,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     /**
      * The undoStack storing steps has taken.(limited capacity)
      */
-    private StateStack undoStack;
+    private StateStack<Integer[]> undoStack;
 
     /**
      * The default number of undo time.
@@ -73,7 +72,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         }
         this.board = new SudokuBoard(cells);
         this.timeTaken = 0L;
-        this.undoStack = new StateStack(DEFAULT_UNDO_LIMIT);
+        this.undoStack = new StateStack<Integer[]>(DEFAULT_UNDO_LIMIT);
     }
 
     /**
@@ -114,7 +113,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     /**
      * Add a move to the undo stack.
      */
-    public void addUndo(Integer[] move) {
+    private void addUndo(Integer[] move) {
         undoStack.put(move);
     }
 
@@ -128,14 +127,14 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     /**
      * Returns if undo is available.
      */
-    public boolean undoAvailable() {
+    boolean undoAvailable() {
         return !undoStack.isEmpty();
     }
 
     /**
      * Get the undo step.
      */
-    public Integer[] popUndo() {
+    Integer[] popUndo() {
         return (Integer[]) undoStack.pop();
     }
 
