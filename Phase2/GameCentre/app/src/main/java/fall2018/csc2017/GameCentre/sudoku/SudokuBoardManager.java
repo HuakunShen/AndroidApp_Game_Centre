@@ -36,11 +36,6 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     private static Integer levelOfDifficulty = 2;
 
     /**
-     * The number of steps the user have taken so far.
-     */
-    private int stepsTaken;
-
-    /**
      * Manage a new shuffled board.
      */
     public SudokuBoardManager() {
@@ -72,7 +67,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         }
         this.board = new SudokuBoard(cells);
         this.timeTaken = 0L;
-        this.undoStack = new StateStack<Integer[]>(DEFAULT_UNDO_LIMIT);
+        this.undoStack = new StateStack<>(DEFAULT_UNDO_LIMIT);
     }
 
     /**
@@ -94,20 +89,6 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      */
     public void setTimeTaken(long timeTakenSoFar) {
         this.timeTaken = timeTakenSoFar;
-    }
-
-    /**
-     * Getter function for time taken.
-     */
-    public int getStepsTaken() {
-        return (int) timeTaken;
-    }
-
-    /**
-     * Setter function for steps taken.
-     */
-    public void setStepsTaken(int stepsTakenSoFar) {
-        this.stepsTaken = stepsTakenSoFar;
     }
 
     /**
@@ -135,7 +116,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      * Get the undo step.
      */
     Integer[] popUndo() {
-        return (Integer[]) undoStack.pop();
+        return undoStack.pop();
     }
 
 
@@ -143,7 +124,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      * Setter for level of difficulty.
      */
     public static void setLevelOfDifficulty(int levelOfDifficulty) {
-        SudokuBoardManager.levelOfDifficulty = (Integer) levelOfDifficulty;
+        SudokuBoardManager.levelOfDifficulty = levelOfDifficulty;
     }
 
     /**
@@ -198,7 +179,8 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
                     move[0] = 9 * i + j;
                     move[1] = board.getCell(i, j).getFaceValue();
                     addUndo(move);
-                } if (board.getCell(i, j).isHighlighted()) {
+                }
+                if (board.getCell(i, j).isHighlighted()) {
                     board.getCell(i, j).setFaceValue(value);
                     setChanged();
                     notifyObservers();

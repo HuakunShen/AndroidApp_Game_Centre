@@ -35,14 +35,19 @@ abstract public class BoardManagerForBoardGames extends Observable {
     /**
      * The default Constructor for the SlidingTilesBoard Manager.
      */
-    public BoardManagerForBoardGames() {};
+    public BoardManagerForBoardGames() {
+    }
+
+    ;
 
     /**
      * Manage a board that has been pre-populated.
      */
     public BoardManagerForBoardGames(BoardForBoardGames board) {
         this.board = board;
-    };
+    }
+
+    ;
 
     /**
      * Return the current board.
@@ -58,16 +63,6 @@ abstract public class BoardManagerForBoardGames extends Observable {
      * Setter function for the time the user used.
      */
     public abstract void setTimeTaken(long timeTakenSoFar);
-
-    /**
-     * Getter function of the steps taken.
-     */
-    public abstract int getStepsTaken();
-
-    /**
-     * Setter function for the steps taken.
-     */
-    public abstract void setStepsTaken(int stepsTakenSoFar);
 
     /**
      * Returns whether the sudoku puzzle has been solved.

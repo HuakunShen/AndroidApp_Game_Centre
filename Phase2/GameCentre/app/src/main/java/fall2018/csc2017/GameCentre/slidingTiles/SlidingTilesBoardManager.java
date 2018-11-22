@@ -58,7 +58,7 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
             this.board = new SlidingTilesBoard(tiles);
             solvable = solvable();
         }
-        this.undoStack = new StateStack<Integer>(DEFAULT_UNDO_LIMIT);
+        this.undoStack = new StateStack<>(DEFAULT_UNDO_LIMIT);
     }
 
     /**
@@ -113,14 +113,14 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
     /**
      * The getter function for the steps taken.
      */
-    public int getStepsTaken() {
+    int getStepsTaken() {
         return stepsTaken;
     }
 
     /**
      * The setter function for the steps taken.
      */
-    public void setStepsTaken(int stepsTakenSoFar) {
+    void setStepsTaken(int stepsTakenSoFar) {
         this.stepsTaken = stepsTakenSoFar;
     }
 

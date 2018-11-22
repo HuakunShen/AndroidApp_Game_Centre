@@ -10,18 +10,38 @@ import fall2018.csc2017.GameCentre.util.BoardManagerForBoardGames;
 
 
 public class MatchingBoardManager extends BoardManagerForBoardGames implements Serializable {
+
     /**
      * The board being managed.
      */
     private MatchingBoard board;
-    private long time;
 
-    public long getTime() {
-        return time;
-    }
+    /**
+     * The time has taken so far.
+     */
+    private long timeTaken;
 
-    public void setTime(long time) {
-        this.time = time;
+    /**
+     * Manage a new shuffled board.
+     */
+    MatchingBoardManager() {
+        List<PictureTile> tiles = new ArrayList<>();
+        final int numTiles = MatchingBoard.NUM_COLS * MatchingBoard.NUM_ROWS;
+        for (int tileNum = 0; tileNum < numTiles; tileNum++) {
+            int row = tileNum / MatchingBoard.NUM_COLS;
+            int col = tileNum % MatchingBoard.NUM_COLS;
+            if (tileNum < numTiles / 4) {
+                tiles.add(new PictureTile(tileNum + 1, row, col));
+            } else if (tileNum >= numTiles / 4 && tileNum < numTiles / 2) {
+                tiles.add(new PictureTile(tileNum - numTiles / 4 + 1, row, col));
+            } else if (tileNum >= numTiles / 2 && tileNum < (numTiles * 3) / 4) {
+                tiles.add(new PictureTile(tileNum - numTiles / 2 + 1, row, col));
+            } else {
+                tiles.add(new PictureTile(tileNum - (numTiles * 3) / 4 + 1, row, col));
+            }
+        }
+        Collections.shuffle(tiles);
+        this.board = new MatchingBoard(tiles);
     }
 
     /**
@@ -32,28 +52,25 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
     }
 
     /**
-     * Manage a new shuffled board.
+     * Getter function for level of difficulty for the game.
      */
-    MatchingBoardManager() {
-        List<PictureTile> tiles = new ArrayList<>();
-        final int numTiles = MatchingBoard.NUM_COLS*MatchingBoard.NUM_ROWS;
-        for(int tileNum=0; tileNum < numTiles; tileNum++){
-            int row = tileNum / MatchingBoard.NUM_COLS;
-            int col = tileNum % MatchingBoard.NUM_COLS;
-            if (tileNum < numTiles/4){
-                tiles.add(new PictureTile(tileNum+1, row, col));
-            }else if ( tileNum >= numTiles/4 && tileNum < numTiles/2){
-                tiles.add(new PictureTile(tileNum-numTiles/4 + 1,row, col));
-            }else if(tileNum >= numTiles/2 && tileNum < (numTiles*3)/4){
-                tiles.add(new PictureTile(tileNum-numTiles/2 +1, row, col));
-            }else{
-                tiles.add(new PictureTile(tileNum-(numTiles*3)/4+1, row, col));
-            }
-        }
-        Collections.shuffle(tiles);
-        this.board = new MatchingBoard(tiles);
+    int getDifficulty() {
+        return board.difficulty;
     }
 
+    /**
+     * The getter function for the time taken.
+     */
+    public long getTimeTaken() {
+        return timeTaken;
+    }
+
+    /**
+     * The setter function for the time taken.
+     */
+    public void setTimeTaken(long timeTakenSoFar) {
+        this.timeTaken = timeTakenSoFar;
+    }
 
     /**
      * Return whether the tiles are in row-major order.
@@ -70,28 +87,6 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
         return true;
     }
 
-    public void makeMove(int position, int value){
-        int row = position / MatchingBoard.NUM_COLS;
-        int col = position % MatchingBoard.NUM_COLS;
-        this.board.flipTile(row,col);
-
-        //set time here
-        final android.os.Handler handler = new android.os.Handler();
-        handler.postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                MatchingBoard board = getBoard();
-                int col1 = board.getCol1();
-                int col2 = board.getCol2();
-                if (col1 != -1 && col2 != -1){
-                    board.solveTile();
-                }
-            }
-        }, 1000);
-
-
-    }
-
     /**
      * Return whether any of the four surrounding tiles is the blank tile.
      *
@@ -106,26 +101,27 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
                 && !currentTile.getState().equals(PictureTile.FLIP);
     }
 
+    /**
+     * Performs changes to the board.
+     */
+    public void makeMove(int position, int value) {
+        int row = position / MatchingBoard.NUM_COLS;
+        int col = position % MatchingBoard.NUM_COLS;
+        this.board.flipTile(row, col);
 
-    int getDifficulty() {
-        return board.difficulty;
+        //set timeTaken here
+        final android.os.Handler handler = new android.os.Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MatchingBoard board = getBoard();
+                int col1 = board.getCol1();
+                int col2 = board.getCol2();
+                if (col1 != -1 && col2 != -1) {
+                    board.solveTile();
+                }
+            }
+        }, 1000);
     }
 
-    public void setTimeTaken(long l) {
-        this.time = l;
-    }
-
-    @Override
-    public int getStepsTaken() {
-        return 0;
-    }
-
-    @Override
-    public void setStepsTaken(int stepsTakenSoFar) {
-
-    }
-
-    public long getTimeTaken() {
-        return this.time;
-    }
 }
