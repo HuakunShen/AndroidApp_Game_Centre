@@ -168,9 +168,9 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
                     for (int i = 0; i < 9; i++) {
                         for(int j = 0; j < 9; j++){
                             if(board.getCell(i, j).isHighlighted()){
+                                board.getCell(i, j).setHighlighted();
                                 board.getCell(i, j).setFaceValue(board.getCell(i,
                                         j).getFaceValue());
-                                board.getCell(i, j).setHighlighted();
                             }
                         }
                     }
