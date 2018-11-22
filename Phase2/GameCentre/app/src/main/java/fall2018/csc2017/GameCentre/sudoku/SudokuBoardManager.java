@@ -190,6 +190,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
                         move[0] = 9 * i + j;
                         move[1] = board.getCell(i, j).getFaceValue();
                         addUndo(move);
+                        board.getCell(i, j).setHighlighted();
                     }
                     board.getCell(i, j).setFaceValue(value);
                     setChanged();
