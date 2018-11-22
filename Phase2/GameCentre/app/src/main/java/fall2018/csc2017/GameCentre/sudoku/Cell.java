@@ -116,10 +116,17 @@ public class Cell implements Serializable {
     }
 
     /**
-     * Setter function for fadevalue.
+     * Getter function for fadevalue.
      */
     public Integer getFadeValue() {
         return fadeValue;
+    }
+
+    /**
+     * Setter function for fadevalue.
+     */
+    public void setFadeValue(int fadeValue) {
+        this.fadeValue = fadeValue;
     }
 
     /**

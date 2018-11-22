@@ -197,7 +197,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
                     if (! undo) {
                         Integer[] move = new Integer[2];
                         move[0] = 9 * i + j;
-                        move[1] = (Integer) value;
+                        move[1] = board.getCell(i, j).getFaceValue();
                         addUndo(move);
                     }
                     board.getCell(i, j).setFaceValue(value);

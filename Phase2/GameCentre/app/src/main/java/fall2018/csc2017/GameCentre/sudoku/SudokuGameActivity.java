@@ -170,12 +170,16 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
                             if(board.getCell(i, j).isHighlighted()){
                                 board.getCell(i, j).setFaceValue(board.getCell(i,
                                         j).getFaceValue());
+                                board.getCell(i, j).setHighlighted();
                             }
                         }
                     }
-                    boardManager.getBoard().getCell(position / 9,
-                            position % 9).setHighlighted();
-                    boardManager.updateValue(value, false);
+                    board.getCell(position / 9, position % 9).setHighlighted();
+                    boardManager.updateValue(value, true);
+                    board.getCell(position / 9, position % 9).setHighlighted();
+                    board.getCell(position / 9,
+                            position % 9).setFaceValue(board.getCell(position / 9,
+                            position % 9).getFaceValue());
                     display();
                 } else {
                     warning.setText("Exceeds Undo-Limit!");
