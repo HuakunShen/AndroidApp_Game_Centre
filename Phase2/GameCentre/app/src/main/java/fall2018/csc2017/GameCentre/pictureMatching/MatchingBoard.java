@@ -5,12 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
+import fall2018.csc2017.GameCentre.util.BoardForBoardGames;
+
 
 /**
  * The sliding tiles board.
  * TODO: Make this implement Iterable<Tile>.
  */
-public class MatchingBoard extends Observable implements Serializable, Iterable<PictureTile> {
+public class MatchingBoard extends BoardForBoardGames implements Serializable, Iterable<PictureTile> {
     /**
      * The number of rows.
      */

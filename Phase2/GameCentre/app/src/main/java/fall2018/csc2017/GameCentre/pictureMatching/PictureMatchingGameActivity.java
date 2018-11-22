@@ -311,7 +311,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     @Override
     public void update(Observable o, Object arg) {
         display();
-        if (boardManager.puzzleSolved()) {
+        if (boardManager.boardSolved()) {
             Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = calculateScore();
             user.updateScore(GAME_NAME, score);

@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import fall2018.csc2017.GameCentre.util.BoardManagerForBoardGames;
 
-public class MatchingBoardManager implements Serializable {
+
+public class MatchingBoardManager extends BoardManagerForBoardGames implements Serializable {
     /**
      * The board being managed.
      */
@@ -58,7 +60,7 @@ public class MatchingBoardManager implements Serializable {
      *
      * @return whether the tiles are in row-major order
      */
-    public boolean puzzleSolved() {
+    public boolean boardSolved() {
         Iterator<PictureTile> itr = board.iterator();
         for (int i = 1; i <= (MatchingBoard.NUM_ROWS * MatchingBoard.NUM_COLS); i++) {
             if (itr.hasNext() && !itr.next().getState().equals(PictureTile.SOLVED)) {
@@ -68,7 +70,7 @@ public class MatchingBoardManager implements Serializable {
         return true;
     }
 
-    public void processTiles(int position){
+    public void makeMove(int position, int value){
         int row = position / MatchingBoard.NUM_COLS;
         int col = position % MatchingBoard.NUM_COLS;
         this.board.flipTile(row,col);
@@ -113,7 +115,17 @@ public class MatchingBoardManager implements Serializable {
         this.time = l;
     }
 
-    public Long getTimeTaken() {
+    @Override
+    public int getStepsTaken() {
+        return 0;
+    }
+
+    @Override
+    public void setStepsTaken(int stepsTakenSoFar) {
+
+    }
+
+    public long getTimeTaken() {
         return this.time;
     }
 }

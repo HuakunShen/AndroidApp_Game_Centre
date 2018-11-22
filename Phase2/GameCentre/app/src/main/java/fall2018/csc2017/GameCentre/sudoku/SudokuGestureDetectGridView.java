@@ -15,12 +15,14 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
 
+import fall2018.csc2017.GameCentre.util.MovementController;
+
 public class SudokuGestureDetectGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
     public static final int SWIPE_MAX_OFF_PATH = 100;
     public static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private GestureDetector gDetector;
-    private SudokuMovementController mController;
+    private MovementController mController;
     private boolean mFlingConfirmed = false;
     private float mTouchX;
     private float mTouchY;
@@ -49,15 +51,16 @@ public class SudokuGestureDetectGridView extends GridView {
     }
 
     private void init(final Context context) {
-        mController = new SudokuMovementController();
+        mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = SudokuGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-
-                mController.processTapMovement(context, position, true);
+                int value = boardManager.getBoard().getCell(position / 9,
+                        position % 9).getFaceValue();
+                mController.processTapMovement(context, position, value, true);
                 return true;
             }
 

@@ -15,12 +15,14 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
 
+import fall2018.csc2017.GameCentre.util.MovementController;
+
 public class PictureMatchingGestureDetectGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
     public static final int SWIPE_MAX_OFF_PATH = 100;
     public static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private GestureDetector gDetector;
-    private PictureMatchingMovementController mController;
+    private MovementController mController;
     private boolean mFlingConfirmed = false;
     private float mTouchX;
     private float mTouchY;
@@ -49,7 +51,7 @@ public class PictureMatchingGestureDetectGridView extends GridView {
     }
 
     private void init(final Context context) {
-        mController = new PictureMatchingMovementController();
+        mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
@@ -57,7 +59,7 @@ public class PictureMatchingGestureDetectGridView extends GridView {
                 int position = PictureMatchingGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
 
-                mController.processTapMovement(context, position, true);
+                mController.processTapMovement(context, position, 0, true);
                 return true;
             }
 
