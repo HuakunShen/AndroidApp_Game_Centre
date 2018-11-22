@@ -66,6 +66,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     private Button button8;
     private Button button9;
     private Button undoButton;
+    private Button eraseButton;
 
     /**
      * Warning message
@@ -98,7 +99,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         setUpButtons();
         addUndoButtonListener();
         addWarningTextViewListener();
+        addEraseButtonListener();
+
     }
+
+
 
     private void setUpButtons() {
         button1 = findViewById(R.id.button_1);
@@ -184,7 +189,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
                 } else {
                     warning.setText("Exceeds Undo-Limit!");
                     warning.setVisibility(View.VISIBLE);
-                    warning.setError("Exceeds Undo-Limit! ");
+                    warning.setError("Exceeds Undo-Limit!");
 
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -198,6 +203,29 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         });
     }
 
+    /**
+     * Set up the erase button listener.
+     */
+    private void addEraseButtonListener() {
+        eraseButton = findViewById(R.id.eraseButton);
+        eraseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SudokuBoard board = boardManager.getBoard();
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        if (board.getCell(i, j).isEditable()) {
+                            if (board.getCell(i, j).isHighlighted()) {
+                                board.getCell(i, j).setHighlighted();
+                            }
+                            board.getCell(i, j).setFaceValue(0);
+                        }
+                    }
+                }
+                display();
+            }
+        });
+    }
 
     /**
      * Set up the warning message displayed on the UI.
