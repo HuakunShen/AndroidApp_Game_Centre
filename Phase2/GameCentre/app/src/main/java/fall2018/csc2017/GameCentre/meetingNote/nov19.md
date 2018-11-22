@@ -8,7 +8,7 @@ Weiqing Wang, Xu Wang, and Huakun Shen were assigned to work on the Sudoku Game;
 together to invent a new game.
 
 The Sudoku game is now working perfectly. Xu Wang mimicked the Sliding Tile Game's activity and finished the game activity for the Sudoku
-Game; Weiqing Wang followed the MVC model and wrote four classes to support the game's activity. The undo, link to Score Board, and other 
+Game; Weiqing Wang followed the MVC model and wrote four classes to support the game's activity. The undo, link to Score SlidingTilesBoard, and other
 more advanced functions are yet to be completed. According to each side's personal agenda, the team has agreed that Huakun Shen will work on 
 these functions; Weiqing Wang and Xu Wang will be testing the functions they wrote.
 

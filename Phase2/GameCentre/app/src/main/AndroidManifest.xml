@@ -23,8 +23,8 @@
         </activity>
         <activity android:name=".gameCentre.SignUpActivity" />
         <activity android:name=".gameCentre.GameCentreInterfaceActivity" />
-        <activity android:name=".slidingTiles.StartingActivity" />
-        <activity android:name=".slidingTiles.GameActivity" />
+        <activity android:name=".slidingTiles.SlidingTilesStartingActivity" />
+        <activity android:name=".slidingTiles.SlidingTilesGameActivity" />
         <activity android:name=".gameCentre.ScoreBoardActivity" />
         <activity android:name=".gameCentre.NavSetting" />
         <activity android:name=".gameCentre.NavChangePassword" />

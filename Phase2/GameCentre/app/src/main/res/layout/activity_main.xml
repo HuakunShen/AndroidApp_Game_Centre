@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/cloud"
-    tools:context=".slidingTiles.GameActivity">
-    <fall2018.csc2017.GameCentre.slidingTiles.GestureDetectGridView
+    tools:context=".slidingTiles.SlidingTilesGameActivity">
+    <fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesGestureDetectGridView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -16,11 +16,11 @@
         android:layout_gravity="bottom"
         android:layout_margin="8dp"
         android:padding="0dp"
-        tools:context="fall2018.csc2017.GameCentre.slidingTiles.GameActivity"
+        tools:context="fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesGameActivity"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="28dp"
         tools:ignore="MissingConstraints">
-    </fall2018.csc2017.GameCentre.slidingTiles.GestureDetectGridView>
+    </fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesGestureDetectGridView>
 
     <Button
         android:id="@+id/undo_button"

@@ -57,10 +57,10 @@ public class Tile implements Comparable<Tile>, Serializable {
      */
     public Tile(int backgroundId) {
         id = backgroundId + 1;
-        int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+        int numTiles = SlidingTilesBoard.NUM_ROWS * SlidingTilesBoard.NUM_COLS;
         for (int currentTile = 1; currentTile < numTiles + 1; currentTile++) {
             String currentTileName = "tile_" + Integer.toString(currentTile);
-            int currentTileID = StartingActivity.RESOURCES.getIdentifier(currentTileName, "drawable", StartingActivity.PACKAGE_NAME);
+            int currentTileID = SlidingTilesStartingActivity.RESOURCES.getIdentifier(currentTileName, "drawable", SlidingTilesStartingActivity.PACKAGE_NAME);
             if (id == numTiles) {
                 background = R.drawable.tile_empty;
             }

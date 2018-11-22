@@ -33,7 +33,7 @@ abstract public class BoardManagerForBoardGames extends Observable {
     private StateStack undoStack;
 
     /**
-     * The default Constructor for the Board Manager.
+     * The default Constructor for the SlidingTilesBoard Manager.
      */
     public BoardManagerForBoardGames() {};
 

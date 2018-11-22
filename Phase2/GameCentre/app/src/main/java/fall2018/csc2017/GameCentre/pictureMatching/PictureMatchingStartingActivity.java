@@ -113,7 +113,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
     }
 
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the SlidingTilesGameActivity view to play the game.
      */
     private void switchToGame() {
         Intent tmp = new Intent(this, PictureMatchingGameActivity.class);

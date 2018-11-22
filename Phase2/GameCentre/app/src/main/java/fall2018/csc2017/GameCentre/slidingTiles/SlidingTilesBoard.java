@@ -1,6 +1,6 @@
 package fall2018.csc2017.GameCentre.slidingTiles;
 
-import java.util.Observable;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -11,7 +11,8 @@ import fall2018.csc2017.GameCentre.util.BoardForBoardGames;
 /**
  * The sliding tiles board.
  */
-public class Board extends BoardForBoardGames implements Serializable, Iterable<Tile> {
+public class SlidingTilesBoard extends BoardForBoardGames implements Serializable, Iterable<Tile> {
+
     /**
      * The number of rows.
      */
@@ -22,6 +23,9 @@ public class Board extends BoardForBoardGames implements Serializable, Iterable<
      */
     public static int NUM_COLS = 4;
 
+    /**
+     * Level of difficulty of the game.
+     */
     public int difficulty;
 
     /**
@@ -36,41 +40,16 @@ public class Board extends BoardForBoardGames implements Serializable, Iterable<
      *
      * @param tiles the tiles for the board
      */
-    public Board(List<Tile> tiles) {
+    public SlidingTilesBoard(List<Tile> tiles) {
         difficulty = NUM_ROWS;
         Iterator<Tile> iter = tiles.iterator();
 
-        for (int row = 0; row != Board.NUM_ROWS; row++) {
-            for (int col = 0; col != Board.NUM_COLS; col++) {
+        for (int row = 0; row != SlidingTilesBoard.NUM_ROWS; row++) {
+            for (int col = 0; col != SlidingTilesBoard.NUM_COLS; col++) {
                 this.tiles[row][col] = iter.next();
             }
         }
     }
-
-
-    @Override
-    public Iterator<Tile> iterator() {
-        return new BoardIterator();
-    }
-
-    public class BoardIterator implements Iterator<Tile> {
-        int nextIndex = 0;
-
-        @Override
-        public boolean hasNext() {
-            return nextIndex != NUM_COLS * NUM_ROWS;
-        }
-
-        @Override
-        public Tile next() {
-            int row = nextIndex / Board.NUM_COLS;
-            int col = nextIndex % Board.NUM_COLS;
-            Tile tile = tiles[row][col];
-            nextIndex++;
-            return tile;
-        }
-    }
-
 
     /**
      * Return the number of tiles on the board.
@@ -78,7 +57,6 @@ public class Board extends BoardForBoardGames implements Serializable, Iterable<
      * @return the number of tiles on the board
      */
     int numTiles() {
-        // TODO: fix me
         return NUM_COLS * NUM_ROWS;
     }
 
@@ -109,4 +87,33 @@ public class Board extends BoardForBoardGames implements Serializable, Iterable<
         notifyObservers();
     }
 
+    /**
+     * Returns the iterator of tiles.
+     */
+    @NonNull
+    @Override
+    public Iterator<Tile> iterator() {
+        return new BoardIterator();
+    }
+
+    /**
+     * The iterator class for board.
+     */
+    public class BoardIterator implements Iterator<Tile> {
+        int nextIndex = 0;
+
+        @Override
+        public boolean hasNext() {
+            return nextIndex != NUM_COLS * NUM_ROWS;
+        }
+
+        @Override
+        public Tile next() {
+            int row = nextIndex / SlidingTilesBoard.NUM_COLS;
+            int col = nextIndex % SlidingTilesBoard.NUM_COLS;
+            Tile tile = tiles[row][col];
+            nextIndex++;
+            return tile;
+        }
+    }
 }

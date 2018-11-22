@@ -26,7 +26,6 @@ import java.util.TimerTask;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.slidingTiles.Board;
 import fall2018.csc2017.GameCentre.slidingTiles.CustomAdapter;
 
 public class SudokuGameActivity extends AppCompatActivity implements Observer, View.OnClickListener {

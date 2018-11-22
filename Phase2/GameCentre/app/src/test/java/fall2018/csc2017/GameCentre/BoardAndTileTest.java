@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import fall2018.csc2017.GameCentre.slidingTiles.Board;
-import fall2018.csc2017.GameCentre.slidingTiles.BoardManager;
+import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesBoard;
+import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesBoardManager;
 import fall2018.csc2017.GameCentre.slidingTiles.Tile;
 
 import static org.junit.Assert.assertEquals;
@@ -23,15 +23,15 @@ import static org.junit.Assert.assertTrue;
 public class BoardAndTileTest {
 
     /** The board manager for testing. */
-    private BoardManager boardManager;
+    private SlidingTilesBoardManager boardManager;
 
     /**
      * Make a solved SudokuBoard.
      */
     private void setUpCorrect() {
         List<Tile> tiles = makeTiles();
-        Board board = new Board(tiles);
-        boardManager = new BoardManager(board);
+        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
+        boardManager = new SlidingTilesBoardManager(board);
     }
 
     /**
@@ -39,8 +39,8 @@ public class BoardAndTileTest {
      */
     @Test
     public void testIsSolved() {
-        Board.NUM_ROWS = 4;
-        Board.NUM_COLS = 4;
+        SlidingTilesBoard.NUM_ROWS = 4;
+        SlidingTilesBoard.NUM_COLS = 4;
         setUpCorrect();
         assertEquals(true, boardManager.boardSolved());
         swapFirstTwoTiles();
@@ -65,8 +65,8 @@ public class BoardAndTileTest {
      */
     @Test
     public void testSwapLastTwo() {
-        Board.NUM_ROWS = 4;
-        Board.NUM_COLS = 4;
+        SlidingTilesBoard.NUM_ROWS = 4;
+        SlidingTilesBoard.NUM_COLS = 4;
         setUpCorrect();
         assertEquals(15, boardManager.getBoard().getTile(3, 2).getId());
         assertEquals(16, boardManager.getBoard().getTile(3, 3).getId());
@@ -80,8 +80,8 @@ public class BoardAndTileTest {
      */
     @Test
     public void testIsValidTap() {
-        Board.NUM_ROWS = 4;
-        Board.NUM_COLS = 4;
+        SlidingTilesBoard.NUM_ROWS = 4;
+        SlidingTilesBoard.NUM_COLS = 4;
         setUpCorrect();
         assertEquals(true, boardManager.isValidTap(11));
         assertEquals(true, boardManager.isValidTap(14));
@@ -114,30 +114,30 @@ public class BoardAndTileTest {
      * Make a 3X3 SudokuBoard.
      */
     private void setUpCorrectThreeByThree(List<Tile> tiles) {
-        Board.NUM_COLS = 3;
-        Board.NUM_ROWS = 3;
-        Board board = new Board(tiles);
-        boardManager = new BoardManager(board);
+        SlidingTilesBoard.NUM_COLS = 3;
+        SlidingTilesBoard.NUM_ROWS = 3;
+        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
+        boardManager = new SlidingTilesBoardManager(board);
     }
 
     /**
      * Make a 4X4 SudokuBoard.
      */
     private void setUpCorrectFourByFour(List<Tile> tiles) {
-        Board.NUM_COLS = 4;
-        Board.NUM_ROWS = 4;
-        Board board = new Board(tiles);
-        boardManager = new BoardManager(board);
+        SlidingTilesBoard.NUM_COLS = 4;
+        SlidingTilesBoard.NUM_ROWS = 4;
+        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
+        boardManager = new SlidingTilesBoardManager(board);
     }
 
     /**
      * Make a 5X5 SudokuBoard.
      */
     private void setUpCorrectFiveByFive(List<Tile> tiles) {
-        Board.NUM_COLS = 5;
-        Board.NUM_ROWS = 5;
-        Board board = new Board(tiles);
-        boardManager = new BoardManager(board);
+        SlidingTilesBoard.NUM_COLS = 5;
+        SlidingTilesBoard.NUM_ROWS = 5;
+        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
+        boardManager = new SlidingTilesBoardManager(board);
     }
 
     /**
@@ -241,7 +241,7 @@ public class BoardAndTileTest {
 
     private List<Tile> makeTiles() {
         List<Tile> tiles = new ArrayList<>();
-        final int numTiles = Board.NUM_ROWS * Board.NUM_COLS;
+        final int numTiles = SlidingTilesBoard.NUM_ROWS * SlidingTilesBoard.NUM_COLS;
         for (int tileNum = 0; tileNum != numTiles; tileNum++) {
             tiles.add(new Tile(tileNum + 1, tileNum));
         }

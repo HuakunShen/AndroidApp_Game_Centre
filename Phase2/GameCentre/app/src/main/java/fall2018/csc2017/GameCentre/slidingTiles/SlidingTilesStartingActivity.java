@@ -35,7 +35,7 @@ import static android.graphics.Bitmap.createBitmap;
 /**
  * The initial activity for the sliding puzzle tile game.
  */
-public class StartingActivity extends AppCompatActivity {
+public class SlidingTilesStartingActivity extends AppCompatActivity {
 
     private static final int MAX_UNDO_LIMIT = 20;
     private User user;
@@ -54,7 +54,7 @@ public class StartingActivity extends AppCompatActivity {
      * The board manager.
      */
     public static final String GAME_NAME = "SlidingTiles";
-    private BoardManager boardManager;
+    private SlidingTilesBoardManager boardManager;
 
     private String[] list_diff = new String[]{"Easy(3x3)", "Normal(4x4)", "Hard(5x5)"};
     private int selected_difficulty;
@@ -82,7 +82,7 @@ public class StartingActivity extends AppCompatActivity {
         setupUser();
         setupFile();
 
-        boardManager = new BoardManager();
+        boardManager = new SlidingTilesBoardManager();
         saveToFile(tempGameStateFile);
 
         setContentView(R.layout.activity_starting_);
@@ -128,13 +128,13 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                boardManager = new BoardManager();
+                boardManager = new SlidingTilesBoardManager();
                 if (importButton.getVisibility() == View.VISIBLE && tileImages3x3[0] == null) {
-                    Toast.makeText(StartingActivity.this,
+                    Toast.makeText(SlidingTilesStartingActivity.this,
                             "You need to import image!", Toast.LENGTH_SHORT).show();
                 } else {
                     setDifficulty(selected_difficulty);
-                    boardManager = new BoardManager();
+                    boardManager = new SlidingTilesBoardManager();
                     if (setUndoSteps(undoLimit))
                         switchToGame();
                 }
@@ -178,7 +178,7 @@ public class StartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (importButton.getVisibility() == View.VISIBLE && tileImages3x3[0] == null) {
-                    Toast.makeText(StartingActivity.this,
+                    Toast.makeText(SlidingTilesStartingActivity.this,
                             "You need to import image!", Toast.LENGTH_SHORT).show();
                 } else {
                     loadFromFile(gameStateFile);
@@ -288,7 +288,7 @@ public class StartingActivity extends AppCompatActivity {
         withImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(StartingActivity.this, "With Image Selected",
+                Toast.makeText(SlidingTilesStartingActivity.this, "With Image Selected",
                         Toast.LENGTH_SHORT).show();
                 if (bitmapCut != null && tileImages3x3[0] == null) {
                     cutImageToTiles();
@@ -299,7 +299,7 @@ public class StartingActivity extends AppCompatActivity {
         withNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(StartingActivity.this, "With Number Selected",
+                Toast.makeText(SlidingTilesStartingActivity.this, "With Number Selected",
                         Toast.LENGTH_SHORT).show();
                 clearImages();
                 importButton.setVisibility(View.INVISIBLE);
@@ -323,10 +323,10 @@ public class StartingActivity extends AppCompatActivity {
     }
 
     /**
-     * Switch to the GameActivity view to play the game.
+     * Switch to the SlidingTilesGameActivity view to play the game.
      */
     private void switchToGame() {
-        Intent tmp = new Intent(this, GameActivity.class);
+        Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
         saveToFile(tempGameStateFile);
         tmp.putExtra("user", username);
         startActivity(tmp);
@@ -346,7 +346,7 @@ public class StartingActivity extends AppCompatActivity {
                 if (fileName.equals(userFile)) {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
-                    boardManager = (BoardManager) input.readObject();
+                    boardManager = (SlidingTilesBoardManager) input.readObject();
                 }
                 inputStream.close();
             }
@@ -385,8 +385,8 @@ public class StartingActivity extends AppCompatActivity {
      * @param diff the difficulty to set as
      */
     private void setDifficulty(int diff) {
-        Board.NUM_ROWS = diff;
-        Board.NUM_COLS = diff;
+        SlidingTilesBoard.NUM_ROWS = diff;
+        SlidingTilesBoard.NUM_COLS = diff;
     }
 
     public Bitmap cutToTileRatio(Bitmap bitmapUncut) {

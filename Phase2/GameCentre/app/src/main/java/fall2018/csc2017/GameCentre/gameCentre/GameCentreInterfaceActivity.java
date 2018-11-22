@@ -27,7 +27,7 @@ import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingStartingActivity;
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.slidingTiles.StartingActivity;
+import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesStartingActivity;
 import fall2018.csc2017.GameCentre.sudoku.SudokuStartingActivity;
 
 public class GameCentreInterfaceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -131,7 +131,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent  = new Intent(getApplication(), StartingActivity.class);
+                Intent intent  = new Intent(getApplication(), SlidingTilesStartingActivity.class);
                 intent.putExtra("user", user.getUsername());
                 startActivity(intent);
             }
