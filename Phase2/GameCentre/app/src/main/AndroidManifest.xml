@@ -14,24 +14,24 @@
         android:roundIcon="@drawable/jason_with_hat"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".GameCentre.LoginActivity">
+        <activity android:name=".gameCentre.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameCentre.SignUpActivity" />
-        <activity android:name=".GameCentre.GameCentreInterfaceActivity" />
-        <activity android:name=".SlidingTiles.StartingActivity" />
-        <activity android:name=".SlidingTiles.GameActivity" />
-        <activity android:name=".GameCentre.ScoreBoardActivity" />
-        <activity android:name=".GameCentre.NavSetting" />
-        <activity android:name=".GameCentre.NavChangePassword" />
-        <activity android:name=".Sudoku.SudokuStartingActivity" />
-        <activity android:name=".Sudoku.SudokuGameActivity" />
-        <activity android:name=".PictureMatching.PictureMatchingGameActivity" />
-        <activity android:name=".PictureMatching.PictureMatchingStartingActivity"></activity>
+        <activity android:name=".gameCentre.SignUpActivity" />
+        <activity android:name=".gameCentre.GameCentreInterfaceActivity" />
+        <activity android:name=".slidingTiles.StartingActivity" />
+        <activity android:name=".slidingTiles.GameActivity" />
+        <activity android:name=".gameCentre.ScoreBoardActivity" />
+        <activity android:name=".gameCentre.NavSetting" />
+        <activity android:name=".gameCentre.NavChangePassword" />
+        <activity android:name=".sudoku.SudokuStartingActivity" />
+        <activity android:name=".sudoku.SudokuGameActivity" />
+        <activity android:name=".pictureMatching.PictureMatchingGameActivity" />
+        <activity android:name=".pictureMatching.PictureMatchingStartingActivity"></activity>
     </application>
 
 </manifest>

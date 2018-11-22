@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import fall2018.csc2017.GameCentre.SlidingTiles.Board;
-import fall2018.csc2017.GameCentre.SlidingTiles.BoardManager;
-import fall2018.csc2017.GameCentre.SlidingTiles.Tile;
+import fall2018.csc2017.GameCentre.slidingTiles.Board;
+import fall2018.csc2017.GameCentre.slidingTiles.BoardManager;
+import fall2018.csc2017.GameCentre.slidingTiles.Tile;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -41,9 +41,9 @@ public class BoardAndTileTest {
     @Test
     public void testIsSolved() {
         setUpCorrect();
-        assertEquals(true, boardManager.puzzleSolved());
+        assertEquals(true, boardManager.boardSolved());
         swapFirstTwoTiles();
-        assertEquals(false, boardManager.puzzleSolved());
+        assertEquals(false, boardManager.boardSolved());
     }
 
     /**

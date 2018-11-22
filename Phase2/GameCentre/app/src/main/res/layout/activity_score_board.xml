@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/space"
-    tools:context="fall2018.csc2017.GameCentre.GameCentre.ScoreBoardActivity">
+    tools:context="fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity">
 
     <ScrollView
         android:layout_width="match_parent"

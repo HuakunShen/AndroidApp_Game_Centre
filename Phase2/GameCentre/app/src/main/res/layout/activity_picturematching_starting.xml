@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/picture_matching_starting2"
 
-    tools:context="fall2018.csc2017.GameCentre.PictureMatching.PictureMatchingStartingActivity">
+    tools:context="fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingStartingActivity">
 
     <Button
         android:id="@+id/PictureMatchingNewGameButton"

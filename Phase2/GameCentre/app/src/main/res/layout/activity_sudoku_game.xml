@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/brown_paper_background"
-    tools:context="fall2018.csc2017.GameCentre.Sudoku.SudokuGameActivity">
+    tools:context="fall2018.csc2017.GameCentre.sudoku.SudokuGameActivity">
 
-    <fall2018.csc2017.GameCentre.Sudoku.SudokuGestureDetectGridView
+    <fall2018.csc2017.GameCentre.sudoku.SudokuGestureDetectGridView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -27,8 +27,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.717"
-        tools:context="fall2018.csc2017.GameCentre.SlidingTiles.GameActivity"
-        tools:ignore="MissingConstraints"></fall2018.csc2017.GameCentre.Sudoku.SudokuGestureDetectGridView>
+        tools:context="fall2018.csc2017.GameCentre.slidingTiles.GameActivity"
+        tools:ignore="MissingConstraints"></fall2018.csc2017.GameCentre.sudoku.SudokuGestureDetectGridView>
 
     <Button
         android:id="@+id/button_1"

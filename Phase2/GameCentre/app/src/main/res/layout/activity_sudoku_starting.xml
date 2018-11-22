@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/sudoku_game_background"
 
-    tools:context="fall2018.csc2017.GameCentre.Sudoku.SudokuStartingActivity">
+    tools:context="fall2018.csc2017.GameCentre.sudoku.SudokuStartingActivity">
 
     <Button
         android:id="@+id/SudokuNewGameButton"
