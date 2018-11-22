@@ -73,6 +73,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         }
         this.board = new SudokuBoard(cells);
         this.timeTaken = 0L;
+        this.undoStack = new StateStack(DEFAULT_UNDO_LIMIT);
     }
 
     /**

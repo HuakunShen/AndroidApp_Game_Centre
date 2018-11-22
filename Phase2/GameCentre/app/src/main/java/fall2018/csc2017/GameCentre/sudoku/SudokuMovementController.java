@@ -17,6 +17,11 @@ public class SudokuMovementController {
 
     public void processTapMovement(Context context, int position, boolean display) {
         if (boardManager.isValidTap(position)) {
+            Integer[] undoStep = new Integer[2];
+            undoStep[0] = new Integer(position);
+            undoStep[1] = new Integer(boardManager.getBoard().getCell(position / 9,
+                    position % 9).getFadeValue());
+            boardManager.addUndo(undoStep);
             boardManager.makeMove(position,
                     boardManager.getBoard().getCell(position / 9,
                             position % 9).getFaceValue());

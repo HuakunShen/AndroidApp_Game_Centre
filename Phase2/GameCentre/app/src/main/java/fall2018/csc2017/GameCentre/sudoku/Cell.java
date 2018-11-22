@@ -30,6 +30,11 @@ public class Cell implements Serializable {
     private boolean highlighted;
 
     /**
+     * The face value when it was not highlighted.
+     */
+    private Integer fadeValue;
+
+    /**
      * The row which the cell is in.
      */
     private int row;
@@ -92,12 +97,14 @@ public class Cell implements Serializable {
             } else {
                 currentCellName += "white_";
             }
+            this.fadeValue = faceValue;
         } else {
             if (col / 3 == 0 || col / 3 == 2) {
                 currentCellName += "grey_";
             } else {
                 currentCellName += "white_";
             }
+            this.fadeValue = faceValue;
         }
 
         // Match the background colour to the numeral value
@@ -108,6 +115,12 @@ public class Cell implements Serializable {
                 "drawable", SudokuStartingActivity.PACKAGE_NAME);
     }
 
+    /**
+     * Setter function for fadevalue.
+     */
+    public Integer getFadeValue() {
+        return fadeValue;
+    }
 
     /**
      * Returns whether the user successfully figured

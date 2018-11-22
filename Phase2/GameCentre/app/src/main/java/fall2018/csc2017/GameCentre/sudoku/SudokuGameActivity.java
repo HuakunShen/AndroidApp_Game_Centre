@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.sudoku;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,6 +64,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     private Button button7;
     private Button button8;
     private Button button9;
+    private Button undoButton;
 
     /**
      * Warning message
@@ -93,7 +95,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         addGridViewToActivity();
         setupTime();
         setUpButtons();
-
+        addUndoButtonListener();
+        addWarningTextViewListener();
     }
 
     private void setUpButtons() {
@@ -150,6 +153,44 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         }
     }
 
+
+    private void addUndoButtonListener() {
+        undoButton = findViewById(R.id.sudoku_undo_button);
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Integer[] move = boardManager.popUndo();
+                Integer position = move[0];
+                Integer value = move[1];
+                if (boardManager.undoAvailable() &&
+                        !boardManager.getBoard().getCell(position / 9,
+                                position % 9).isHighlighted()) {
+                    boardManager.makeMove(position, value);
+                } else {
+                    warning.setText("Exceeds Undo-Limit!");
+                    warning.setVisibility(View.VISIBLE);
+                    warning.setError("Exceeds Undo-Limit! ");
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            warning.setVisibility(View.INVISIBLE);
+                        }
+                    }, 1000);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * Set up the warning message displayed on the UI.
+     */
+    private void addWarningTextViewListener() {
+        warning = findViewById(R.id.sudokuWarningTextView);
+        warning.setVisibility(View.INVISIBLE);
+    }
 
     /**
      * setup user object according to username and define the value of userFile (where user
