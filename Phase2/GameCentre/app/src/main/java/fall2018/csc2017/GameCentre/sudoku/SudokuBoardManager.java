@@ -171,7 +171,16 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      * Performs changes to the board.
      */
     public void makeMove(int position, int value) {
-        updateValue(value, true);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board.getCell(i, j).isHighlighted()) {
+                    board.getCell(i, j).setHighlighted();
+                    board.getCell(i,
+                            j).setFaceValue(board.getCell(i,
+                            j).getFaceValue());
+                }
+            }
+        }
         board.getCell(position / 9, position % 9).setHighlighted();
         board.getCell(position / 9, position % 9).setFaceValue(value);
         setChanged();
@@ -184,14 +193,12 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     void updateValue(int value, boolean undo) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (board.getCell(i, j).isHighlighted()) {
-                    if (!undo) {
-                        Integer[] move = new Integer[2];
-                        move[0] = 9 * i + j;
-                        move[1] = board.getCell(i, j).getFaceValue();
-                        addUndo(move);
-                        board.getCell(i, j).setHighlighted();
-                    }
+                if (board.getCell(i, j).isHighlighted() && !undo) {
+                    Integer[] move = new Integer[2];
+                    move[0] = 9 * i + j;
+                    move[1] = board.getCell(i, j).getFaceValue();
+                    addUndo(move);
+                } if (board.getCell(i, j).isHighlighted()) {
                     board.getCell(i, j).setFaceValue(value);
                     setChanged();
                     notifyObservers();
