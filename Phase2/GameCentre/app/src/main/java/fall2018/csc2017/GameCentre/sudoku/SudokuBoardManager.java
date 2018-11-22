@@ -190,10 +190,16 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     /**
      * Update the face value of the board.
      */
-    void updateValue(int value) {
+    void updateValue(int value, boolean undo) {
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 if(board.getCell(i, j).isHighlighted()){
+                    if (! undo) {
+                        Integer[] move = new Integer[2];
+                        move[0] = 9 * i + j;
+                        move[1] = (Integer) value;
+                        addUndo(move);
+                    }
                     board.getCell(i, j).setFaceValue(value);
                     setChanged();
                     notifyObservers();

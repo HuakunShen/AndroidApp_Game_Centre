@@ -26,6 +26,7 @@ import java.util.TimerTask;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.slidingTiles.Board;
 import fall2018.csc2017.GameCentre.slidingTiles.CustomAdapter;
 
 public class SudokuGameActivity extends AppCompatActivity implements Observer, View.OnClickListener {
@@ -124,31 +125,31 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.button_1:
-                boardManager.updateValue(1);
+                boardManager.updateValue(1, false);
                 break;
             case R.id.button_2:
-                boardManager.updateValue(2);
+                boardManager.updateValue(2, false);
                 break;
             case R.id.button_3:
-                boardManager.updateValue(3);
+                boardManager.updateValue(3, false);
                 break;
             case R.id.button_4:
-                boardManager.updateValue(4);
+                boardManager.updateValue(4, false);
                 break;
             case R.id.button_5:
-                boardManager.updateValue(5);
+                boardManager.updateValue(5, false);
                 break;
             case R.id.button_6:
-                boardManager.updateValue(6);
+                boardManager.updateValue(6, false);
                 break;
             case R.id.button_7:
-                boardManager.updateValue(7);
+                boardManager.updateValue(7, false);
                 break;
             case R.id.button_8:
-                boardManager.updateValue(8);
+                boardManager.updateValue(8, false);
                 break;
             case R.id.button_9:
-                boardManager.updateValue(9);
+                boardManager.updateValue(9, false);
                 break;
         }
     }
@@ -159,13 +160,23 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Integer[] move = boardManager.popUndo();
-                Integer position = move[0];
-                Integer value = move[1];
-                if (boardManager.undoAvailable() &&
-                        !boardManager.getBoard().getCell(position / 9,
-                                position % 9).isHighlighted()) {
-                    boardManager.makeMove(position, value);
+                if (boardManager.undoAvailable()) {
+                    Integer[] move = boardManager.popUndo();
+                    Integer position = move[0];
+                    Integer value = move[1];
+                    SudokuBoard board = boardManager.getBoard();
+                    for (int i = 0; i < 9; i++) {
+                        for(int j = 0; j < 9; j++){
+                            if(board.getCell(i, j).isHighlighted()){
+                                board.getCell(i, j).setFaceValue(board.getCell(i,
+                                        j).getFaceValue());
+                            }
+                        }
+                    }
+                    boardManager.getBoard().getCell(position / 9,
+                            position % 9).setHighlighted();
+                    boardManager.updateValue(value, false);
+                    display();
                 } else {
                     warning.setText("Exceeds Undo-Limit!");
                     warning.setVisibility(View.VISIBLE);
