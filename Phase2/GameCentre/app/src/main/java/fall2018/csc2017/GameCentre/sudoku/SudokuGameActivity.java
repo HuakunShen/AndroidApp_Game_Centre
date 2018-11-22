@@ -104,7 +104,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     }
 
 
-
     private void setUpButtons() {
         button1 = findViewById(R.id.button_1);
         button2 = findViewById(R.id.button_2);
@@ -128,7 +127,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.button_1:
                 boardManager.updateValue(1, false);
                 break;
@@ -171,20 +170,19 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
                     Integer value = move[1];
                     SudokuBoard board = boardManager.getBoard();
                     for (int i = 0; i < 9; i++) {
-                        for(int j = 0; j < 9; j++){
-                            if(board.getCell(i, j).isHighlighted()){
-                                board.getCell(i, j).setHighlighted();
-                                board.getCell(i, j).setFaceValue(board.getCell(i,
-                                        j).getFaceValue());
+                        for (int j = 0; j < 9; j++) {
+                            Cell cell = board.getCell(i, j);
+                            if (cell.isHighlighted()) {
+                                cell.setHighlighted();
+                                cell.setFaceValue(cell.getFaceValue());
                             }
                         }
                     }
-                    board.getCell(position / 9, position % 9).setHighlighted();
+                    Cell cell = board.getCell(position / 9, position % 9);
+                    cell.setHighlighted();
                     boardManager.updateValue(value, true);
-                    board.getCell(position / 9, position % 9).setHighlighted();
-                    board.getCell(position / 9,
-                            position % 9).setFaceValue(board.getCell(position / 9,
-                            position % 9).getFaceValue());
+                    cell.setHighlighted();
+                    cell.setFaceValue(cell.getFaceValue());
                     display();
                 } else {
                     warning.setText("Exceeds Undo-Limit!");
