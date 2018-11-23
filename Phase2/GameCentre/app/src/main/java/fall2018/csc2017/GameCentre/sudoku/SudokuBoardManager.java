@@ -28,7 +28,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     /**
      * The default number of undo time.
      */
-    private static final int DEFAULT_UNDO_LIMIT = 3;
+    private static final int DEFAULT_UNDO_LIMIT = 20;
 
     /**
      * The level of difficulty.

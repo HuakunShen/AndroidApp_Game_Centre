@@ -38,8 +38,6 @@ abstract public class BoardManagerForBoardGames extends Observable {
     public BoardManagerForBoardGames() {
     }
 
-    ;
-
     /**
      * Manage a board that has been pre-populated.
      */

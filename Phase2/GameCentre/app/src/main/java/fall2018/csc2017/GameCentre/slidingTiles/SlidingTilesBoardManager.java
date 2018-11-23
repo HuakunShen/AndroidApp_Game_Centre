@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
 import fall2018.csc2017.GameCentre.data.StateStack;
 import fall2018.csc2017.GameCentre.util.BoardManagerForBoardGames;
 
@@ -154,21 +155,25 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
         if (this.board.numTiles() % 2 != 0) {
             return totalInversion % 2 == 0;
         } else {
-            if(board.numTiles()%2!=0){
-                return totalInversion%2==0;
-            }else{
-                return blankPosition()%2==0 && totalInversion%2!=0 ||
-                        blankPosition()%2!=0 && totalInversion%2==0;
+            if (board.numTiles() % 2 != 0) {
+                return totalInversion % 2 == 0;
+            } else {
+                return blankPosition() % 2 == 0 && totalInversion % 2 != 0 ||
+                        blankPosition() % 2 != 0 && totalInversion % 2 == 0;
             }
         }
     }
 
+    /**
+     * Return the index of row which the blank tile is in.
+     */
     public int blankPosition() {
         int position = 0;
         for (int i = 0; i < SlidingTilesBoard.NUM_ROWS; i++) {
             for (int j = 0; j < SlidingTilesBoard.NUM_COLS; j++) {
                 if (board.getTile(i, j).getId() == board.numTiles()) {
                     position = SlidingTilesBoard.NUM_ROWS - i;
+                    break;
                 }
             }
         }
@@ -181,10 +186,10 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      */
     public int getTotalInversion(ArrayList<Integer> listOfTiles) {
         int totalInversion = 0;
-        for (int i = 0; i < this.board.numTiles()-1; i++) {
+        for (int i = 0; i < this.board.numTiles() - 1; i++) {
             for (int j = i + 1; j < this.board.numTiles(); j++) {
                 if (listOfTiles.get(i) != this.board.numTiles() && listOfTiles.get(i) > listOfTiles.get(j)) {
-                    totalInversion ++;
+                    totalInversion++;
                 }
             }
         }
@@ -195,11 +200,10 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      * Return whether the tiles are in row-major order.
      */
     public boolean boardSolved() {
-        for (int row = 0; row < SlidingTilesBoard.NUM_ROWS; row++) {
-            for (int col = 0; col < SlidingTilesBoard.NUM_ROWS; col++) {
-                if (board.getTile(row, col).getId() != row * 4 + col + 1) {
-                    return false;
-                }
+        Iterator<Tile> iterator = board.iterator();
+        for (int i = 1; i < board.numTiles() + 1; i++) {
+            if (iterator.next().getId() != i) {
+                return false;
             }
         }
         return true;
