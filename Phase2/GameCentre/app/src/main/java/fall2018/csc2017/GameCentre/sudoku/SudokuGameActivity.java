@@ -19,6 +19,7 @@ import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -56,6 +57,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     private Long preStartTime = 0L;
     private Long totalTimeTaken;
 
+
     private Button button1;
     private Button button2;
     private Button button3;
@@ -67,6 +69,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     private Button button9;
     private Button undoButton;
     private Button eraseButton;
+    private Button hintButton;
 
     /**
      * Warning message
@@ -100,7 +103,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         addWarningTextViewListener();
         addUndoButtonListener();
         addEraseButtonListener();
-
+        addHintButtonListener();
     }
 
 
@@ -196,6 +199,22 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
             }
         });
     }
+
+    /**
+     * When Hint button is taped, the solution will display on the selected cell.
+     */
+    private void addHintButtonListener() {
+        hintButton = findViewById(R.id.hintButton);
+        hintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Cell currentCell = boardManager.getCurrentCell();
+                boardManager.updateValue(currentCell.getSolutionValue(), false);
+                display();
+            }
+        });
+    }
+
 
     /**
      * Set up the warning message displayed on the UI.
