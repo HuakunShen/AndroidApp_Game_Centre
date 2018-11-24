@@ -67,7 +67,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         Integer changed = 0;
         while (!changed.equals(editable)) {
             Random r = new Random();
-            int index = r.nextInt(81);
+            int index = r.nextInt(SudokuBoard.NUM_COL * SudokuBoard.NUM_ROW);
             if (!cells.get(index).isEditable()) {
                 cells.get(index).makeEditable();
                 cells.get(index).setFaceValue(0);
@@ -193,8 +193,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
             setChanged();
             notifyObservers();
         }
-        setChanged();
-        notifyObservers();
+
     }
 
     /**
