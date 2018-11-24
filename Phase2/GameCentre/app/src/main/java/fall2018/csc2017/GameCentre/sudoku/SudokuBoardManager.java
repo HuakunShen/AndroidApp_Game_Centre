@@ -16,6 +16,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     private SudokuBoard board;
 
 
+
     /**
      * The cell currently selected
      */
@@ -112,6 +113,11 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      */
     public void setCapacity(int input) {
         this.undoStack.setCapacity(input);
+    }
+
+
+    public void setCurrentCell(Cell currentCell) {
+        this.currentCell = currentCell;
     }
 
 

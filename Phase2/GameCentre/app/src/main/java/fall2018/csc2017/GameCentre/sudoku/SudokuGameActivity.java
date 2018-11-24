@@ -365,6 +365,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
             boardManager.getCurrentCell().setHighlighted(false);
             boardManager.getCurrentCell().setFaceValue(boardManager.getCurrentCell().getFaceValue());
         }
+        boardManager.setCurrentCell(null);
         saveToFile(tempGameStateFile);
         saveToFile(gameStateFile);
     }
