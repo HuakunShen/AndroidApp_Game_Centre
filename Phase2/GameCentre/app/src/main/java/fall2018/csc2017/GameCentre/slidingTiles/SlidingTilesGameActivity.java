@@ -28,11 +28,13 @@ import java.util.TimerTask;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 
 /**
  * The game activity.
  */
-public class SlidingTilesGameActivity extends AppCompatActivity implements Observer {
+public class SlidingTilesGameActivity extends AppCompatActivity implements Observer,
+        LoadSaveSerializable {
 
     /**
      * The board manager.
@@ -320,7 +322,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      *
      * @param fileName the name of the file
      */
-    private void loadFromFile(String fileName) {
+    public void loadFromFile(String fileName) {
 
         try {
             InputStream inputStream = this.openFileInput(fileName);

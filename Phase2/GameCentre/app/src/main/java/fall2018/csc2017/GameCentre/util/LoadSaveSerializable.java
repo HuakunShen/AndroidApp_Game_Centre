@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre.interfaces;
+package fall2018.csc2017.GameCentre.util;
 
 public interface LoadSaveSerializable {
     void loadFromFile(String filename);

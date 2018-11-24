@@ -115,20 +115,8 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     }
 
 
-    public Cell getCurrentCell() {
+    Cell getCurrentCell() {
         return currentCell;
-    }
-
-    public void setCurrentCell(Cell currentCell) {
-        this.currentCell = currentCell;
-    }
-
-    public int getCurrentPos() {
-        return currentPos;
-    }
-
-    public void setCurrentPos(int currentPos) {
-        this.currentPos = currentPos;
     }
 
     /**

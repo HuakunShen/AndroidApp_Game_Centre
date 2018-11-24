@@ -29,8 +29,10 @@ import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.slidingTiles.CustomAdapter;
+import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 
-public class SudokuGameActivity extends AppCompatActivity implements Observer, View.OnClickListener {
+public class SudokuGameActivity extends AppCompatActivity implements Observer, View.OnClickListener
+        , LoadSaveSerializable {
 
     /**
      * The board manager.
@@ -370,7 +372,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
      *
      * @param fileName the name of the file
      */
-    private void loadFromFile(String fileName) {
+    public void loadFromFile(String fileName) {
 
         try {
             InputStream inputStream = this.openFileInput(fileName);
