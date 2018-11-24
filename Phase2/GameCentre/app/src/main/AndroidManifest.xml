@@ -31,7 +31,8 @@
         <activity android:name=".sudoku.SudokuStartingActivity" />
         <activity android:name=".sudoku.SudokuGameActivity" />
         <activity android:name=".pictureMatching.PictureMatchingGameActivity" />
-        <activity android:name=".pictureMatching.PictureMatchingStartingActivity"></activity>
+        <activity android:name=".pictureMatching.PictureMatchingStartingActivity" />
+        <activity android:name=".gameCentre.ScoreBoardByGameActivity"></activity>
     </application>
 
 </manifest>
