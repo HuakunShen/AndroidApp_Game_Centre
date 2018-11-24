@@ -11,27 +11,17 @@ import fall2018.csc2017.GameCentre.util.BoardForBoardGames;
 /**
  * The sliding tiles board.
  */
-public class SlidingTilesBoard extends BoardForBoardGames implements Serializable, Iterable<Tile> {
-
-    /**
-     * The number of rows.
-     */
-    public static int NUM_ROWS = 4;
-
-    /**
-     * The number of rows.
-     */
-    public static int NUM_COLS = 4;
+public class SlidingTilesBoard extends BoardForBoardGames implements Serializable, Iterable<Integer> {
 
     /**
      * Level of difficulty of the game.
      */
-    public int difficulty;
+    private int difficulty;
 
     /**
      * The tiles on the board in row-major order.
      */
-    private Tile[][] tiles;
+    private Integer[][] tiles;
 
 
     /**
@@ -40,13 +30,13 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
      *
      * @param tiles the tiles for the board
      */
-    public SlidingTilesBoard(List<Tile> tiles) {
-        difficulty = NUM_ROWS;
-        this.tiles = new Tile[difficulty][difficulty];
-        Iterator<Tile> iter = tiles.iterator();
+    public SlidingTilesBoard(List<Integer> tiles, int difficulty) {
+        this.difficulty = difficulty;
+        this.tiles = new Integer[difficulty][difficulty];
+        Iterator<Integer> iter = tiles.iterator();
 
-        for (int row = 0; row != SlidingTilesBoard.NUM_ROWS; row++) {
-            for (int col = 0; col != SlidingTilesBoard.NUM_COLS; col++) {
+        for (int row = 0; row != difficulty; row++) {
+            for (int col = 0; col != difficulty; col++) {
                 this.tiles[row][col] = iter.next();
             }
         }
@@ -58,7 +48,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
      * @return the number of tiles on the board
      */
     int numTiles() {
-        return NUM_COLS * NUM_ROWS;
+        return difficulty * difficulty;
     }
 
     /**
@@ -68,7 +58,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
      * @param col the tile column
      * @return the tile at (row, col)
      */
-    public Tile getTile(int row, int col) {
+    public Integer getTile(int row, int col) {
         return tiles[row][col];
     }
 
@@ -81,11 +71,14 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
      * @param col2 the second tile col
      */
     public void swapTiles(int row1, int col1, int row2, int col2) {
-        Tile t = this.tiles[row1][col1];
+        int t = this.tiles[row1][col1];
         this.tiles[row1][col1] = this.tiles[row2][col2];
         this.tiles[row2][col2] = t;
         setChanged();
         notifyObservers();
+    }
+    public int getDifficulty() {
+        return difficulty;
     }
 
     /**
@@ -93,26 +86,26 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
      */
     @NonNull
     @Override
-    public Iterator<Tile> iterator() {
+    public Iterator<Integer> iterator() {
         return new BoardIterator();
     }
 
     /**
      * The iterator class for board.
      */
-    public class BoardIterator implements Iterator<Tile> {
+    public class BoardIterator implements Iterator<Integer> {
         int nextIndex = 0;
 
         @Override
         public boolean hasNext() {
-            return nextIndex != NUM_COLS * NUM_ROWS;
+            return nextIndex != difficulty * difficulty;
         }
 
         @Override
-        public Tile next() {
-            int row = nextIndex / SlidingTilesBoard.NUM_COLS;
-            int col = nextIndex % SlidingTilesBoard.NUM_COLS;
-            Tile tile = tiles[row][col];
+        public Integer next() {
+            int row = nextIndex / difficulty;
+            int col = nextIndex % difficulty;
+            Integer tile = tiles[row][col];
             nextIndex++;
             return tile;
         }

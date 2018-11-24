@@ -59,9 +59,6 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
     private String[] list_diff = new String[]{"Easy(3x3)", "Normal(4x4)", "Hard(5x5)"};
     private int selected_difficulty;
 
-    public static String PACKAGE_NAME;
-    public static Resources RESOURCES;
-
     private static final int SELECT_IMAGE_CODE = 1801;
     ImageButton importButton;
     Bitmap bitmapCut;
@@ -75,14 +72,12 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = new DatabaseHandler(this);
         username = getIntent().getStringExtra("user");
-        PACKAGE_NAME = getApplicationContext().getPackageName();
-        RESOURCES = getResources();
         selected_difficulty = 4;
 
         setupUser();
         setupFile();
 
-        boardManager = new SlidingTilesBoardManager();
+        boardManager = new SlidingTilesBoardManager(4);
         saveToFile(tempGameStateFile);
 
         setContentView(R.layout.activity_starting_);
@@ -128,13 +123,11 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                boardManager = new SlidingTilesBoardManager();
                 if (importButton.getVisibility() == View.VISIBLE && tileImages3x3[0] == null) {
                     Toast.makeText(SlidingTilesStartingActivity.this,
                             "You need to import image!", Toast.LENGTH_SHORT).show();
                 } else {
-                    setDifficulty(selected_difficulty);
-                    boardManager = new SlidingTilesBoardManager();
+                    boardManager = new SlidingTilesBoardManager(selected_difficulty);
                     if (setUndoSteps(undoLimit))
                         switchToGame();
                 }
@@ -183,7 +176,6 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
                 } else {
                     loadFromFile(gameStateFile);
                     saveToFile(tempGameStateFile);
-                    setDifficulty(boardManager.getDifficulty());
                     makeToast("Loaded Game");
                     switchToGame();
                 }
@@ -377,16 +369,6 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
-    }
-
-    /**
-     * Set the size of board to match with difficulty.
-     *
-     * @param diff the difficulty to set as
-     */
-    private void setDifficulty(int diff) {
-        SlidingTilesBoard.NUM_ROWS = diff;
-        SlidingTilesBoard.NUM_COLS = diff;
     }
 
     public Bitmap cutToTileRatio(Bitmap bitmapUncut) {

@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.slidingTiles;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import java.util.TimerTask;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingStartingActivity;
 import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 
 /**
@@ -83,10 +85,16 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      */
     private String tempGameStateFile;
 
+    private String PACKAGE_NAME;
+    private Resources RESOURCES;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PACKAGE_NAME = getApplicationContext().getPackageName();
+        RESOURCES = getResources();
+
         startingTime = LocalTime.now();
         db = new DatabaseHandler(this);
         setupUser();
@@ -199,7 +207,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      */
     private void addGridViewToActivity() {
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(SlidingTilesBoard.NUM_COLS);
+        gridView.setNumColumns(boardManager.getBoard().getDifficulty());
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -212,8 +220,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = (displayWidth / SlidingTilesBoard.NUM_COLS);
-                        columnHeight = (displayHeight / SlidingTilesBoard.NUM_ROWS);
+                        columnWidth = (displayWidth / boardManager.getBoard().getDifficulty());
+                        columnHeight = (displayHeight / boardManager.getBoard().getDifficulty());
 
                         display();
                     }
@@ -237,12 +245,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        SlidingTilesBoard board = (SlidingTilesBoard) boardManager.getBoard();
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != SlidingTilesBoard.NUM_ROWS; row++) {
-            for (int col = 0; col != SlidingTilesBoard.NUM_COLS; col++) {
+        for (int row = 0; row != boardManager.getBoard().getDifficulty(); row++) {
+            for (int col = 0; col != boardManager.getBoard().getDifficulty(); col++) {
                 Button tmp = new Button(context);
-                tmp.setBackgroundResource(board.getTile(row, col).getBackground());
                 this.tileButtons.add(tmp);
             }
         }
@@ -252,22 +258,25 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Update the backgrounds on the buttons to match the tiles.
      */
     private void updateTileButtons() {
-        SlidingTilesBoard board = (SlidingTilesBoard) boardManager.getBoard();
+        SlidingTilesBoard board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / SlidingTilesBoard.NUM_ROWS;
-            int col = nextPos % SlidingTilesBoard.NUM_COLS;
-            int tile_id = board.getTile(row, col).getId();
-            if (tile_id == SlidingTilesBoard.NUM_ROWS * SlidingTilesBoard.NUM_COLS
-                    || SlidingTilesStartingActivity.tileImages3x3[0] == null) {
-                b.setBackgroundResource(board.getTile(row, col).getBackground());
-            } else if (board.difficulty == 3) {
+            int row = nextPos / boardManager.getBoard().getDifficulty();
+            int col = nextPos % boardManager.getBoard().getDifficulty();
+            int tile_id = board.getTile(row, col);
+            if (tile_id == boardManager.getBoard().getDifficulty() * boardManager.getBoard().getDifficulty()) {
+                b.setBackgroundResource(R.drawable.tile_empty);
+            } else if (SlidingTilesStartingActivity.tileImages3x3[0] == null) {
+                String name = "tile_"  + Integer.toString(tile_id);
+                int id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
+                b.setBackgroundResource(id);
+            } else if (boardManager.getBoard().getDifficulty() == 3) {
                 b.setBackground(new BitmapDrawable(getResources(),
                         SlidingTilesStartingActivity.tileImages3x3[tile_id]));
-            } else if (board.difficulty == 4) {
+            } else if (boardManager.getBoard().getDifficulty() == 4) {
                 b.setBackground(new BitmapDrawable(getResources(),
                         SlidingTilesStartingActivity.tileImages4x4[tile_id]));
-            } else if (board.difficulty == 5) {
+            } else if (boardManager.getBoard().getDifficulty() == 5) {
                 b.setBackground(new BitmapDrawable(getResources(),
                         SlidingTilesStartingActivity.tileImages5x5[tile_id]));
             }

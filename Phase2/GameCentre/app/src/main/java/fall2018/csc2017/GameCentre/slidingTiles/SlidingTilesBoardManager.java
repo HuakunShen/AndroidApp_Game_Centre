@@ -19,7 +19,6 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      */
     private SlidingTilesBoard board;
 
-
     /**
      * The time has taken so far.
      */
@@ -43,20 +42,20 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
     /**
      * Manage a new shuffled board.
      */
-    SlidingTilesBoardManager() {
-        List<Tile> tiles = new ArrayList<>();
-        final int numTiles = SlidingTilesBoard.NUM_ROWS * SlidingTilesBoard.NUM_COLS;
-        for (int tileNum = 0; tileNum != numTiles; tileNum++) {
-            tiles.add(new Tile(tileNum));
+    SlidingTilesBoardManager(int difficulty) {
+        List<Integer> tiles = new ArrayList<>();
+        final int numTiles = difficulty * difficulty;
+        for (int tileNum = 1; tileNum != numTiles + 1; tileNum++) {
+            tiles.add(tileNum);
         }
         this.stepsTaken = 0;
         this.timeTaken = 0L;
         Collections.shuffle(tiles);
-        this.board = new SlidingTilesBoard(tiles);
+        this.board = new SlidingTilesBoard(tiles, difficulty);
         boolean solvable = false;
         while (!solvable) {
             Collections.shuffle(tiles);
-            this.board = new SlidingTilesBoard(tiles);
+            this.board = new SlidingTilesBoard(tiles, difficulty);
             solvable = solvable();
         }
         this.undoStack = new StateStack<>(DEFAULT_UNDO_LIMIT);
@@ -108,7 +107,7 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      * Get level of difficulty of the board.
      */
     public int getDifficulty() {
-        return board.difficulty;
+        return board.getDifficulty();
     }
 
     /**
@@ -144,10 +143,10 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      * Determines whether the tile board is solvable.
      */
     public boolean solvable() {
-        Iterator<Tile> tiles = this.board.iterator();
+        Iterator<Integer> tiles = this.board.iterator();
         ArrayList<Integer> listOfTiles = new ArrayList<>(this.board.numTiles());
         while (tiles.hasNext()) {
-            listOfTiles.add(tiles.next().getId());
+            listOfTiles.add(tiles.next());
         }
 
         int totalInversion = getTotalInversion(listOfTiles);
@@ -169,10 +168,10 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      */
     public int blankPosition() {
         int position = 0;
-        for (int i = 0; i < SlidingTilesBoard.NUM_ROWS; i++) {
-            for (int j = 0; j < SlidingTilesBoard.NUM_COLS; j++) {
-                if (board.getTile(i, j).getId() == board.numTiles()) {
-                    position = SlidingTilesBoard.NUM_ROWS - i;
+        for (int i = 0; i < board.getDifficulty(); i++) {
+            for (int j = 0; j < board.getDifficulty(); j++) {
+                if (board.getTile(i, j) == board.numTiles()) {
+                    position = board.getDifficulty() - i;
                     break;
                 }
             }
@@ -200,9 +199,9 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      * Return whether the tiles are in row-major order.
      */
     public boolean boardSolved() {
-        Iterator<Tile> iterator = board.iterator();
+        Iterator<Integer> iterator = board.iterator();
         for (int i = 1; i < board.numTiles() + 1; i++) {
-            if (iterator.next().getId() != i) {
+            if (iterator.next() != i) {
                 return false;
             }
         }
@@ -216,17 +215,17 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      * @return whether the tile at position is surrounded by a blank tile
      */
     public boolean isValidTap(int position) {
-        int row = position / SlidingTilesBoard.NUM_COLS;
-        int col = position % SlidingTilesBoard.NUM_COLS;
+        int row = position / board.getDifficulty();
+        int col = position % board.getDifficulty();
         int blankId = board.numTiles();
-        Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == SlidingTilesBoard.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
-        Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        Tile right = col == SlidingTilesBoard.NUM_COLS - 1 ? null : board.getTile(row, col + 1);
-        return (below != null && below.getId() == blankId)
-                || (above != null && above.getId() == blankId)
-                || (left != null && left.getId() == blankId)
-                || (right != null && right.getId() == blankId);
+        Integer above = row == 0 ? null : board.getTile(row - 1, col);
+        Integer below = row == board.getDifficulty() - 1 ? null : board.getTile(row + 1, col);
+        Integer left = col == 0 ? null : board.getTile(row, col - 1);
+        Integer right = col == board.getDifficulty() - 1 ? null : board.getTile(row, col + 1);
+        return (below != null && below == blankId)
+                || (above != null && above == blankId)
+                || (left != null && left == blankId)
+                || (right != null && right == blankId);
     }
 
     /**
@@ -235,25 +234,25 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      * @param position the position
      */
     public int move(int position) {
-        int row = position / SlidingTilesBoard.NUM_ROWS;
-        int col = position % SlidingTilesBoard.NUM_COLS;
+        int row = position / board.getDifficulty();
+        int col = position % board.getDifficulty();
         int blankId = board.numTiles();
         int blank_pos;
-        Tile above = row == 0 ? null : board.getTile(row - 1, col);
-        Tile below = row == SlidingTilesBoard.NUM_ROWS - 1 ? null : board.getTile(row + 1, col);
-        Tile left = col == 0 ? null : board.getTile(row, col - 1);
-        if (above != null && above.getId() == blankId) {
+        Integer above = row == 0 ? null : board.getTile(row - 1, col);
+        Integer below = row == board.getDifficulty() - 1 ? null : board.getTile(row + 1, col);
+        Integer left = col == 0 ? null : board.getTile(row, col - 1);
+        if (above != null && above == blankId) {
             this.board.swapTiles(row - 1, col, row, col);
-            blank_pos = (row - 1) * SlidingTilesBoard.NUM_ROWS + col;
-        } else if (below != null && below.getId() == blankId) {
+            blank_pos = (row - 1) * board.getDifficulty() + col;
+        } else if (below != null && below == blankId) {
             this.board.swapTiles(row + 1, col, row, col);
-            blank_pos = (row + 1) * SlidingTilesBoard.NUM_ROWS + col;
-        } else if (left != null && left.getId() == blankId) {
+            blank_pos = (row + 1) * board.getDifficulty() + col;
+        } else if (left != null && left == blankId) {
             this.board.swapTiles(row, col - 1, row, col);
-            blank_pos = row * SlidingTilesBoard.NUM_ROWS + (col - 1);
+            blank_pos = row * board.getDifficulty() + (col - 1);
         } else {
             this.board.swapTiles(row, col + 1, row, col);
-            blank_pos = row * SlidingTilesBoard.NUM_ROWS + (col + 1);
+            blank_pos = row * board.getDifficulty() + (col + 1);
         }
 
         return blank_pos;
