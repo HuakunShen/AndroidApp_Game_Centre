@@ -31,7 +31,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
     /**
      * The tiles on the board in row-major order.
      */
-    private Tile[][] tiles = new Tile[NUM_ROWS][NUM_COLS];
+    private Tile[][] tiles;
 
 
     /**
@@ -42,6 +42,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
      */
     public SlidingTilesBoard(List<Tile> tiles) {
         difficulty = NUM_ROWS;
+        this.tiles = new Tile[difficulty][difficulty];
         Iterator<Tile> iter = tiles.iterator();
 
         for (int row = 0; row != SlidingTilesBoard.NUM_ROWS; row++) {
