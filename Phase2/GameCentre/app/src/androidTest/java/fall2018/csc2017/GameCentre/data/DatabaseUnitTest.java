@@ -1,4 +1,6 @@
-package fall2018.csc2017.GameCentre.data;;
+package fall2018.csc2017.GameCentre.data;
+
+;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -6,6 +8,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -25,7 +30,7 @@ public class DatabaseUnitTest {
         db.addUser(user);
         assertTrue(db.userExists("admin"));
         assertFalse(db.userExists("admin1"));
-
+        db.close();
     }
 
     @Test
@@ -36,6 +41,7 @@ public class DatabaseUnitTest {
         assertTrue(db.dataExists("admin", "game"));
         assertFalse(db.dataExists("admin1", "game"));
         assertFalse(db.dataExists("admin", "game1"));
+        db.close();
     }
 
     @Test
@@ -46,7 +52,7 @@ public class DatabaseUnitTest {
         db.addUser(user);
         assertTrue(db.userExists("admin"));
         assertFalse(db.userExists("admin1"));
-
+        db.close();
     }
 
     @Test
@@ -57,6 +63,7 @@ public class DatabaseUnitTest {
         assertTrue(db.dataExists("admin", "game"));
         assertFalse(db.dataExists("admin1", "game"));
         assertFalse(db.dataExists("admin", "game1"));
+        db.close();
     }
 
     @Test
@@ -67,6 +74,7 @@ public class DatabaseUnitTest {
         db.addUser(user);
         String output = db.getUserFile("admin");
         assertEquals("admin_user.ser", output);
+        db.close();
     }
 
     @Test
@@ -76,7 +84,7 @@ public class DatabaseUnitTest {
         db.addData("user", "game");
         assertEquals(0, db.getScore("user", "game"));
         assertEquals(-1, db.getScore("user1", "game"));
-
+        db.close();
     }
 
     @Test
@@ -86,13 +94,14 @@ public class DatabaseUnitTest {
         db.addData("user", "game");
         assertEquals("user_game_data.ser", db.getDataFile("user", "game"));
         assertEquals("File Does Not Exist!", db.getDataFile("user1", "game"));
+        db.close();
     }
 
     @Test
     public void updateScore() {
         Context context = InstrumentationRegistry.getTargetContext();
         DatabaseHandler db = new DatabaseHandler(context);
-        User user = new User("admin", "game");
+        User user = new User("admin", "pass");
         if (!db.dataExists("admin", "game"))
             db.addData("admin", "game");
         db.updateScore(user, "game");
@@ -100,7 +109,39 @@ public class DatabaseUnitTest {
         user.updateScore("game", 80);
         db.updateScore(user, "game");
         assertEquals(80, db.getScore("admin", "game"));
+        db.close();
 
+    }
+
+    @Test
+    public void getScoreByGame() {
+        Context context = InstrumentationRegistry.getTargetContext();
+        DatabaseHandler db = new DatabaseHandler(context);
+        String[] user = {"Apple", "Banana", "admin"};
+        int[] score = {100, 50, 10};
+        User admin = new User("admin", "pass");
+        User Apple = new User("Apple", "pass");
+        User Banana = new User("Banana", "pass");
+        db.addUser(admin);
+        db.addUser(Apple);
+        db.addUser(Banana);
+        admin.updateScore("game1", 10);
+        Apple.updateScore("game1", 100);
+        Banana.updateScore("game1", 50);
+        db.addData("admin", "game1");
+        db.addData("Apple", "game1");
+        db.addData("Banana", "game1");
+        db.updateScore(admin, "game1");
+        db.updateScore(Apple, "game1");
+        db.updateScore(Banana, "game1");
+        ArrayList<ArrayList<String>> data = db.getScoreByGame("game1");
+        for (int i = 0; i < data.size(); i++) {
+            for (int j = 0; j < data.get(i).size(); j++) {
+                assertEquals(data.get(i).get(0), String.valueOf(i + 1));
+                assertEquals(data.get(i).get(2), user[i]);
+                assertEquals(data.get(i).get(3), String.valueOf(score[i]));
+            }
+        }
 
     }
 }

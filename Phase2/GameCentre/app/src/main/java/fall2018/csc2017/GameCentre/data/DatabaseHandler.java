@@ -279,9 +279,52 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public ArrayList<ArrayList<String>> getScoreByGame(String game_type) {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<ArrayList<String>> dataList = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_GAME +
+                " =? ORDER BY " + KEY_SCORE + " DESC", new String[]{game_type});
+        if (cursor.moveToFirst()) {
+            int rank = 1;
+            do {
+                String user = cursor.getString(cursor.getColumnIndex(KEY_USERNAME));
+                String score = Integer.toString(cursor.getInt(cursor.getColumnIndex(KEY_SCORE)));
+                ArrayList<String> data = new ArrayList<>();
+                data.add(String.valueOf(rank));
+                data.add(game_type);
+                data.add(user);
+                data.add(score);
+                dataList.add(data);
+                rank++;
+            } while (cursor.moveToNext());
+        }
 
-
-
+        db.close();
         return dataList;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
