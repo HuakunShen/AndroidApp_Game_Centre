@@ -59,7 +59,7 @@ public class SlidingTilesGestureDetectGridView extends GridView {
                 int position = SlidingTilesGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
 
-                mController.processTapMovement(context, position, 1,true);
+                mController.processTapMovement(context, position, true);
                 return true;
             }
 

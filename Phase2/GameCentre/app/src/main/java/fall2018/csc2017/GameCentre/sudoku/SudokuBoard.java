@@ -13,6 +13,9 @@ public class SudokuBoard extends BoardForBoardGames implements Serializable {
      */
     private Cell[][] cells = new Cell[9][9];
 
+    public static final int NUM_ROW = 9;
+    public static final int NUM_COL = 9;
+
     /**
      * A new board of cells in row-major order.
      * Precondition: len(cells) == 81.

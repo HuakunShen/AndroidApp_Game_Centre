@@ -58,9 +58,7 @@ public class SudokuGestureDetectGridView extends GridView {
             public boolean onSingleTapConfirmed(MotionEvent event) {
                 int position = SudokuGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
-                int value = boardManager.getBoard().getCell(position / 9,
-                        position % 9).getFaceValue();
-                mController.processTapMovement(context, position, value, true);
+                mController.processTapMovement(context, position, true);
                 return true;
             }
 

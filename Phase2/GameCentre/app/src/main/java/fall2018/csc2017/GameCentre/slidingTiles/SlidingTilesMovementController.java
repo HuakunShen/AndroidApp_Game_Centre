@@ -17,7 +17,7 @@ public class SlidingTilesMovementController {
 
     public void processTapMovement(Context context, int position, boolean display) {
         if (boardManager.isValidTap(position)) {
-            boardManager.makeMove(position, 1);
+            boardManager.makeMove(position);
             if (boardManager.boardSolved()) {
                 Toast.makeText(context, "YOU WIN!", Toast.LENGTH_SHORT).show();
             }

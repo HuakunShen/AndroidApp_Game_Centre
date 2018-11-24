@@ -96,8 +96,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         addGridViewToActivity();
         setupTime();
         setUpButtons();
-        addUndoButtonListener();
         addWarningTextViewListener();
+        addUndoButtonListener();
         addEraseButtonListener();
 
     }
@@ -157,37 +157,16 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         }
     }
 
-
     private void addUndoButtonListener() {
         undoButton = findViewById(R.id.sudoku_undo_button);
+        warning.setError("Exceeds Undo-Limit! ");
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (boardManager.undoAvailable()) {
-                    Integer[] move = boardManager.popUndo();
-                    Integer position = move[0];
-                    Integer value = move[1];
-                    SudokuBoard board = boardManager.getBoard();
-                    for (int i = 0; i < 9; i++) {
-                        for (int j = 0; j < 9; j++) {
-                            Cell cell = board.getCell(i, j);
-                            if (cell.isHighlighted()) {
-                                cell.setHighlighted();
-                                cell.setFaceValue(cell.getFaceValue());
-                            }
-                        }
-                    }
-                    Cell cell = board.getCell(position / 9, position % 9);
-                    cell.setHighlighted();
-                    boardManager.updateValue(value, true);
-                    cell.setHighlighted();
-                    cell.setFaceValue(cell.getFaceValue());
-                    display();
+                    boardManager.undo();
                 } else {
-                    warning.setText("Exceeds Undo-Limit!");
                     warning.setVisibility(View.VISIBLE);
-                    warning.setError("Exceeds Undo-Limit!");
-
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -199,6 +178,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
             }
         });
     }
+
 
     /**
      * Set up the erase button listener.
@@ -266,7 +246,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                timeDisplay.setText(timeToString(time + preStartTime));
+                timeDisplay.setText("Time: " + timeToString(time + preStartTime));
                 totalTimeTaken = time + preStartTime;
                 boardManager.setTimeTaken(time + preStartTime);
             }

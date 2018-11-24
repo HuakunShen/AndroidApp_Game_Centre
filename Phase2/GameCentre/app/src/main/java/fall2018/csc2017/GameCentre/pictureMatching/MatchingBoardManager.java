@@ -104,7 +104,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
     /**
      * Performs changes to the board.
      */
-    public void makeMove(int position, int value) {
+    public void makeMove(int position) {
         int row = position / MatchingBoard.NUM_COLS;
         int col = position % MatchingBoard.NUM_COLS;
         this.board.flipTile(row, col);

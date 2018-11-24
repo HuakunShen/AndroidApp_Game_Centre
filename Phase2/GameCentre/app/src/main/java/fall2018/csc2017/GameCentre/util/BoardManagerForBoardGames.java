@@ -5,7 +5,7 @@ import java.util.Observable;
 import fall2018.csc2017.GameCentre.data.StateStack;
 
 
-abstract public class BoardManagerForBoardGames extends Observable {
+public abstract class BoardManagerForBoardGames extends Observable {
 
     /**
      * The board begin managed.
@@ -75,5 +75,5 @@ abstract public class BoardManagerForBoardGames extends Observable {
     /**
      * Performs changes to the board.
      */
-    public abstract void makeMove(int position, int value);
+    public abstract void makeMove(int position);
 }

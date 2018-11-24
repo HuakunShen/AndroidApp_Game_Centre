@@ -234,7 +234,7 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      *
      * @param position the position
      */
-    public void makeMove(int position, int value) {
+    public int move(int position) {
         int row = position / SlidingTilesBoard.NUM_ROWS;
         int col = position % SlidingTilesBoard.NUM_COLS;
         int blankId = board.numTiles();
@@ -255,8 +255,13 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
             this.board.swapTiles(row, col + 1, row, col);
             blank_pos = row * SlidingTilesBoard.NUM_ROWS + (col + 1);
         }
-        if (value == 1) {
-            addUndo(blank_pos);
-        }
+
+        return blank_pos;
+
     }
+
+    public void makeMove(int position) {
+        addUndo(move(position));
+    }
+
 }

@@ -294,7 +294,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             @Override
             public void onClick(View view) {
                 if (boardManager.undoAvailable()) {
-                    boardManager.makeMove(boardManager.popUndo(), 0);
+                    boardManager.move(boardManager.popUndo());
                 } else {
                     warning.setText("Exceeds Undo-Limit!");
                     warning.setVisibility(View.VISIBLE);

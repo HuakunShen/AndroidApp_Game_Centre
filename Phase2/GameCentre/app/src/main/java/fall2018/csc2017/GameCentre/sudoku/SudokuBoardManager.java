@@ -15,6 +15,17 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      */
     private SudokuBoard board;
 
+
+
+    /**
+     * The cell currently selected
+     */
+    private Cell currentCell;
+
+
+
+    private int currentPos;
+
     /**
      * The time has taken so far.
      */
@@ -105,6 +116,23 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         this.undoStack.setCapacity(input);
     }
 
+
+    public Cell getCurrentCell() {
+        return currentCell;
+    }
+
+    public void setCurrentCell(Cell currentCell) {
+        this.currentCell = currentCell;
+    }
+
+    public int getCurrentPos() {
+        return currentPos;
+    }
+
+    public void setCurrentPos(int currentPos) {
+        this.currentPos = currentPos;
+    }
+
     /**
      * Returns if undo is available.
      */
@@ -148,44 +176,90 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         return board.checkEditable(position / 9, position % 9);
     }
 
-    /**
-     * Performs changes to the board.
-     */
-    public void makeMove(int position, int value) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board.getCell(i, j).isHighlighted()) {
-                    board.getCell(i, j).setHighlighted();
-                    board.getCell(i,
-                            j).setFaceValue(board.getCell(i,
-                            j).getFaceValue());
-                }
-            }
+
+    public void makeMove(int position) {
+        currentPos = position;
+        if (currentCell != null) {
+            currentCell.setHighlighted();
+            currentCell.setFaceValue(currentCell.getFaceValue());
         }
-        board.getCell(position / 9, position % 9).setHighlighted();
-        board.getCell(position / 9, position % 9).setFaceValue(value);
+        currentCell = this.board.getCell(position / SudokuBoard.NUM_COL,
+                position % SudokuBoard.NUM_ROW);
+        currentCell.setHighlighted();
+        currentCell.setFaceValue(currentCell.getFaceValue());
         setChanged();
         notifyObservers();
     }
+
+
+    /**
+     * Performs changes to the board.
+     */
+//    public void makeMove(int position, int value) {
+//        for (int i = 0; i < 9; i++) {
+//            for (int j = 0; j < 9; j++) {
+//                if (board.getCell(i, j).isHighlighted()) {
+//                    board.getCell(i, j).setHighlighted();
+//                    board.getCell(i,
+//                            j).setFaceValue(board.getCell(i,
+//                            j).getFaceValue());
+//                }
+//            }
+//        }
+//        board.getCell(position / 9, position % 9).setHighlighted();
+//        board.getCell(position / 9, position % 9).setFaceValue(value);
+//        setChanged();
+//        notifyObservers();
+//    }
 
     /**
      * Update the face value of the board.
      */
     void updateValue(int value, boolean undo) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board.getCell(i, j).isHighlighted() && !undo) {
-                    Integer[] move = new Integer[2];
-                    move[0] = 9 * i + j;
-                    move[1] = board.getCell(i, j).getFaceValue();
-                    addUndo(move);
-                }
-                if (board.getCell(i, j).isHighlighted()) {
-                    board.getCell(i, j).setFaceValue(value);
-                    setChanged();
-                    notifyObservers();
-                }
-            }
+        if (currentCell != null) {
+            if (!undo)
+                addUndo(new Integer[]{currentPos, currentCell.getFaceValue()});
+            currentCell.setFaceValue(value);
+            setChanged();
+            notifyObservers();
         }
+
+        setChanged();
+        notifyObservers();
+
+
+//        for (int i = 0; i < 9; i++) {
+//            for (int j = 0; j < 9; j++) {
+//                if (board.getCell(i, j).isHighlighted() && !undo) {
+//                    Integer[] move = new Integer[2];
+//                    move[0] = 9 * i + j;
+//                    move[1] = board.getCell(i, j).getFaceValue();
+//                    addUndo(move);
+//                }
+//                if (board.getCell(i, j).isHighlighted()) {
+//                    board.getCell(i, j).setFaceValue(value);
+//                    setChanged();
+//                    notifyObservers();
+//                }
+//            }
+//        }
+    }
+
+    void undo() {
+        if (currentCell != null) {
+            currentCell.setHighlighted();
+            currentCell.setFaceValue(0);
+        }
+        Integer[] move = popUndo();
+        Integer position = move[0];
+        Integer value = move[1];
+        currentCell = board.getCell(position / SudokuBoard.NUM_COL,
+                position % SudokuBoard.NUM_ROW);
+        currentCell.setHighlighted();
+        updateValue(value, true);
+//        currentCell.setHighlighted();
+        currentCell.setFaceValue(currentCell.getFaceValue());
+        setChanged();
+        notifyObservers();
     }
 }

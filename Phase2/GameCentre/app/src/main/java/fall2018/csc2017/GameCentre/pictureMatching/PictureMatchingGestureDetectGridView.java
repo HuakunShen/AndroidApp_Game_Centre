@@ -59,7 +59,7 @@ public class PictureMatchingGestureDetectGridView extends GridView {
                 int position = PictureMatchingGestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
 
-                mController.processTapMovement(context, position, 0, true);
+                mController.processTapMovement(context, position,  true);
                 return true;
             }
 
