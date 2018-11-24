@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -188,16 +189,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         eraseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SudokuBoard board = boardManager.getBoard();
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
-                        if (board.getCell(i, j).isEditable()) {
-                            if (board.getCell(i, j).isHighlighted()) {
-                                board.getCell(i, j).setHighlighted();
-                            }
-                            board.getCell(i, j).setFaceValue(0);
-                        }
-                    }
+                while (boardManager.undoAvailable()) {
+                    boardManager.undo();
                 }
                 display();
             }
@@ -401,6 +394,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     public void update(Observable o, Object arg) {
         display();
         if (boardManager.boardSolved()) {
+            Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = calculateScore();
             user.updateScore(GAME_NAME, score);
             saveToFile(userFile);

@@ -180,12 +180,12 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     public void makeMove(int position) {
         currentPos = position;
         if (currentCell != null) {
-            currentCell.setHighlighted();
+            currentCell.setHighlighted(false);
             currentCell.setFaceValue(currentCell.getFaceValue());
         }
         currentCell = this.board.getCell(position / SudokuBoard.NUM_COL,
                 position % SudokuBoard.NUM_ROW);
-        currentCell.setHighlighted();
+        currentCell.setHighlighted(true);
         currentCell.setFaceValue(currentCell.getFaceValue());
         setChanged();
         notifyObservers();
@@ -223,31 +223,13 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
             setChanged();
             notifyObservers();
         }
-
         setChanged();
         notifyObservers();
-
-
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                if (board.getCell(i, j).isHighlighted() && !undo) {
-//                    Integer[] move = new Integer[2];
-//                    move[0] = 9 * i + j;
-//                    move[1] = board.getCell(i, j).getFaceValue();
-//                    addUndo(move);
-//                }
-//                if (board.getCell(i, j).isHighlighted()) {
-//                    board.getCell(i, j).setFaceValue(value);
-//                    setChanged();
-//                    notifyObservers();
-//                }
-//            }
-//        }
     }
 
     void undo() {
         if (currentCell != null) {
-            currentCell.setHighlighted();
+            currentCell.setHighlighted(false);
             currentCell.setFaceValue(0);
         }
         Integer[] move = popUndo();
@@ -255,9 +237,8 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         Integer value = move[1];
         currentCell = board.getCell(position / SudokuBoard.NUM_COL,
                 position % SudokuBoard.NUM_ROW);
-        currentCell.setHighlighted();
+        currentCell.setHighlighted(false);
         updateValue(value, true);
-//        currentCell.setHighlighted();
         currentCell.setFaceValue(currentCell.getFaceValue());
         setChanged();
         notifyObservers();

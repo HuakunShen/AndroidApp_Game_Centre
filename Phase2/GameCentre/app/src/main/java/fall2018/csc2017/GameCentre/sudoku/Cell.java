@@ -166,8 +166,12 @@ public class Cell implements Serializable {
     /**
      * Set the cell to be highlighted / regular.
      */
-    void setHighlighted() {
-        highlighted = !highlighted;
+    void setHighlighted(boolean value) {
+        highlighted = value;
     }
+
+//    void toggleHighlighted(){
+//        highlighted = !highlighted;
+//    }
 
 }

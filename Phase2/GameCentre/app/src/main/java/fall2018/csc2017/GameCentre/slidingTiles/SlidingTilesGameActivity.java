@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -369,6 +370,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         this.stepDisplay.setText("Steps: " + Integer.toString(steps));
         boardManager.setStepsTaken(steps);
         if (boardManager.boardSolved()) {
+            Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = calculateScore();
             user.updateScore(GAME_NAME, score);
             saveToFile(userFile);
