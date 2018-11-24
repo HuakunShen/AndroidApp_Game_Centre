@@ -338,6 +338,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     @Override
     protected void onPause() {
         super.onPause();
+        // De-highlight current Cell, make sure no cell the selected when game is loaded
+        // optional, not necessary, need discussion.
+        boardManager.getCurrentCell().setHighlighted(false);
+        boardManager.getCurrentCell().setFaceValue(boardManager.getCurrentCell().getFaceValue());
         saveToFile(tempGameStateFile);
         saveToFile(gameStateFile);
     }

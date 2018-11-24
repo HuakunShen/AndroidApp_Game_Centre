@@ -174,7 +174,10 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         return board.checkEditable(position / 9, position % 9);
     }
 
-
+    /**
+     * When a cell is taped, set it to be currentCell and highlight it.
+     * @param position The position of the cell taped.
+     */
     public void makeMove(int position) {
         currentPos = position;
         if (currentCell != null) {
@@ -190,25 +193,6 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     }
 
 
-    /**
-     * Performs changes to the board.
-     */
-//    public void makeMove(int position, int value) {
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                if (board.getCell(i, j).isHighlighted()) {
-//                    board.getCell(i, j).setHighlighted();
-//                    board.getCell(i,
-//                            j).setFaceValue(board.getCell(i,
-//                            j).getFaceValue());
-//                }
-//            }
-//        }
-//        board.getCell(position / 9, position % 9).setHighlighted();
-//        board.getCell(position / 9, position % 9).setFaceValue(value);
-//        setChanged();
-//        notifyObservers();
-//    }
 
     /**
      * Update the face value of the board.
@@ -226,7 +210,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     }
 
     /**
-     * Do all steps in an undo
+     * Do all steps of an undo
      */
     void undo() {
         if (currentCell != null) {
