@@ -206,6 +206,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
     private void goToScoreBoard() {
         Intent toScoreBoard = new Intent(this, ScoreBoardActivity.class);
         toScoreBoard.putExtra("user", username);
+        toScoreBoard.putExtra("scoreBoardType", "byUser");
         startActivity(toScoreBoard);
     }
 

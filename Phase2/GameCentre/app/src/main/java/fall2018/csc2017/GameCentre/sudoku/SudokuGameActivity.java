@@ -430,6 +430,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         }
     }
 
+
     private Integer calculateScore() {
         int timeInSec = totalTimeTaken.intValue() / 1000;
         return (new Integer(10000 / timeInSec));

@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.gameCentre;
 
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -19,6 +20,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
     private ArrayList<ArrayList<String>> dataList;
     private TableLayout scoreboard;
     private DatabaseHandler db;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +29,35 @@ public class ScoreBoardActivity extends AppCompatActivity {
         db = new DatabaseHandler(this);
         scoreboard = findViewById(R.id.tableView);
         username = getIntent().getStringExtra("user");
-        dataList = db.getAllScore(username);
-        addText();
+        type = getIntent().getStringExtra("scoreBoardType");
+        displayBoard();
     }
 
-    private void addText() {
+    private void displayBoard() {
+        if (type.equals("byUser")) {
+            dataList = db.getAllScore(username);
+            addByUserTable();
+        } else if (type.equals("byGame")) {
+
+            addByGameTable();
+        }
+
+    }
+
+    private void addByGameTable() {
+
+    }
+
+
+    private void addByUserTable() {
+        TableRow row = new TableRow(this);
+        TextView text;
+        setUpTitleForByUserType(row);
+
         for (int rowNum = 0; rowNum < dataList.size(); rowNum++) {
-            TableRow row = new TableRow(this);
+            row = new TableRow(this);
             for (int colNum = 0; colNum < dataList.get(rowNum).size(); colNum++) {
-                TextView text = new TextView(this);
+                text = new TextView(this);
                 text.setText(dataList.get(rowNum).get(colNum));
                 switch (colNum) {
                     case 0:
@@ -54,6 +76,30 @@ public class ScoreBoardActivity extends AppCompatActivity {
             }
             scoreboard.addView(row);
         }
+    }
+
+    private void setUpTitleForByUserType(TableRow row) {
+        TextView text;
+        String[] titles = {"Game", "Username", "Highest Score"};
+        for (String title: titles){
+            text = new TextView(this);
+            text.setText(title);
+            text.setTextColor(Color.parseColor("#FFFFFF"));
+            text.setGravity(Gravity.CENTER);
+            text.setTextSize(18);
+            row.addView(text);
+        }
+        scoreboard.addView(row);
+        row = new TableRow(this);
+        row.setMinimumHeight(5);
+        TableLayout.LayoutParams params = new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.WRAP_CONTENT,
+                TableLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(0, 10, 0, 10);
+        row.setLayoutParams(params);
+        row.setBackgroundColor(ContextCompat.getColor(this, R.color.scoreBoardTileLine));
+        scoreboard.addView(row);
     }
 }
 
