@@ -21,6 +21,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
     private TableLayout scoreboard;
     private DatabaseHandler db;
     private String type;
+    private String game_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,8 @@ public class ScoreBoardActivity extends AppCompatActivity {
         scoreboard = findViewById(R.id.tableView);
         username = getIntent().getStringExtra("user");
         type = getIntent().getStringExtra("scoreBoardType");
+        if (type.equals("byGame"))
+            game_type = getIntent().getStringExtra("gameType");
         displayBoard();
     }
 
@@ -38,7 +41,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
             dataList = db.getAllScore(username);
             addByUserTable();
         } else if (type.equals("byGame")) {
-
+            dataList = db.getScoreByGame(game_type);
             addByGameTable();
         }
 
@@ -52,7 +55,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
     private void addByUserTable() {
         TableRow row = new TableRow(this);
         TextView text;
-        setUpTitleForByUserType(row);
+        setupTitle(row);
 
         for (int rowNum = 0; rowNum < dataList.size(); rowNum++) {
             row = new TableRow(this);
@@ -78,10 +81,19 @@ public class ScoreBoardActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpTitleForByUserType(TableRow row) {
+    private void setupTitle(TableRow row) {
         TextView text;
-        String[] titles = {"Game", "Username", "Highest Score"};
-        for (String title: titles){
+        String[] titles = {};
+        switch (type) {
+            case "byUser":
+                titles = new String[]{"Game", "Username", "Highest Score"};
+                break;
+            case "byGame":
+                titles = new String[]{"Rank", "Game", "User", "Score"};
+        }
+
+
+        for (String title : titles) {
             text = new TextView(this);
             text.setText(title);
             text.setTextColor(Color.parseColor("#FFFFFF"));

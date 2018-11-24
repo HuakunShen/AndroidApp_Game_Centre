@@ -272,7 +272,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 dataList.add(data);
             } while (cursor.moveToNext());
         }
+        db.close();
         return dataList;
     }
 
+    public ArrayList<ArrayList<String>> getScoreByGame(String game_type) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<ArrayList<String>> dataList = new ArrayList<>();
+
+
+
+        return dataList;
+    }
 }
