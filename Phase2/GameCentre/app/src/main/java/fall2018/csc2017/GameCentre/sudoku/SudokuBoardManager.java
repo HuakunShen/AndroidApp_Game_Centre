@@ -16,12 +16,10 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     private SudokuBoard board;
 
 
-
     /**
      * The cell currently selected
      */
     private Cell currentCell;
-
 
 
     private int currentPos;
@@ -227,20 +225,57 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         notifyObservers();
     }
 
+    /**
+     * Do all steps in an undo
+     */
     void undo() {
         if (currentCell != null) {
+            // De-highlight cell
             currentCell.setHighlighted(false);
             currentCell.setFaceValue(0);
         }
+        // Undo
         Integer[] move = popUndo();
-        Integer position = move[0];
-        Integer value = move[1];
+        int position = move[0];
+        int value = move[1];
         currentCell = board.getCell(position / SudokuBoard.NUM_COL,
                 position % SudokuBoard.NUM_ROW);
         currentCell.setHighlighted(false);
         updateValue(value, true);
         currentCell.setFaceValue(currentCell.getFaceValue());
+        // Highlight the next cell in undo stack
+        if (!undoStack.isEmpty()) {
+            move = this.undoStack.get();
+            position = move[0];
+            currentCell = board.getCell(position / SudokuBoard.NUM_COL,
+                    position % SudokuBoard.NUM_ROW);
+            currentCell.setHighlighted(true);
+            currentPos = position;
+            currentCell.setFaceValue(currentCell.getFaceValue());
+        }
         setChanged();
         notifyObservers();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

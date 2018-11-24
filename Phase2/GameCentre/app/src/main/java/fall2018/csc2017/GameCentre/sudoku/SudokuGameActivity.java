@@ -239,7 +239,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                timeDisplay.setText("Time: " + timeToString(time + preStartTime));
+                timeDisplay.setText(String.format("Time: %s", timeToString(time + preStartTime)));
                 totalTimeTaken = time + preStartTime;
                 boardManager.setTimeTaken(time + preStartTime);
             }
