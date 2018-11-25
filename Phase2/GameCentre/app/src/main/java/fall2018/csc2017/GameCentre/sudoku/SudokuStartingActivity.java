@@ -1,7 +1,9 @@
 package fall2018.csc2017.GameCentre.sudoku;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -116,9 +118,20 @@ public class SudokuStartingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SudokuBoardManager.setLevelOfDifficulty(selected_difficulty);
-                boardManager = new SudokuBoardManager();
-                switchToGame();
+                AlertDialog.Builder builder = new AlertDialog.Builder(SudokuStartingActivity.this);
+                builder.setTitle("Choose a difficulty:");
+                builder.setItems(list_diff, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int diff)
+                    {
+                        SudokuBoardManager.setLevelOfDifficulty(diff + 1);
+                        boardManager = new SudokuBoardManager();
+                        switchToGame();
+                        Toast.makeText(SudokuStartingActivity.this, list_diff[diff] + " selected", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
             }
         });
     }
