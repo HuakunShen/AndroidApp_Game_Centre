@@ -211,7 +211,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         for (int row = 0; row != MatchingBoard.NUM_ROWS; row++) {
             for (int col = 0; col != MatchingBoard.NUM_COLS; col++) {
                 Button tmp = new Button(context);
-                tmp.setBackgroundResource(R.drawable.black_blue_0);
+                tmp.setBackgroundResource(R.drawable.sudoku_cell_grey);
                 this.tileButtons.add(tmp);
             }
         }
@@ -233,7 +233,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                         "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
                 b.setBackgroundResource(id);
             }else if(currentTile.getState().equals(PictureTile.COVERED)){
-                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier("black_blue_0",
+                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier("sudoku_cell_grey",
                         "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
                 b.setBackgroundResource(id);
             }else if(currentTile.getState().equals(PictureTile.SOLVED)){

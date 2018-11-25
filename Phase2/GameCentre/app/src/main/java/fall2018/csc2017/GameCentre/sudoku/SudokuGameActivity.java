@@ -60,20 +60,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     private Long preStartTime = 0L;
     private Long totalTimeTaken;
 
-
-    private Button button1;
-    private Button button2;
-    private Button button3;
-    private Button button4;
-    private Button button5;
-    private Button button6;
-    private Button button7;
-    private Button button8;
-    private Button button9;
-    private Button undoButton;
-    private Button eraseButton;
-    private Button hintButton;
-
     /**
      * Warning message
      */
@@ -104,6 +90,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         setupTime();
         setUpButtons();
         addWarningTextViewListener();
+        addClearButtonListener();
         addUndoButtonListener();
         addEraseButtonListener();
         addHintButtonListener();
@@ -111,15 +98,15 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
 
 
     private void setUpButtons() {
-        button1 = findViewById(R.id.button_1);
-        button2 = findViewById(R.id.button_2);
-        button3 = findViewById(R.id.button_3);
-        button4 = findViewById(R.id.button_4);
-        button5 = findViewById(R.id.button_5);
-        button6 = findViewById(R.id.button_6);
-        button7 = findViewById(R.id.button_7);
-        button8 = findViewById(R.id.button_8);
-        button9 = findViewById(R.id.button_9);
+        Button button1 = findViewById(R.id.button_1);
+        Button button2 = findViewById(R.id.button_2);
+        Button button3 = findViewById(R.id.button_3);
+        Button button4 = findViewById(R.id.button_4);
+        Button button5 = findViewById(R.id.button_5);
+        Button button6 = findViewById(R.id.button_6);
+        Button button7 = findViewById(R.id.button_7);
+        Button button8 = findViewById(R.id.button_8);
+        Button button9 = findViewById(R.id.button_9);
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
@@ -164,8 +151,21 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         }
     }
 
+    private void addClearButtonListener() {
+        Button eraseButton = findViewById(R.id.clearButton);
+        eraseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                while (boardManager.undoAvailable()) {
+                    boardManager.undo();
+                }
+                display();
+            }
+        });
+    }
+
     private void addUndoButtonListener() {
-        undoButton = findViewById(R.id.sudoku_undo_button);
+        Button undoButton = findViewById(R.id.sudoku_undo_button);
         warning.setError("Exceeds Undo-Limit! ");
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,13 +191,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
      * Set up the erase button listener.
      */
     private void addEraseButtonListener() {
-        eraseButton = findViewById(R.id.eraseButton);
+        Button eraseButton = findViewById(R.id.eraseButton);
         eraseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                while (boardManager.undoAvailable()) {
-                    boardManager.undo();
-                }
+                boardManager.updateValue(0, false);
                 display();
             }
         });
@@ -207,7 +205,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
      * When Hint button is taped, the solution will display on the selected cell.
      */
     private void addHintButtonListener() {
-        hintButton = findViewById(R.id.hintButton);
+        Button hintButton = findViewById(R.id.hintButton);
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -309,9 +307,34 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
                                 this);
                         columnWidth = gridView.getMeasuredWidth() / 9;
                         columnHeight = gridView.getMeasuredHeight() / 9;
-                        display();
+                        initializeCellButtons();
                     }
                 });
+    }
+
+    /**
+     * Initialize the backgrounds on the buttons to match the tiles.
+     */
+    private void initializeCellButtons() {
+        SudokuBoard board = boardManager.getBoard();
+        int nextPos = 0;
+        for (Button b : cellButtons) {
+            Cell cell = board.getCell(nextPos / 9, nextPos % 9);
+            b.setTextSize(20);
+            if (cell.isEditable()){
+                b.setTextColor(Color.RED);
+            } else {
+                b.setTextColor(Color.BLACK);
+            }
+            if (cell.getFaceValue() == 0){
+                b.setText("");
+            } else {
+                b.setText(cell.getFaceValue().toString());
+            }
+            b.setBackgroundResource(cell.getBackground());
+            nextPos++;
+        }
+        gridView.setAdapter(new CustomAdapter(cellButtons, columnWidth, columnHeight));
     }
 
     /**
@@ -349,20 +372,13 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         SudokuBoard board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : cellButtons) {
-            Cell cell = board.getCell(nextPos / 9,
-                    nextPos % 9);
-            if (cell.isEditable()){
-                b.setTextColor(Color.RED);
-            } else {
-                b.setTextColor(Color.BLACK);
-            }
-            if (board.getCell(nextPos / 9, nextPos % 9).getFaceValue() == 0){
+            Cell cell = board.getCell(nextPos / 9, nextPos % 9);
+            if (cell.getFaceValue() == 0){
                 b.setText("");
             } else {
                 b.setText(cell.getFaceValue().toString());
             }
-            b.setBackgroundResource(board.getCell(nextPos / 9,
-                    nextPos % 9).getBackground());
+            b.setBackgroundResource(cell.getBackground());
             nextPos++;
         }
     }
