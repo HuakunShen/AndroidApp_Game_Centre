@@ -1,5 +1,7 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
@@ -54,14 +56,14 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
     /**
      * Getter function of index of column of the first tile selected.
      */
-    public int getCol1() {
+     int getCol1() {
         return col1;
     }
 
     /**
      * Getter function of index of column of the second tile selected.
      */
-    public int getCol2() {
+     int getCol2() {
         return col2;
     }
 
@@ -72,7 +74,7 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
      * @param col the tile column
      * @return the tile at (row, col)
      */
-    public PictureTile getTile(int row, int col) {
+     PictureTile getTile(int row, int col) {
         return tiles[row][col];
     }
 
@@ -80,9 +82,9 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
      * A new board of tiles in row-major order.
      * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
      *
-     * @param tiles the tiles for the board
+     * @param tiles the list of tiles for the board
      */
-    public MatchingBoard(List<PictureTile> tiles) {
+     MatchingBoard(List<PictureTile> tiles) {
         difficulty = NUM_COLS/2;
         Iterator<PictureTile> iter = tiles.iterator();
         for (int row = 0; row != MatchingBoard.NUM_ROWS; row++) {
@@ -95,7 +97,7 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
     /**
      * Flip the tile at the ith row and jth column.
      */
-    public void flipTile(int row, int col){
+    void flipTile(int row, int col){
         if(col1 == -1 && row1 == -1){
             tiles[row][col].setState(PictureTile.FLIP);
             col1 = col;
@@ -112,7 +114,7 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
     /**
      * Permanently flip the Tile if it has been solved.
      */
-    public void solveTile(){
+     void solveTile(){
         PictureTile tile1 = tiles[row1][col1];
         PictureTile tile2 = tiles[row2][col2];
         if (tile1.getId() == tile2.getId()){
@@ -130,16 +132,13 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
         notifyObservers();
     }
 
-    /**
-     * The iterator of the game.
-     */
-    @Override
+    @Override @NonNull
     public Iterator<PictureTile> iterator() {
         return new MatchingBoard.MatchingBoardIterator();
     }
 
     /**
-     * The iterator class for the picture tile.
+     * The iterator class for the pictureTile.
      */
     public class MatchingBoardIterator implements Iterator<PictureTile> {
         int nextIndex = 0;
