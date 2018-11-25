@@ -2,6 +2,8 @@ package fall2018.csc2017.GameCentre.slidingTiles;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +33,8 @@ import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingStartingActivity;
 import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
+
+import static android.graphics.Bitmap.createBitmap;
 
 /**
  * The game activity.
@@ -85,6 +89,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      */
     private String tempGameStateFile;
 
+    private int difficulty;
+    private Bitmap backgroundImage;
+    private Bitmap[] tileImages;
+
     private String PACKAGE_NAME;
     private Resources RESOURCES;
 
@@ -94,7 +102,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         super.onCreate(savedInstanceState);
         PACKAGE_NAME = getApplicationContext().getPackageName();
         RESOURCES = getResources();
-
         startingTime = LocalTime.now();
         db = new DatabaseHandler(this);
         setupUser();
@@ -109,6 +116,16 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         addUndoButtonListener();
         addWarningTextViewListener();
         addStepDisplayListener();
+
+        difficulty = boardManager.getBoard().getDifficulty();
+        tileImages = new Bitmap[difficulty * difficulty];
+        try {
+            byte[] tmpImage = boardManager.getImageBackground();
+            backgroundImage = BitmapFactory.decodeByteArray(tmpImage, 0, tmpImage.length);
+            cutImageToTiles();
+        }catch (Exception e) {
+            convertNumberToTiles();
+        }
     }
 
     /**
@@ -264,22 +281,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             int row = nextPos / boardManager.getBoard().getDifficulty();
             int col = nextPos % boardManager.getBoard().getDifficulty();
             int tile_id = board.getTile(row, col);
-            if (tile_id == boardManager.getBoard().getDifficulty() * boardManager.getBoard().getDifficulty()) {
-                b.setBackgroundResource(R.drawable.tile_empty);
-            } else if (SlidingTilesStartingActivity.tileImages3x3[0] == null) {
-                String name = "tile_"  + Integer.toString(tile_id);
-                int id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
-                b.setBackgroundResource(id);
-            } else if (boardManager.getBoard().getDifficulty() == 3) {
-                b.setBackground(new BitmapDrawable(getResources(),
-                        SlidingTilesStartingActivity.tileImages3x3[tile_id]));
-            } else if (boardManager.getBoard().getDifficulty() == 4) {
-                b.setBackground(new BitmapDrawable(getResources(),
-                        SlidingTilesStartingActivity.tileImages4x4[tile_id]));
-            } else if (boardManager.getBoard().getDifficulty() == 5) {
-                b.setBackground(new BitmapDrawable(getResources(),
-                        SlidingTilesStartingActivity.tileImages5x5[tile_id]));
-            }
+            b.setBackground(new BitmapDrawable(getResources(), tileImages[tile_id - 1]));
             nextPos++;
         }
     }
@@ -394,5 +396,31 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         int timeInSec = totalTimeTaken.intValue() / 1000;
         Integer score = new Integer(10000 / (step + timeInSec));
         return score;
+    }
+
+    private void cutImageToTiles() {
+        int width = backgroundImage.getWidth();
+        int height = backgroundImage.getHeight();
+
+        int count = 0;
+        for (int i = 0; i < difficulty; i++) {
+            for (int j = 0; j < difficulty; j++) {
+                tileImages[count] = createBitmap(backgroundImage, i * (width / difficulty),
+                        j * (height / difficulty), width / difficulty, height / difficulty, null, false);
+                count++;
+            }
+        }
+        tileImages[difficulty * difficulty - 1]
+                = BitmapFactory.decodeResource(RESOURCES, R.drawable.tile_empty);
+    }
+
+    private void convertNumberToTiles() {
+        for (int i = 0; i < difficulty * difficulty; i++) {
+            String name = "tile_"  + Integer.toString(i + 1);
+            int numImage = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
+            tileImages[i] = BitmapFactory.decodeResource(RESOURCES, numImage);
+        }
+        tileImages[difficulty * difficulty - 1]
+                = BitmapFactory.decodeResource(RESOURCES, R.drawable.tile_empty);
     }
 }

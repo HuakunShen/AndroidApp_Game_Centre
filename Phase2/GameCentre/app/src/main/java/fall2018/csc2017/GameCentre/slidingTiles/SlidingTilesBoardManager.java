@@ -39,6 +39,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      */
     private int stepsTaken;
 
+    private byte[] imageBackground;
+
     /**
      * Manage a new shuffled board.
      */
@@ -193,6 +195,14 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
             }
         }
         return totalInversion;
+    }
+
+    public byte[] getImageBackground() {
+        return imageBackground;
+    }
+
+    public void setImageBackground(byte[] imageBackground) {
+        this.imageBackground = imageBackground;
     }
 
     /**
