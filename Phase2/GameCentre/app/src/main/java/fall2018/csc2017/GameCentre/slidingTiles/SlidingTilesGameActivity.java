@@ -28,6 +28,7 @@ import java.util.TimerTask;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 

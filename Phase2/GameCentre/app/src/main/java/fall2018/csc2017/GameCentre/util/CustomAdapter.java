@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre.slidingTiles;
+package fall2018.csc2017.GameCentre.util;
 
 /*
 Taken from:
