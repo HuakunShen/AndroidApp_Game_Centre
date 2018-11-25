@@ -1,24 +1,13 @@
 package fall2018.csc2017.GameCentre.slidingTiles;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,8 +17,6 @@ import java.io.ObjectOutputStream;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
-
-import static android.graphics.Bitmap.createBitmap;
 
 /**
  * The initial activity for the sliding puzzle tile game.

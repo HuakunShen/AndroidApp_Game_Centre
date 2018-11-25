@@ -31,7 +31,6 @@ import java.util.TimerTask;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingStartingActivity;
 import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 
 import static android.graphics.Bitmap.createBitmap;

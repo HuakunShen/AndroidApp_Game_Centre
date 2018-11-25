@@ -2,7 +2,6 @@ package fall2018.csc2017.GameCentre.slidingTiles;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,13 +18,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.ByteBuffer;
 
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
@@ -107,11 +104,6 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
                 Bitmap bitmapUncut = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                 bitmapCut = cutToTileRatio(bitmapUncut);
                 importButton.setImageBitmap(bitmapCut);
-
-//                int bytes = bitmapCut.getByteCount();
-//                ByteBuffer buf = ByteBuffer.allocate(bytes);
-//                bitmapCut.copyPixelsToBuffer(buf);
-//                boardManager.setImageBackground(buf.array());
             } catch (IOException e) {
                 e.printStackTrace();
             }
