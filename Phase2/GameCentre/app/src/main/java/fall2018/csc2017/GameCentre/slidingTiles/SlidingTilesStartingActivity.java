@@ -29,6 +29,7 @@ import java.io.ObjectOutputStream;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 
 import static android.graphics.Bitmap.createBitmap;
 
@@ -86,6 +87,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
         saveToFile(tempGameStateFile);
 
         setContentView(R.layout.activity_starting_);
+        addScoreboardButtonListener();
         addStartButtonListener();
         addLoadButtonListener();
         addSaveButtonListener();
@@ -93,6 +95,8 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
         addImportButtonListener();
         addRadioButtonListener();
     }
+
+
 
     /**
      * setup user object according to username and define the value of userFile (where user
@@ -207,6 +211,23 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void addScoreboardButtonListener() {
+        Button scoreboardButton = findViewById(R.id.scoreboardButton);
+        scoreboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), ScoreBoardActivity.class);
+                intent.putExtra("user", user.getUsername());
+                intent.putExtra("gameType", GAME_NAME);
+                intent.putExtra("scoreBoardType", "byGame");
+                startActivity(intent);
+
+            }
+        });
+    }
+
 
     /**
      * Activate the spinner for selecting difficulty.

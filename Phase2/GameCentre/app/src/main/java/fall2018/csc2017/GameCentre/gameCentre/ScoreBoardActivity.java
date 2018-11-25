@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -33,29 +34,18 @@ public class ScoreBoardActivity extends AppCompatActivity {
         type = getIntent().getStringExtra("scoreBoardType");
         if (type.equals("byGame"))
             game_type = getIntent().getStringExtra("gameType");
-        displayBoard();
-    }
-
-    private void displayBoard() {
-        if (type.equals("byUser")) {
+        if (type.equals("byUser"))
             dataList = db.getAllScore(username);
-            addByUserTable();
-        } else if (type.equals("byGame")) {
+        else if (type.equals("byGame"))
             dataList = db.getScoreByGame(game_type);
-            addByGameTable();
-        }
+        addTable();
 
     }
 
-    private void addByGameTable() {
-
-    }
-
-
-    private void addByUserTable() {
-        TableRow row = new TableRow(this);
+    private void addTable() {
+        TableRow row;
         TextView text;
-        setupTitle(row);
+        setupTitle();
 
         for (int rowNum = 0; rowNum < dataList.size(); rowNum++) {
             row = new TableRow(this);
@@ -64,13 +54,25 @@ public class ScoreBoardActivity extends AppCompatActivity {
                 text.setText(dataList.get(rowNum).get(colNum));
                 switch (colNum) {
                     case 0:
-                        text.setWidth(70);
+                        if (type.equals("byUser"))
+                            text.setWidth(70);
+                        else
+                            text.setWidth(200);
                         break;
                     case 1:
-                        text.setWidth(100);
+                        if (type.equals("byUser"))
+                            text.setWidth(100);
+                        else
+                            text.setWidth(300);
                         break;
                     case 2:
-                        text.setWidth(150);
+                        if (type.equals("byUser"))
+                            text.setWidth(150);
+                        else
+                            text.setWidth(200);
+                        break;
+                    case 3:
+                        text.setWidth(300);
                         break;
                 }
                 text.setTextColor(Color.parseColor("#FFFFFF"));
@@ -81,8 +83,32 @@ public class ScoreBoardActivity extends AppCompatActivity {
         }
     }
 
-    private void setupTitle(TableRow row) {
+    private void setupTitle() {
+        if (type.equals("byGame")) {
+            TableLayout table = findViewById(R.id.tableView);
+            TableRow row = findViewById(R.id.formatRow);
+            row.setVisibility(View.GONE);
+            TableRow newRow = new TableRow(this);
+
+            TextView firstText = new TextView(this);
+            firstText.setWidth(200);
+            newRow.addView(firstText);
+            TextView secondText = new TextView(this);
+            secondText.setWidth(300);
+            newRow.addView(secondText);
+
+            TextView thirdText = new TextView(this);
+            thirdText.setWidth(200);
+            newRow.addView(thirdText);
+
+            TextView fourthText = new TextView(this);
+            fourthText.setWidth(300);
+            newRow.addView(fourthText);
+            table.addView(newRow);
+        }
+
         TextView text;
+        TableRow row = new TableRow(this);
         String[] titles = {};
         switch (type) {
             case "byUser":

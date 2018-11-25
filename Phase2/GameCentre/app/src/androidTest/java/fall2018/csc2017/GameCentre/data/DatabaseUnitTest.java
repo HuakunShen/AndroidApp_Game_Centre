@@ -117,21 +117,21 @@ public class DatabaseUnitTest {
     public void getScoreByGame() {
         Context context = InstrumentationRegistry.getTargetContext();
         DatabaseHandler db = new DatabaseHandler(context);
-        String[] user = {"Apple", "Banana", "admin"};
+        String[] user = {"Apple", "Banana", "Orange"};
         int[] score = {100, 50, 10};
-        User admin = new User("admin", "pass");
+        User Orange = new User("Orange", "pass");
         User Apple = new User("Apple", "pass");
         User Banana = new User("Banana", "pass");
-        db.addUser(admin);
+        db.addUser(Orange);
         db.addUser(Apple);
         db.addUser(Banana);
-        admin.updateScore("game1", 10);
+        Orange.updateScore("game1", 10);
         Apple.updateScore("game1", 100);
         Banana.updateScore("game1", 50);
-        db.addData("admin", "game1");
+        db.addData("Orange", "game1");
         db.addData("Apple", "game1");
         db.addData("Banana", "game1");
-        db.updateScore(admin, "game1");
+        db.updateScore(Orange, "game1");
         db.updateScore(Apple, "game1");
         db.updateScore(Banana, "game1");
         ArrayList<ArrayList<String>> data = db.getScoreByGame("game1");
