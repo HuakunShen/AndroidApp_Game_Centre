@@ -212,7 +212,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
             @Override
             public void onClick(View view) {
                 Cell currentCell = boardManager.getCurrentCell();
-                boardManager.updateValue(currentCell.getSolutionValue(), false);
+                if (currentCell != null && !currentCell.getFaceValue().equals(currentCell.getSolutionValue()))
+                    boardManager.updateValue(currentCell.getSolutionValue(), false);
                 display();
             }
         });
