@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -16,19 +17,25 @@ public class MatchingBoardManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        List<PictureTile> tiles = generateTiles();
-        MatchingBoard board = new MatchingBoard();
-        this.manager = new MatchingBoardManager(board);
+//        List<PictureTile> tiles = generateTiles();
+//        MatchingBoard board = new MatchingBoard();
+        this.manager = new MatchingBoardManager();
+        Iterator<PictureTile> itr = manager.getBoard().iterator();
+        for (int i = 1; i <= (MatchingBoard.NUM_ROWS * MatchingBoard.NUM_COLS); i++) {
+            if (itr.hasNext()) {
+                itr.next().setState("solved");
+            }
+        }
     }
 
-    private List<PictureTile> generateTiles(){
-        List<PictureTile> tiles = new ArrayList<>();
-        final int numTiles = MatchingBoard.NUM_COLS * MatchingBoard.NUM_ROWS;
-        for (int tileNum = 0; tileNum < numTiles; tileNum++) {
-            manager.addPictureTileToList(tiles, numTiles, tileNum);
-        }
-        Collections.shuffle(tiles);
-    }
+//    private List<PictureTile> generateTiles(){
+//        List<PictureTile> tiles = new ArrayList<>();
+//        final int numTiles = MatchingBoard.NUM_COLS * MatchingBoard.NUM_ROWS;
+//        for (int tileNum = 0; tileNum < numTiles; tileNum++) {
+//            manager.addPictureTileToList(tiles, numTiles, tileNum);
+//        }
+//        Collections.shuffle(tiles);
+//    }
 
     @After
     public void tearDown() throws Exception {
@@ -56,14 +63,17 @@ public class MatchingBoardManagerTest {
 
     @Test
     public void testBoardSolved() {
+        assertTrue(manager.boardSolved());
 
     }
 
     @Test
     public void testIsValidTap() {
+        assertTrue(manager.isValidTap(2));
     }
 
     @Test
     public void testMakeMove() {
+
     }
 }
