@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,29 +38,43 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * The buttons to display.
      */
     private ArrayList<Button> tileButtons;
-
-
-
-    // Grid View and calculated column height and width based on device size
+    /**
+     * Grid View and calculated column height and width based on device size
+     */
     private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
-
-    private static final String GAME_NAME = "PictureMatch";
-
-    private User user;
-    private String username;
-    private String userFile;
-    private DatabaseHandler db;
-    //time
-    private LocalTime startingTime;
-    private Long preStartTime;
-    private Long totalTimeTaken;
-
     /**
-     * Warning message
+     * The name of the current game.
      */
-    private TextView warning;
-
+    private static final String GAME_NAME = "PictureMatch";
+    /**
+     * Current User.
+     */
+    private User user;
+    /**
+     * the name of current user.
+     */
+    private String username;
+    /**
+     * the file of current user.
+     */
+    private String userFile;
+    /**
+     * the database for saving and loading information.
+     */
+    private DatabaseHandler db;
+    /**
+     * the time you start the game
+     */
+    private LocalTime startingTime;
+    /**
+     * the time duration of the last time you saved the game.
+     */
+    private Long preStartTime;
+    /**
+     * the total time
+     */
+    private Long totalTimeTaken;
     /**
      * The main save file.
      */
@@ -70,7 +83,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * A temporary save file.
      */
     private String tempGameStateFile;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +95,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         createTileButtons(this);
         setContentView(R.layout.activity_picturematching_game);
         setupTime();
-        // Add View to activity
         addGridViewToActivity();
     }
 
@@ -122,16 +133,14 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                timeDisplay.setText("Time: " + timeToString(time + preStartTime));
+                String text = "Time: " + timeToString(time + preStartTime);
+                timeDisplay.setText(text);
                 totalTimeTaken = time + preStartTime;
                 boardManager.setTimeTaken(time + preStartTime);
             }
         };
         timer.schedule(task2, 0, 1000);
     }
-
-
-
 
     /**
      * convert time in milli seconds (long type) to String which will be displayed
@@ -186,7 +195,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * Set up the background image for each button based on the master list
      * of positions, and then call the adapter to set the view.
      */
-    // Display
     public void display() {
         updateTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
@@ -315,7 +323,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 
     private Integer calculateScore() {
         int timeInSec = totalTimeTaken.intValue() / 1000;
-        Integer score = 10000 / (timeInSec);
-        return score;
+        return 10000 / (timeInSec);
     }
 }
