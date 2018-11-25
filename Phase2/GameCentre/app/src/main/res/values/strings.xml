@@ -21,4 +21,6 @@
     <string name="new_game">New Game</string>
     <string name="select_game_difficulty">Select Game Difficulty</string>
     <string name="scoreboard">Scoreboard</string>
+    <string name="slidingTiles_description">Welcome To Sliding Tiles \n A Puzzle Game where you must arrange the tiles in the correct order</string>
+    <string name="sudoku_description">Welcome To Sudoku \n The objective is to fill a 9×9 grid with digits so that each column, each row, and each of the nine 3×3 subgrids contains all of the digits from 1 to 9.</string>
 </resources>

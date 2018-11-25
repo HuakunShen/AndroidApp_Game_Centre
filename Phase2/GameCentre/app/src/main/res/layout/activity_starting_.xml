@@ -16,7 +16,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginBottom="250dp"
         android:gravity="center"
-        android:text="Welcome To Sliding Tiles \n A Puzzle Game where you must arrange the numbers in the correct order"
+        android:text="@string/slidingTiles_description"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     <Button
