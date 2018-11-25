@@ -1,4 +1,4 @@
-package fall2018.csc2017.GameCentre.slidingTiles;
+package fall2018.csc2017.GameCentre.util;
 
 /*
 Adapted from:
@@ -15,9 +15,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
 
-import fall2018.csc2017.GameCentre.util.MovementController;
+import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesBoardManager;
 
-public class SlidingTilesGestureDetectGridView extends GridView {
+public class GestureDetectGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
     public static final int SWIPE_MAX_OFF_PATH = 100;
     public static final int SWIPE_THRESHOLD_VELOCITY = 100;
@@ -26,26 +26,25 @@ public class SlidingTilesGestureDetectGridView extends GridView {
     private boolean mFlingConfirmed = false;
     private float mTouchX;
     private float mTouchY;
-    private SlidingTilesBoardManager boardManager;
 
-    public SlidingTilesGestureDetectGridView(Context context) {
+    public GestureDetectGridView(Context context) {
         super(context);
         init(context);
     }
 
-    public SlidingTilesGestureDetectGridView(Context context, AttributeSet attrs) {
+    public GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public SlidingTilesGestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) // API 21
-    public SlidingTilesGestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr,
-                                             int defStyleRes) {
+    public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr,
+                                 int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
@@ -56,7 +55,7 @@ public class SlidingTilesGestureDetectGridView extends GridView {
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent event) {
-                int position = SlidingTilesGestureDetectGridView.this.pointToPosition
+                int position = GestureDetectGridView.this.pointToPosition
                         (Math.round(event.getX()), Math.round(event.getY()));
 
                 mController.processTapMovement(context, position, true);
@@ -103,8 +102,7 @@ public class SlidingTilesGestureDetectGridView extends GridView {
         return gDetector.onTouchEvent(ev);
     }
 
-    public void setBoardManager(SlidingTilesBoardManager boardManager) {
-        this.boardManager = boardManager;
+    public void setBoardManager(BoardManagerForBoardGames boardManager) {
         mController.setBoardManager(boardManager);
     }
 }

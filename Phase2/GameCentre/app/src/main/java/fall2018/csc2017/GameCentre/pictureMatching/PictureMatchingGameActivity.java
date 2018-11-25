@@ -27,6 +27,7 @@ import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.slidingTiles.CustomAdapter;
+import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 
 public class PictureMatchingGameActivity extends AppCompatActivity implements Observer {
     /**
@@ -42,7 +43,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 
 
     // Grid View and calculated column height and width based on device size
-    private PictureMatchingGestureDetectGridView gridView;
+    private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
 
     private static final String GAME_NAME = "PictureMatch";
@@ -84,7 +85,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         setupTime();
         // Add View to activity
         addGridViewToActivity();
-        addWarningTextViewListener();
     }
 
     /**
@@ -130,13 +130,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         timer.schedule(task2, 0, 1000);
     }
 
-    /**
-     * Set up the warning message displayed on the UI.
-     */
-    private void addWarningTextViewListener() {
-        warning = findViewById(R.id.warningTextView);
-        warning.setVisibility(View.INVISIBLE);
-    }
+
 
 
     /**

@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     tools:context="fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingStartingActivity">
 
-    <fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingGestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    <fall2018.csc2017.GameCentre.util.GestureDetectGridView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/PictureMatchingGrid"
         android:layout_width="420dp"
@@ -25,7 +26,7 @@
         app:layout_constraintVertical_bias="0.0"
         tools:context="fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingGameActivity"
         tools:ignore="MissingConstraints">
-    </fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingGestureDetectGridView>
+    </fall2018.csc2017.GameCentre.util.GestureDetectGridView>
 
     <TextView
         android:id="@+id/time_display_view_in_picturematching"
@@ -46,5 +47,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.886" />
+
 
 </android.support.constraint.ConstraintLayout>

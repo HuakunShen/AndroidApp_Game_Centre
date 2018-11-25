@@ -29,6 +29,7 @@ import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
+import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 
 /**
  * The game activity.
@@ -53,7 +54,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 
 
     // Grid View and calculated column height and width based on device size
-    private SlidingTilesGestureDetectGridView gridView;
+    private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
 
     private static final String GAME_NAME = "SlidingTiles";
@@ -237,7 +238,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        SlidingTilesBoard board = (SlidingTilesBoard) boardManager.getBoard();
+        SlidingTilesBoard board = boardManager.getBoard();
         tileButtons = new ArrayList<>();
         for (int row = 0; row != SlidingTilesBoard.NUM_ROWS; row++) {
             for (int col = 0; col != SlidingTilesBoard.NUM_COLS; col++) {

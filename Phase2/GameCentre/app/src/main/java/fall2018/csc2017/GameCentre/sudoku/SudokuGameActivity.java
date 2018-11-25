@@ -29,6 +29,7 @@ import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.slidingTiles.CustomAdapter;
+import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 
 public class SudokuGameActivity extends AppCompatActivity implements Observer, View.OnClickListener
@@ -45,7 +46,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     private ArrayList<Button> cellButtons;
 
     // Grid View and calculated column height and width based on device size
-    private SudokuGestureDetectGridView gridView;
+    private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
 
     private static final String GAME_NAME = "Sudoku";
