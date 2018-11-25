@@ -84,7 +84,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         setupTime();
         // Add View to activity
         addGridViewToActivity();
-//        addWarningTextViewListener();
+        addWarningTextViewListener();
     }
 
     /**
@@ -205,7 +205,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * @param context the context
      */
     private void createTileButtons(Context context) {
-        MatchingBoard board = boardManager.getBoard();
         tileButtons = new ArrayList<>();
         for (int row = 0; row != MatchingBoard.NUM_ROWS; row++) {
             for (int col = 0; col != MatchingBoard.NUM_COLS; col++) {
@@ -225,7 +224,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         for (Button b : tileButtons) {
             int row = nextPos / MatchingBoard.NUM_COLS;
             int col = nextPos % MatchingBoard.NUM_COLS;
-            PictureTile currentTile = this.boardManager.getBoard().getTile(row,col);
+            PictureTile currentTile = board.getTile(row,col);
             if (currentTile.getState().equals(PictureTile.FLIP)){
                 String name = "tile_"  + Integer.toString(currentTile.getId());
                 int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier(name,
