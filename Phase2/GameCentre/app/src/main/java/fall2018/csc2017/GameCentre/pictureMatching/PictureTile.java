@@ -13,22 +13,22 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
      * The unique id.
      */
     private int id;
-    public static final String SOLVED = "solved";
-    public static final String FLIP = "flip";
-    public static final String COVERED = "covered";
-
+    /**
+     * The solved state of pictureTile
+     */
+    static final String SOLVED = "solved";
+    /**
+     * The flip state of pictureTile.
+     */
+    static final String FLIP = "flip";
+    /**
+     * The covered state of pictureTile.
+     */
+    static final String COVERED = "covered";
+    /**
+     * the state of pictureTile
+     */
     private String state;
-    private int row;
-    private int col;
-
-    public int getRow() {
-        return row;
-    }
-
-    public int getCol() {
-        return col;
-    }
-
 
     /**
      * Return the tile id.
@@ -39,11 +39,21 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
         return id;
     }
 
-    public String getState() {
+    /**
+     * get the state of the current tile.
+     *
+     * @return the state of the current tile.
+     */
+    String getState() {
         return state;
     }
 
-    public void setState(String state) {
+    /**
+     * set the state.
+     *
+     * @param state the new state for this tile.
+     */
+    void setState(String state) {
         this.state = state;
     }
 
@@ -52,13 +62,10 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
      *
      * @param id
      */
-    public PictureTile(int id, int row, int col) {
-        this.id = id ;
+    PictureTile(int id) {
+        this.id = id;
         this.state = COVERED;
-        this.row = row;
-        this.col = col;
-        }
-
+    }
 
     @Override
     public int compareTo(@NonNull PictureTile o) {

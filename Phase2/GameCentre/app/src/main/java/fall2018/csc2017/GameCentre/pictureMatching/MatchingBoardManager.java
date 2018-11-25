@@ -41,16 +41,14 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      * @param tileNum the Total number of tiles need to be added.
      */
     private void addPictureTileToList(List<PictureTile> tiles, int numTiles, int tileNum) {
-        int row = tileNum / MatchingBoard.NUM_COLS;
-        int col = tileNum % MatchingBoard.NUM_COLS;
         if (tileNum < numTiles / 4) {
-            tiles.add(new PictureTile(tileNum + 1, row, col));
+            tiles.add(new PictureTile(tileNum + 1));
         } else if (tileNum >= numTiles / 4 && tileNum < numTiles / 2) {
-            tiles.add(new PictureTile(tileNum - numTiles / 4 + 1, row, col));
+            tiles.add(new PictureTile(tileNum - numTiles / 4 + 1));
         } else if (tileNum >= numTiles / 2 && tileNum < (numTiles * 3) / 4) {
-            tiles.add(new PictureTile(tileNum - numTiles / 2 + 1, row, col));
+            tiles.add(new PictureTile(tileNum - numTiles / 2 + 1));
         } else {
-            tiles.add(new PictureTile(tileNum - (numTiles * 3) / 4 + 1, row, col));
+            tiles.add(new PictureTile(tileNum - (numTiles * 3) / 4 + 1));
         }
     }
 
