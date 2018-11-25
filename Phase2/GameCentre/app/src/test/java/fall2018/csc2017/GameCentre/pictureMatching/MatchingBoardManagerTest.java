@@ -4,6 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class MatchingBoardManagerTest {
@@ -12,7 +16,18 @@ public class MatchingBoardManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        this.manager = new MatchingBoardManager();
+        List<PictureTile> tiles = generateTiles();
+        MatchingBoard board = new MatchingBoard();
+        this.manager = new MatchingBoardManager(board);
+    }
+
+    private List<PictureTile> generateTiles(){
+        List<PictureTile> tiles = new ArrayList<>();
+        final int numTiles = MatchingBoard.NUM_COLS * MatchingBoard.NUM_ROWS;
+        for (int tileNum = 0; tileNum < numTiles; tileNum++) {
+            manager.addPictureTileToList(tiles, numTiles, tileNum);
+        }
+        Collections.shuffle(tiles);
     }
 
     @After
@@ -26,6 +41,7 @@ public class MatchingBoardManagerTest {
 
     @Test
     public void testGetBoard() {
+        assertEquals("MatchingBoard", manager.getClass().getName());
     }
 
     @Test
@@ -33,15 +49,14 @@ public class MatchingBoardManagerTest {
     }
 
     @Test
-    public void testGetTimeTaken() {
-    }
-
-    @Test
-    public void testSetTimeTaken() {
+    public void testGetAndSetTimeTaken() {
+        manager.setTimeTaken(8);
+        assertEquals(8, manager.getTimeTaken());
     }
 
     @Test
     public void testBoardSolved() {
+
     }
 
     @Test

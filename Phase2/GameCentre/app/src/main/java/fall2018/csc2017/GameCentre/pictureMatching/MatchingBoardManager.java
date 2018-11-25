@@ -34,6 +34,10 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
         this.board = new MatchingBoard(tiles);
     }
 
+    MatchingBoardManager(MatchingBoard board) {
+        this.board = board;
+    }
+
     /**
      * Add pictureTiles to the list.
      * @param tiles the tiles List that contains pictureTile.
