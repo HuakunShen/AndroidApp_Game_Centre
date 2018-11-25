@@ -1,7 +1,6 @@
 package fall2018.csc2017.GameCentre.slidingTiles;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -117,20 +116,24 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
      * Activate the start button.
      */
     private void addStartButtonListener() {
-        Button startButton = findViewById(R.id.StartButton);
+        Button startButton = findViewById(R.id.NewGameButton);
         final EditText undoLimit = findViewById(R.id.undoLimitInput);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (importButton.getVisibility() == View.VISIBLE && tileImages3x3[0] == null) {
-                    Toast.makeText(SlidingTilesStartingActivity.this,
-                            "You need to import image!", Toast.LENGTH_SHORT).show();
-                } else {
-                    boardManager = new SlidingTilesBoardManager(selected_difficulty);
-                    if (setUndoSteps(undoLimit))
-                        switchToGame();
-                }
+                Intent tmp = new Intent(SlidingTilesStartingActivity.this, SlidingTilesNewGamePop.class);
+                saveToFile(tempGameStateFile);
+                tmp.putExtra("user", username);
+                startActivity(tmp);
+//                if (importButton.getVisibility() == View.VISIBLE && tileImages3x3[0] == null) {
+//                    Toast.makeText(SlidingTilesStartingActivity.this,
+//                            "You need to import image!", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    boardManager = new SlidingTilesBoardManager(selected_difficulty);
+//                    if (setUndoSteps(undoLimit))
+//                        switchToGame();
+//                }
 
             }
         });

@@ -25,6 +25,8 @@
         <activity android:name=".gameCentre.GameCentreInterfaceActivity" />
         <activity android:name=".slidingTiles.SlidingTilesStartingActivity" />
         <activity android:name=".slidingTiles.SlidingTilesGameActivity" />
+        <activity android:name=".slidingTiles.SlidingTilesNewGamePop"
+            android:theme="@style/DialogActivity"/>
         <activity android:name=".gameCentre.ScoreBoardActivity" />
         <activity android:name=".gameCentre.NavSetting" />
         <activity android:name=".gameCentre.NavChangePassword" />

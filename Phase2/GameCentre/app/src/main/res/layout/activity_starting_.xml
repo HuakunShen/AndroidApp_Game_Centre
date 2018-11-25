@@ -8,7 +8,7 @@
     tools:context="fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesStartingActivity">
 
     <TextView
-        android:id="@+id/GameText"
+        android:id="@+id/_imp_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -18,10 +18,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     <Button
-        android:id="@+id/StartButton"
+        android:id="@+id/NewGameButton"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/GameText"
+        android:layout_below="@+id/_imp_img"
         android:layout_alignEnd="@+id/_diif_sele"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="-73dp"
@@ -36,7 +36,7 @@
         android:layout_marginTop="357dp"
         android:layout_marginEnd="13dp"
         android:layout_marginBottom="252dp"
-        android:layout_toStartOf="@+id/StartButton"
+        android:layout_toStartOf="@+id/NewGameButton"
         android:text="Load Saved Game"
         android:textSize="12sp" />
 
@@ -44,10 +44,10 @@
         android:id="@+id/SaveButton"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/GameText"
+        android:layout_below="@+id/_imp_img"
         android:layout_marginStart="92dp"
         android:layout_marginTop="1dp"
-        android:layout_toEndOf="@+id/StartButton"
+        android:layout_toEndOf="@+id/NewGameButton"
         android:text="Save Game" />
 
     <Spinner
