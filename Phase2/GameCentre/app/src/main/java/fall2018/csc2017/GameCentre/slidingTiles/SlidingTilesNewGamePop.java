@@ -9,8 +9,13 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -49,8 +54,11 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
     private SlidingTilesBoardManager boardManager;
 
     private static final int SELECT_IMAGE_CODE = 1801;
-    ImageButton importButton;
-    Bitmap bitmapCut;
+    private ImageButton importButton;
+    private Bitmap bitmapCut;
+    private int selected_difficulty;
+    private String[] list_diff = new String[]{"Easy(3x3)", "Normal(4x4)", "Hard(5x5)"};
+    private static final int MAX_UNDO_LIMIT = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +71,8 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
 
         addImportButtonListener();
         addRadioButtonListener();
+        addDiffSpinnerListener();
+        addNewGameButtonListener();
     }
 
     /**
@@ -70,6 +80,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
      */
     private void addImportButtonListener() {
         importButton = findViewById(R.id.select_image);
+        importButton.setVisibility(View.INVISIBLE);
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +141,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(SlidingTilesNewGamePop.this, "With Image Selected",
                         Toast.LENGTH_SHORT).show();
+                importButton.setVisibility(View.VISIBLE);
             }
         });
         withNumberButton.setOnClickListener(new View.OnClickListener() {
@@ -137,8 +149,85 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(SlidingTilesNewGamePop.this, "With Number Selected",
                         Toast.LENGTH_SHORT).show();
+                importButton.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    private void addDiffSpinnerListener() {
+        Spinner select_diff = findViewById(R.id.list_diff_sele);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
+        select_diff.setAdapter(arrayAdapter);
+
+        select_diff.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position) == list_diff[0]) {
+                    selected_difficulty = 3;
+                } else if (parent.getItemAtPosition(position) == list_diff[1]) {
+                    selected_difficulty = 4;
+                } else if (parent.getItemAtPosition(position) == list_diff[2]) {
+                    selected_difficulty = 5;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selected_difficulty = 4;
+            }
+        });
+    }
+
+    /**
+     * Activate the new game button.
+     */
+    private void addNewGameButtonListener() {
+        Button startButton = findViewById(R.id.NewGameButton);
+        final EditText undoLimit = findViewById(R.id.undoLimitInput);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String inputStr = undoLimit.getText().toString();
+                int input;
+                if (inputStr.matches("")) {
+                    input = 3;
+                } else {
+                    input = Integer.parseInt(inputStr);
+                }
+
+                if (input > MAX_UNDO_LIMIT) {
+                    Toast.makeText(SlidingTilesNewGamePop.this, "Exceeds Undo Limit: "
+                            + MAX_UNDO_LIMIT, Toast.LENGTH_SHORT).show();
+                } else if (importButton.getVisibility() == View.INVISIBLE) {
+                    boardManager = new SlidingTilesBoardManager(selected_difficulty);
+                    boardManager.setCapacity(input);
+                    switchToGame();
+                } else if (bitmapCut == null) {
+                    Toast.makeText(SlidingTilesNewGamePop.this,
+                            "You need to import image!", Toast.LENGTH_SHORT).show();
+                } else {
+                    boardManager = new SlidingTilesBoardManager(selected_difficulty);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmapCut.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    stream.toByteArray();
+                    boardManager.setImageBackground(stream.toByteArray());
+                    boardManager.setCapacity(input);
+                    switchToGame();
+                }
+            }
+        });
+    }
+
+    /**
+     * Switch to the SlidingTilesGameActivity view to play the game.
+     */
+    private void switchToGame() {
+        Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
+        saveToFile(tempGameStateFile);
+        tmp.putExtra("user", username);
+        startActivity(tmp);
     }
 
     /**

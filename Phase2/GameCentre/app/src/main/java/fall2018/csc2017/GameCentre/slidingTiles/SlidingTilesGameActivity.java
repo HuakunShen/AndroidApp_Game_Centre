@@ -119,6 +119,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 
         difficulty = boardManager.getBoard().getDifficulty();
         tileImages = new Bitmap[difficulty * difficulty];
+
         try {
             byte[] tmpImage = boardManager.getImageBackground();
             backgroundImage = BitmapFactory.decodeByteArray(tmpImage, 0, tmpImage.length);
