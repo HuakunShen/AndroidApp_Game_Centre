@@ -127,7 +127,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.088"
-        app:srcCompat="@drawable/jason_with_hat" />
+        app:srcCompat="@drawable/you_logo" />
 
 
 </android.support.constraint.ConstraintLayout>
