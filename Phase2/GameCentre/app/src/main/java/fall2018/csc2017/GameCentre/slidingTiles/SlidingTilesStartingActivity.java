@@ -186,8 +186,6 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
         });
     }
 
-
-
     /**
      * Activate the save button.
      */

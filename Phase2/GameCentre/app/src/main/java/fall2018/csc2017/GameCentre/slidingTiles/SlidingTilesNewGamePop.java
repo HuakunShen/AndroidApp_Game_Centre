@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -61,6 +62,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         setupFile();
 
         addImportButtonListener();
+        addRadioButtonListener();
     }
 
     /**
@@ -117,6 +119,26 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         } else {
             return bitmapUncut;
         }
+    }
+
+    private void addRadioButtonListener() {
+        RadioButton withImageButton = findViewById(R.id.withImageButton);
+        RadioButton withNumberButton = findViewById(R.id.withNumberButton);
+        withNumberButton.setChecked(true);
+        withImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SlidingTilesNewGamePop.this, "With Image Selected",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        withNumberButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SlidingTilesNewGamePop.this, "With Number Selected",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
