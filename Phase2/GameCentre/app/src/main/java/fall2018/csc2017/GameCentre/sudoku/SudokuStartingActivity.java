@@ -50,7 +50,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
     public static final String GAME_NAME = "Sudoku";
     private SudokuBoardManager boardManager;
     private String[] list_diff = new String[]{"Easy", "Normal", "Hard"};
-    private int selected_difficulty;
 
 
     @Override
@@ -69,7 +68,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
 
         addStartButtonListener();
         addLoadButtonListener();
-        addDiffSpinnerListener();
         addScoreboardButtonListener();
     }
 
@@ -80,34 +78,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadFromFile(tempGameStateFile);
-    }
-
-    /**
-     * Activate the spinner for selecting difficulty.
-     */
-    private void addDiffSpinnerListener() {
-        Spinner select_diff = findViewById(R.id.list_diff_sudoku);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
-        select_diff.setAdapter(arrayAdapter);
-
-        select_diff.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position) == list_diff[0]) {
-                    selected_difficulty = 1;
-                } else if (parent.getItemAtPosition(position) == list_diff[1]) {
-                    selected_difficulty = 2;
-                } else if (parent.getItemAtPosition(position) == list_diff[2]) {
-                    selected_difficulty = 3;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                selected_difficulty = 2;
-            }
-        });
     }
 
     /**
