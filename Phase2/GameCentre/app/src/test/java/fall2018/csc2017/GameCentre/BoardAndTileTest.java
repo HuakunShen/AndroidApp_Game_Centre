@@ -9,7 +9,6 @@ import java.util.List;
 
 import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesBoard;
 import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesBoardManager;
-import fall2018.csc2017.GameCentre.slidingTiles.Tile;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
