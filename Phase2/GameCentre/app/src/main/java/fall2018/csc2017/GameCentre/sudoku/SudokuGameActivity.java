@@ -358,7 +358,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
             if (board.getCell(nextPos / 9, nextPos % 9).getFaceValue() == 0){
                 b.setText("");
             } else {
-                b.setText(board.getCell(nextPos / 9, nextPos % 9).getFaceValue().toString());
+                b.setText(cell.getFaceValue().toString());
             }
             b.setBackgroundResource(board.getCell(nextPos / 9,
                     nextPos % 9).getBackground());

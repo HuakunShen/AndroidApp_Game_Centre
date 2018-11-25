@@ -125,7 +125,7 @@ public class Cell implements Serializable {
                 if (col / 3 == 0 || col / 3 == 2) {
                     background = R.drawable.sudoku_cell_grey;
                 } else {
-                    background = R.drawable.sudoku_cell_grey;
+                    background = R.drawable.sudoku_cell_white;
                 }
             }
 
