@@ -28,20 +28,30 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
         List<PictureTile> tiles = new ArrayList<>();
         final int numTiles = MatchingBoard.NUM_COLS * MatchingBoard.NUM_ROWS;
         for (int tileNum = 0; tileNum < numTiles; tileNum++) {
-            int row = tileNum / MatchingBoard.NUM_COLS;
-            int col = tileNum % MatchingBoard.NUM_COLS;
-            if (tileNum < numTiles / 4) {
-                tiles.add(new PictureTile(tileNum + 1, row, col));
-            } else if (tileNum >= numTiles / 4 && tileNum < numTiles / 2) {
-                tiles.add(new PictureTile(tileNum - numTiles / 4 + 1, row, col));
-            } else if (tileNum >= numTiles / 2 && tileNum < (numTiles * 3) / 4) {
-                tiles.add(new PictureTile(tileNum - numTiles / 2 + 1, row, col));
-            } else {
-                tiles.add(new PictureTile(tileNum - (numTiles * 3) / 4 + 1, row, col));
-            }
+            addPictureTileToList(tiles, numTiles, tileNum);
         }
         Collections.shuffle(tiles);
         this.board = new MatchingBoard(tiles);
+    }
+
+    /**
+     * Add pictureTiles to the list.
+     * @param tiles the tiles List that contains pictureTile.
+     * @param numTiles the id of the picture Tile.
+     * @param tileNum the Total number of tiles need to be added.
+     */
+    private void addPictureTileToList(List<PictureTile> tiles, int numTiles, int tileNum) {
+        int row = tileNum / MatchingBoard.NUM_COLS;
+        int col = tileNum % MatchingBoard.NUM_COLS;
+        if (tileNum < numTiles / 4) {
+            tiles.add(new PictureTile(tileNum + 1, row, col));
+        } else if (tileNum >= numTiles / 4 && tileNum < numTiles / 2) {
+            tiles.add(new PictureTile(tileNum - numTiles / 4 + 1, row, col));
+        } else if (tileNum >= numTiles / 2 && tileNum < (numTiles * 3) / 4) {
+            tiles.add(new PictureTile(tileNum - numTiles / 2 + 1, row, col));
+        } else {
+            tiles.add(new PictureTile(tileNum - (numTiles * 3) / 4 + 1, row, col));
+        }
     }
 
     /**
@@ -73,9 +83,9 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
     }
 
     /**
-     * Return whether the tiles are in row-major order.
+     * Return true if all pictureTiles are solved.
      *
-     * @return whether the tiles are in row-major order
+     * @return whether the tiles are all solved.
      */
     public boolean boardSolved() {
         Iterator<PictureTile> itr = board.iterator();
@@ -103,6 +113,8 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
 
     /**
      * Performs changes to the board.
+     *
+     * @param position the position that the user clicked on the grid view
      */
     public void makeMove(int position) {
         int row = position / MatchingBoard.NUM_COLS;
