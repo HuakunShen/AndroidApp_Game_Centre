@@ -1,7 +1,9 @@
 package fall2018.csc2017.GameCentre.sudoku;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -47,7 +50,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
     public static final String GAME_NAME = "Sudoku";
     private SudokuBoardManager boardManager;
     private String[] list_diff = new String[]{"Easy", "Normal", "Hard"};
-    private int selected_difficulty;
 
 
     @Override
@@ -66,7 +68,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
 
         addStartButtonListener();
         addLoadButtonListener();
-        addDiffSpinnerListener();
         addScoreboardButtonListener();
     }
 
@@ -80,34 +81,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
     }
 
     /**
-     * Activate the spinner for selecting difficulty.
-     */
-    private void addDiffSpinnerListener() {
-        Spinner select_diff = findViewById(R.id.list_diff_sudoku);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
-        select_diff.setAdapter(arrayAdapter);
-
-        select_diff.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position) == list_diff[0]) {
-                    selected_difficulty = 1;
-                } else if (parent.getItemAtPosition(position) == list_diff[1]) {
-                    selected_difficulty = 2;
-                } else if (parent.getItemAtPosition(position) == list_diff[2]) {
-                    selected_difficulty = 3;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                selected_difficulty = 2;
-            }
-        });
-    }
-
-    /**
      * Activate the start button.
      */
     private void addStartButtonListener() {
@@ -115,15 +88,26 @@ public class SudokuStartingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SudokuBoardManager.setLevelOfDifficulty(selected_difficulty);
-                boardManager = new SudokuBoardManager();
-                switchToGame();
+                AlertDialog.Builder builder = new AlertDialog.Builder(SudokuStartingActivity.this);
+                builder.setTitle("Choose a difficulty:");
+                builder.setItems(list_diff, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int diff)
+                    {
+                        SudokuBoardManager.setLevelOfDifficulty(diff + 1);
+                        boardManager = new SudokuBoardManager();
+                        switchToGame();
+                        Toast.makeText(SudokuStartingActivity.this, list_diff[diff] + " selected", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
             }
         });
     }
 
     private void addScoreboardButtonListener() {
-        Button scoreboardButton = findViewById(R.id.scoreboardButton_sudoku);
+        ImageButton scoreboardButton = findViewById(R.id.scoreboardButton_sudoku);
         scoreboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

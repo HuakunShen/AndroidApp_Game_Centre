@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.sudoku;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -211,7 +212,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
             @Override
             public void onClick(View view) {
                 Cell currentCell = boardManager.getCurrentCell();
-                boardManager.updateValue(currentCell.getSolutionValue(), false);
+                if (currentCell != null && !currentCell.getFaceValue().equals(currentCell.getSolutionValue()))
+                    boardManager.updateValue(currentCell.getSolutionValue(), false);
                 display();
             }
         });
@@ -347,6 +349,18 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         SudokuBoard board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : cellButtons) {
+            Cell cell = board.getCell(nextPos / 9,
+                    nextPos % 9);
+            if (cell.isEditable()){
+                b.setTextColor(Color.RED);
+            } else {
+                b.setTextColor(Color.BLACK);
+            }
+            if (board.getCell(nextPos / 9, nextPos % 9).getFaceValue() == 0){
+                b.setText("");
+            } else {
+                b.setText(cell.getFaceValue().toString());
+            }
             b.setBackgroundResource(board.getCell(nextPos / 9,
                     nextPos % 9).getBackground());
             nextPos++;
