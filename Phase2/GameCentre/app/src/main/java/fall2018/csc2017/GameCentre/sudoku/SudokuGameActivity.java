@@ -152,8 +152,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     }
 
     private void addClearButtonListener() {
-        Button eraseButton = findViewById(R.id.clearButton);
-        eraseButton.setOnClickListener(new View.OnClickListener() {
+        Button clearButton = findViewById(R.id.clearButton);
+        clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 while (boardManager.undoAvailable()) {
@@ -195,7 +195,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         eraseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boardManager.updateValue(0, false);
+                if (boardManager.getCurrentCell().getFaceValue() != 0)
+                    boardManager.updateValue(0, false);
                 display();
             }
         });
