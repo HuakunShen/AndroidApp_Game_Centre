@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -135,7 +136,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
     }
 
     private void addScoreboardButtonListener() {
-        Button scoreboardButton = findViewById(R.id.scoreboardButton);
+        ImageButton scoreboardButton = findViewById(R.id.scoreboardButton);
         scoreboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
