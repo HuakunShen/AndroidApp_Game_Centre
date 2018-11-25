@@ -72,7 +72,7 @@ public class MatchingBoardManagerTest {
 //        int row = 8 / MatchingBoard.NUM_COLS;
 //        int col = 8 % MatchingBoard.NUM_COLS;
 //        PictureTile tile = manager.getBoard().getTile(row, col);
-        manager.makeMove(8);
+//        manager.makeMove(8);
         //PictureTile tileAfter = manager.getBoard().getTile(row, col);
         //assertEquals("flip", tileAfter.getState());
 //    }

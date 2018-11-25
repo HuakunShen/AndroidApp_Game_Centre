@@ -1,5 +1,6 @@
 //package fall2018.csc2017.GameCentre;
 //
+//import org.junit.Before;
 //import org.junit.Test;
 //
 //import java.util.ArrayList;
@@ -19,63 +20,62 @@
 // *
 // * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
 // */
-//public class BoardAndTileTest {
+//public class BoardManagerTest {
 //
 //    /** The board manager for testing. */
 //    private SlidingTilesBoardManager boardManager;
 //
+//    private SlidingTilesBoard board;
+//
 //    /**
 //     * Make a solved SudokuBoard.
 //     */
+//    @Before
 //    private void setUpCorrect() {
-//        List<Tile> tiles = makeTiles();
-//        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
+//        List<Integer> tiles = makeTiles();
+//        board = new SlidingTilesBoard(tiles, 3);
 //        boardManager = new SlidingTilesBoardManager(board);
 //    }
 //
 //    /**
-//     * SudokuUnitTest whether swapping two tiles makes a solved board unsolved.
+//     *  whether swapping two tiles makes a solved board unsolved.
 //     */
 //    @Test
 //    public void testIsSolved() {
-//        SlidingTilesBoard.NUM_ROWS = 4;
-//        SlidingTilesBoard.NUM_COLS = 4;
-//        setUpCorrect();
-//        assertEquals(true, boardManager.boardSolved());
-//        swapFirstTwoTiles();
+////        swapFirstTwoTiles();
 //        assertEquals(false, boardManager.boardSolved());
 //    }
 //
-//    /**
-//     * SudokuUnitTest whether swapping the first two tiles works.
-//     */
-//    @Test
-//    public void testSwapFirstTwo() {
-//        setUpCorrect();
-//        assertEquals(1, boardManager.getBoard().getTile(0, 0).getId());
-//        assertEquals(2, boardManager.getBoard().getTile(0, 1).getId());
-//        boardManager.getBoard().swapTiles(0, 0, 0, 1);
-//        assertEquals(2, boardManager.getBoard().getTile(0, 0).getId());
-//        assertEquals(1, boardManager.getBoard().getTile(0, 1).getId());
-//    }
+////    /**
+////     *  whether swapping the first two tiles works.
+////     */
+////    @Test
+////    public void testSwapFirstTwo() {
+////        setUpCorrect();
+////        assertEquals(1, boardManager.getBoard().getTile(0, 0).getId());
+////        assertEquals(2, boardManager.getBoard().getTile(0, 1).getId());
+////        boardManager.getBoard().swapTiles(0, 0, 0, 1);
+////        assertEquals(2, boardManager.getBoard().getTile(0, 0).getId());
+////        assertEquals(1, boardManager.getBoard().getTile(0, 1).getId());
+////    }
+////
+////    /**
+////     *  whether swapping the last two tiles works.
+////     */
+////    @Test
+////    public void testSwapLastTwo() {
+////        SlidingTilesBoard.NUM_ROWS = 4;
+////        SlidingTilesBoard.NUM_COLS = 4;
+////        setUpCorrect();
+////        assertEquals(15, boardManager.getBoard().getTile(3, 2).getId());
+////        assertEquals(16, boardManager.getBoard().getTile(3, 3).getId());
+////        boardManager.getBoard().swapTiles(3, 3, 3, 2);
+////        assertEquals(16, boardManager.getBoard().getTile(3, 2).getId());
+////        assertEquals(15, boardManager.getBoard().getTile(3, 3).getId());
+////    }
 //
 //    /**
-//     * SudokuUnitTest whether swapping the last two tiles works.
-//     */
-//    @Test
-//    public void testSwapLastTwo() {
-//        SlidingTilesBoard.NUM_ROWS = 4;
-//        SlidingTilesBoard.NUM_COLS = 4;
-//        setUpCorrect();
-//        assertEquals(15, boardManager.getBoard().getTile(3, 2).getId());
-//        assertEquals(16, boardManager.getBoard().getTile(3, 3).getId());
-//        boardManager.getBoard().swapTiles(3, 3, 3, 2);
-//        assertEquals(16, boardManager.getBoard().getTile(3, 2).getId());
-//        assertEquals(15, boardManager.getBoard().getTile(3, 3).getId());
-//    }
-//
-//    /**
-//     * SudokuUnitTest whether isValidHelp works.
+//     *  whether isValidHelp works.
 //     */
 //    @Test
 //    public void testIsValidTap() {
@@ -86,7 +86,6 @@
 //        assertEquals(true, boardManager.isValidTap(14));
 //        assertEquals(false, boardManager.isValidTap(10));
 //    }
-//
 //
 //
 //    /**
@@ -100,47 +99,47 @@
 //        Collections.shuffle(listOfNum);
 //        return listOfNum;
 //    }
+////
+////    private ArrayList<Tile> transformIntoTile(ArrayList<Integer> data){
+////        ArrayList<Tile> theList = new ArrayList<>();
+////        for(int i = 0; i < data.size(); i++){
+////            theList.add(new Tile(data.get(i),data.get(i)-1));
+////        }
+////        return theList;
+////    }
 //
-//    private ArrayList<Tile> transformIntoTile(ArrayList<Integer> data){
-//        ArrayList<Tile> theList = new ArrayList<>();
-//        for(int i = 0; i < data.size(); i++){
-//            theList.add(new Tile(data.get(i),data.get(i)-1));
-//        }
-//        return theList;
-//    }
+////    /**
+////     * Make a 3X3 .
+////     */
+////    private void setUpCorrectThreeByThree(List<Tile> tiles) {
+////        SlidingTilesBoard.NUM_COLS = 3;
+////        SlidingTilesBoard.NUM_ROWS = 3;
+////        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
+////        boardManager = new SlidingTilesBoardManager(board);
+////    }
+////
+////    /**
+////     * Make a 4X4 .
+////     */
+////    private void setUpCorrectFourByFour(List<Tile> tiles) {
+////        SlidingTilesBoard.NUM_COLS = 4;
+////        SlidingTilesBoard.NUM_ROWS = 4;
+////        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
+////        boardManager = new SlidingTilesBoardManager(board);
+////    }
+////
+////    /**
+////     * Make a 5X5 .
+////     */
+////    private void setUpCorrectFiveByFive(List<Tile> tiles) {
+////        SlidingTilesBoard.NUM_COLS = 5;
+////        SlidingTilesBoard.NUM_ROWS = 5;
+////        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
+////        boardManager = new SlidingTilesBoardManager(board);
+////    }
 //
 //    /**
-//     * Make a 3X3 SudokuBoard.
-//     */
-//    private void setUpCorrectThreeByThree(List<Tile> tiles) {
-//        SlidingTilesBoard.NUM_COLS = 3;
-//        SlidingTilesBoard.NUM_ROWS = 3;
-//        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
-//        boardManager = new SlidingTilesBoardManager(board);
-//    }
-//
-//    /**
-//     * Make a 4X4 SudokuBoard.
-//     */
-//    private void setUpCorrectFourByFour(List<Tile> tiles) {
-//        SlidingTilesBoard.NUM_COLS = 4;
-//        SlidingTilesBoard.NUM_ROWS = 4;
-//        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
-//        boardManager = new SlidingTilesBoardManager(board);
-//    }
-//
-//    /**
-//     * Make a 5X5 SudokuBoard.
-//     */
-//    private void setUpCorrectFiveByFive(List<Tile> tiles) {
-//        SlidingTilesBoard.NUM_COLS = 5;
-//        SlidingTilesBoard.NUM_ROWS = 5;
-//        SlidingTilesBoard board = new SlidingTilesBoard(tiles);
-//        boardManager = new SlidingTilesBoardManager(board);
-//    }
-//
-//    /**
-//     * SudokuUnitTest whether solvable method works.
+//     *  whether solvable method works.
 //     */
 //    @Test
 //    public void testSolvableThreeByThree() {
@@ -155,7 +154,7 @@
 //    }
 //
 //    /**
-//     * SudokuUnitTest whether solvable method works.
+//     *  whether solvable method works.
 //     */
 //    @Test
 //    public void testSolvableFourByFour(){
@@ -178,7 +177,7 @@
 //    }
 //
 //    /**
-//     * SudokuUnitTest whether solvable method works.
+//     *  whether solvable method works.
 //     */
 //    @Test
 //    public void testSolvableFiveByFive() {
@@ -193,7 +192,7 @@
 //    }
 //
 //    /**
-//     * SudokuUnitTest whether getTotalInversion method works.
+//     *  whether getTotalInversion method works.
 //     */
 //    @Test
 //    public void testGetTotalInversionOddWidth(){
@@ -204,7 +203,7 @@
 //    }
 //
 //    /**
-//     * SudokuUnitTest whether getTotalInversion method works.
+//     *  whether getTotalInversion method works.
 //     */
 //    @Test
 //    public void testGetTotalInversionEvenWidth(){
@@ -216,7 +215,7 @@
 //    }
 //
 //    /**
-//     * SudokuUnitTest whether blankPosition method works.
+//     *  whether blankPosition method works.
 //     */
 //    @Test
 //    public void testBlankPositionOddWidth(){
@@ -227,7 +226,7 @@
 //    }
 //
 //    /**
-//     * SudokuUnitTest whether blankPosition method works.
+//     *  whether blankPosition method works.
 //     */
 //    @Test
 //    public void testBlankPositionEvenWidth(){
@@ -238,9 +237,9 @@
 //        assertEquals(2, boardManager.blankPosition());
 //    }
 //
-//    private List<Tile> makeTiles() {
-//        List<Tile> tiles = new ArrayList<>();
-//        final int numTiles = SlidingTilesBoard.NUM_ROWS * SlidingTilesBoard.NUM_COLS;
+//    private List<Integer> makeTiles() {
+//        List<Integer> tiles = new ArrayList<>();
+//        final int numTiles = . * SlidingTilesBoard.NUM_COLS;
 //        for (int tileNum = 0; tileNum != numTiles; tileNum++) {
 //            tiles.add(new Tile(tileNum + 1, tileNum));
 //        }
