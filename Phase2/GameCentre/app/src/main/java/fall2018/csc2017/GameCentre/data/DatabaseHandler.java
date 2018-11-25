@@ -252,13 +252,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return result;
     }
 
-    public ArrayList<ArrayList<String>> getAllScore(String username) {
+    public ArrayList<ArrayList<String>> getScoreByUser(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         ArrayList<ArrayList<String>> dataList = new ArrayList<>();
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_USERNAME
-                + " =? ", new String[]{username});
+                + " =? AND " + KEY_SCORE + " <> 0", new String[]{username});
 
         if (cursor.moveToFirst()) {
             do {
@@ -280,7 +280,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<ArrayList<String>> dataList = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_GAME +
-                " =? ORDER BY " + KEY_SCORE + " DESC", new String[]{game_type});
+                " =? AND " + KEY_SCORE + " <> 0 ORDER BY " + KEY_SCORE + " DESC",
+                new String[]{game_type});
         if (cursor.moveToFirst()) {
             int rank = 1;
             do {

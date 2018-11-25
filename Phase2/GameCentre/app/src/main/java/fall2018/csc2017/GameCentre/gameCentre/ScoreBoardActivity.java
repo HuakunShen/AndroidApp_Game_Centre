@@ -35,7 +35,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
         if (type.equals("byGame"))
             game_type = getIntent().getStringExtra("gameType");
         if (type.equals("byUser"))
-            dataList = db.getAllScore(username);
+            dataList = db.getScoreByUser(username);
         else if (type.equals("byGame"))
             dataList = db.getScoreByGame(game_type);
         addTable();
