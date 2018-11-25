@@ -308,9 +308,34 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
                                 this);
                         columnWidth = gridView.getMeasuredWidth() / 9;
                         columnHeight = gridView.getMeasuredHeight() / 9;
-                        display();
+                        initializeCellButtons();
                     }
                 });
+    }
+
+    /**
+     * Initialize the backgrounds on the buttons to match the tiles.
+     */
+    private void initializeCellButtons() {
+        SudokuBoard board = boardManager.getBoard();
+        int nextPos = 0;
+        for (Button b : cellButtons) {
+            Cell cell = board.getCell(nextPos / 9, nextPos % 9);
+            b.setTextSize(20);
+            if (cell.isEditable()){
+                b.setTextColor(Color.RED);
+            } else {
+                b.setTextColor(Color.BLACK);
+            }
+            if (cell.getFaceValue() == 0){
+                b.setText("");
+            } else {
+                b.setText(cell.getFaceValue().toString());
+            }
+            b.setBackgroundResource(cell.getBackground());
+            nextPos++;
+        }
+        gridView.setAdapter(new CustomAdapter(cellButtons, columnWidth, columnHeight));
     }
 
     /**
@@ -348,20 +373,13 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         SudokuBoard board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : cellButtons) {
-            Cell cell = board.getCell(nextPos / 9,
-                    nextPos % 9);
-            if (cell.isEditable()){
-                b.setTextColor(Color.RED);
-            } else {
-                b.setTextColor(Color.BLACK);
-            }
-            if (board.getCell(nextPos / 9, nextPos % 9).getFaceValue() == 0){
+            Cell cell = board.getCell(nextPos / 9, nextPos % 9);
+            if (cell.getFaceValue() == 0){
                 b.setText("");
             } else {
                 b.setText(cell.getFaceValue().toString());
             }
-            b.setBackgroundResource(board.getCell(nextPos / 9,
-                    nextPos % 9).getBackground());
+            b.setBackgroundResource(cell.getBackground());
             nextPos++;
         }
     }
