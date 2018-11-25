@@ -21,6 +21,7 @@ import java.io.ObjectOutputStream;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 
 public class PictureMatchingStartingActivity extends AppCompatActivity {
 
@@ -68,6 +69,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         addStartButtonListener();
         addLoadButtonListener();
         addDiffSpinnerListener();
+        addScoreboardButtonListener();
     }
 
     private void addDiffSpinnerListener() {
@@ -91,6 +93,21 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 selected_difficulty = 4;
+            }
+        });
+    }
+
+    private void addScoreboardButtonListener() {
+        Button scoreboardButton = findViewById(R.id.scoreboardButton_picturematching);
+        scoreboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), ScoreBoardActivity.class);
+                intent.putExtra("user", user.getUsername());
+                intent.putExtra("gameType", GAME_NAME);
+                intent.putExtra("scoreBoardType", "byGame");
+                startActivity(intent);
+
             }
         });
     }
