@@ -1,6 +1,10 @@
 package fall2018.csc2017.GameCentre.sudoku;
 
+import android.content.res.Resources;
+
 import java.io.Serializable;
+
+import fall2018.csc2017.GameCentre.R;
 
 public class Cell implements Serializable {
 
@@ -74,43 +78,63 @@ public class Cell implements Serializable {
      */
     void setFaceValue(Integer faceValue) {
         this.faceValue = faceValue;
-        String currentCellName;
+//        String currentCellName;
+//
+//        // The number displayed is red if the cell
+//        // is editable, other wise black.
+//        if (this.editable)
+//            currentCellName = "red_";
+//        else
+//            currentCellName = "black_";
+//
+//        // If the number is highlighted, the background
+//        // colour of the cell will be blue.
+//        if (this.highlighted) {
+//            currentCellName += "blue_";
+//        } else
+//        // In order to distinguish different 3 X 3 grids
+//        // on the board, adjacent grids will have different
+//        // background colours.
+//        if (row / 3 == 0 || row / 3 == 2) {
+//            if (col / 3 == 1) {
+//                currentCellName += "grey_";
+//            } else {
+//                currentCellName += "white_";
+//            }
+//        } else {
+//            if (col / 3 == 0 || col / 3 == 2) {
+//                currentCellName += "grey_";
+//            } else {
+//                currentCellName += "white_";
+//            }
+//        }
 
-        // The number displayed is red if the cell
-        // is editable, other wise black.
-        if (this.editable)
-            currentCellName = "red_";
-        else
-            currentCellName = "black_";
-
-        // If the number is highlighted, the background
-        // colour of the cell will be blue.
         if (this.highlighted) {
-            currentCellName += "blue_";
+            background = R.drawable.sudoku_cell_red;
         } else
-        // In order to distinguish different 3 X 3 grids
-        // on the board, adjacent grids will have different
-        // background colours.
-        if (row / 3 == 0 || row / 3 == 2) {
-            if (col / 3 == 1) {
-                currentCellName += "grey_";
+            // In order to distinguish different 3 X 3 grids
+            // on the board, adjacent grids will have different
+            // background colours.
+            if (row / 3 == 0 || row / 3 == 2) {
+                if (col / 3 == 1) {
+                    background = R.drawable.sudoku_cell_grey;
+                } else {
+                    background = R.drawable.sudoku_cell_white;
+                }
             } else {
-                currentCellName += "white_";
+                if (col / 3 == 0 || col / 3 == 2) {
+                    background = R.drawable.sudoku_cell_grey;
+                } else {
+                    background = R.drawable.sudoku_cell_grey;
+                }
             }
-        } else {
-            if (col / 3 == 0 || col / 3 == 2) {
-                currentCellName += "grey_";
-            } else {
-                currentCellName += "white_";
-            }
-        }
 
-        // Match the background colour to the numeral value
-        // to be displayed
-        currentCellName += Integer.toString(faceValue);
-
-        background = SudokuStartingActivity.RESOURCES.getIdentifier(currentCellName,
-                "drawable", SudokuStartingActivity.PACKAGE_NAME);
+//        // Match the background colour to the numeral value
+//        // to be displayed
+//        currentCellName += Integer.toString(faceValue);
+//
+//        background = SudokuStartingActivity.RESOURCES.getIdentifier(currentCellName,
+//                "drawable", SudokuStartingActivity.PACKAGE_NAME);
     }
 
 //    /**
