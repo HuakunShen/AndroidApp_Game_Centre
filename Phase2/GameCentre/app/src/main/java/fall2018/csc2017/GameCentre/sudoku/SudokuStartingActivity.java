@@ -21,6 +21,7 @@ import java.io.ObjectOutputStream;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 
 
 public class SudokuStartingActivity extends AppCompatActivity {
@@ -66,6 +67,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
         addStartButtonListener();
         addLoadButtonListener();
         addDiffSpinnerListener();
+        addScoreboardButtonListener();
     }
 
     /**
@@ -116,6 +118,21 @@ public class SudokuStartingActivity extends AppCompatActivity {
                 SudokuBoardManager.setLevelOfDifficulty(selected_difficulty);
                 boardManager = new SudokuBoardManager();
                 switchToGame();
+            }
+        });
+    }
+
+    private void addScoreboardButtonListener() {
+        Button scoreboardButton = findViewById(R.id.scoreboardButton_sudoku);
+        scoreboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), ScoreBoardActivity.class);
+                intent.putExtra("user", user.getUsername());
+                intent.putExtra("gameType", GAME_NAME);
+                intent.putExtra("scoreBoardType", "byGame");
+                startActivity(intent);
+
             }
         });
     }
