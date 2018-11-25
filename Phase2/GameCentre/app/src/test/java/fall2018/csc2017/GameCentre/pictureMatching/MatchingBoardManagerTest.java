@@ -1,22 +1,16 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
-
 import static org.junit.Assert.*;
 
 public class MatchingBoardManagerTest {
 
-    MatchingBoardManager manager;
+    private MatchingBoardManager manager;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
 //        List<PictureTile> tiles = generateTiles();
 //        MatchingBoard board = new MatchingBoard();
         this.manager = new MatchingBoardManager();
@@ -37,9 +31,9 @@ public class MatchingBoardManagerTest {
 //        Collections.shuffle(tiles);
 //    }
 
-    @After
-    public void tearDown() throws Exception {
-    }
+//    @After
+//    public void tearDown() throws Exception {
+//    }
 
 //    @Test
 //    public addPictureTileToList(){
@@ -48,7 +42,8 @@ public class MatchingBoardManagerTest {
 
     @Test
     public void testGetBoard() {
-        assertEquals("MatchingBoard", manager.getClass().getName());
+        assertEquals("fall2018.csc2017.GameCentre.pictureMatching.MatchingBoardManager",
+                manager.getClass().getName().toString());
     }
 
     @Test
@@ -69,11 +64,16 @@ public class MatchingBoardManagerTest {
 
     @Test
     public void testIsValidTap() {
-        assertTrue(manager.isValidTap(2));
+        assertFalse(manager.isValidTap(2));
     }
 
-    @Test
-    public void testMakeMove() {
-
-    }
+//    @Test
+//    public void testMakeMove() {
+//        int row = 8 / MatchingBoard.NUM_COLS;
+//        int col = 8 % MatchingBoard.NUM_COLS;
+//        PictureTile tile = manager.getBoard().getTile(row, col);
+        manager.makeMove(8);
+        //PictureTile tileAfter = manager.getBoard().getTile(row, col);
+        //assertEquals("flip", tileAfter.getState());
+//    }
 }
