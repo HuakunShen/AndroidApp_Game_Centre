@@ -25,8 +25,9 @@
         <activity android:name=".gameCentre.GameCentreInterfaceActivity" />
         <activity android:name=".slidingTiles.SlidingTilesStartingActivity" />
         <activity android:name=".slidingTiles.SlidingTilesGameActivity" />
-        <activity android:name=".slidingTiles.SlidingTilesNewGamePop"
-            android:theme="@style/DialogActivity"/>
+        <activity
+            android:name=".slidingTiles.SlidingTilesNewGamePop"
+            android:theme="@style/DialogActivity" />
         <activity android:name=".gameCentre.ScoreBoardActivity" />
         <activity android:name=".gameCentre.NavSetting" />
         <activity android:name=".gameCentre.NavChangePassword" />
@@ -34,6 +35,8 @@
         <activity android:name=".sudoku.SudokuGameActivity" />
         <activity android:name=".pictureMatching.PictureMatchingGameActivity" />
         <activity android:name=".pictureMatching.PictureMatchingStartingActivity" />
+        <activity android:name=".pictureMatching.MatchingNewGamePop"
+            android:theme="@style/DialogActivity"></activity>
     </application>
 
 </manifest>
