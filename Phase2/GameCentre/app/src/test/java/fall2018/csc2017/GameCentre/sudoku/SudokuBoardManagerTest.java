@@ -9,11 +9,14 @@ public class SudokuBoardManagerTest {
 
 
     private SudokuBoardManager manager;
+    private int moveTaken;
     @Before
     public void setUp() {
         manager = new SudokuBoardManager();
-        int position = findEditablePosition(manager.getBoard());
-        manager.makeMove(position);
+        moveTaken = findEditablePosition(manager.getBoard());
+        manager.makeMove(moveTaken);
+        int move = findEditablePosition(manager.getBoard());
+        manager.updateValue(2, false);
         manager.undo();
         manager.setHint(5);
     }
@@ -65,7 +68,7 @@ public class SudokuBoardManagerTest {
 
     @Test
     public void undoAvailable() {
-        assertTrue(manager.undoAvailable());
+        assertFalse(manager.undoAvailable());
     }
 
 //    @Test
@@ -75,21 +78,25 @@ public class SudokuBoardManagerTest {
 
     @Test
     public void boardSolved() {
+        assertFalse(manager.boardSolved());
     }
 
     @Test
     public void isValidTap() {
+        assertTrue(manager.isValidTap(moveTaken));
     }
 
-    @Test
-    public void makeMove() {
-    }
+//    @Test
+//    public void makeMove() {
+//
+//    }
 
-    @Test
-    public void updateValue() {
-    }
+//    @Test
+//    public void updateValue() {
+//
+//    }
 
-    @Test
-    public void undo() {
-    }
+//    @Test
+//    public void undo() {
+//    }
 }
