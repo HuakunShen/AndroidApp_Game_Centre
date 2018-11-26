@@ -59,11 +59,12 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
     private LocalTime startingTime;
     private Long preStartTime = 0L;
     private Long totalTimeTaken;
-
     /**
      * Warning message
      */
     private TextView warning;
+
+    private TextView hintText;
 
     /**
      * The main save file.
@@ -87,6 +88,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         loadFromFile(tempGameStateFile);
         createCellButtons(this);
         addGridViewToActivity();
+        setUpHintDisplay();
         setupTime();
         setUpButtons();
         addWarningTextViewListener();
@@ -94,6 +96,12 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         addUndoButtonListener();
         addEraseButtonListener();
         addHintButtonListener();
+    }
+
+    private void setUpHintDisplay() {
+        hintText = findViewById(R.id.hintTextView);
+        String hintDisplay = "Hint: " + String.valueOf(boardManager.getHint());
+        hintText.setText(hintDisplay);
     }
 
 
@@ -176,18 +184,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (boardManager.undoAvailable()) {
+                if (boardManager.undoAvailable())
                     boardManager.undo();
-                } else {
-                    warning.setVisibility(View.VISIBLE);
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            warning.setVisibility(View.INVISIBLE);
-                        }
-                    }, 1000);
-                }
+                else
+                    displayWarning("Exceeds Undo-Limit!");
+
             }
         });
     }
@@ -201,7 +202,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         eraseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (boardManager.getCurrentCell() != null && boardManager.getCurrentCell().getFaceValue() != 0)
+                if (boardManager.getCurrentCell() != null &&
+                        boardManager.getCurrentCell().getFaceValue() != 0)
                     boardManager.updateValue(0, false);
                 display();
             }
@@ -212,16 +214,37 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
      * When Hint button is taped, the solution will display on the selected cell.
      */
     private void addHintButtonListener() {
-        Button hintButton = findViewById(R.id.hintButton);
+        final Button hintButton = findViewById(R.id.hintButton);
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Cell currentCell = boardManager.getCurrentCell();
-                if (currentCell != null && !currentCell.getFaceValue().equals(currentCell.getSolutionValue()))
-                    boardManager.updateValue(currentCell.getSolutionValue(), false);
+                if (boardManager.getHint() > 0) {
+                    if (currentCell != null &&
+                            !currentCell.getFaceValue().equals(currentCell.getSolutionValue())) {
+                        boardManager.updateValue(currentCell.getSolutionValue(), false);
+                        boardManager.reduceHint();
+                        String hintDisplay = "Hint: " + String.valueOf(boardManager.getHint());
+                        hintText.setText(hintDisplay);
+                    }
+                } else {
+                    displayWarning("No More Hint!");
+                }
                 display();
             }
         });
+    }
+
+    private void displayWarning(String msg) {
+        warning.setVisibility(View.VISIBLE);
+        warning.setText(msg);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                warning.setVisibility(View.INVISIBLE);
+            }
+        }, 1000);
     }
 
 
@@ -285,15 +308,12 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         String hourStr = hour.toString();
         String minStr = min.toString();
         String secStr = sec.toString();
-        if (hour < 10) {
+        if (hour < 10)
             hourStr = "0" + hourStr;
-        }
-        if (min < 10) {
+        if (min < 10)
             minStr = "0" + minStr;
-        }
-        if (sec < 10) {
+        if (sec < 10)
             secStr = "0" + secStr;
-        }
         return hourStr + ":" + minStr + ":" + secStr;
     }
 
@@ -328,12 +348,12 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         for (Button b : cellButtons) {
             Cell cell = board.getCell(nextPos / 9, nextPos % 9);
             b.setTextSize(20);
-            if (cell.isEditable()){
+            if (cell.isEditable()) {
                 b.setTextColor(Color.RED);
             } else {
                 b.setTextColor(Color.BLACK);
             }
-            if (cell.getFaceValue() == 0){
+            if (cell.getFaceValue() == 0) {
                 b.setText("");
             } else {
                 b.setText(cell.getFaceValue().toString());
@@ -380,7 +400,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
         int nextPos = 0;
         for (Button b : cellButtons) {
             Cell cell = board.getCell(nextPos / 9, nextPos % 9);
-            if (cell.getFaceValue() == 0){
+            if (cell.getFaceValue() == 0) {
                 b.setText("");
             } else {
                 b.setText(cell.getFaceValue().toString());
