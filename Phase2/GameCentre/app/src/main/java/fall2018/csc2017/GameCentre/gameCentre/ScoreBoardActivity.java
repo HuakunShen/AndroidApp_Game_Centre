@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.gameCentre;
 
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,13 +24,16 @@ import fall2018.csc2017.GameCentre.data.User;
 
 public class ScoreBoardActivity extends AppCompatActivity {
 
-    private String username;
     private List<List<String>> dataList;
     private TableLayout scoreboard;
     private SQLDatabase db;
     private String type;
     private String game_type;
     private User user;
+    private final String[] byUserTitle = new String[]{"Game", "Username", "Highest Score"};
+    private final String[] byGameTitle = new String[]{"Rank", "Game", "User", "Score"};
+    private final String byUser = "byUser";
+    private final String byGame = "byGame";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,29 +42,32 @@ public class ScoreBoardActivity extends AppCompatActivity {
         db = new SQLDatabase(this);
         scoreboard = findViewById(R.id.tableView);
         setupUser();
-
-        if (type.equals("byGame"))
-            game_type = getIntent().getStringExtra("gameType");
-        if (type.equals("byUser"))
-            dataList = user.getScoreboardData();
-        else if (type.equals("byGame"))
-            dataList = db.getScoreByGame(game_type);
+        setupData();
         addTable();
-
     }
 
+
     private void setupUser() {
-        username = getIntent().getStringExtra("user");
+        String username = getIntent().getStringExtra("user");
         type = getIntent().getStringExtra("scoreBoardType");
         String user_file = db.getUserFile(username);
         loadFromFile(user_file);
     }
 
+    private void setupData() {
+        if (type.equals(byGame))
+            game_type = getIntent().getStringExtra("gameType");
+        if (type.equals(byUser))
+            dataList = user.getScoreboardData();
+        else
+            dataList = db.getScoreByGame(game_type);
+    }
+
+
     private void addTable() {
+        setupTitle();
         TableRow row;
         TextView text;
-        setupTitle();
-
         for (int rowNum = 0; rowNum < dataList.size(); rowNum++) {
             row = new TableRow(this);
             for (int colNum = 0; colNum < dataList.get(rowNum).size(); colNum++) {
@@ -75,51 +82,23 @@ public class ScoreBoardActivity extends AppCompatActivity {
     }
 
     private void setupTitle() {
-        if (type.equals("byGame")) {
-            TableLayout table = findViewById(R.id.tableView);
-            TableRow row = findViewById(R.id.formatRow);
-            row.setVisibility(View.GONE);
-            TableRow newRow = new TableRow(this);
+        initializeColumnsWidth();
+        String[] titles = setupTitleContent();
+        addConfigTitles(titles);
+        addLine();
+    }
 
-            TextView firstText = new TextView(this);
-            firstText.setWidth(200);
-            newRow.addView(firstText);
-            TextView secondText = new TextView(this);
-            secondText.setWidth(300);
-            newRow.addView(secondText);
+    private String[] setupTitleContent() {
+        String[] titles;
+        if (type.equals(byUser))
+            titles = byUserTitle;
+        else
+            titles = byGameTitle;
+        return titles;
+    }
 
-            TextView thirdText = new TextView(this);
-            thirdText.setWidth(200);
-            newRow.addView(thirdText);
-
-            TextView fourthText = new TextView(this);
-            fourthText.setWidth(300);
-            newRow.addView(fourthText);
-            table.addView(newRow);
-        }
-
-        TextView text;
+    private void addLine() {
         TableRow row = new TableRow(this);
-        String[] titles = {};
-        switch (type) {
-            case "byUser":
-                titles = new String[]{"Game", "Username", "Highest Score"};
-                break;
-            case "byGame":
-                titles = new String[]{"Rank", "Game", "User", "Score"};
-        }
-
-
-        for (String title : titles) {
-            text = new TextView(this);
-            text.setText(title);
-            text.setTextColor(Color.parseColor("#FFFFFF"));
-            text.setGravity(Gravity.CENTER);
-            text.setTextSize(18);
-            row.addView(text);
-        }
-        scoreboard.addView(row);
-        row = new TableRow(this);
         row.setMinimumHeight(5);
         TableLayout.LayoutParams params = new TableLayout.LayoutParams(
                 TableLayout.LayoutParams.WRAP_CONTENT,
@@ -129,6 +108,33 @@ public class ScoreBoardActivity extends AppCompatActivity {
         row.setLayoutParams(params);
         row.setBackgroundColor(ContextCompat.getColor(this, R.color.scoreBoardTileLine));
         scoreboard.addView(row);
+    }
+
+    @NonNull
+    private void addConfigTitles(String[] titles) {
+        TextView text;
+        TableRow row = new TableRow(this);
+        for (String title : titles) {
+            text = new TextView(this);
+            text.setText(title);
+            text.setTextColor(Color.parseColor("#FFFFFF"));
+            text.setGravity(Gravity.CENTER);
+            text.setTextSize(18);
+            row.addView(text);
+        }
+        scoreboard.addView(row);
+    }
+
+    private void initializeColumnsWidth() {
+        TableRow newRow = new TableRow(this);
+        int numCol = type.equals(byGame) ? 4 : 3;
+        int colWidth = type.equals(byUser) ? 300 : 250;
+        for (int i = 0; i < numCol; i++) {
+            TextView tmp = new TextView(this);
+            tmp.setWidth(colWidth);
+            newRow.addView(tmp);
+        }
+        scoreboard.addView(newRow);
     }
 
 

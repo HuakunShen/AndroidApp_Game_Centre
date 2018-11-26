@@ -253,41 +253,13 @@ public class SQLDatabase extends SQLiteOpenHelper {
         return result;
     }
 
-    public List<List<String>> getScoreByUser(String username) {
-        SQLiteDatabase db = this.getReadableDatabase();
 
-        List<List<String>> dataList = new ArrayList<>();
-
-//        Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_USERNAME
-//                + " =? AND " + KEY_SCORE + " <> 0", new String[]{username});
-
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_USERNAME
-                + " =? ", new String[]{username});
-
-        if (cursor.moveToFirst()) {
-            do {
-                String user = cursor.getString(cursor.getColumnIndex(KEY_USERNAME));
-                String game = cursor.getString(cursor.getColumnIndex(KEY_GAME));
-                String score = Integer.toString(cursor.getInt(cursor.getColumnIndex(KEY_SCORE)));
-                List<String> data = new ArrayList<>();
-                data.add(game);
-                data.add(user);
-                data.add(score);
-                dataList.add(data);
-            } while (cursor.moveToNext());
-        }
-        db.close();
-        return dataList;
-    }
 
     public List<List<String>> getScoreByGame(String game_type) {
         SQLiteDatabase db = this.getReadableDatabase();
         List<List<String>> dataList = new ArrayList<>();
-//        Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_GAME +
-//                " =? AND " + KEY_SCORE + " <> 0 ORDER BY " + KEY_SCORE + " DESC",
-//                new String[]{game_type});
         Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_GAME +
-                        " =?  ORDER BY " + KEY_SCORE + " DESC",
+                " =? AND " + KEY_SCORE + " <> 0 ORDER BY " + KEY_SCORE + " DESC",
                 new String[]{game_type});
         if (cursor.moveToFirst()) {
             int rank = 1;
