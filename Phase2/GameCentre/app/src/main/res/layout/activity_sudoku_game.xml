@@ -7,8 +7,7 @@
     android:background="@drawable/brown_paper_background"
     tools:context="fall2018.csc2017.GameCentre.sudoku.SudokuGameActivity">
 
-    <fall2018.csc2017.GameCentre.util.GestureDetectGridView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <fall2018.csc2017.GameCentre.util.GestureDetectGridView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/SudokuGrid"
@@ -21,136 +20,16 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:padding="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_5"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.717"
+        app:layout_constraintVertical_bias="0.214"
         tools:context="fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesGameActivity"
         tools:ignore="MissingConstraints">
 
     </fall2018.csc2017.GameCentre.util.GestureDetectGridView>
-
-    <Button
-        android:id="@+id/button_1"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="100dp"
-        android:text="1"
-        android:textSize="20dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_2"
-        app:layout_constraintHorizontal_bias="0.804"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/button_2"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="100dp"
-        android:text="2"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_3"
-        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/button_3"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="100dp"
-        android:text="3"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_4"
-        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
-        app:layout_constraintVertical_bias="0.984" />
-
-    <Button
-        android:id="@+id/button_4"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="100dp"
-        android:text="4"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_5"
-        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/button_5"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="100dp"
-        android:text="5"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_6" />
-
-    <Button
-        android:id="@+id/button_6"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="100dp"
-        android:text="6"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_7"
-        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/button_7"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="100dp"
-        android:text="7"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_8"
-        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
-        app:layout_constraintVertical_bias="0.984" />
-
-    <Button
-        android:id="@+id/button_8"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="100dp"
-        android:text="8"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_9"
-        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
-        app:layout_constraintVertical_bias="0.984" />
-
-    <Button
-        android:id="@+id/button_9"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="100dp"
-        android:text="9"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SudokuGrid"
-        app:layout_constraintVertical_bias="0.983" />
 
     <TextView
         android:id="@+id/sudoku_time_text"
@@ -235,7 +114,15 @@
         android:id="@+id/numButtons"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"></LinearLayout>
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.838"></LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

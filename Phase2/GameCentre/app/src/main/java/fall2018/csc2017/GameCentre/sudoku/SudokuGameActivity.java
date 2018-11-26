@@ -5,12 +5,10 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,7 +22,6 @@ import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -38,8 +35,6 @@ import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 
 public class SudokuGameActivity extends AppCompatActivity implements Observer, LoadSaveSerializable {
-//public class SudokuGameActivity extends AppCompatActivity implements Observer, View.OnClickListener
-//        , LoadSaveSerializable {
 
     /**
      * The board manager.
@@ -131,59 +126,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
                 }
             });
         }
-
-//        numButtons[0] = findViewById(R.id.button_1);
-//        numButtons[1] = findViewById(R.id.button_2);
-//        numButtons[2] = findViewById(R.id.button_3);
-//        numButtons[3] = findViewById(R.id.button_4);
-//        numButtons[4] = findViewById(R.id.button_5);
-//        numButtons[5] = findViewById(R.id.button_6);
-//        numButtons[6] = findViewById(R.id.button_7);
-//        numButtons[7] = findViewById(R.id.button_8);
-//        numButtons[8] = findViewById(R.id.button_9);
-//        numButtons[0].setOnClickListener(this);
-//        numButtons[1].setOnClickListener(this);
-//        numButtons[2].setOnClickListener(this);
-//        numButtons[3].setOnClickListener(this);
-//        numButtons[4].setOnClickListener(this);
-//        numButtons[5].setOnClickListener(this);
-//        numButtons[6].setOnClickListener(this);
-//        numButtons[7].setOnClickListener(this);
-//        numButtons[8].setOnClickListener(this);
     }
-
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.button_1:
-//                boardManager.updateValue(1, false);
-//                break;
-//            case R.id.button_2:
-//                boardManager.updateValue(2, false);
-//                break;
-//            case R.id.button_3:
-//                boardManager.updateValue(3, false);
-//                break;
-//            case R.id.button_4:
-//                boardManager.updateValue(4, false);
-//                break;
-//            case R.id.button_5:
-//                boardManager.updateValue(5, false);
-//                break;
-//            case R.id.button_6:
-//                boardManager.updateValue(6, false);
-//                break;
-//            case R.id.button_7:
-//                boardManager.updateValue(7, false);
-//                break;
-//            case R.id.button_8:
-//                boardManager.updateValue(8, false);
-//                break;
-//            case R.id.button_9:
-//                boardManager.updateValue(9, false);
-//                break;
-//        }
-//    }
 
     private void addClearButtonListener() {
         Button eraseButton = findViewById(R.id.clearButton);
