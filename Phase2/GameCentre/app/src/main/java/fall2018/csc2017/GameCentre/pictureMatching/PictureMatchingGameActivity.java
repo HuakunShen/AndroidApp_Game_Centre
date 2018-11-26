@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,6 +18,7 @@ import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -29,6 +31,7 @@ import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 
 public class PictureMatchingGameActivity extends AppCompatActivity implements Observer {
+
     /**
      * The board manager.
      */
@@ -37,7 +40,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     /**
      * The buttons to display.
      */
-    private ArrayList<Button> tileButtons;
+    private List<Button> tileButtons;
     /**
      * Grid View and calculated column height and width based on device size
      */
@@ -84,9 +87,14 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      */
     private String tempGameStateFile;
 
+    private String PACKAGE_NAME;
+    private Resources RESOURCES;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PACKAGE_NAME = getApplicationContext().getPackageName();
+        RESOURCES = getResources();
         startingTime = LocalTime.now();
         db = new DatabaseHandler(this);
         setupUser();
@@ -170,7 +178,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      */
     private void addGridViewToActivity() {
         gridView = findViewById(R.id.PictureMatchingGrid);
-        gridView.setNumColumns(MatchingBoard.NUM_COLS);
+        gridView.setNumColumns(boardManager.getDifficulty());
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -178,14 +186,11 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        gridView.getViewTreeObserver().removeOnGlobalLayoutListener(
-                                this);
+                        gridView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
-
-                        columnWidth = (displayWidth / MatchingBoard.NUM_COLS);
-                        columnHeight = (displayHeight / MatchingBoard.NUM_ROWS);
-
+                        columnWidth = (displayWidth / boardManager.getDifficulty());
+                        columnHeight = (displayHeight / boardManager.getDifficulty());
                         display();
                     }
                 });
@@ -208,10 +213,10 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      */
     private void createTileButtons(Context context) {
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != MatchingBoard.NUM_ROWS; row++) {
-            for (int col = 0; col != MatchingBoard.NUM_COLS; col++) {
+        for (int row = 0; row != boardManager.getDifficulty(); row++) {
+            for (int col = 0; col != boardManager.getDifficulty(); col++) {
                 Button tmp = new Button(context);
-                tmp.setBackgroundResource(R.drawable.sudoku_cell_grey);
+                tmp.setBackgroundResource(R.drawable.picturematching_tile_back);
                 this.tileButtons.add(tmp);
             }
         }
@@ -224,22 +229,21 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         MatchingBoard board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / MatchingBoard.NUM_COLS;
-            int col = nextPos % MatchingBoard.NUM_COLS;
+            int row = nextPos / boardManager.getDifficulty();
+            int col = nextPos % boardManager.getDifficulty();
             PictureTile currentTile = board.getTile(row,col);
-            if (currentTile.getState().equals(PictureTile.FLIP)){
-                String name = "tile_"  + Integer.toString(currentTile.getId());
-                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier(name,
-                        "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
-                b.setBackgroundResource(id);
-            }else if(currentTile.getState().equals(PictureTile.COVERED)){
-                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier("sudoku_cell_grey",
-                        "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
-                b.setBackgroundResource(id);
-            }else if(currentTile.getState().equals(PictureTile.SOLVED)){
-                int id = PictureMatchingStartingActivity.RESOURCES.getIdentifier("tile_empty",
-                        "drawable", PictureMatchingStartingActivity.PACKAGE_NAME);
-                b.setBackgroundResource(id);
+            switch (currentTile.getState()){
+                case PictureTile.FLIP:
+                    String name = "pm_num_"  + Integer.toString(currentTile.getId());
+                    int id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
+                    b.setBackgroundResource(id);
+                    break;
+                case PictureTile.COVERED:
+                    b.setBackgroundResource(R.drawable.picturematching_tile_back);
+                    break;
+                case PictureTile.SOLVED:
+                    b.setBackgroundResource(R.drawable.picturematching_tile_done);
+                    break;
             }
             nextPos++;
         }
@@ -311,6 +315,15 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 
     @Override
     public void update(Observable o, Object arg) {
+        if (boardManager.check2tiles()){
+            final android.os.Handler handler = new android.os.Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    boardManager.getBoard().solveTile();
+                }
+            }, 1000);
+        }
         display();
         if (boardManager.boardSolved()) {
             Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();

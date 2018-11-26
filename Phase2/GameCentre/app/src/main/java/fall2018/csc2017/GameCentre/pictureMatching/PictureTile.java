@@ -68,7 +68,7 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
     }
 
     @Override
-    public int compareTo(@NonNull PictureTile o) {
-        return o.id - this.id;
+    public int compareTo(@NonNull PictureTile tile) {
+        return tile.id - this.id;
     }
 }
