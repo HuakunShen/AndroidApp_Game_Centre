@@ -20,19 +20,33 @@ import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 
 public class NavChangePassword extends AppCompatActivity {
-
+    /**
+     * Username of current user
+     */
     private String username;
-
+    /**
+     * Database used to save user, game and score info
+     */
     private SQLDatabase db;
-
+    /**
+     * User object of current user
+     */
     private User user;
-
+    /**
+     * Button used to confirm changes of setting, such as password and avatar
+     */
     private Button confirmButton;
-
+    /**
+     * Input text box of original password
+     */
     private EditText original_password;
-
+    /**
+     * Input text box of new password
+     */
     private EditText new_password;
-
+    /**
+     * Input text box of new password repeat
+     */
     private EditText reenter_password;
 
     @Override
@@ -47,12 +61,18 @@ public class NavChangePassword extends AppCompatActivity {
 
     }
 
+    /**
+     * Link text box variables with real text boxes in xml layout
+     */
     private void setupEditTexts() {
         original_password = findViewById(R.id.original_password);
         new_password = findViewById(R.id.new_password);
         reenter_password = findViewById(R.id.reenter_password);
     }
 
+    /**
+     * Add confirm button listener, execute changes of setting when clicked
+     */
     private void addConfirmButton() {
         confirmButton = findViewById(R.id.confirm_button);
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -74,20 +94,38 @@ public class NavChangePassword extends AppCompatActivity {
         });
     }
 
+    /**
+     * Check original password to make sure it's the right user changing password
+     * @param originalPassword input original password
+     * @return true if input password matches user's password, false otherwise
+     */
     private boolean checkOriginalPassword(EditText originalPassword) {
         String password = originalPassword.getText().toString();
         return user.checkPassword(password);
     }
 
+    /**
+     * Make sure new password is entered correctly
+     * @param newPassword input new password
+     * @param ReenterPassword input of repeat new password
+     * @return true if two password matches, false otherwise
+     */
     private boolean compareTwoPassword(EditText newPassword, EditText ReenterPassword) {
         return newPassword.getText().toString().equals(ReenterPassword.getText().toString());
     }
 
+    /**
+     * Instantiate user object using username
+     */
     private void setupUser() {
         username = getIntent().getStringExtra("user");
         loadFromFile(db.getUserFile(username));
     }
 
+    /**
+     * load user from file specified by filename
+     * @param fileName input filename where user object is stored
+     */
     private void loadFromFile(String fileName) {
 
         try {
@@ -107,9 +145,8 @@ public class NavChangePassword extends AppCompatActivity {
     }
 
     /**
-     * Save the board manager to fileName.
-     *
-     * @param fileName the name of the file
+     * Save user object to file specified by fileName.
+     * @param fileName the name of the file where user object is stored
      */
     public void saveToFile(String fileName) {
         try {
