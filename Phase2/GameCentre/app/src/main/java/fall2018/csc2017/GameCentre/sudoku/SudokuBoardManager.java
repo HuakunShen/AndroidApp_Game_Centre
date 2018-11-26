@@ -206,7 +206,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      * Do all steps of an undo
      */
     void undo() {
-        if (currentCell != null) {
+        if (currentCell != null && undoStack.size() > 1) {
             // De-highlight cell
             currentCell.setHighlighted(false);
             currentCell.setFaceValue(0);
@@ -217,7 +217,8 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         int value = move[1];
         currentCell = board.getCell(position / SudokuBoard.NUM_COL,
                 position % SudokuBoard.NUM_ROW);
-        currentCell.setHighlighted(false);
+        if (!undoStack.isEmpty())
+            currentCell.setHighlighted(false);
         updateValue(value, true);
         currentCell.setFaceValue(currentCell.getFaceValue());
         // Highlight the next cell in undo stack
