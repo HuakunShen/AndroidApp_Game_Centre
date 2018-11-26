@@ -21,10 +21,13 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      */
     private long timeTaken;
 
+    private String theme;
+
     /**
      * Manage a new shuffled board.
      */
-    MatchingBoardManager(int difficulty) {
+    MatchingBoardManager(int difficulty, String theme) {
+        this.theme = theme;
         List<PictureTile> tiles = new ArrayList<>();
         final int numTiles = difficulty * difficulty;
         for (int tileNum = 0; tileNum < numTiles; tileNum++) {
@@ -64,6 +67,10 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      */
     int getDifficulty() {
         return board.getDifficulty();
+    }
+
+    public String getTheme() {
+        return theme;
     }
 
     /**
