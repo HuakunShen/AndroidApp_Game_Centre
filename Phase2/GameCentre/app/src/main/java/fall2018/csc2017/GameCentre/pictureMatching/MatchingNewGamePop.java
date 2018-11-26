@@ -110,7 +110,7 @@ public class MatchingNewGamePop extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardManager = new MatchingBoardManager(selected_difficulty);
+                boardManager = new MatchingBoardManager(selected_difficulty, selected_theme);
                 Intent tmp = new Intent(getApplication(), PictureMatchingGameActivity.class);
                 saveToFile(tempGameStateFile);
                 tmp.putExtra("user", username);

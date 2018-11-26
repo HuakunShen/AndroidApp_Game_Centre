@@ -46,7 +46,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         db = new DatabaseHandler(this);
         username = getIntent().getStringExtra("user");
 
-        boardManager = new MatchingBoardManager(4);
+        boardManager = new MatchingBoardManager(4, "Number");
 
         setupUser();
         setupFile();
