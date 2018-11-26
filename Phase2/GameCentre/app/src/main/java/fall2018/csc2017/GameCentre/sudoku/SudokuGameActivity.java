@@ -27,7 +27,7 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
@@ -55,7 +55,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
     private User user;
     private String username;
     private String userFile;
-    private DatabaseHandler db;
+    private SQLDatabase db;
     //time
     private LocalTime startingTime;
     private Long preStartTime = 0L;
@@ -85,7 +85,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         startingTime = LocalTime.now();
         setContentView(R.layout.activity_sudoku_game);
         startingTime = LocalTime.now();
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         setupUser();
         setupFile();
         loadFromFile(tempGameStateFile);

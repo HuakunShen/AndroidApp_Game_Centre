@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 
@@ -36,7 +36,7 @@ public class NavSetting extends AppCompatActivity {
 
     private byte[] newAvatar;
 
-    private DatabaseHandler db;
+    private SQLDatabase db;
     /**
      * current user name.
      */
@@ -55,7 +55,7 @@ public class NavSetting extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_setting);
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         setupUser();
 
         final EditText nickName = findViewById(R.id.nick_name);

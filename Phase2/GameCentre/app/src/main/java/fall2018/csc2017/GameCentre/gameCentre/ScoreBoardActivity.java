@@ -15,20 +15,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.List;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.data.User;
-import fall2018.csc2017.GameCentre.pictureMatching.MatchingBoardManager;
 
 public class ScoreBoardActivity extends AppCompatActivity {
 
     private String username;
     private List<List<String>> dataList;
     private TableLayout scoreboard;
-    private DatabaseHandler db;
+    private SQLDatabase db;
     private String type;
     private String game_type;
     private User user;
@@ -37,7 +35,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_board);
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         scoreboard = findViewById(R.id.tableView);
         setupUser();
 

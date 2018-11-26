@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingStartingActivity;
 import fall2018.csc2017.GameCentre.R;
@@ -33,7 +33,7 @@ import fall2018.csc2017.GameCentre.sudoku.SudokuStartingActivity;
 public class GameCentreInterfaceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private User user;
     private String username;
-    private DatabaseHandler db;
+    private SQLDatabase db;
 
     /**
      * A TextView to display.
@@ -43,12 +43,13 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
      * A image Button to display.
      */
     private ImageButton icon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_centre_interface);
         // instantiate user object
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         setupUser();
 
         addSlidingTilesButton();
@@ -57,14 +58,12 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
         addNavigationView();
     }
 
-
-
     @Override
     protected void onResume() {
         super.onResume();
         loadFromFile(db.getUserFile(username));
         userNickName.setText(user.getNickname());
-        if (user.getAvatar() != null){
+        if (user.getAvatar() != null) {
             byte[] byteArray = user.getAvatar();
             Bitmap avatar = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             icon.setImageBitmap(avatar);
@@ -84,7 +83,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
     }
 
     /**
-     * add textView to headerView
+     * Add textView to headerView
      *
      * @param headerView A view where we should put textView.
      */
@@ -96,17 +95,17 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
     }
 
     /**
-     * add Icon button to linearLayout header.
+     * Add Icon button to linearLayout header.
      *
      * @param header A Linear Layout where we put Icon button.
      */
     private void addIconButton(LinearLayout header) {
         icon = header.findViewById(R.id.userIcon);
-        if (user.getAvatar() != null){
+        if (user.getAvatar() != null) {
             byte[] byteArray = user.getAvatar();
             Bitmap avatar = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             icon.setImageBitmap(avatar);
-        }else{
+        } else {
             icon.setImageResource(R.mipmap.cool_jason);
         }
         icon.setOnClickListener(new View.OnClickListener() {
@@ -119,49 +118,65 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
         });
     }
 
-
+    /**
+     * Set up user.
+     */
     private void setupUser() {
         username = getIntent().getStringExtra("user");
         loadFromFile(db.getUserFile(username));
         Toast.makeText(this, "Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Add SlidingTilesButton in GameCentreInterface.
+     */
     private void addSlidingTilesButton() {
         Button game = findViewById(R.id.SlidingTiles);
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent  = new Intent(getApplication(), SlidingTilesStartingActivity.class);
+                Intent intent = new Intent(getApplication(), SlidingTilesStartingActivity.class);
                 intent.putExtra("user", user.getUsername());
                 startActivity(intent);
             }
         });
     }
 
+    /**
+     * Add SudokuButton in GameCentreInterface.
+     */
     private void addSudokuButton() {
         Button game = findViewById(R.id.Sudoku);
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent  = new Intent(getApplication(), SudokuStartingActivity.class);
+                Intent intent = new Intent(getApplication(), SudokuStartingActivity.class);
                 intent.putExtra("user", user.getUsername());
                 startActivity(intent);
             }
         });
     }
 
+    /**
+     * Add PictureMatchingButton in GameCentreInterface.
+     */
     private void addPictureMatchingButton() {
         Button game = findViewById(R.id.PictureMatching);
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent  = new Intent(getApplication(), PictureMatchingStartingActivity.class);
+                Intent intent = new Intent(getApplication(), PictureMatchingStartingActivity.class);
                 intent.putExtra("user", user.getUsername());
                 startActivity(intent);
             }
         });
     }
 
+    /**
+     * Load data from filename.
+     *
+     * @param fileName
+     */
     private void loadFromFile(String fileName) {
 
         try {
@@ -200,8 +215,9 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     /**
-     * go to scoreBoard.
+     * Steps need to be taken to scoreboard when clicking Scoreboard.
      */
     private void goToScoreBoard() {
         Intent toScoreBoard = new Intent(this, ScoreBoardActivity.class);
@@ -211,7 +227,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
     }
 
     /**
-     * things need to do when click setting.
+     * Steps need to be taken to change password when click setting.
      */
     private void goToChangePassword() {
         if (username.equals("admin")) {

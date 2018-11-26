@@ -28,7 +28,7 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
@@ -69,7 +69,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     private User user;
     private String username;
     private String userFile;
-    private DatabaseHandler db;
+    private SQLDatabase db;
     //time
     private LocalTime startingTime;
     private Long preStartTime;
@@ -104,7 +104,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         PACKAGE_NAME = getApplicationContext().getPackageName();
         RESOURCES = getResources();
         startingTime = LocalTime.now();
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         setupUser();
         setupFile();
         loadFromFile(tempGameStateFile);

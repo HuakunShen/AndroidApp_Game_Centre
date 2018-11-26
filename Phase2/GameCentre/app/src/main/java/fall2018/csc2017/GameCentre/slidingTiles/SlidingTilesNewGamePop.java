@@ -25,7 +25,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 
 import static android.graphics.Bitmap.createBitmap;
@@ -35,7 +35,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
     private User user;
     private String username;
     private String userFile;
-    private DatabaseHandler db;
+    private SQLDatabase db;
     /**
      * The main save file.
      */
@@ -62,7 +62,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slidingtiles_pop);
 
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         setupUser();
         setupFile();
 

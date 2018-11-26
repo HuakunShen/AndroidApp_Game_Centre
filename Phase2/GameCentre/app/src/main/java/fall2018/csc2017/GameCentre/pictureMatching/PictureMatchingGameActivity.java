@@ -24,7 +24,7 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
@@ -65,7 +65,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     /**
      * the database for saving and loading information.
      */
-    private DatabaseHandler db;
+    private SQLDatabase db;
     /**
      * the time you start the game
      */
@@ -98,7 +98,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         PACKAGE_NAME = getApplicationContext().getPackageName();
         RESOURCES = getResources();
         startingTime = LocalTime.now();
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         setupUser();
         setupFile();
         loadFromFile(tempGameStateFile);

@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 
@@ -23,7 +23,7 @@ public class NavChangePassword extends AppCompatActivity {
 
     private String username;
 
-    private DatabaseHandler db;
+    private SQLDatabase db;
 
     private User user;
 
@@ -39,7 +39,7 @@ public class NavChangePassword extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_change_password);
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         setupUser();
         setupEditTexts();
         addConfirmButton();
