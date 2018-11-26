@@ -315,7 +315,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 
     @Override
     public void update(Observable o, Object arg) {
-//        if (boardManager.check2tiles()){
+        if (boardManager.check2tiles()) {
             final android.os.Handler handler = new android.os.Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -328,15 +328,16 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                     }
                 }
             }, 1000);
-        display();
-        if (boardManager.boardSolved()) {
-            Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            Integer score = calculateScore();
-            user.updateScore(GAME_NAME, score);
-            saveToFile(userFile);
-            db.updateScore(user, GAME_NAME);
         }
-    }
+            display();
+            if (boardManager.boardSolved()) {
+                Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
+                Integer score = calculateScore();
+                user.updateScore(GAME_NAME, score);
+                saveToFile(userFile);
+                db.updateScore(user, GAME_NAME);
+            }
+        }
 
     private Integer calculateScore() {
         int timeInSec = totalTimeTaken.intValue() / 1000;
