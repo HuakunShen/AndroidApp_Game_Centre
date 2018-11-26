@@ -63,7 +63,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
         super.onResume();
         loadFromFile(db.getUserFile(username));
         userNickName.setText(user.getNickname());
-        if (user.getAvatar() != null){
+        if (user.getAvatar() != null) {
             byte[] byteArray = user.getAvatar();
             Bitmap avatar = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             icon.setImageBitmap(avatar);
@@ -101,11 +101,11 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
      */
     private void addIconButton(LinearLayout header) {
         icon = header.findViewById(R.id.userIcon);
-        if (user.getAvatar() != null){
+        if (user.getAvatar() != null) {
             byte[] byteArray = user.getAvatar();
             Bitmap avatar = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             icon.setImageBitmap(avatar);
-        }else{
+        } else {
             icon.setImageResource(R.mipmap.cool_jason);
         }
         icon.setOnClickListener(new View.OnClickListener() {
@@ -135,37 +135,48 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent  = new Intent(getApplication(), SlidingTilesStartingActivity.class);
+                Intent intent = new Intent(getApplication(), SlidingTilesStartingActivity.class);
                 intent.putExtra("user", user.getUsername());
                 startActivity(intent);
             }
         });
     }
 
+    /**
+     * Add SudokuButton in GameCentreInterface.
+     */
     private void addSudokuButton() {
         Button game = findViewById(R.id.Sudoku);
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent  = new Intent(getApplication(), SudokuStartingActivity.class);
+                Intent intent = new Intent(getApplication(), SudokuStartingActivity.class);
                 intent.putExtra("user", user.getUsername());
                 startActivity(intent);
             }
         });
     }
 
+    /**
+     * Add PictureMatchingButton in GameCentreInterface.
+     */
     private void addPictureMatchingButton() {
         Button game = findViewById(R.id.PictureMatching);
         game.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent  = new Intent(getApplication(), PictureMatchingStartingActivity.class);
+                Intent intent = new Intent(getApplication(), PictureMatchingStartingActivity.class);
                 intent.putExtra("user", user.getUsername());
                 startActivity(intent);
             }
         });
     }
 
+    /**
+     * Load data from filename.
+     *
+     * @param fileName
+     */
     private void loadFromFile(String fileName) {
 
         try {
@@ -204,8 +215,9 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     /**
-     * go to scoreBoard.
+     * Steps need to be taken to scoreboard when clicking Scoreboard.
      */
     private void goToScoreBoard() {
         Intent toScoreBoard = new Intent(this, ScoreBoardActivity.class);
@@ -215,7 +227,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
     }
 
     /**
-     * things need to do when click setting.
+     * Steps need to be taken to change password when click setting.
      */
     private void goToChangePassword() {
         if (username.equals("admin")) {
