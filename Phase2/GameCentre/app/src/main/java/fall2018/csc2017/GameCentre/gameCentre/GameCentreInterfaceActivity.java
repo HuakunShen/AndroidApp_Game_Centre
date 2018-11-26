@@ -136,7 +136,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplication(), SlidingTilesStartingActivity.class);
-                intent.putExtra("user", user.getUsername());
+                intent.putExtra("user", user);
                 startActivity(intent);
             }
         });
@@ -235,7 +235,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
                     "admin cannot change password!", Toast.LENGTH_SHORT).show();
         } else {
             Intent toChangePassword = new Intent(this, NavChangePassword.class);
-            toChangePassword.putExtra("user", username);
+            toChangePassword.putExtra("user", user);
             startActivity(toChangePassword);
         }
     }

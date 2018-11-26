@@ -26,8 +26,7 @@ import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 public class SlidingTilesStartingActivity extends AppCompatActivity {
 
     private User user;
-    private String username;
-    private String userFile;
+
     private SQLDatabase db;
     /**
      * The main save file.
@@ -48,7 +47,6 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new SQLDatabase(this);
-        username = getIntent().getStringExtra("user");
 
         setupUser();
         setupFile();
@@ -70,9 +68,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
      * object is saved)
      */
     private void setupUser() {
-        username = getIntent().getStringExtra("user");
-        userFile = db.getUserFile(username);
-        loadFromFile(userFile);
+        user = (User) getIntent().getSerializableExtra("user");
     }
 
     /**
@@ -80,10 +76,10 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
      * get the filename of where the game state should be saved
      */
     private void setupFile() {
-        if (!db.dataExists(username, GAME_NAME)) {
-            db.addData(username, GAME_NAME);
+        if (!db.dataExists(user.getUsername(), GAME_NAME)) {
+            db.addData(user.getUsername(), GAME_NAME);
         }
-        gameStateFile = db.getDataFile(username, GAME_NAME);
+        gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
         tempGameStateFile = "temp_" + gameStateFile;
     }
 
@@ -98,7 +94,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent tmp = new Intent(SlidingTilesStartingActivity.this, SlidingTilesNewGamePop.class);
                 saveToFile(tempGameStateFile);
-                tmp.putExtra("user", username);
+                tmp.putExtra("user", user.getUsername());
                 startActivity(tmp);
             }
         });
@@ -141,7 +137,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplication(), ScoreBoardActivity.class);
-                intent.putExtra("user", user.getUsername());
+                intent.putExtra("user", user);
                 intent.putExtra("gameType", GAME_NAME);
                 intent.putExtra("scoreBoardType", "byGame");
                 startActivity(intent);
@@ -169,7 +165,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
     private void switchToGame() {
         Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
         saveToFile(tempGameStateFile);
-        tmp.putExtra("user", username);
+        tmp.putExtra("user", user.getUsername());
         startActivity(tmp);
     }
 
@@ -184,11 +180,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(userFile)) {
-                    user = (User) input.readObject();
-                } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
-                    boardManager = (SlidingTilesBoardManager) input.readObject();
-                }
+                boardManager = (SlidingTilesBoardManager) input.readObject();
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -209,11 +201,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(userFile)) {
-                outputStream.writeObject(user);
-            } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
-                outputStream.writeObject(boardManager);
-            }
+            outputStream.writeObject(boardManager);
             outputStream.close();
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());

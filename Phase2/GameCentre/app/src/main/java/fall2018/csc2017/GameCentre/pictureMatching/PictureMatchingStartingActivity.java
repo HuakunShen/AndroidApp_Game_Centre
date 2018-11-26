@@ -64,7 +64,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplication(), ScoreBoardActivity.class);
-                intent.putExtra("user", user.getUsername());
+                intent.putExtra("user", user);
                 intent.putExtra("gameType", GAME_NAME);
                 intent.putExtra("scoreBoardType", "byGame");
                 startActivity(intent);

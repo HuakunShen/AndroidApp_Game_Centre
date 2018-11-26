@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (user.checkPassword(password)){
                     Intent intent = new Intent(getApplication(), GameCentreInterfaceActivity.class);
                     intent.putExtra("user", username);
+                    intent.putExtra("userObj", user);
                     startActivity(intent);
 
                 } else {

@@ -118,31 +118,13 @@ public class NavChangePassword extends AppCompatActivity {
      * Instantiate user object using username
      */
     private void setupUser() {
-        username = getIntent().getStringExtra("user");
-        loadFromFile(db.getUserFile(username));
+        user = (User) getIntent().getSerializableExtra("user");
     }
 
     /**
      * load user from file specified by filename
      * @param fileName input filename where user object is stored
      */
-    private void loadFromFile(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                user = (User) input.readObject();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
 
     /**
      * Save user object to file specified by fileName.

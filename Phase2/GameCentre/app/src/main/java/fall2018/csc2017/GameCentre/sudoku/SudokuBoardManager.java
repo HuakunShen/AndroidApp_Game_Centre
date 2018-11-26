@@ -62,7 +62,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         Integer editable = 0;
         if (levelOfDifficulty == 1) {
             editable = 18;
-            hint = 1;
+            hint = 20;
         } else if (levelOfDifficulty == 2) {
             editable = 36;
             hint = 5;

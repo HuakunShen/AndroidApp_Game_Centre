@@ -159,7 +159,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         stepDisplay = findViewById(R.id.stepDisplayTextView);
         this.steps = boardManager.getStepsTaken();
 //        this.steps = 0;
-        stepDisplay.setText("Steps: " + Integer.toString(steps));
+        stepDisplay.setText(String.format("%s", "Steps: " + Integer.toString(steps)));
     }
 
 
