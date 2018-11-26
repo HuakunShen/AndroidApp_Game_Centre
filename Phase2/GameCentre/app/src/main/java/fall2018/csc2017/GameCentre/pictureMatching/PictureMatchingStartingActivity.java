@@ -20,6 +20,8 @@ import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
+import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesNewGamePop;
+import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesStartingActivity;
 
 public class PictureMatchingStartingActivity extends AppCompatActivity {
 
@@ -108,6 +110,12 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent tmp = new Intent(getApplication(), MatchingNewGamePop.class);
+                saveToFile(tempGameStateFile);
+                tmp.putExtra("user", username);
+                startActivity(tmp);
+
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(PictureMatchingStartingActivity.this);
                 builder.setTitle("Choose a difficulty:");
                 builder.setItems(list_diff, new DialogInterface.OnClickListener()
