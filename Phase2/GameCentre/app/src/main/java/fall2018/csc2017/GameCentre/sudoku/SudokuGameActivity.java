@@ -5,10 +5,14 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +24,7 @@ import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -32,8 +37,9 @@ import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 
-public class SudokuGameActivity extends AppCompatActivity implements Observer, View.OnClickListener
-        , LoadSaveSerializable {
+public class SudokuGameActivity extends AppCompatActivity implements Observer, LoadSaveSerializable {
+//public class SudokuGameActivity extends AppCompatActivity implements Observer, View.OnClickListener
+//        , LoadSaveSerializable {
 
     /**
      * The board manager.
@@ -98,58 +104,84 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
 
 
     private void setUpButtons() {
-        Button button1 = findViewById(R.id.button_1);
-        Button button2 = findViewById(R.id.button_2);
-        Button button3 = findViewById(R.id.button_3);
-        Button button4 = findViewById(R.id.button_4);
-        Button button5 = findViewById(R.id.button_5);
-        Button button6 = findViewById(R.id.button_6);
-        Button button7 = findViewById(R.id.button_7);
-        Button button8 = findViewById(R.id.button_8);
-        Button button9 = findViewById(R.id.button_9);
-        button1.setOnClickListener(this);
-        button2.setOnClickListener(this);
-        button3.setOnClickListener(this);
-        button4.setOnClickListener(this);
-        button5.setOnClickListener(this);
-        button6.setOnClickListener(this);
-        button7.setOnClickListener(this);
-        button8.setOnClickListener(this);
-        button9.setOnClickListener(this);
+        LinearLayout numLayout = findViewById(R.id.numButtons);
+
+        Button numButtons[] = new Button[9];
+        final int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        for (int tmp = 0; tmp < numButtons.length; tmp++) {
+            numButtons[tmp] = new Button(this);
+            numButtons[tmp].setId(1800+tmp);
+            numButtons[tmp].setText(String.format("%s", Integer.toString(tmp + 1)));
+
+            int width = 500;
+            RelativeLayout.LayoutParams btParams = new RelativeLayout.LayoutParams ((width-50)/4,40);
+            btParams.leftMargin = 10;   //横坐标定位
+            btParams.topMargin = 10;   //纵坐标定位
+            btParams.width = 120;
+            btParams.height = 120;
+            numLayout.addView(numButtons[tmp],btParams);   //将按钮放入layout组件
+
+            numButtons[tmp].setOnClickListener(new View.OnClickListener() {
+                final int value = 1;
+                @Override
+                public void onClick(View v) {
+                    boardManager.updateValue(value + 1, false);
+                }
+            });
+        }
+
+//        numButtons[0] = findViewById(R.id.button_1);
+//        numButtons[1] = findViewById(R.id.button_2);
+//        numButtons[2] = findViewById(R.id.button_3);
+//        numButtons[3] = findViewById(R.id.button_4);
+//        numButtons[4] = findViewById(R.id.button_5);
+//        numButtons[5] = findViewById(R.id.button_6);
+//        numButtons[6] = findViewById(R.id.button_7);
+//        numButtons[7] = findViewById(R.id.button_8);
+//        numButtons[8] = findViewById(R.id.button_9);
+//        numButtons[0].setOnClickListener(this);
+//        numButtons[1].setOnClickListener(this);
+//        numButtons[2].setOnClickListener(this);
+//        numButtons[3].setOnClickListener(this);
+//        numButtons[4].setOnClickListener(this);
+//        numButtons[5].setOnClickListener(this);
+//        numButtons[6].setOnClickListener(this);
+//        numButtons[7].setOnClickListener(this);
+//        numButtons[8].setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button_1:
-                boardManager.updateValue(1, false);
-                break;
-            case R.id.button_2:
-                boardManager.updateValue(2, false);
-                break;
-            case R.id.button_3:
-                boardManager.updateValue(3, false);
-                break;
-            case R.id.button_4:
-                boardManager.updateValue(4, false);
-                break;
-            case R.id.button_5:
-                boardManager.updateValue(5, false);
-                break;
-            case R.id.button_6:
-                boardManager.updateValue(6, false);
-                break;
-            case R.id.button_7:
-                boardManager.updateValue(7, false);
-                break;
-            case R.id.button_8:
-                boardManager.updateValue(8, false);
-                break;
-            case R.id.button_9:
-                boardManager.updateValue(9, false);
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.button_1:
+//                boardManager.updateValue(1, false);
+//                break;
+//            case R.id.button_2:
+//                boardManager.updateValue(2, false);
+//                break;
+//            case R.id.button_3:
+//                boardManager.updateValue(3, false);
+//                break;
+//            case R.id.button_4:
+//                boardManager.updateValue(4, false);
+//                break;
+//            case R.id.button_5:
+//                boardManager.updateValue(5, false);
+//                break;
+//            case R.id.button_6:
+//                boardManager.updateValue(6, false);
+//                break;
+//            case R.id.button_7:
+//                boardManager.updateValue(7, false);
+//                break;
+//            case R.id.button_8:
+//                boardManager.updateValue(8, false);
+//                break;
+//            case R.id.button_9:
+//                boardManager.updateValue(9, false);
+//                break;
+//        }
+//    }
 
     private void addClearButtonListener() {
         Button eraseButton = findViewById(R.id.clearButton);
@@ -329,7 +361,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
             if (cell.getFaceValue() == 0){
                 b.setText("");
             } else {
-                b.setText(cell.getFaceValue().toString());
+                b.setText(String.format("%s", cell.getFaceValue().toString()));
             }
             b.setBackgroundResource(cell.getBackground());
             nextPos++;
@@ -376,7 +408,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, V
             if (cell.getFaceValue() == 0){
                 b.setText("");
             } else {
-                b.setText(cell.getFaceValue().toString());
+                b.setText(String.format("%s", cell.getFaceValue().toString()));
             }
             b.setBackgroundResource(cell.getBackground());
             nextPos++;
