@@ -1,7 +1,9 @@
 package fall2018.csc2017.GameCentre.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class User implements Serializable {
 
@@ -136,6 +138,18 @@ public class User implements Serializable {
         } else {
             return -1;
         }
+    }
+
+    public List<List<String>> getScoreboardData() {
+        List<List<String>> datalist = new ArrayList<>();
+        for (String game: score.keySet()) {
+            List<String> data = new ArrayList<>();
+            data.add(game);
+            data.add(username);
+            data.add(score.get(game).toString());
+            datalist.add(data);
+        }
+        return datalist;
     }
 
 

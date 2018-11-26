@@ -17,6 +17,8 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
 
 
 
+    private int hint;
+
     /**
      * The cell currently selected
      */
@@ -60,10 +62,13 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         Integer editable = 0;
         if (levelOfDifficulty == 1) {
             editable = 18;
+            hint = 1;
         } else if (levelOfDifficulty == 2) {
             editable = 36;
+            hint = 5;
         } else if (levelOfDifficulty == 3) {
             editable = 54;
+            hint = 3;
         }
         Integer changed = 0;
         while (!changed.equals(editable)) {
@@ -78,6 +83,18 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         this.board = new SudokuBoard(cells);
         this.timeTaken = 0L;
         this.undoStack = new StateStack<>(DEFAULT_UNDO_LIMIT);
+    }
+
+    public int getHint() {
+        return hint;
+    }
+
+    public void setHint(int hint) {
+        this.hint = hint;
+    }
+
+    public void reduceHint() {
+        this.hint--;
     }
 
     /**
@@ -206,7 +223,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      * Do all steps of an undo
      */
     void undo() {
-        if (currentCell != null) {
+        if (currentCell != null && undoStack.size() > 1) {
             // De-highlight cell
             currentCell.setHighlighted(false);
             currentCell.setFaceValue(0);
@@ -217,7 +234,8 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         int value = move[1];
         currentCell = board.getCell(position / SudokuBoard.NUM_COL,
                 position % SudokuBoard.NUM_ROW);
-        currentCell.setHighlighted(false);
+        if (!undoStack.isEmpty())
+            currentCell.setHighlighted(false);
         updateValue(value, true);
         currentCell.setFaceValue(currentCell.getFaceValue());
         // Highlight the next cell in undo stack

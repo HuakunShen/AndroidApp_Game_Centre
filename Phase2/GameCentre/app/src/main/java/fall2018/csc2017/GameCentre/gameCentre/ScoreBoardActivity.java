@@ -4,25 +4,34 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.data.User;
+import fall2018.csc2017.GameCentre.pictureMatching.MatchingBoardManager;
 
 public class ScoreBoardActivity extends AppCompatActivity {
 
     private String username;
-    private ArrayList<ArrayList<String>> dataList;
+    private List<List<String>> dataList;
     private TableLayout scoreboard;
     private DatabaseHandler db;
     private String type;
     private String game_type;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +39,23 @@ public class ScoreBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_score_board);
         db = new DatabaseHandler(this);
         scoreboard = findViewById(R.id.tableView);
-        username = getIntent().getStringExtra("user");
-        type = getIntent().getStringExtra("scoreBoardType");
+        setupUser();
+
         if (type.equals("byGame"))
             game_type = getIntent().getStringExtra("gameType");
         if (type.equals("byUser"))
-            dataList = db.getScoreByUser(username);
+            dataList = user.getScoreboardData();
         else if (type.equals("byGame"))
             dataList = db.getScoreByGame(game_type);
         addTable();
 
+    }
+
+    private void setupUser() {
+        username = getIntent().getStringExtra("user");
+        type = getIntent().getStringExtra("scoreBoardType");
+        String user_file = db.getUserFile(username);
+        loadFromFile(user_file);
     }
 
     private void addTable() {
@@ -52,29 +68,6 @@ public class ScoreBoardActivity extends AppCompatActivity {
             for (int colNum = 0; colNum < dataList.get(rowNum).size(); colNum++) {
                 text = new TextView(this);
                 text.setText(dataList.get(rowNum).get(colNum));
-                switch (colNum) {
-                    case 0:
-                        if (type.equals("byUser"))
-                            text.setWidth(70);
-                        else
-                            text.setWidth(200);
-                        break;
-                    case 1:
-                        if (type.equals("byUser"))
-                            text.setWidth(100);
-                        else
-                            text.setWidth(300);
-                        break;
-                    case 2:
-                        if (type.equals("byUser"))
-                            text.setWidth(150);
-                        else
-                            text.setWidth(200);
-                        break;
-                    case 3:
-                        text.setWidth(300);
-                        break;
-                }
                 text.setTextColor(Color.parseColor("#FFFFFF"));
                 text.setGravity(Gravity.CENTER);
                 row.addView(text);
@@ -139,5 +132,25 @@ public class ScoreBoardActivity extends AppCompatActivity {
         row.setBackgroundColor(ContextCompat.getColor(this, R.color.scoreBoardTileLine));
         scoreboard.addView(row);
     }
+
+
+    private void loadFromFile(String fileName) {
+
+        try {
+            InputStream inputStream = this.openFileInput(fileName);
+            if (inputStream != null) {
+                ObjectInputStream input = new ObjectInputStream(inputStream);
+                user = (User) input.readObject();
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("login activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
 }
 

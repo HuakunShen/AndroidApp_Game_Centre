@@ -68,6 +68,7 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      */
     public SlidingTilesBoardManager(SlidingTilesBoard board) {
         this.board = board;
+        this.undoStack = new StateStack<>(DEFAULT_UNDO_LIMIT);
     }
 
     /**
@@ -80,7 +81,7 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
     /**
      * Add a move to the undo stack.
      */
-    private void addUndo(Integer move) {
+    public void addUndo(Integer move) {
         undoStack.put(move);
     }
 
@@ -90,6 +91,11 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
     void setCapacity(int input) {
         this.undoStack.setCapacity(input);
     }
+
+    /**
+     *
+     */
+    int getCapacity() {return this.undoStack.getCapacity();}
 
     /**
      * Returns if undo is available.
@@ -139,7 +145,6 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
     public void setTimeTaken(long timeTakenSoFar) {
         this.timeTaken = timeTakenSoFar;
     }
-
 
     /**
      * Determines whether the tile board is solvable.
@@ -197,10 +202,16 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
         return totalInversion;
     }
 
+    /**
+     * Return the current image background in byte array.
+     */
     public byte[] getImageBackground() {
         return imageBackground;
     }
 
+    /**
+     * Set the image background of the board.
+     */
     public void setImageBackground(byte[] imageBackground) {
         this.imageBackground = imageBackground;
     }
@@ -266,7 +277,6 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
         }
 
         return blank_pos;
-
     }
 
     public void makeMove(int position) {
