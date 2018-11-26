@@ -1,8 +1,6 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,8 +18,6 @@ import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
-import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesNewGamePop;
-import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesStartingActivity;
 
 public class PictureMatchingStartingActivity extends AppCompatActivity {
 

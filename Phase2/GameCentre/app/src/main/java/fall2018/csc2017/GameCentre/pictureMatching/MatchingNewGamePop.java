@@ -1,7 +1,6 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,11 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,8 +19,6 @@ import java.io.ObjectOutputStream;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
-import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesBoardManager;
-import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesNewGamePop;
 
 public class MatchingNewGamePop extends AppCompatActivity {
 
