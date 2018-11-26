@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
@@ -28,7 +28,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
     private User user;
     private String username;
     private String userFile;
-    private DatabaseHandler db;
+    private SQLDatabase db;
     /**
      * The main save file.
      */
@@ -47,7 +47,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         username = getIntent().getStringExtra("user");
 
         setupUser();

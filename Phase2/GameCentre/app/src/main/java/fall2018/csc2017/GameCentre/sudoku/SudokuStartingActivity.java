@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
@@ -32,7 +32,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
     private User user;
     private String username;
     private String userFile;
-    private DatabaseHandler db;
+    private SQLDatabase db;
     /**
      * The main save file.
      */
@@ -53,7 +53,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku_starting);
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         username = getIntent().getStringExtra("user");
         PACKAGE_NAME = getApplicationContext().getPackageName();
         RESOURCES = getResources();

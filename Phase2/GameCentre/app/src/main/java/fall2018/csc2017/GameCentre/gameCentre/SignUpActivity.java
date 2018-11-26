@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 
@@ -21,14 +21,14 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText usernameInput;
     private EditText passwordInput;
     private EditText password_repeat_Input;
-    private DatabaseHandler db;
+    private SQLDatabase db;
     private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         // setup text inputs and register button and database
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         nicknameInput = findViewById(R.id.nicknameInput);
         usernameInput = findViewById(R.id.usernameInput);
         passwordInput = findViewById(R.id.passwordInput);

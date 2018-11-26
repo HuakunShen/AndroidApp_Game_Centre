@@ -10,7 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseHandler extends SQLiteOpenHelper {
+public class SQLDatabase extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "gameCentreDatabase";
     private static final String USER_TABLE_NAME = "userTable";
@@ -28,7 +28,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      *
      * @param context
      */
-    public DatabaseHandler(Context context) {
+    public SQLDatabase(Context context) {
         super(context, DB_NAME, null, 1);
         this.context = context;
     }

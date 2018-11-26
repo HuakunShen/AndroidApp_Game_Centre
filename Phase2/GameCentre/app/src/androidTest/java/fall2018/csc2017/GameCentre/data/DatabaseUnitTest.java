@@ -9,7 +9,6 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +24,7 @@ public class DatabaseUnitTest {
     @Test
     public void userExists() {
         Context context = InstrumentationRegistry.getTargetContext();
-        DatabaseHandler db = new DatabaseHandler(context);
+        SQLDatabase db = new SQLDatabase(context);
         User user = new User("admin", "admin");
         db.addUser(user);
         assertTrue(db.userExists("admin"));
@@ -36,7 +35,7 @@ public class DatabaseUnitTest {
     @Test
     public void dataExists() {
         Context context = InstrumentationRegistry.getTargetContext();
-        DatabaseHandler db = new DatabaseHandler(context);
+        SQLDatabase db = new SQLDatabase(context);
         db.addData("admin", "game");
         assertTrue(db.dataExists("admin", "game"));
         assertFalse(db.dataExists("admin1", "game"));
@@ -47,7 +46,7 @@ public class DatabaseUnitTest {
     @Test
     public void addUser() {
         Context context = InstrumentationRegistry.getTargetContext();
-        DatabaseHandler db = new DatabaseHandler(context);
+        SQLDatabase db = new SQLDatabase(context);
         User user = new User("admin", "admin");
         db.addUser(user);
         assertTrue(db.userExists("admin"));
@@ -58,7 +57,7 @@ public class DatabaseUnitTest {
     @Test
     public void addData() {
         Context context = InstrumentationRegistry.getTargetContext();
-        DatabaseHandler db = new DatabaseHandler(context);
+        SQLDatabase db = new SQLDatabase(context);
         db.addData("admin", "game");
         assertTrue(db.dataExists("admin", "game"));
         assertFalse(db.dataExists("admin1", "game"));
@@ -69,7 +68,7 @@ public class DatabaseUnitTest {
     @Test
     public void getUserFile() {
         Context context = InstrumentationRegistry.getTargetContext();
-        DatabaseHandler db = new DatabaseHandler(context);
+        SQLDatabase db = new SQLDatabase(context);
         User user = new User("admin", "admin");
         db.addUser(user);
         String output = db.getUserFile("admin");
@@ -80,7 +79,7 @@ public class DatabaseUnitTest {
     @Test
     public void getScore() {
         Context context = InstrumentationRegistry.getTargetContext();
-        DatabaseHandler db = new DatabaseHandler(context);
+        SQLDatabase db = new SQLDatabase(context);
         db.addData("user", "game");
         assertEquals(0, db.getScore("user", "game"));
         assertEquals(-1, db.getScore("user1", "game"));
@@ -90,7 +89,7 @@ public class DatabaseUnitTest {
     @Test
     public void getDataFile() {
         Context context = InstrumentationRegistry.getTargetContext();
-        DatabaseHandler db = new DatabaseHandler(context);
+        SQLDatabase db = new SQLDatabase(context);
         db.addData("user", "game");
         assertEquals("user_game_data.ser", db.getDataFile("user", "game"));
         assertEquals("File Does Not Exist!", db.getDataFile("user1", "game"));
@@ -100,7 +99,7 @@ public class DatabaseUnitTest {
     @Test
     public void updateScore() {
         Context context = InstrumentationRegistry.getTargetContext();
-        DatabaseHandler db = new DatabaseHandler(context);
+        SQLDatabase db = new SQLDatabase(context);
         User user = new User("admin", "pass");
         if (!db.dataExists("admin", "game"))
             db.addData("admin", "game");
@@ -116,7 +115,7 @@ public class DatabaseUnitTest {
     @Test
     public void getScoreByGame() {
         Context context = InstrumentationRegistry.getTargetContext();
-        DatabaseHandler db = new DatabaseHandler(context);
+        SQLDatabase db = new SQLDatabase(context);
         String[] user = {"Apple", "Banana", "Orange"};
         int[] score = {100, 50, 10};
         User Orange = new User("Orange", "pass");

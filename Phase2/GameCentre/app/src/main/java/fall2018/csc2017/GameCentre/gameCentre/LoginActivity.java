@@ -21,14 +21,14 @@ import fall2018.csc2017.GameCentre.R;
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameEntered;
     private EditText passwordEntered;
-    private DatabaseHandler db;
+    private SQLDatabase db;
     private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         // Make sure admin is always a user in database
         if (!db.userExists("admin")){
             user = new User("admin", "admin");

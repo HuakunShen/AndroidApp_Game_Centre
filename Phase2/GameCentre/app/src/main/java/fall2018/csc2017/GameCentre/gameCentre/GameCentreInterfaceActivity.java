@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingStartingActivity;
 import fall2018.csc2017.GameCentre.R;
@@ -33,7 +33,7 @@ import fall2018.csc2017.GameCentre.sudoku.SudokuStartingActivity;
 public class GameCentreInterfaceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private User user;
     private String username;
-    private DatabaseHandler db;
+    private SQLDatabase db;
 
     /**
      * A TextView to display.
@@ -43,12 +43,13 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
      * A image Button to display.
      */
     private ImageButton icon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_centre_interface);
         // instantiate user object
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         setupUser();
 
         addSlidingTilesButton();
@@ -56,8 +57,6 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
         addPictureMatchingButton();
         addNavigationView();
     }
-
-
 
     @Override
     protected void onResume() {
@@ -84,7 +83,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
     }
 
     /**
-     * add textView to headerView
+     * Add textView to headerView
      *
      * @param headerView A view where we should put textView.
      */
@@ -96,7 +95,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
     }
 
     /**
-     * add Icon button to linearLayout header.
+     * Add Icon button to linearLayout header.
      *
      * @param header A Linear Layout where we put Icon button.
      */
@@ -119,13 +118,18 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
         });
     }
 
-
+    /**
+     * Set up user.
+     */
     private void setupUser() {
         username = getIntent().getStringExtra("user");
         loadFromFile(db.getUserFile(username));
         Toast.makeText(this, "Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Add SlidingTilesButton in GameCentreInterface.
+     */
     private void addSlidingTilesButton() {
         Button game = findViewById(R.id.SlidingTiles);
         game.setOnClickListener(new View.OnClickListener() {
