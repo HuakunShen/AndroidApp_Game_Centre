@@ -87,7 +87,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      */
     private String tempGameStateFile;
 
-    private String[] list_theme = new String[]{"Number", "Animal", "Emoji"};
+    private String[] list_theme = new String[]{"number", "animal", "emoji"};
 
     private String PACKAGE_NAME;
     private Resources RESOURCES;

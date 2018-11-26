@@ -44,7 +44,7 @@ public class MatchingNewGamePop extends AppCompatActivity {
     private String[] list_diff = new String[]{"Easy(4x4)", "Normal(6x6)", "Hard(8x8)"};
 
     private String selected_theme;
-    private String[] list_theme = new String[]{"Number", "Animal", "Emoji"};
+    private String[] list_theme = new String[]{"number", "animal", "emoji"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
