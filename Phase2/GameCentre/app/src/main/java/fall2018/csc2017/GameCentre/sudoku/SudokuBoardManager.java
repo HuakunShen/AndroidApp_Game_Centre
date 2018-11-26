@@ -203,8 +203,6 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         notifyObservers();
     }
 
-
-
     /**
      * Update the face value of the board.
      */
