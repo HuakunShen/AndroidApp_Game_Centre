@@ -234,8 +234,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
             PictureTile currentTile = board.getTile(row,col);
             switch (currentTile.getState()){
                 case PictureTile.FLIP:
-//                    String name = "pm_num_"  + Integer.toString(currentTile.getId());
-                    String name = "tile_"  + Integer.toString(currentTile.getId());
+                    String name = "pm_num_"  + Integer.toString(currentTile.getId());
                     int id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
                     b.setBackgroundResource(id);
                     break;
