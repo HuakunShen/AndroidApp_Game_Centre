@@ -124,21 +124,26 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
         this.board.flipTile(row, col);
 
         //set timeTaken here
+        if (check2tiles()) {
+            notifyObservers();
+//            final android.os.Handler handler = new android.os.Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    MatchingBoard board = getBoard();
+//                    int col1 = board.getCol1();
+//                    int col2 = board.getCol2();
+//                    if (col1 != -1 && col2 != -1) {
+//                        board.solveTile();
+//                    }
+//                }
+//            }, 1000);
+        }
+    }
+
+    public boolean check2tiles() {
         int col1 = board.getCol1();
         int col2 = board.getCol2();
-        if (col1 != -1 && col2 != -1) {
-            final android.os.Handler handler = new android.os.Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    MatchingBoard board = getBoard();
-                    int col1 = board.getCol1();
-                    int col2 = board.getCol2();
-                    if (col1 != -1 && col2 != -1) {
-                        board.solveTile();
-                    }
-                }
-            }, 1000);
-        }
+        return col1 != -1 && col2 != -1;
     }
 }

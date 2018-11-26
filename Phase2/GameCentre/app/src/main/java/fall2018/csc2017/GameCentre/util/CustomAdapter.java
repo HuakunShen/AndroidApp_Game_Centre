@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomAdapter extends BaseAdapter {
-    private List<Button> mButtons = null;
+    private List<Button> mButtons;
     private int mColumnWidth, mColumnHeight;
 
     public CustomAdapter(List<Button> buttons, int columnWidth, int columnHeight) {

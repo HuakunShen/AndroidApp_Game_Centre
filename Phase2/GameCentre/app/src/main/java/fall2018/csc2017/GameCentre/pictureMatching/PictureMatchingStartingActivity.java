@@ -29,8 +29,6 @@ import fall2018.csc2017.GameCentre.sudoku.SudokuStartingActivity;
 
 public class PictureMatchingStartingActivity extends AppCompatActivity {
 
-    public static String PACKAGE_NAME;
-    public static Resources RESOURCES;
     private User user;
     private String username;
     private String userFile;
@@ -54,8 +52,6 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PACKAGE_NAME = getApplicationContext().getPackageName();
-        RESOURCES = getResources();
         setContentView(R.layout.activity_picturematching_starting);
         db = new DatabaseHandler(this);
         username = getIntent().getStringExtra("user");
