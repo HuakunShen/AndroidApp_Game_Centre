@@ -33,12 +33,10 @@ public class MatchingNewGamePop extends AppCompatActivity {
         select_diff.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position) == list_diff[0]) {
-                    selected_difficulty = 4;
-                } else if (parent.getItemAtPosition(position) == list_diff[1]) {
-                    selected_difficulty = 6;
-                } else if (parent.getItemAtPosition(position) == list_diff[2]) {
-                    selected_difficulty = 8;
+                for (int tmp = 0; tmp < list_diff.length; tmp++) {
+                    if (parent.getItemAtPosition(position) == list_diff[tmp]) {
+                        selected_difficulty = tmp * 2 + 4;
+                    }
                 }
             }
 
@@ -58,18 +56,16 @@ public class MatchingNewGamePop extends AppCompatActivity {
         select_theme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position) == list_theme[0]) {
-                    selected_theme = list_theme[0];
-                } else if (parent.getItemAtPosition(position) == list_diff[1]) {
-                    selected_theme = list_theme[1];
-                } else if (parent.getItemAtPosition(position) == list_diff[2]) {
-                    selected_theme = list_theme[2];
+                for (int tmp = 0; tmp < list_theme.length; tmp++) {
+                    if (parent.getItemAtPosition(position) == list_theme[tmp]) {
+                        selected_theme = list_theme[tmp];
+                    }
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                selected_difficulty = 4;
+                selected_theme = list_theme[0];
             }
         });
     }
