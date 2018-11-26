@@ -155,12 +155,10 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         select_diff.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position) == list_diff[0]) {
-                    selected_difficulty = 3;
-                } else if (parent.getItemAtPosition(position) == list_diff[1]) {
-                    selected_difficulty = 4;
-                } else if (parent.getItemAtPosition(position) == list_diff[2]) {
-                    selected_difficulty = 5;
+                for (int tmp = 0; tmp < list_diff.length; tmp++) {
+                    if (parent.getItemAtPosition(position) == list_diff[tmp]) {
+                        selected_difficulty = tmp + 3;
+                    }
                 }
             }
 
