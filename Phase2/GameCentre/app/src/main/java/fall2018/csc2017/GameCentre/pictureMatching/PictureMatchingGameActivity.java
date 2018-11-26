@@ -128,8 +128,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         tempGameStateFile = "temp_" + gameStateFile;
     }
 
-
-
     /**
      * Time counting, setup initial time based on the record in boardmanager
      */
@@ -320,7 +318,11 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    boardManager.getBoard().solveTile();
+                    try {
+                        boardManager.getBoard().solveTile();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplication(), "slow down!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }, 1000);
         }
