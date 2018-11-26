@@ -68,6 +68,7 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      */
     public SlidingTilesBoardManager(SlidingTilesBoard board) {
         this.board = board;
+        this.undoStack = new StateStack<>(DEFAULT_UNDO_LIMIT);
     }
 
     /**
@@ -90,6 +91,11 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
     void setCapacity(int input) {
         this.undoStack.setCapacity(input);
     }
+
+    /**
+     *
+     */
+    int getCapacity() {return this.undoStack.getCapacity();}
 
     /**
      * Returns if undo is available.
@@ -139,7 +145,6 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
     public void setTimeTaken(long timeTakenSoFar) {
         this.timeTaken = timeTakenSoFar;
     }
-
 
     /**
      * Determines whether the tile board is solvable.
