@@ -1,5 +1,6 @@
 package fall2018.csc2017.GameCentre.gameCentre;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -48,10 +49,9 @@ public class ScoreBoardActivity extends AppCompatActivity {
 
 
     private void setupUser() {
-        String username = getIntent().getStringExtra("user");
         type = getIntent().getStringExtra("scoreBoardType");
-        String user_file = db.getUserFile(username);
-        loadFromFile(user_file);
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
     }
 
     private void setupData() {
@@ -136,25 +136,5 @@ public class ScoreBoardActivity extends AppCompatActivity {
         }
         scoreboard.addView(newRow);
     }
-
-
-    private void loadFromFile(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                user = (User) input.readObject();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
 }
 
