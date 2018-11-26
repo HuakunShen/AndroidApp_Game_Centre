@@ -30,10 +30,18 @@ public class User implements Serializable {
         this.score = new HashMap<String, Integer>();
     }
 
+    /**
+     * Return avatar.
+     * @return avatar.
+     */
     public byte[] getAvatar() {
         return avatar;
     }
 
+    /**
+     * Set avatar
+     * @param avatar
+     */
     public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
     }
@@ -50,6 +58,8 @@ public class User implements Serializable {
     }
 
     /**
+     * Returns nickname.
+     *
      * @return nickname of user
      */
     public String getNickname() {
@@ -57,6 +67,8 @@ public class User implements Serializable {
     }
 
     /**
+     * Returns username.
+     *
      * @return username of the user
      */
     public String getUsername() {
@@ -86,7 +98,7 @@ public class User implements Serializable {
      * check if the entered password is correct and return either true or false
      *
      * @param password
-     * @return
+     * @return if the password is correct
      */
     public boolean checkPassword(String password) {
         return this.password.equals(password);
@@ -113,6 +125,8 @@ public class User implements Serializable {
     }
 
     /**
+     * Returns the file address for a game type.
+     *
      * @param game
      * @return the file name where the game state of the user of a specific game is stored
      */
@@ -140,6 +154,11 @@ public class User implements Serializable {
         }
     }
 
+    /**
+     * Return information needed for scoreboard.
+     *
+     * @return 2D ArrayList containing necessary information
+     */
     public List<List<String>> getScoreboardData() {
         List<List<String>> datalist = new ArrayList<>();
         for (String game: score.keySet()) {
