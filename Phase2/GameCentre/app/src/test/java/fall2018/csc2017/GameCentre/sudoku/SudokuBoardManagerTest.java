@@ -14,6 +14,8 @@ public class SudokuBoardManagerTest {
         manager = new SudokuBoardManager();
         int position = findEditablePosition(manager.getBoard());
         manager.makeMove(position);
+        manager.undo();
+        manager.setHint(5);
     }
 
     private int findEditablePosition(SudokuBoard board){
@@ -30,52 +32,46 @@ public class SudokuBoardManagerTest {
     }
 
     @Test
-    public void getHint() {
-    }
-
-    @Test
-    public void setHint() {
+    public void getAndSetHint() {
+        assertEquals(5, manager.getHint());
     }
 
     @Test
     public void reduceHint() {
+        manager.reduceHint();
+        assertEquals(4, manager.getHint());
     }
 
     @Test
     public void getBoard() {
+        assertNotNull(manager.getBoard());
     }
 
     @Test
-    public void getTimeTaken() {
+    public void getAndSetTimeTaken() {
+        manager.setTimeTaken(6);
+        assertEquals(6, manager.getTimeTaken());
     }
 
-    @Test
-    public void setTimeTaken() {
-    }
+//    @Test
+//    public void setCapacity() {
+//    }
 
     @Test
-    public void setCapacity() {
-    }
-
-    @Test
-    public void setCurrentCell() {
-    }
-
-    @Test
-    public void getCurrentCell() {
+    public void setAndGetCurrentCell() {
+        manager.setCurrentCell(new Cell(1, 2, 3));
+        assertNotNull(manager.getCurrentCell());
     }
 
     @Test
     public void undoAvailable() {
+        assertTrue(manager.undoAvailable());
     }
 
-    @Test
-    public void popUndo() {
-    }
-
-    @Test
-    public void setLevelOfDifficulty() {
-    }
+//    @Test
+//    public void popUndo() {
+//
+//    }
 
     @Test
     public void boardSolved() {

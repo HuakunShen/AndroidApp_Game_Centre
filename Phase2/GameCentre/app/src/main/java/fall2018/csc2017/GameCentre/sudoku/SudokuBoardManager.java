@@ -125,12 +125,12 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         undoStack.put(move);
     }
 
-    /**
-     * Set undo limit.
-     */
-    public void setCapacity(int input) {
-        this.undoStack.setCapacity(input);
-    }
+//    /**
+//     * Set undo limit.
+//     */
+//    public void setCapacity(int input) {
+//        this.undoStack.setCapacity(input);
+//    }
 
 
     public void setCurrentCell(Cell currentCell) {
