@@ -81,7 +81,7 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
     /**
      * Add a move to the undo stack.
      */
-    private void addUndo(Integer move) {
+    public void addUndo(Integer move) {
         undoStack.put(move);
     }
 
@@ -202,10 +202,16 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
         return totalInversion;
     }
 
+    /**
+     * Return the current image background in byte array.
+     */
     public byte[] getImageBackground() {
         return imageBackground;
     }
 
+    /**
+     * Set the image background of the board.
+     */
     public void setImageBackground(byte[] imageBackground) {
         this.imageBackground = imageBackground;
     }
