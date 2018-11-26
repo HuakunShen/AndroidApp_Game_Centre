@@ -1,7 +1,9 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,8 @@ import fall2018.csc2017.GameCentre.data.DatabaseHandler;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
+import fall2018.csc2017.GameCentre.sudoku.SudokuBoardManager;
+import fall2018.csc2017.GameCentre.sudoku.SudokuStartingActivity;
 
 public class PictureMatchingStartingActivity extends AppCompatActivity {
 
@@ -46,7 +50,6 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
     private MatchingBoardManager boardManager;
 
     private String[] list_diff = new String[]{"Easy(4x4)", "Normal(6x6)", "Hard(8x8)"};
-    private int selected_difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,44 +60,16 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         db = new DatabaseHandler(this);
         username = getIntent().getStringExtra("user");
 
-
-        selected_difficulty = 2;
+        boardManager = new MatchingBoardManager(4);
 
         setupUser();
         setupFile();
 
-        boardManager = new MatchingBoardManager();
         saveToFile(tempGameStateFile);
 
         addStartButtonListener();
         addLoadButtonListener();
-        addDiffSpinnerListener();
         addScoreboardButtonListener();
-    }
-
-    private void addDiffSpinnerListener() {
-        Spinner select_diff = findViewById(R.id.list_diff_picturematching);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
-        select_diff.setAdapter(arrayAdapter);
-
-        select_diff.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position) == list_diff[0]) {
-                    selected_difficulty = 2;
-                } else if (parent.getItemAtPosition(position) == list_diff[1]) {
-                    selected_difficulty = 3;
-                } else if (parent.getItemAtPosition(position) == list_diff[2]) {
-                    selected_difficulty = 4;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                selected_difficulty = 4;
-            }
-        });
     }
 
     private void addScoreboardButtonListener() {
@@ -119,7 +94,6 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loadFromFile(gameStateFile);
                 saveToFile(tempGameStateFile);
-                setDifficulty(boardManager.getDifficulty());
                 makeToast("Loaded Game");
                 switchToGame();
             }
@@ -144,9 +118,19 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDifficulty(selected_difficulty);
-                boardManager = new MatchingBoardManager();
-                switchToGame();
+                AlertDialog.Builder builder = new AlertDialog.Builder(PictureMatchingStartingActivity.this);
+                builder.setTitle("Choose a difficulty:");
+                builder.setItems(list_diff, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int diff)
+                    {
+                        boardManager = new MatchingBoardManager(diff * 2 + 4);
+                        switchToGame();
+                        Toast.makeText(PictureMatchingStartingActivity.this, list_diff[diff] + " selected", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
             }
         });
     }
@@ -204,15 +188,5 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
-    }
-
-    /**
-     * Set the size of board to match with difficulty.
-     *
-     * @param diff the difficulty to set as
-     */
-    private void setDifficulty(int diff) {
-        MatchingBoard.NUM_ROWS = diff*2;
-        MatchingBoard.NUM_COLS = diff*2;
     }
 }

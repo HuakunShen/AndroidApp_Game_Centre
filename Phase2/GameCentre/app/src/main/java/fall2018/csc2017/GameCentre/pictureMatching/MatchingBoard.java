@@ -16,54 +16,44 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
     /**
      * The tiles on the board in row-major order.
      */
-    private PictureTile[][] tiles = new PictureTile[NUM_ROWS][NUM_COLS];
-
-    /**
-     * The number of rows.
-     */
-    public static int NUM_ROWS = 4;
-
-    /**
-     * The number of rows.
-     */
-    public static int NUM_COLS = 4;
+    private PictureTile[][] tiles;
 
     /**
      * Level of difficulty of the game.
      */
-    public int difficulty;
+    private int difficulty;
 
     /**
      * Index of Column of the first tile selected.
      */
-    private int col1=-1;
+    private int col1 = -1;
 
     /**
      * Index of Column of the second tile selected.
      */
-    private int col2=-1;
+    private int col2 = -1;
 
     /**
      * Index of Row of the first tile selected.
      */
-    private int row1=-1;
+    private int row1 = -1;
 
     /**
      * Index of Row of the second tile selected.
      */
-    private int row2=-1;
+    private int row2 = -1;
 
     /**
      * Getter function of index of column of the first tile selected.
      */
-     int getCol1() {
+    int getCol1() {
         return col1;
     }
 
     /**
      * Getter function of index of column of the second tile selected.
      */
-     int getCol2() {
+    int getCol2() {
         return col2;
     }
 
@@ -74,7 +64,7 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
      * @param col the tile column
      * @return the tile at (row, col)
      */
-     PictureTile getTile(int row, int col) {
+    PictureTile getTile(int row, int col) {
         return tiles[row][col];
     }
 
@@ -84,11 +74,12 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
      *
      * @param tiles the list of tiles for the board
      */
-     MatchingBoard(List<PictureTile> tiles) {
-        difficulty = NUM_COLS/2;
+    MatchingBoard(List<PictureTile> tiles, int difficulty) {
+        this.difficulty = difficulty;
+        this.tiles = new PictureTile[difficulty][difficulty];
         Iterator<PictureTile> iter = tiles.iterator();
-        for (int row = 0; row != MatchingBoard.NUM_ROWS; row++) {
-            for (int col = 0; col != MatchingBoard.NUM_COLS; col++) {
+        for (int row = 0; row != difficulty; row++) {
+            for (int col = 0; col != difficulty; col++) {
                 this.tiles[row][col] = iter.next();
             }
         }
@@ -97,12 +88,12 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
     /**
      * Flip the tile at the ith row and jth column.
      */
-    void flipTile(int row, int col){
-        if(col1 == -1 && row1 == -1){
+    void flipTile(int row, int col) {
+        if (col1 == -1 && row1 == -1) {
             tiles[row][col].setState(PictureTile.FLIP);
             col1 = col;
             row1 = row;
-        }else if (col2 == -1 && row2 == -1){
+        } else if (col2 == -1 && row2 == -1) {
             tiles[row][col].setState(PictureTile.FLIP);
             col2 = col;
             row2 = row;
@@ -114,13 +105,13 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
     /**
      * Permanently flip the Tile if it has been solved.
      */
-     void solveTile(){
+    void solveTile() {
         PictureTile tile1 = tiles[row1][col1];
         PictureTile tile2 = tiles[row2][col2];
-        if (tile1.getId() == tile2.getId()){
+        if (tile1.getId() == tile2.getId()) {
             tile1.setState(PictureTile.SOLVED);
             tile2.setState(PictureTile.SOLVED);
-        }else{
+        } else {
             tile1.setState(PictureTile.COVERED);
             tile2.setState(PictureTile.COVERED);
         }
@@ -132,7 +123,8 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
         notifyObservers();
     }
 
-    @Override @NonNull
+    @Override
+    @NonNull
     public Iterator<PictureTile> iterator() {
         return new MatchingBoard.MatchingBoardIterator();
     }
@@ -145,16 +137,20 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
 
         @Override
         public boolean hasNext() {
-            return nextIndex != NUM_COLS * NUM_ROWS;
+            return nextIndex != difficulty * difficulty;
         }
 
         @Override
         public PictureTile next() {
-            int row = nextIndex / MatchingBoard.NUM_COLS;
-            int col = nextIndex % MatchingBoard.NUM_COLS;
+            int row = nextIndex / difficulty;
+            int col = nextIndex % difficulty;
             PictureTile tile = tiles[row][col];
             nextIndex++;
             return tile;
         }
+    }
+
+    public int getDifficulty() {
+        return difficulty;
     }
 }

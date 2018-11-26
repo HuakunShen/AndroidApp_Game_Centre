@@ -17,6 +17,7 @@ import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -37,7 +38,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     /**
      * The buttons to display.
      */
-    private ArrayList<Button> tileButtons;
+    private List<Button> tileButtons;
     /**
      * Grid View and calculated column height and width based on device size
      */
@@ -170,7 +171,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      */
     private void addGridViewToActivity() {
         gridView = findViewById(R.id.PictureMatchingGrid);
-        gridView.setNumColumns(MatchingBoard.NUM_COLS);
+        gridView.setNumColumns(boardManager.getDifficulty());
         gridView.setBoardManager(boardManager);
         boardManager.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
@@ -183,8 +184,8 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = (displayWidth / MatchingBoard.NUM_COLS);
-                        columnHeight = (displayHeight / MatchingBoard.NUM_ROWS);
+                        columnWidth = (displayWidth / boardManager.getDifficulty());
+                        columnHeight = (displayHeight / boardManager.getDifficulty());
 
                         display();
                     }
@@ -208,8 +209,8 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      */
     private void createTileButtons(Context context) {
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != MatchingBoard.NUM_ROWS; row++) {
-            for (int col = 0; col != MatchingBoard.NUM_COLS; col++) {
+        for (int row = 0; row != boardManager.getDifficulty(); row++) {
+            for (int col = 0; col != boardManager.getDifficulty(); col++) {
                 Button tmp = new Button(context);
                 tmp.setBackgroundResource(R.drawable.sudoku_cell_grey);
                 this.tileButtons.add(tmp);
@@ -224,8 +225,8 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         MatchingBoard board = boardManager.getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / MatchingBoard.NUM_COLS;
-            int col = nextPos % MatchingBoard.NUM_COLS;
+            int row = nextPos / boardManager.getDifficulty();
+            int col = nextPos % boardManager.getDifficulty();
             PictureTile currentTile = board.getTile(row,col);
             if (currentTile.getState().equals(PictureTile.FLIP)){
                 String name = "tile_"  + Integer.toString(currentTile.getId());

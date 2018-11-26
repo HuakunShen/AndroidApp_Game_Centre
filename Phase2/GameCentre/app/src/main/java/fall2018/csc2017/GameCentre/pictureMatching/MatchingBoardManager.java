@@ -24,14 +24,14 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
     /**
      * Manage a new shuffled board.
      */
-    MatchingBoardManager() {
+    MatchingBoardManager(int difficulty) {
         List<PictureTile> tiles = new ArrayList<>();
-        final int numTiles = MatchingBoard.NUM_COLS * MatchingBoard.NUM_ROWS;
+        final int numTiles = difficulty * difficulty;
         for (int tileNum = 0; tileNum < numTiles; tileNum++) {
             addPictureTileToList(tiles, numTiles, tileNum);
         }
         Collections.shuffle(tiles);
-        this.board = new MatchingBoard(tiles);
+        this.board = new MatchingBoard(tiles, difficulty);
     }
 
     MatchingBoardManager(MatchingBoard board) {
@@ -67,7 +67,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      * Getter function for level of difficulty for the game.
      */
     int getDifficulty() {
-        return board.difficulty;
+        return board.getDifficulty();
     }
 
     /**
@@ -91,7 +91,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      */
     public boolean boardSolved() {
         Iterator<PictureTile> itr = board.iterator();
-        for (int i = 1; i <= (MatchingBoard.NUM_ROWS * MatchingBoard.NUM_COLS); i++) {
+        for (int i = 1; i <= (board.getDifficulty() * board.getDifficulty()); i++) {
             if (itr.hasNext() && !itr.next().getState().equals(PictureTile.SOLVED)) {
                 return false;
             }
@@ -106,8 +106,8 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      * @return whether the tile at position is surrounded by a blank tile
      */
     public boolean isValidTap(int position) {
-        int row = position / MatchingBoard.NUM_COLS;
-        int col = position % MatchingBoard.NUM_COLS;
+        int row = position / board.getDifficulty();
+        int col = position % board.getDifficulty();
         PictureTile currentTile = this.board.getTile(row, col);
         return !currentTile.getState().equals(PictureTile.SOLVED)
                 && !currentTile.getState().equals(PictureTile.FLIP);
@@ -119,8 +119,8 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      * @param position the position that the user clicked on the grid view
      */
     public void makeMove(int position) {
-        int row = position / MatchingBoard.NUM_COLS;
-        int col = position % MatchingBoard.NUM_COLS;
+        int row = position / board.getDifficulty();
+        int col = position % board.getDifficulty();
         this.board.flipTile(row, col);
 
         //set timeTaken here
@@ -141,5 +141,4 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
             }, 1000);
         }
     }
-
 }
