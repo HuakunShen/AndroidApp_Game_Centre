@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -252,20 +253,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return result;
     }
 
-    public ArrayList<ArrayList<String>> getScoreByUser(String username) {
+    public List<List<String>> getScoreByUser(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        ArrayList<ArrayList<String>> dataList = new ArrayList<>();
+        List<List<String>> dataList = new ArrayList<>();
+
+//        Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_USERNAME
+//                + " =? AND " + KEY_SCORE + " <> 0", new String[]{username});
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_USERNAME
-                + " =? AND " + KEY_SCORE + " <> 0", new String[]{username});
+                + " =? ", new String[]{username});
 
         if (cursor.moveToFirst()) {
             do {
                 String user = cursor.getString(cursor.getColumnIndex(KEY_USERNAME));
                 String game = cursor.getString(cursor.getColumnIndex(KEY_GAME));
                 String score = Integer.toString(cursor.getInt(cursor.getColumnIndex(KEY_SCORE)));
-                ArrayList<String> data = new ArrayList<>();
+                List<String> data = new ArrayList<>();
                 data.add(game);
                 data.add(user);
                 data.add(score);
@@ -276,18 +280,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return dataList;
     }
 
-    public ArrayList<ArrayList<String>> getScoreByGame(String game_type) {
+    public List<List<String>> getScoreByGame(String game_type) {
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<ArrayList<String>> dataList = new ArrayList<>();
+        List<List<String>> dataList = new ArrayList<>();
+//        Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_GAME +
+//                " =? AND " + KEY_SCORE + " <> 0 ORDER BY " + KEY_SCORE + " DESC",
+//                new String[]{game_type});
         Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_GAME +
-                " =? AND " + KEY_SCORE + " <> 0 ORDER BY " + KEY_SCORE + " DESC",
+                        " =?  ORDER BY " + KEY_SCORE + " DESC",
                 new String[]{game_type});
         if (cursor.moveToFirst()) {
             int rank = 1;
             do {
                 String user = cursor.getString(cursor.getColumnIndex(KEY_USERNAME));
                 String score = Integer.toString(cursor.getInt(cursor.getColumnIndex(KEY_SCORE)));
-                ArrayList<String> data = new ArrayList<>();
+                List<String> data = new ArrayList<>();
                 data.add(String.valueOf(rank));
                 data.add(game_type);
                 data.add(user);
