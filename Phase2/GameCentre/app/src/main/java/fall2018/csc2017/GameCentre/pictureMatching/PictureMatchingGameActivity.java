@@ -315,19 +315,19 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 
     @Override
     public void update(Observable o, Object arg) {
-        if (boardManager.check2tiles()){
+//        if (boardManager.check2tiles()){
             final android.os.Handler handler = new android.os.Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        boardManager.getBoard().solveTile();
+                        if (boardManager.check2tiles())
+                            boardManager.getBoard().solveTile();
                     } catch (Exception e) {
                         Toast.makeText(getApplication(), "slow down!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }, 1000);
-        }
         display();
         if (boardManager.boardSolved()) {
             Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
