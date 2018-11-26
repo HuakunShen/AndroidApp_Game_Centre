@@ -22,7 +22,7 @@ public class SlidingTilesBoardManagerTest {
     @Before
     public void setUp() {
         List<Integer> tiles = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-        board = new SlidingTilesBoard(tiles,3);
+        board = new SlidingTilesBoard(tiles, 3);
         boardManager = new SlidingTilesBoardManager(board);
         boardManager.makeMove(7);
         boardManager.setStepsTaken(1);
@@ -46,7 +46,7 @@ public class SlidingTilesBoardManagerTest {
     }
 
     /**
-     * This tests the functionality of undoAvailable.
+     * This tests the functionality of undoAvailable().
      */
     @Test
     public void undoAvailable() {
@@ -86,7 +86,6 @@ public class SlidingTilesBoardManagerTest {
         assertEquals(5, boardManager.getTimeTaken());
     }
 
-
     /**
      * This tests the functionality of solvable().
      */
@@ -94,16 +93,6 @@ public class SlidingTilesBoardManagerTest {
     public void solvable() {
         assertTrue(boardManager.solvable());
     }
-
-//    @Test
-//    public void blankPosition() {
-//        assertEquals(9, boardManager.blankPosition());
-//    }
-
-//    @Test
-//    public void getTotalInversion() {
-//        assertEquals(1, boardManager.getTotalInversion());
-//    }
 
     /**
      * This tests the functionality of getImageBackground().
@@ -129,21 +118,26 @@ public class SlidingTilesBoardManagerTest {
     }
 
     /**
-     * This tests the functionality of isValidTap.
+     * This tests the functionality of isValidTap().
      */
     @Test
     public void isValidTap() {
         assertFalse(boardManager.isValidTap(1));
     }
 
-
+    /**
+     * This tests the functionality of move().
+     */
     @Test
-    public void move(){
+    public void move() {
         boardManager.move(8);
     }
 
+    /**
+     * This tests the functionality of addUndo().
+     */
     @Test
-    public void addUndo(){
+    public void addUndo() {
         boardManager.addUndo(8);
         assertEquals((Integer) 8, boardManager.popUndo());
     }

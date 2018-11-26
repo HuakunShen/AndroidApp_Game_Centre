@@ -78,10 +78,6 @@ public class SudokuBoardManagerTest {
         assertEquals(6, manager.getTimeTaken());
     }
 
-//    @Test
-//    public void setCapacity() {
-//    }
-
     /**
      * This test the functionality getCurrentCell() and setCurrentCell().
      */
@@ -99,11 +95,6 @@ public class SudokuBoardManagerTest {
         assertFalse(manager.undoAvailable());
     }
 
-//    @Test
-//    public void popUndo() {
-//
-//    }
-
     /**
      * This test the functionality boardSolved().
      */
@@ -120,17 +111,4 @@ public class SudokuBoardManagerTest {
         assertTrue(manager.isValidTap(moveTaken));
     }
 
-//    @Test
-//    public void makeMove() {
-//
-//    }
-
-//    @Test
-//    public void updateValue() {
-//
-//    }
-
-//    @Test
-//    public void undo() {
-//    }
 }
