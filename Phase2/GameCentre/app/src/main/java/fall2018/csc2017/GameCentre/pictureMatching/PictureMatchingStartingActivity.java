@@ -43,8 +43,6 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
     public static final String GAME_NAME = "PictureMatch";
     private MatchingBoardManager boardManager;
 
-    private String[] list_diff = new String[]{"Easy(4x4)", "Normal(6x6)", "Hard(8x8)"};
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,21 +112,6 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
                 saveToFile(tempGameStateFile);
                 tmp.putExtra("user", username);
                 startActivity(tmp);
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(PictureMatchingStartingActivity.this);
-                builder.setTitle("Choose a difficulty:");
-                builder.setItems(list_diff, new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int diff)
-                    {
-                        boardManager = new MatchingBoardManager(diff * 2 + 4);
-                        switchToGame();
-                        Toast.makeText(PictureMatchingStartingActivity.this, list_diff[diff] + " selected", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.show();
             }
         });
     }
