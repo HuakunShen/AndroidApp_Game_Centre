@@ -10,17 +10,27 @@ public class SudokuBoardManagerTest {
 
     private SudokuBoardManager manager;
     private int moveTaken;
+
+    /**
+     * Set up necessary steps for following test cases.
+     */
     @Before
     public void setUp() {
         manager = new SudokuBoardManager();
         moveTaken = findEditablePosition(manager.getBoard());
         manager.makeMove(moveTaken);
         int move = findEditablePosition(manager.getBoard());
-        manager.updateValue(2, false);
+        manager.updateValue(move, false);
         manager.undo();
         manager.setHint(5);
     }
 
+    /**
+     * This is a helper function for setUp. It helps to find a position in the sudoku board
+     * that is editable.
+     * @param board the board
+     * @return a editable position
+     */
     private int findEditablePosition(SudokuBoard board){
         int position = -1;
         for(int i = 0; i < 9; i++){
@@ -34,22 +44,34 @@ public class SudokuBoardManagerTest {
         return position;
     }
 
+    /**
+     * This test the functionality getHint() and setHint().
+     */
     @Test
     public void getAndSetHint() {
         assertEquals(5, manager.getHint());
     }
 
+    /**
+     * This test the functionality reduceHint().
+     */
     @Test
     public void reduceHint() {
         manager.reduceHint();
         assertEquals(4, manager.getHint());
     }
 
+    /**
+     * This test the functionality getBoard().
+     */
     @Test
     public void getBoard() {
         assertNotNull(manager.getBoard());
     }
 
+    /**
+     * This test the functionality getTimeTaken() and setTimeTaken().
+     */
     @Test
     public void getAndSetTimeTaken() {
         manager.setTimeTaken(6);
@@ -60,12 +82,18 @@ public class SudokuBoardManagerTest {
 //    public void setCapacity() {
 //    }
 
+    /**
+     * This test the functionality getCurrentCell() and setCurrentCell().
+     */
     @Test
     public void setAndGetCurrentCell() {
         manager.setCurrentCell(new Cell(1, 2, 3));
         assertNotNull(manager.getCurrentCell());
     }
 
+    /**
+     * This test the functionality undoAvailable().
+     */
     @Test
     public void undoAvailable() {
         assertFalse(manager.undoAvailable());
@@ -76,11 +104,17 @@ public class SudokuBoardManagerTest {
 //
 //    }
 
+    /**
+     * This test the functionality boardSolved().
+     */
     @Test
     public void boardSolved() {
         assertFalse(manager.boardSolved());
     }
 
+    /**
+     * This test the functionality isValidTap().
+     */
     @Test
     public void isValidTap() {
         assertTrue(manager.isValidTap(moveTaken));
