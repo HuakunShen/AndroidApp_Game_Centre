@@ -17,7 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.data.DatabaseHandler;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 
 public class MatchingNewGamePop extends AppCompatActivity {
@@ -25,7 +25,7 @@ public class MatchingNewGamePop extends AppCompatActivity {
     private User user;
     private String username;
     private String userFile;
-    private DatabaseHandler db;
+    private SQLDatabase db;
     /**
      * The main save file.
      */
@@ -50,7 +50,7 @@ public class MatchingNewGamePop extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matching_new_game_pop);
 
-        db = new DatabaseHandler(this);
+        db = new SQLDatabase(this);
         setupUser();
         setupFile();
 
