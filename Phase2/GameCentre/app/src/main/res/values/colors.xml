@@ -5,4 +5,5 @@
     <color name="colorAccent">#b1448b</color>
     <color name="scoreBoardTileLine">#FF909090</color>
     <color name="colorSudoku">#ffb871</color>
+    <color name="colorPictureMatching">#b6e6f5</color>
 </resources>

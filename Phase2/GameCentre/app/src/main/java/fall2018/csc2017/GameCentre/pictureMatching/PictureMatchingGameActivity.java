@@ -128,8 +128,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         tempGameStateFile = "temp_" + gameStateFile;
     }
 
-
-
     /**
      * Time counting, setup initial time based on the record in boardmanager
      */
@@ -234,8 +232,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
             PictureTile currentTile = board.getTile(row,col);
             switch (currentTile.getState()){
                 case PictureTile.FLIP:
-//                    String name = "pm_num_"  + Integer.toString(currentTile.getId());
-                    String name = "tile_"  + Integer.toString(currentTile.getId());
+                    String name = "pm_num_"  + Integer.toString(currentTile.getId());
                     int id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
                     b.setBackgroundResource(id);
                     break;
@@ -321,7 +318,11 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    boardManager.getBoard().solveTile();
+                    try {
+                        boardManager.getBoard().solveTile();
+                    } catch (Exception e) {
+                        Toast.makeText(getApplication(), "slow down!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }, 1000);
         }
