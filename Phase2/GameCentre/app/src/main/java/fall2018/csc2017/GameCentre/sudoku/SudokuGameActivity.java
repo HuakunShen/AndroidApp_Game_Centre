@@ -81,6 +81,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
      */
     private String tempGameStateFile;
 
+    Button numButtons[];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +108,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
     private void setUpButtons() {
         LinearLayout numLayout = findViewById(R.id.numButtons);
 
-        Button numButtons[] = new Button[9];
+        numButtons = new Button[9];
         for (int tmp = 0; tmp < numButtons.length; tmp++) {
             numButtons[tmp] = new Button(this);
             numButtons[tmp].setId(1800+tmp);
@@ -120,10 +122,12 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
             numLayout.addView(numButtons[tmp],btParams);
 
             numButtons[tmp].setOnClickListener(new View.OnClickListener() {
-                final int value = 1;
                 @Override
                 public void onClick(View v) {
-                    boardManager.updateValue(value + 1, false);
+                    for (int tmp = 0; tmp < numButtons.length; tmp++){
+                        if(v == numButtons[tmp])
+                            boardManager.updateValue(tmp + 1, false);
+                    }
                 }
             });
         }
