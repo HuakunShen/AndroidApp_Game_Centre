@@ -27,6 +27,10 @@ public class StateStack<E> implements Serializable {
         this.capacity = capacity;
     }
 
+    /**
+     * Return the capacity of stack.
+     * @return capacity
+     */
     public int getCapacity() {
         return capacity;
     }
@@ -56,13 +60,17 @@ public class StateStack<E> implements Serializable {
 
     /**
      * Gets the item on the top of the stack.
+     *
+     * @return the top item
      */
     public E get() {
         return stack.get(stack.size() - 1);
     }
 
     /**
-     * Gets the item on the top of the stack.
+     * Gets the item on the top of the stack and remove it from stack.
+     *
+     * @return the top item
      */
     public E pop() {
         return stack.remove(stack.size() - 1);
@@ -71,6 +79,8 @@ public class StateStack<E> implements Serializable {
 
     /**
      * Returns if the StateStack is Empty.
+     *
+     * @return if the stack is empty
      */
     public boolean isEmpty() {
         return stack.size() == 0;
@@ -78,6 +88,8 @@ public class StateStack<E> implements Serializable {
 
     /**
      * Returns the size of the StateStack.
+     *
+     * @return size of the stack
      */
     public int size() {
         return stack.size();
