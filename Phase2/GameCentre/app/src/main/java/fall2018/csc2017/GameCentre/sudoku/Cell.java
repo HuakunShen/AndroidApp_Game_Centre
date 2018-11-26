@@ -1,7 +1,5 @@
 package fall2018.csc2017.GameCentre.sudoku;
 
-import android.content.res.Resources;
-
 import java.io.Serializable;
 
 import fall2018.csc2017.GameCentre.R;
@@ -32,11 +30,6 @@ public class Cell implements Serializable {
      * Whether the cell is highlighted.
      */
     private boolean highlighted;
-
-    /**
-     * The face value when it was not highlighted.
-     */
-//    private Integer fadeValue;
 
     /**
      * The row which the cell is in.
@@ -78,36 +71,6 @@ public class Cell implements Serializable {
      */
     void setFaceValue(Integer faceValue) {
         this.faceValue = faceValue;
-//        String currentCellName;
-//
-//        // The number displayed is red if the cell
-//        // is editable, other wise black.
-//        if (this.editable)
-//            currentCellName = "red_";
-//        else
-//            currentCellName = "black_";
-//
-//        // If the number is highlighted, the background
-//        // colour of the cell will be blue.
-//        if (this.highlighted) {
-//            currentCellName += "blue_";
-//        } else
-//        // In order to distinguish different 3 X 3 grids
-//        // on the board, adjacent grids will have different
-//        // background colours.
-//        if (row / 3 == 0 || row / 3 == 2) {
-//            if (col / 3 == 1) {
-//                currentCellName += "grey_";
-//            } else {
-//                currentCellName += "white_";
-//            }
-//        } else {
-//            if (col / 3 == 0 || col / 3 == 2) {
-//                currentCellName += "grey_";
-//            } else {
-//                currentCellName += "white_";
-//            }
-//        }
 
         if (this.highlighted) {
             background = R.drawable.sudoku_cell_red;
@@ -128,28 +91,7 @@ public class Cell implements Serializable {
                     background = R.drawable.sudoku_cell_white;
                 }
             }
-
-//        // Match the background colour to the numeral value
-//        // to be displayed
-//        currentCellName += Integer.toString(faceValue);
-//
-//        background = SudokuStartingActivity.RESOURCES.getIdentifier(currentCellName,
-//                "drawable", SudokuStartingActivity.PACKAGE_NAME);
     }
-
-//    /**
-//     * Getter function for fadevalue.
-//     */
-//    public Integer getFadeValue() {
-//        return fadeValue;
-//    }
-//
-//    /**
-//     * Setter function for fadevalue.
-//     */
-//    public void setFadeValue(int fadeValue) {
-//        this.fadeValue = fadeValue;
-//    }
 
     /**
      * Returns whether the user successfully figured
@@ -193,9 +135,5 @@ public class Cell implements Serializable {
     void setHighlighted(boolean value) {
         highlighted = value;
     }
-
-//    void toggleHighlighted(){
-//        highlighted = !highlighted;
-//    }
 
 }
