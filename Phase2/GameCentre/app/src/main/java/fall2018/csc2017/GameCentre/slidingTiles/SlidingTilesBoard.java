@@ -23,7 +23,6 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
      */
     private Integer[][] tiles;
 
-
     /**
      * A new board of tiles in row-major order.
      * Precondition: len(tiles) == NUM_ROWS * NUM_COLS

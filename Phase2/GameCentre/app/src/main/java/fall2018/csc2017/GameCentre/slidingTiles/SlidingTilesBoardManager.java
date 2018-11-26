@@ -266,7 +266,6 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
         }
 
         return blank_pos;
-
     }
 
     public void makeMove(int position) {
