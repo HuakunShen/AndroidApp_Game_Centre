@@ -32,10 +32,17 @@ import fall2018.csc2017.GameCentre.R;
  */
 public class NavSetting extends AppCompatActivity {
 
+    /**
+     * User
+     */
     private User user;
-
+    /**
+     * Profile image
+     */
     private byte[] newAvatar;
-
+    /**
+     * SQLDatabse
+     */
     private SQLDatabase db;
     /**
      * current user name.
@@ -66,10 +73,12 @@ public class NavSetting extends AppCompatActivity {
         setImageSelected();
     }
 
+    /**
+     * Set up user info.
+     */
     private void setupUser() {
         username = getIntent().getStringExtra("user");
         loadFromFile(db.getUserFile(username));
-//        Toast.makeText(this, "Welcome " + user.getUsername(), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -86,7 +95,7 @@ public class NavSetting extends AppCompatActivity {
     }
 
     /**
-     * add avatar button to setting activity.
+     * Add avatar button to setting activity.
      */
     private void addAvatarButton() {
         Button avatarButton = findViewById(R.id.import_button);
@@ -99,7 +108,7 @@ public class NavSetting extends AppCompatActivity {
     }
 
     /**
-     * add cancel button to setting activity.
+     * Add cancel button to setting activity.
      */
     private void addCancelButton() {
         Button cancelButton = findViewById(R.id.cancel_button);
@@ -114,7 +123,7 @@ public class NavSetting extends AppCompatActivity {
     }
 
     /**
-     * add apply button to setting activity.
+     * Add apply button to setting activity.
      *
      * @param nickName new nick name that we need to change to.
      */
@@ -135,7 +144,7 @@ public class NavSetting extends AppCompatActivity {
     }
 
     /**
-     * open gallery
+     * Open gallery
      */
     private void openGallery() {
         Intent get_phote = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -145,6 +154,7 @@ public class NavSetting extends AppCompatActivity {
     /**
      * Adapted from https://stackoverflow.com/questions/7620401/how-to-convert-byte-array-to-bitmap
      * and https://stackoverflow.com/questions/4989182/converting-java-bitmap-to-byte-array.
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -158,7 +168,7 @@ public class NavSetting extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                 Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 150, 150, false);
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                newBitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
+                newBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 newAvatar = stream.toByteArray();
                 user.setAvatar(newAvatar);
             } catch (IOException e) {
@@ -168,6 +178,12 @@ public class NavSetting extends AppCompatActivity {
 
         }
     }
+
+    /**
+     * Load user object from filename.
+     *
+     * @param fileName
+     */
     private void loadFromFile(String fileName) {
 
         try {
