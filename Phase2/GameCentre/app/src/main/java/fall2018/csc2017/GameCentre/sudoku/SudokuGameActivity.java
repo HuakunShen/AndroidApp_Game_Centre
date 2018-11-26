@@ -107,19 +107,17 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         LinearLayout numLayout = findViewById(R.id.numButtons);
 
         Button numButtons[] = new Button[9];
-        final int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         for (int tmp = 0; tmp < numButtons.length; tmp++) {
             numButtons[tmp] = new Button(this);
             numButtons[tmp].setId(1800+tmp);
             numButtons[tmp].setText(String.format("%s", Integer.toString(tmp + 1)));
 
-            int width = 500;
-            RelativeLayout.LayoutParams btParams = new RelativeLayout.LayoutParams ((width-50)/4,40);
-            btParams.leftMargin = 10;   //横坐标定位
-            btParams.topMargin = 10;   //纵坐标定位
-            btParams.width = 120;
-            btParams.height = 120;
-            numLayout.addView(numButtons[tmp],btParams);   //将按钮放入layout组件
+            RelativeLayout.LayoutParams btParams = new RelativeLayout.LayoutParams (100,50);
+            btParams.leftMargin = 3;
+            btParams.topMargin = 5;
+            btParams.width = 115;
+            btParams.height = 115;
+            numLayout.addView(numButtons[tmp],btParams);
 
             numButtons[tmp].setOnClickListener(new View.OnClickListener() {
                 final int value = 1;
