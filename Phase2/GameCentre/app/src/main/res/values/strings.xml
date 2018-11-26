@@ -23,4 +23,5 @@
     <string name="scoreboard">Scoreboard</string>
     <string name="slidingTiles_description">Welcome To Sliding Tiles \n A Puzzle Game where you must arrange the tiles in the correct order</string>
     <string name="sudoku_description">Welcome To Sudoku \n The objective is to fill a 9×9 grid with digits so that each column, each row, and each of the nine 3×3 subgrids contains all of the digits from 1 to 9.</string>
+    <string name="picturematching_description">Welcome To Picture Match \n Click on the different cards to find pairs of matching pictures.</string>
 </resources>
