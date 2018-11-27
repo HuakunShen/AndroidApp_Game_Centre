@@ -23,7 +23,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
 
     private User user;
     //    private String username;
-//    private String userFile;
+    private String userFile;
     private SQLDatabase db;
     /**
      * The main save file.
@@ -63,6 +63,8 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
 
     private void setupUser() {
         user = (User) getIntent().getSerializableExtra("user");
+        userFile = db.getUserFile(user.getUsername());
+        loadFromFile(userFile);
     }
 
     private void setupFile() {
@@ -129,7 +131,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(user.getFile(GAME_NAME))) {
+                if (fileName.equals(userFile)) {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                     boardManager = (MatchingBoardManager) input.readObject();
@@ -154,7 +156,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(user.getFile(GAME_NAME))) {
+            if (fileName.equals(userFile)) {
                 outputStream.writeObject(user);
             } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                 outputStream.writeObject(boardManager);
