@@ -118,7 +118,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent tmp = new Intent(getApplication(), MatchingNewGamePop.class);
                 saveToFile(tempGameStateFile);
-                tmp.putExtra("user", user.getUsername());
+                tmp.putExtra("user", user);
                 startActivity(tmp);
             }
         });
