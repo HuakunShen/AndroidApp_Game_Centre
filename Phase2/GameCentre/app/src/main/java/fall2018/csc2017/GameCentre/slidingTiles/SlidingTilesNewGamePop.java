@@ -218,6 +218,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         saveToFile(tempGameStateFile);
         tmp.putExtra("user", username);
         startActivity(tmp);
+        finish();
     }
 
     /**
