@@ -21,6 +21,9 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      */
     private long timeTaken;
 
+    /**
+     * the theme of the board.
+     */
     private String theme;
 
     /**
@@ -69,6 +72,10 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
         return board.getDifficulty();
     }
 
+    /**
+     * get the theme of current game
+     * @return the theme of the current board game.
+     */
     public String getTheme() {
         return theme;
     }
@@ -130,6 +137,10 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
         }
     }
 
+    /**
+     * check whether two tiles are flipped.
+     * @return true if two tiles are flipped else false.
+     */
     boolean check2tiles() {
         int col1 = board.getCol1();
         int col2 = board.getCol2();
