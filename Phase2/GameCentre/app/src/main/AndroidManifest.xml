@@ -37,6 +37,9 @@
         <activity android:name=".pictureMatching.PictureMatchingStartingActivity" />
         <activity android:name=".pictureMatching.MatchingNewGamePop"
             android:theme="@style/DialogActivity"></activity>
+        <activity android:name=".util.popScore"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
     </application>
 
 </manifest>

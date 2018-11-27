@@ -115,6 +115,7 @@ public class MatchingNewGamePop extends AppCompatActivity {
                 saveToFile(tempGameStateFile);
                 tmp.putExtra("user", user);
                 startActivity(tmp);
+                finish();
             }
         });
     }
