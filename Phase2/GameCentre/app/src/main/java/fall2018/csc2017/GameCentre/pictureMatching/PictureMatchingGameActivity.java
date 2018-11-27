@@ -335,7 +335,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
             }, 100);
         }
             display();
-            if (boardManager.boardSolved()) {
+            if (true) {
                 Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
                 Integer score = calculateScore();
                 user.updateScore(GAME_NAME, score);
@@ -343,6 +343,9 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                 db.updateScore(user, GAME_NAME);
                 Intent goToPopWindow = new Intent(getApplication(), popScore.class);
                 goToPopWindow.putExtra("score", score);
+                goToPopWindow.putExtra("user", user);
+                goToPopWindow.putExtra("gameType", GAME_NAME);
+
                 startActivity(goToPopWindow);
             }
         }

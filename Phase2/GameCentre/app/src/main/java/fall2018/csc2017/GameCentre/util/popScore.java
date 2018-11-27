@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.gameCentre.GameCentreInterfaceActivity;
 import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
-import fall2018.csc2017.GameCentre.pictureMatching.PictureMatchingStartingActivity;
 
 public class popScore extends Activity {
     @Override
@@ -21,7 +21,34 @@ public class popScore extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop_score);
         setupPopUpWindow();
+        setupScoreboardButton();
+//        setupBackToMenuButton();
+    }
 
+//    private void setupBackToMenuButton() {
+//        Button backToMenuButton = findViewById(R.id.backButton);
+//        backToMenuButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplication(), GameCentreInterfaceActivity.class);
+//
+//                startActivity(intent);
+//            }
+//        });
+//    }
+
+    private void setupScoreboardButton() {
+        Button scoreboardButton = findViewById(R.id.popScoreToScoreboard);
+        scoreboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), ScoreBoardActivity.class);
+                intent.putExtra("scoreBoardType", "byGame");
+                intent.putExtra("user", getIntent().getSerializableExtra("user"));
+                intent.putExtra("gameType", getIntent().getStringExtra("gameType"));
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupPopUpWindow() {
@@ -30,23 +57,11 @@ public class popScore extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
+
         getWindow().setLayout(((int) (width * .8)), (int) (height * .3));
         TextView scoreDisplay = findViewById(R.id.scoreDisplay);
         scoreDisplay.setText(String.valueOf(score));
-        Button goToScoreBoardButton = findViewById(R.id.popScoreToScoreboard);
-        goToScoreBoardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplication(), ScoreBoardActivity.class));
-            }
-        });
-        Button goToGameCentreInterface = findViewById(R.id.backButton);
-        goToGameCentreInterface.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplication(), GameCentreInterfaceActivity.class));
-            }
-        });
-
     }
+
+
 }
