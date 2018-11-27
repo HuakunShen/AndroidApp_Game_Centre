@@ -33,8 +33,8 @@ import static android.graphics.Bitmap.createBitmap;
 public class SlidingTilesNewGamePop extends AppCompatActivity {
 
     private User user;
-    private String username;
-    private String userFile;
+    //    private String username;
+//    private String userFile;
     private SQLDatabase db;
     /**
      * The main save file.
@@ -70,6 +70,28 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         addRadioButtonListener();
         addDiffSpinnerListener();
         addNewGameButtonListener();
+    }
+
+    /**
+     * setup user object according to username and define the value of userFile (where user
+     * object is saved)
+     */
+    private void setupUser() {
+        user = (User) getIntent().getSerializableExtra("user");
+//        userFile = db.getUserFile(username);
+        loadFromFile(user.getFile(GAME_NAME));
+    }
+
+    /**
+     * setup file of the game
+     * get the filename of where the game state should be saved
+     */
+    private void setupFile() {
+        if (!db.dataExists(user.getUsername(), GAME_NAME)) {
+            db.addData(user.getUsername(), GAME_NAME);
+        }
+        gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
+        tempGameStateFile = "temp_" + gameStateFile;
     }
 
     /**
@@ -216,31 +238,10 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
     private void switchToGame() {
         Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
         saveToFile(tempGameStateFile);
-        tmp.putExtra("user", username);
+        tmp.putExtra("user", user);
         startActivity(tmp);
     }
 
-    /**
-     * setup user object according to username and define the value of userFile (where user
-     * object is saved)
-     */
-    private void setupUser() {
-        username = getIntent().getStringExtra("user");
-        userFile = db.getUserFile(username);
-        loadFromFile(userFile);
-    }
-
-    /**
-     * setup file of the game
-     * get the filename of where the game state should be saved
-     */
-    private void setupFile() {
-        if (!db.dataExists(username, GAME_NAME)) {
-            db.addData(username, GAME_NAME);
-        }
-        gameStateFile = db.getDataFile(username, GAME_NAME);
-        tempGameStateFile = "temp_" + gameStateFile;
-    }
 
     private void loadFromFile(String fileName) {
 
@@ -248,7 +249,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(userFile)) {
+                if (fileName.equals(user.getFile(GAME_NAME))) {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                     boardManager = (SlidingTilesBoardManager) input.readObject();
@@ -273,7 +274,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(userFile)) {
+            if (fileName.equals(user.getFile(GAME_NAME))) {
                 outputStream.writeObject(user);
             } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                 outputStream.writeObject(boardManager);

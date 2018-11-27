@@ -27,7 +27,7 @@ public class User implements Serializable {
         this.nickname = username;
         this.username = username;
         this.password = password;
-        this.score = new HashMap<String, Integer>();
+        this.score = new HashMap<>();
     }
 
     /**

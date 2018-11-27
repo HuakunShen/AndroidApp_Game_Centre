@@ -23,8 +23,8 @@ import fall2018.csc2017.GameCentre.data.User;
 public class MatchingNewGamePop extends AppCompatActivity {
 
     private User user;
-    private String username;
-    private String userFile;
+//    private String username;
+//    private String userFile;
     private SQLDatabase db;
     /**
      * The main save file.
@@ -113,7 +113,7 @@ public class MatchingNewGamePop extends AppCompatActivity {
                 boardManager = new MatchingBoardManager(selected_difficulty, selected_theme);
                 Intent tmp = new Intent(getApplication(), PictureMatchingGameActivity.class);
                 saveToFile(tempGameStateFile);
-                tmp.putExtra("user", username);
+                tmp.putExtra("user", user);
                 startActivity(tmp);
             }
         });
@@ -124,9 +124,10 @@ public class MatchingNewGamePop extends AppCompatActivity {
      * object is saved)
      */
     private void setupUser() {
-        username = getIntent().getStringExtra("user");
-        userFile = db.getUserFile(username);
-        loadFromFile(userFile);
+        user = (User) getIntent().getSerializableExtra("user");
+//        username = getIntent().getStringExtra("user");
+//        userFile = db.getUserFile(username);
+        loadFromFile(user.getFile(GAME_NAME));
     }
 
     /**
@@ -134,10 +135,10 @@ public class MatchingNewGamePop extends AppCompatActivity {
      * get the filename of where the game state should be saved
      */
     private void setupFile() {
-        if (!db.dataExists(username, GAME_NAME)) {
-            db.addData(username, GAME_NAME);
+        if (!db.dataExists(user.getUsername(), GAME_NAME)) {
+            db.addData(user.getUsername(), GAME_NAME);
         }
-        gameStateFile = db.getDataFile(username, GAME_NAME);
+        gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
         tempGameStateFile = "temp_" + gameStateFile;
     }
 
@@ -147,7 +148,7 @@ public class MatchingNewGamePop extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(userFile)) {
+                if (fileName.equals(user.getFile(GAME_NAME))) {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                     boardManager = (MatchingBoardManager) input.readObject();
@@ -172,7 +173,7 @@ public class MatchingNewGamePop extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(userFile)) {
+            if (fileName.equals(user.getFile(GAME_NAME))) {
                 outputStream.writeObject(user);
             } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                 outputStream.writeObject(boardManager);
