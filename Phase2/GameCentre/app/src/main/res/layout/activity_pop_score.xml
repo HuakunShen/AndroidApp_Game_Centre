@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="25dp"
         android:text="You Scored: "
         android:textColor="@color/colorPrimaryDark"
         android:textSize="30sp" />
@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="127dp"
-        android:layout_marginTop="82dp"
+        android:layout_marginStart="214dp"
+        android:layout_marginTop="34dp"
         android:text="score"
         android:textColor="@color/colorPrimaryDark"
         android:textColorLink="@color/colorPrimaryDark"
@@ -36,19 +36,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="113dp"
-        android:layout_marginEnd="113dp"
+        android:layout_marginTop="74dp"
+        android:layout_marginEnd="76dp"
         android:text="Scoreboard" />
 
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/popScoreToScoreboard"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="279dp"
-        android:text="back" />
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="75dp"
+        android:text="Menu" />
+
+    <TextView
+        android:id="@+id/newRecordDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/scoreDescription1"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="143dp"
+        android:text="new record:"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp" />
 
 </RelativeLayout>

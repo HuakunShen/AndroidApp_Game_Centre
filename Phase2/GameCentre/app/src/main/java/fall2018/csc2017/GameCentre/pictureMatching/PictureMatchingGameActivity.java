@@ -335,20 +335,23 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
             }, 100);
         }
             display();
-            if (true) {
+            if (boardManager.boardSolved()) {
                 Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
                 Integer score = calculateScore();
                 user.updateScore(GAME_NAME, score);
                 saveToFile(user.getFile(GAME_NAME));
                 db.updateScore(user, GAME_NAME);
-                Intent goToPopWindow = new Intent(getApplication(), popScore.class);
-                goToPopWindow.putExtra("score", score);
-                goToPopWindow.putExtra("user", user);
-                goToPopWindow.putExtra("gameType", GAME_NAME);
-
-                startActivity(goToPopWindow);
+                popScoreWindow(score);
             }
         }
+
+    private void popScoreWindow(Integer score) {
+        Intent goToPopWindow = new Intent(getApplication(), popScore.class);
+        goToPopWindow.putExtra("score", score);
+        goToPopWindow.putExtra("user", user);
+        goToPopWindow.putExtra("gameType", GAME_NAME);
+        startActivity(goToPopWindow);
+    }
 
     private Integer calculateScore() {
         int timeInSec = totalTimeTaken.intValue() / 1000;

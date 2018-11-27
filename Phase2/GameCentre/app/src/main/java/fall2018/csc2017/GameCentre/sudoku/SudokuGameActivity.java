@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.sudoku;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
+import fall2018.csc2017.GameCentre.util.popScore;
 
 public class SudokuGameActivity extends AppCompatActivity implements Observer, LoadSaveSerializable {
 
@@ -458,12 +460,23 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         if (boardManager.boardSolved()) {
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = calculateScore();
-            user.updateScore(GAME_NAME, score);
+            boolean newRecord = user.updateScore(GAME_NAME, score);
             saveToFile(user.getFile(GAME_NAME));
             db.updateScore(user, GAME_NAME);
+            popScoreWindow(score, newRecord);
         }
     }
 
+
+    private void popScoreWindow(Integer score, boolean newRecord) {
+        Intent goToPopWindow = new Intent(getApplication(), popScore.class);
+        goToPopWindow.putExtra("score", score);
+        goToPopWindow.putExtra("user", user);
+        goToPopWindow.putExtra("gameType", GAME_NAME);
+        goToPopWindow.putExtra("newRecord", newRecord);
+
+        startActivity(goToPopWindow);
+    }
 
     private Integer calculateScore() {
         int timeInSec = totalTimeTaken.intValue() / 1000;

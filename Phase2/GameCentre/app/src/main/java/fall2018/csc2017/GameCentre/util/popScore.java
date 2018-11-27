@@ -16,26 +16,35 @@ import fall2018.csc2017.GameCentre.gameCentre.GameCentreInterfaceActivity;
 import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 
 public class popScore extends Activity {
+    private String game_name;
+    private User user;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop_score);
+        setupGetIntentExtra();
         setupPopUpWindow();
         setupScoreboardButton();
-//        setupBackToMenuButton();
+        setupBackToMenuButton();
     }
 
-//    private void setupBackToMenuButton() {
-//        Button backToMenuButton = findViewById(R.id.backButton);
-//        backToMenuButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplication(), GameCentreInterfaceActivity.class);
-//
-//                startActivity(intent);
-//            }
-//        });
-//    }
+    private void setupGetIntentExtra() {
+        game_name = getIntent().getStringExtra("gameType");
+        user = (User) getIntent().getSerializableExtra("user");
+    }
+
+    private void setupBackToMenuButton() {
+        Button backToMenuButton = findViewById(R.id.backButton);
+        backToMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), GameCentreInterfaceActivity.class);
+                intent.putExtra("user",
+                        user.getUsername());
+                startActivity(intent);
+            }
+        });
+    }
 
     private void setupScoreboardButton() {
         Button scoreboardButton = findViewById(R.id.popScoreToScoreboard);
@@ -44,8 +53,8 @@ public class popScore extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplication(), ScoreBoardActivity.class);
                 intent.putExtra("scoreBoardType", "byGame");
-                intent.putExtra("user", getIntent().getSerializableExtra("user"));
-                intent.putExtra("gameType", getIntent().getStringExtra("gameType"));
+                intent.putExtra("user", user);
+                intent.putExtra("gameType", game_name);
                 startActivity(intent);
             }
         });
@@ -53,6 +62,7 @@ public class popScore extends Activity {
 
     private void setupPopUpWindow() {
         int score = getIntent().getIntExtra("score", 0);
+        boolean newRecord = getIntent().getBooleanExtra("newRecord", false);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
@@ -61,6 +71,15 @@ public class popScore extends Activity {
         getWindow().setLayout(((int) (width * .8)), (int) (height * .3));
         TextView scoreDisplay = findViewById(R.id.scoreDisplay);
         scoreDisplay.setText(String.valueOf(score));
+
+
+        TextView newRecordDisplay = findViewById(R.id.newRecordDisplay);
+        String toDisplay;
+        if (newRecord)
+            toDisplay = "New Record: " + String.valueOf(score);
+        else
+            toDisplay = "Your Highest Score Was: " + user.getScore(game_name);
+        newRecordDisplay.setText(toDisplay);
     }
 
 

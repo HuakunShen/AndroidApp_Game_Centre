@@ -120,6 +120,7 @@ public class User implements Serializable {
             }
         } else {
             this.score.put(gameType, score);
+            return true;
         }
         return false;
     }
