@@ -94,7 +94,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent tmp = new Intent(SlidingTilesStartingActivity.this, SlidingTilesNewGamePop.class);
                 saveToFile(tempGameStateFile);
-                tmp.putExtra("user", user.getUsername());
+                tmp.putExtra("user", user);
                 startActivity(tmp);
             }
         });
@@ -165,7 +165,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
     private void switchToGame() {
         Intent tmp = new Intent(this, SlidingTilesGameActivity.class);
         saveToFile(tempGameStateFile);
-        tmp.putExtra("user", user.getUsername());
+        tmp.putExtra("user", user);
         startActivity(tmp);
     }
 

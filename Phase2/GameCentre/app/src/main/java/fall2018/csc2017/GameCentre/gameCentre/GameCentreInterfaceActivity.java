@@ -151,7 +151,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplication(), SudokuStartingActivity.class);
-                intent.putExtra("user", user.getUsername());
+                intent.putExtra("user", user);
                 startActivity(intent);
             }
         });
@@ -166,7 +166,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplication(), PictureMatchingStartingActivity.class);
-                intent.putExtra("user", user.getUsername());
+                intent.putExtra("user", user);
                 startActivity(intent);
             }
         });

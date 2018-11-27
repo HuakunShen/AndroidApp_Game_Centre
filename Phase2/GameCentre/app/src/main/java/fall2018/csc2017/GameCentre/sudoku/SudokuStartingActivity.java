@@ -30,8 +30,8 @@ public class SudokuStartingActivity extends AppCompatActivity {
     public static String PACKAGE_NAME;
     private static final int MAX_UNDO_LIMIT = 20;
     private User user;
-    private String username;
-    private String userFile;
+//    private String username;
+//    private String userFile;
     private SQLDatabase db;
     /**
      * The main save file.
@@ -54,7 +54,8 @@ public class SudokuStartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku_starting);
         db = new SQLDatabase(this);
-        username = getIntent().getStringExtra("user");
+
+//        username = getIntent().getStringExtra("user");
         PACKAGE_NAME = getApplicationContext().getPackageName();
         RESOURCES = getResources();
         setupUser();
@@ -66,6 +67,26 @@ public class SudokuStartingActivity extends AppCompatActivity {
         addStartButtonListener();
         addLoadButtonListener();
         addScoreboardButtonListener();
+    }
+
+    /**
+     * setup user object according to username and define the value of userFile (where user
+     * object is saved)
+     */
+    private void setupUser() {
+        user = (User) getIntent().getSerializableExtra("user");
+    }
+
+    /**
+     * setup file of the game
+     * get the filename of where the game state should be saved
+     */
+    private void setupFile() {
+        if (!db.dataExists(user.getUsername(), GAME_NAME)) {
+            db.addData(user.getUsername(), GAME_NAME);
+        }
+        gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
+        tempGameStateFile = "temp_" + gameStateFile;
     }
 
     /**
@@ -145,30 +166,8 @@ public class SudokuStartingActivity extends AppCompatActivity {
     private void switchToGame() {
         Intent tmp = new Intent(this, SudokuGameActivity.class);
         saveToFile(tempGameStateFile);
-        tmp.putExtra("user", username);
+        tmp.putExtra("user", user);
         startActivity(tmp);
-    }
-
-    /**
-     * setup user object according to username and define the value of userFile (where user
-     * object is saved)
-     */
-    private void setupUser() {
-        username = getIntent().getStringExtra("user");
-        userFile = db.getUserFile(username);
-        loadFromFile(userFile);
-    }
-
-    /**
-     * setup file of the game
-     * get the filename of where the game state should be saved
-     */
-    private void setupFile() {
-        if (!db.dataExists(username, GAME_NAME)) {
-            db.addData(username, GAME_NAME);
-        }
-        gameStateFile = db.getDataFile(username, GAME_NAME);
-        tempGameStateFile = "temp_" + gameStateFile;
     }
 
     /**
@@ -181,7 +180,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(userFile)) {
+                if (fileName.equals(user.getFile(GAME_NAME))) {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                     boardManager = (SudokuBoardManager) input.readObject();
@@ -206,7 +205,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(userFile)) {
+            if (fileName.equals(user.getFile(GAME_NAME))) {
                 outputStream.writeObject(user);
             } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                 outputStream.writeObject(boardManager);

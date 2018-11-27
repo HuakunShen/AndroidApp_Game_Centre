@@ -22,8 +22,8 @@ import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 public class PictureMatchingStartingActivity extends AppCompatActivity {
 
     private User user;
-    private String username;
-    private String userFile;
+    //    private String username;
+//    private String userFile;
     private SQLDatabase db;
     /**
      * The main save file.
@@ -44,18 +44,43 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picturematching_starting);
         db = new SQLDatabase(this);
-        username = getIntent().getStringExtra("user");
-
-        boardManager = new MatchingBoardManager(4, "Number");
+//        username = getIntent().getStringExtra("user");
 
         setupUser();
         setupFile();
 
+        boardManager = new MatchingBoardManager(4, "Number");
         saveToFile(tempGameStateFile);
 
         addStartButtonListener();
         addLoadButtonListener();
         addScoreboardButtonListener();
+    }
+
+    private void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void setupUser() {
+        user = (User) getIntent().getSerializableExtra("user");
+    }
+
+    private void setupFile() {
+        if (!db.dataExists(user.getUsername(), GAME_NAME)) {
+            db.addData(user.getUsername(), GAME_NAME);
+        }
+        gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
+        tempGameStateFile = "temp_" + gameStateFile;
+    }
+
+    /**
+     * Switch to the SlidingTilesGameActivity view to play the game.
+     */
+    private void switchToGame() {
+        Intent tmp = new Intent(this, PictureMatchingGameActivity.class);
+        saveToFile(tempGameStateFile);
+        tmp.putExtra("user", user);
+        startActivity(tmp);
     }
 
     private void addScoreboardButtonListener() {
@@ -85,19 +110,6 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
             }
         });
     }
-    private void makeToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * Switch to the SlidingTilesGameActivity view to play the game.
-     */
-    private void switchToGame() {
-        Intent tmp = new Intent(this, PictureMatchingGameActivity.class);
-        saveToFile(tempGameStateFile);
-        tmp.putExtra("user", username);
-        startActivity(tmp);
-    }
 
     private void addStartButtonListener() {
         Button startButton = findViewById(R.id.PictureMatchingNewGameButton);
@@ -106,24 +118,10 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent tmp = new Intent(getApplication(), MatchingNewGamePop.class);
                 saveToFile(tempGameStateFile);
-                tmp.putExtra("user", username);
+                tmp.putExtra("user", user);
                 startActivity(tmp);
             }
         });
-    }
-
-    private void setupFile() {
-        username = getIntent().getStringExtra("user");
-        userFile = db.getUserFile(username);
-        loadFromFile(userFile);
-    }
-
-    private void setupUser() {
-        if (!db.dataExists(username, GAME_NAME)) {
-            db.addData(username, GAME_NAME);
-        }
-        gameStateFile = db.getDataFile(username, GAME_NAME);
-        tempGameStateFile = "temp_" + gameStateFile;
     }
 
     private void loadFromFile(String fileName) {
@@ -131,7 +129,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(userFile)) {
+                if (fileName.equals(user.getFile(GAME_NAME))) {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                     boardManager = (MatchingBoardManager) input.readObject();
@@ -156,7 +154,7 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(userFile)) {
+            if (fileName.equals(user.getFile(GAME_NAME))) {
                 outputStream.writeObject(user);
             } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                 outputStream.writeObject(boardManager);
