@@ -17,12 +17,14 @@ import java.io.ObjectOutputStream;
 
 import fall2018.csc2017.GameCentre.data.*;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.util.popScore;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameEntered;
     private EditText passwordEntered;
     private SQLDatabase db;
     private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
+import fall2018.csc2017.GameCentre.util.popScore;
 
 public class PictureMatchingGameActivity extends AppCompatActivity implements Observer {
 
@@ -239,7 +241,10 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                     b.setBackgroundResource(id);
                     break;
                 case PictureTile.COVERED:
-                    b.setBackgroundResource(R.drawable.picturematching_tile_back);
+                    name = "pm_" + boardManager.getTheme() + "_" + Integer.toString(currentTile.getId());
+                    id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
+                    b.setBackgroundResource(id);
+//                    b.setBackgroundResource(R.drawable.picturematching_tile_back);
                     break;
                 case PictureTile.SOLVED:
                     b.setBackgroundResource(R.drawable.picturematching_tile_done);
@@ -336,6 +341,9 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                 user.updateScore(GAME_NAME, score);
                 saveToFile(userFile);
                 db.updateScore(user, GAME_NAME);
+                Intent goToPopWindow = new Intent(getApplication(), popScore.class);
+                goToPopWindow.putExtra("score", score);
+                startActivity(goToPopWindow);
             }
         }
 
