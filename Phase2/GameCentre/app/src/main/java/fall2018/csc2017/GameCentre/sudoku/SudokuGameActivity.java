@@ -40,7 +40,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
      * The board manager.
      */
     private SudokuBoardManager boardManager;
-
     /**
      * The buttons to display.
      */
@@ -101,13 +100,18 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         addHintButtonListener();
     }
 
+    /**
+     * Set up hint display.
+     */
     private void setUpHintDisplay() {
         hintText = findViewById(R.id.hintTextView);
         String hintDisplay = "Hint: " + String.valueOf(boardManager.getHint());
         hintText.setText(hintDisplay);
     }
 
-
+    /**
+     * Set up all buttons.
+     */
     private void setUpButtons() {
         LinearLayout numLayout = findViewById(R.id.numButtons);
 
@@ -136,6 +140,9 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         }
     }
 
+    /**
+     * Activate Clear button
+     */
     private void addClearButtonListener() {
         Button clearButton = findViewById(R.id.clearButton);
         clearButton.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +162,9 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         });
     }
 
+    /**
+     * Activate Undo button
+     */
     private void addUndoButtonListener() {
         Button undoButton = findViewById(R.id.sudoku_undo_button);
         warning.setError("Exceeds Undo-Limit! ");
@@ -212,6 +222,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         });
     }
 
+    /**
+     * Display the warning.
+     *
+     * @param msg the input message
+     */
     private void displayWarning(String msg) {
         warning.setVisibility(View.VISIBLE);
         warning.setText(msg);
@@ -276,7 +291,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
     }
 
     /**
-     * convert time in milli seconds (long type) to String which will be displayed
+     * Convert time in milli seconds (long type) to String which will be displayed
+     *
+     * @param time input time to be converted
+     * @return the string format of the input time
      */
     String timeToString(long time) {
         Integer hour = (int) (time / 3600000);
@@ -464,7 +482,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         }
     }
 
-
+    /**
+     * Calculate the score for current player.
+     *
+     * @return the play's score.
+     */
     private Integer calculateScore() {
         int timeInSec = totalTimeTaken.intValue() / 1000;
         return (new Integer(10000 / timeInSec));

@@ -30,7 +30,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
     public static String PACKAGE_NAME;
     private static final int MAX_UNDO_LIMIT = 20;
     private User user;
-//    private String username;
+    //    private String username;
 //    private String userFile;
     private SQLDatabase db;
     /**
@@ -45,7 +45,13 @@ public class SudokuStartingActivity extends AppCompatActivity {
      * The board manager.
      */
     public static final String GAME_NAME = "Sudoku";
+    /**
+     * The SudokuBoardManager.
+     */
     private SudokuBoardManager boardManager;
+    /**
+     * Levels of difficulty.
+     */
     private String[] list_diff = new String[]{"Easy", "Normal", "Hard"};
 
 
@@ -99,7 +105,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
     }
 
     /**
-     * Activate the start button.
+     * Activate the Start button.
      */
     private void addStartButtonListener() {
         Button startButton = findViewById(R.id.SudokuNewGameButton);
@@ -108,11 +114,9 @@ public class SudokuStartingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SudokuStartingActivity.this);
                 builder.setTitle("Choose a difficulty:");
-                builder.setItems(list_diff, new DialogInterface.OnClickListener()
-                {
+                builder.setItems(list_diff, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int diff)
-                    {
+                    public void onClick(DialogInterface dialog, int diff) {
                         SudokuBoardManager.setLevelOfDifficulty(diff + 1);
                         boardManager = new SudokuBoardManager();
                         switchToGame();
@@ -124,6 +128,9 @@ public class SudokuStartingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Activate the Scoreboard button.
+     */
     private void addScoreboardButtonListener() {
         ImageButton scoreboardButton = findViewById(R.id.scoreboardButton_sudoku);
         scoreboardButton.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +163,11 @@ public class SudokuStartingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Make a toast.
+     *
+     * @param message the input message.
+     */
     private void makeToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
