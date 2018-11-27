@@ -241,10 +241,10 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                     b.setBackgroundResource(id);
                     break;
                 case PictureTile.COVERED:
-                    name = "pm_" + boardManager.getTheme() + "_" + Integer.toString(currentTile.getId());
-                    id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
-                    b.setBackgroundResource(id);
-//                    b.setBackgroundResource(R.drawable.picturematching_tile_back);
+//                    name = "pm_" + boardManager.getTheme() + "_" + Integer.toString(currentTile.getId());
+//                    id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
+//                    b.setBackgroundResource(id);
+                    b.setBackgroundResource(R.drawable.picturematching_tile_back);
                     break;
                 case PictureTile.SOLVED:
                     b.setBackgroundResource(R.drawable.picturematching_tile_done);
@@ -332,7 +332,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                         Toast.makeText(getApplication(), "slow down!", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }, 1000);
+            }, 100);
         }
             display();
             if (boardManager.boardSolved()) {

@@ -29,4 +29,25 @@
         android:textColor="@color/colorPrimaryDark"
         android:textColorLink="@color/colorPrimaryDark"
         android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/popScoreToScoreboard"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="121dp"
+        android:text="Scoreboard" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="262dp"
+        android:text="back to menu" />
+
 </RelativeLayout>
