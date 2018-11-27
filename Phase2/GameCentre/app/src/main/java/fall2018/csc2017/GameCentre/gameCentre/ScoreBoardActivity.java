@@ -49,8 +49,9 @@ public class ScoreBoardActivity extends AppCompatActivity {
 
 
     private void setupUser() {
-        type = getIntent().getStringExtra("scoreBoardType");
         Intent intent = getIntent();
+        type = intent.getStringExtra("scoreBoardType");
+
         user = (User) intent.getSerializableExtra("user");
     }
 

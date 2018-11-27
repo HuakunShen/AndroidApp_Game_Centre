@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.slidingTiles;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,6 +35,7 @@ import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
+import fall2018.csc2017.GameCentre.util.popScore;
 
 import static android.graphics.Bitmap.createBitmap;
 
@@ -392,7 +394,16 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             user.updateScore(GAME_NAME, score);
             saveToFile(user.getFile(GAME_NAME));
             db.updateScore(user, GAME_NAME);
+            popScoreWindow(score);
         }
+    }
+
+    private void popScoreWindow(Integer score) {
+        Intent goToPopWindow = new Intent(getApplication(), popScore.class);
+        goToPopWindow.putExtra("score", score);
+        goToPopWindow.putExtra("user", user);
+        goToPopWindow.putExtra("gameType", GAME_NAME);
+        startActivity(goToPopWindow);
     }
 
     private Integer calculateScore() {

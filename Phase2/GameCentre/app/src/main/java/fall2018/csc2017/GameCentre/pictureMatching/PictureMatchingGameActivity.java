@@ -241,10 +241,10 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                     b.setBackgroundResource(id);
                     break;
                 case PictureTile.COVERED:
-                    name = "pm_" + boardManager.getTheme() + "_" + Integer.toString(currentTile.getId());
-                    id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
-                    b.setBackgroundResource(id);
-//                    b.setBackgroundResource(R.drawable.picturematching_tile_back);
+//                    name = "pm_" + boardManager.getTheme() + "_" + Integer.toString(currentTile.getId());
+//                    id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
+//                    b.setBackgroundResource(id);
+                    b.setBackgroundResource(R.drawable.picturematching_tile_back);
                     break;
                 case PictureTile.SOLVED:
                     b.setBackgroundResource(R.drawable.picturematching_tile_done);
@@ -332,7 +332,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                         Toast.makeText(getApplication(), "slow down!", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }, 1000);
+            }, 100);
         }
             display();
             if (boardManager.boardSolved()) {
@@ -341,11 +341,17 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                 user.updateScore(GAME_NAME, score);
                 saveToFile(userFile);
                 db.updateScore(user, GAME_NAME);
-                Intent goToPopWindow = new Intent(getApplication(), popScore.class);
-                goToPopWindow.putExtra("score", score);
-                startActivity(goToPopWindow);
+                popScoreWindow(score);
             }
         }
+
+    private void popScoreWindow(Integer score) {
+        Intent goToPopWindow = new Intent(getApplication(), popScore.class);
+        goToPopWindow.putExtra("score", score);
+        goToPopWindow.putExtra("user", user);
+        goToPopWindow.putExtra("gameType", GAME_NAME);
+        startActivity(goToPopWindow);
+    }
 
     private Integer calculateScore() {
         int timeInSec = totalTimeTaken.intValue() / 1000;
