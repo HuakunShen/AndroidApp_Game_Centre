@@ -53,8 +53,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
     private static final String GAME_NAME = "Sudoku";
 
     private User user;
-    private String username;
-    private String userFile;
+    //    private String username;
+//    private String userFile;
     private SQLDatabase db;
     //time
     private LocalTime startingTime;
@@ -114,21 +114,21 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         numButtons = new Button[9];
         for (int tmp = 0; tmp < numButtons.length; tmp++) {
             numButtons[tmp] = new Button(this);
-            numButtons[tmp].setId(1800+tmp);
+            numButtons[tmp].setId(1800 + tmp);
             numButtons[tmp].setText(String.format("%s", Integer.toString(tmp + 1)));
 
-            RelativeLayout.LayoutParams btParams = new RelativeLayout.LayoutParams (100,50);
+            RelativeLayout.LayoutParams btParams = new RelativeLayout.LayoutParams(100, 50);
             btParams.leftMargin = 3;
             btParams.topMargin = 5;
             btParams.width = 115;
             btParams.height = 115;
-            numLayout.addView(numButtons[tmp],btParams);
+            numLayout.addView(numButtons[tmp], btParams);
 
             numButtons[tmp].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for (int tmp = 0; tmp < numButtons.length; tmp++){
-                        if(v == numButtons[tmp])
+                    for (int tmp = 0; tmp < numButtons.length; tmp++) {
+                        if (v == numButtons[tmp])
                             boardManager.updateValue(tmp + 1, false);
                     }
                 }
@@ -224,7 +224,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         }, 1000);
     }
 
-
     /**
      * Set up the warning message displayed on the UI.
      */
@@ -238,9 +237,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
      * object is saved)
      */
     private void setupUser() {
-        username = getIntent().getStringExtra("user");
-        userFile = db.getUserFile(username);
-        loadFromFile(userFile);
+        user = (User) getIntent().getSerializableExtra("user");
+//        username = getIntent().getStringExtra("user");
+//        userFile = db.getUserFile(username);
+        loadFromFile(user.getFile(GAME_NAME));
     }
 
     /**
@@ -248,10 +248,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
      * get the filename of where the game state should be saved
      */
     private void setupFile() {
-        if (!db.dataExists(username, GAME_NAME)) {
-            db.addData(username, GAME_NAME);
+        if (!db.dataExists(user.getUsername(), GAME_NAME)) {
+            db.addData(user.getUsername(), GAME_NAME);
         }
-        gameStateFile = db.getDataFile(username, GAME_NAME);
+        gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
         tempGameStateFile = "temp_" + gameStateFile;
     }
 
@@ -415,7 +415,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(userFile)) {
+                if (fileName.equals(user.getFile(GAME_NAME))) {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) ||
                         fileName.equals(tempGameStateFile)) {
@@ -441,7 +441,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(userFile)) {
+            if (fileName.equals(user.getFile(GAME_NAME))) {
                 outputStream.writeObject(user);
             } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                 outputStream.writeObject(boardManager);
@@ -459,7 +459,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = calculateScore();
             user.updateScore(GAME_NAME, score);
-            saveToFile(userFile);
+            saveToFile(user.getFile(GAME_NAME));
             db.updateScore(user, GAME_NAME);
         }
     }
