@@ -33,7 +33,14 @@ import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.popScore;
 
 public class PictureMatchingGameActivity extends AppCompatActivity implements Observer {
-
+    /**
+     * TextView for displaying time.
+     */
+    private TextView timeDisplay;
+    /**
+     * whether the game is finished.
+     */
+    private boolean gameRunning;
     /**
      * The board manager.
      */
@@ -56,10 +63,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * Current User.
      */
     private User user;
-//    /**
-//     * the name of current user.
-//     */
-//    private String username;
     /**
      * the file of current user.
      */
@@ -88,10 +91,13 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * A temporary save file.
      */
     private String tempGameStateFile;
-
-    private String[] list_theme = new String[]{"number", "animal", "emoji"};
-
+    /**
+     * the name of the package.
+     */
     private String PACKAGE_NAME;
+    /**
+     * place where store pictures.
+     */
     private Resources RESOURCES;
 
     @Override
@@ -137,17 +143,21 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * Time counting, setup initial time based on the record in boardmanager
      */
     private void setupTime() {
+        if (!boardManager.boardSolved())
+            gameRunning = true;
         Timer timer = new Timer();
         preStartTime = boardManager.getTimeTaken();
-        final TextView timeDisplay = findViewById(R.id.time_display_view_in_picturematching);
+        timeDisplay = findViewById(R.id.time_display_view_in_picturematching);
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
                 String text = "Time: " + timeToString(time + preStartTime);
-                timeDisplay.setText(text);
-                totalTimeTaken = time + preStartTime;
-                boardManager.setTimeTaken(time + preStartTime);
+                if(gameRunning){
+                    timeDisplay.setText(text);
+                    totalTimeTaken = time + preStartTime;
+                    boardManager.setTimeTaken(time + preStartTime);
+                }
             }
         };
         timer.schedule(task2, 0, 1000);
@@ -241,9 +251,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                     b.setBackgroundResource(id);
                     break;
                 case PictureTile.COVERED:
-//                    name = "pm_" + boardManager.getTheme() + "_" + Integer.toString(currentTile.getId());
-//                    id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
-//                    b.setBackgroundResource(id);
                     b.setBackgroundResource(R.drawable.picturematching_tile_back);
                     break;
                 case PictureTile.SOLVED:
@@ -257,6 +264,8 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     @Override
     protected void onResume() {
         super.onResume();
+        String text = "Time: " + timeToString(boardManager.getTimeTaken());
+        timeDisplay.setText(text);
     }
 
     /**
@@ -341,6 +350,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                 user.updateScore(GAME_NAME, score);
                 saveToFile(userFile);
                 db.updateScore(user, GAME_NAME);
+                gameRunning = false;
                 popScoreWindow(score);
             }
         }
