@@ -25,15 +25,45 @@ import fall2018.csc2017.GameCentre.data.User;
 
 public class ScoreBoardActivity extends AppCompatActivity {
 
+    /**
+     * the list of the list where the inner list contains username, game type, score and its rank.
+     */
     private List<List<String>> dataList;
+    /**
+     * the tableLayout of the scoreboard.
+     */
     private TableLayout scoreboard;
+    /**
+     * the database that store user and game information.
+     */
     private SQLDatabase db;
+    /**
+     * the type of scoreboard either by user or by name
+     */
     private String type;
+    /**
+     * the name of the game.
+     */
     private String game_type;
+    /**
+     * the user object that store the user information.
+     */
     private User user;
+    /**
+     * the String to be displayed in scoreboard activity.
+     */
     private final String[] byUserTitle = new String[]{"Game", "Username", "Highest Score"};
+    /**
+     * the string to be displayed in scoreboard activity.
+     */
     private final String[] byGameTitle = new String[]{"Rank", "Game", "User", "Score"};
+    /**
+     * the string byUser
+     */
     private final String byUser = "byUser";
+    /**
+     * the string byGame.
+     */
     private final String byGame = "byGame";
 
     @Override
@@ -47,7 +77,9 @@ public class ScoreBoardActivity extends AppCompatActivity {
         addTable();
     }
 
-
+    /**
+     * set up the user information.
+     */
     private void setupUser() {
         Intent intent = getIntent();
         type = intent.getStringExtra("scoreBoardType");
@@ -55,6 +87,9 @@ public class ScoreBoardActivity extends AppCompatActivity {
         user = (User) intent.getSerializableExtra("user");
     }
 
+    /**
+     * set up the data information.
+     */
     private void setupData() {
         if (type.equals(byGame))
             game_type = getIntent().getStringExtra("gameType");
@@ -64,7 +99,9 @@ public class ScoreBoardActivity extends AppCompatActivity {
             dataList = db.getScoreByGame(game_type);
     }
 
-
+    /**
+     * add the table to scoreboard activity.
+     */
     private void addTable() {
         setupTitle();
         TableRow row;
@@ -82,6 +119,9 @@ public class ScoreBoardActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * set up the title of the scoreboard.
+     */
     private void setupTitle() {
         initializeColumnsWidth();
         String[] titles = setupTitleContent();
@@ -89,6 +129,10 @@ public class ScoreBoardActivity extends AppCompatActivity {
         addLine();
     }
 
+    /**
+     * set up the title content.
+     * @return title content string array.
+     */
     private String[] setupTitleContent() {
         String[] titles;
         if (type.equals(byUser))
@@ -98,6 +142,9 @@ public class ScoreBoardActivity extends AppCompatActivity {
         return titles;
     }
 
+    /**
+     * add lines to table.
+     */
     private void addLine() {
         TableRow row = new TableRow(this);
         row.setMinimumHeight(5);
@@ -111,7 +158,10 @@ public class ScoreBoardActivity extends AppCompatActivity {
         scoreboard.addView(row);
     }
 
-    @NonNull
+    /**
+     * configure the titles.
+     * @param titles the titles of string.
+     */
     private void addConfigTitles(String[] titles) {
         TextView text;
         TableRow row = new TableRow(this);
@@ -126,6 +176,9 @@ public class ScoreBoardActivity extends AppCompatActivity {
         scoreboard.addView(row);
     }
 
+    /**
+     * initialize columns width.
+     */
     private void initializeColumnsWidth() {
         TableRow newRow = new TableRow(this);
         int numCol = type.equals(byGame) ? 4 : 3;
