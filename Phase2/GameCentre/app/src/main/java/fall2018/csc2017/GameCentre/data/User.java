@@ -133,7 +133,7 @@ public class User implements Serializable {
      */
     public String getFile(String game) {
         if (this.score.containsKey(game)) {
-            return this.username + "_" + game + "_state.ser";
+            return this.username + "_" + game + "_data.ser";
         } else {
             return "DNE";
         }
