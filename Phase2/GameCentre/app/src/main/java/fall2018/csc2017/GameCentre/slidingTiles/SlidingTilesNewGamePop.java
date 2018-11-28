@@ -34,7 +34,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
 
     private User user;
     //    private String username;
-//    private String userFile;
+    private String userFile;
     private SQLDatabase db;
     /**
      * The main save file.
@@ -78,8 +78,8 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
      */
     private void setupUser() {
         user = (User) getIntent().getSerializableExtra("user");
-//        userFile = db.getUserFile(username);
-        loadFromFile(user.getFile(GAME_NAME));
+        userFile = db.getUserFile(user.getUsername());
+        loadFromFile(userFile);
     }
 
     /**
@@ -250,7 +250,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(user.getFile(GAME_NAME))) {
+                if (fileName.equals(userFile)) {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                     boardManager = (SlidingTilesBoardManager) input.readObject();
@@ -275,7 +275,7 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(user.getFile(GAME_NAME))) {
+            if (fileName.equals(userFile)) {
                 outputStream.writeObject(user);
             } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                 outputStream.writeObject(boardManager);
