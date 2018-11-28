@@ -17,11 +17,29 @@ import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 
 public class SignUpActivity extends AppCompatActivity {
+    /**
+     * the nickname that user entered.
+     */
     private EditText nicknameInput;
+    /**
+     * the username that user entered.
+     */
     private EditText usernameInput;
+    /**
+     * the password that user entered.
+     */
     private EditText passwordInput;
+    /**
+     * the password that user re-entered.
+     */
     private EditText password_repeat_Input;
+    /**
+     * the databases that stores the user and game information.
+     */
     private SQLDatabase db;
+    /**
+     * the user object that stores the user information.
+     */
     private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +54,9 @@ public class SignUpActivity extends AppCompatActivity {
         addRegisterListener();
     }
 
+    /**
+     * add register button.
+     */
     private void addRegisterListener() {
         Button registerButton = findViewById(R.id.registerButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +84,10 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * save user to file
+     * @param fileName the name of the file.
+     */
     private void saveToFile(String fileName) {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
@@ -75,6 +99,13 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * check whether the input is proper.
+     * @param username the name of the user.
+     * @param password the password of the current user.
+     * @param password_repeat the password that re-entered.
+     * @return an array of object with length 2, the first one is boolean type and the second one is corresponding message.
+     */
     private Object[] checkInput(String username, String password, String password_repeat) {
         Object[] result = new Object[2];
         if (username.equals("")) {
