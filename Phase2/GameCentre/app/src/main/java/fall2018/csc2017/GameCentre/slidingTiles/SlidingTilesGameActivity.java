@@ -45,6 +45,8 @@ import static android.graphics.Bitmap.createBitmap;
 public class SlidingTilesGameActivity extends AppCompatActivity implements Observer,
         LoadSaveSerializable {
 
+    private SlidingTilesGameController controller;
+
     private boolean gameRunning;
     private TextView timeDisplay;
     /**
@@ -105,13 +107,16 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = new SQLDatabase(this);
+
         PACKAGE_NAME = getApplicationContext().getPackageName();
         RESOURCES = getResources();
         startingTime = LocalTime.now();
-        db = new SQLDatabase(this);
+
         setupUser();
         setupFile();
         loadFromFile(tempGameStateFile);
+        setupController();
         createTileButtons(this);
         setContentView(R.layout.activity_main);
         setupTime();
@@ -125,6 +130,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         difficulty = boardManager.getBoard().getDifficulty();
         tileImages = new Bitmap[difficulty * difficulty];
 
+
         try {
             byte[] tmpImage = boardManager.getImageBackground();
             backgroundImage = BitmapFactory.decodeByteArray(tmpImage, 0, tmpImage.length);
@@ -134,15 +140,19 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         }
     }
 
+    private void setupController() {
+        controller = new SlidingTilesGameController(this, db, user, boardManager, gameStateFile,
+                tempGameStateFile);
+    }
+
     /**
      * setup user object according to username and define the value of userFile (where user
      * object is saved)
      */
     private void setupUser() {
         user = (User) getIntent().getSerializableExtra("user");
-//        username = getIntent().getStringExtra("user");
         userFile = db.getUserFile(user.getUsername());
-        loadFromFile(userFile);
+//        loadFromFile(userFile);
     }
 
     /**
@@ -150,9 +160,13 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * get the filename of where the game state should be saved
      */
     private void setupFile() {
+//        controller.setupFile();
+
         if (!db.dataExists(user.getUsername(), GAME_NAME)) {
             db.addData(user.getUsername(), GAME_NAME);
         }
+//        gameStateFile = controller.getDataFile();
+//        tempGameStateFile = controller.getTempDataFile();
         gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
         tempGameStateFile = "temp_" + gameStateFile;
     }
@@ -163,7 +177,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     private void setUpStep() {
         stepDisplay = findViewById(R.id.stepDisplayTextView);
         this.steps = boardManager.getStepsTaken();
-//        this.steps = 0;
         stepDisplay.setText(String.format("%s", "Steps: " + Integer.toString(steps)));
     }
 
@@ -182,7 +195,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
                 if(gameRunning){
-                    timeDisplay.setText(timeToString(time + preStartTime));
+//                    timeDisplay.setText(timeToString(time + preStartTime));
+                    timeDisplay.setText(controller.convertTime(time + preStartTime));
                     totalTimeTaken = time + preStartTime;
                     boardManager.setTimeTaken(time + preStartTime);
                 }
@@ -273,7 +287,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * @param context the context
      */
     private void createTileButtons(Context context) {
-
+//        tileButtons = controller.createTileButtons();
         tileButtons = new ArrayList<>();
         for (int row = 0; row != boardManager.getBoard().getDifficulty(); row++) {
             for (int col = 0; col != boardManager.getBoard().getDifficulty(); col++) {
@@ -301,9 +315,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     protected void onResume() {
         super.onResume();
-        stepDisplay.setText("Steps: " + Integer.toString(this.steps));
-        String text = timeToString(boardManager.getTimeTaken());
-        timeDisplay.setText(text);
+        stepDisplay.setText(String.format("%s", "Steps: " + Integer.toString(this.steps)));
+        timeDisplay.setText(controller.convertTime(boardManager.getTimeTaken()));
     }
 
     /**
@@ -398,7 +411,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         boardManager.setStepsTaken(steps);
         if (boardManager.boardSolved()) {
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            Integer score = calculateScore();
+            Integer score = controller.calculateScore(steps, totalTimeTaken);
             user.updateScore(GAME_NAME, score);
             saveToFile(userFile);
             db.updateScore(user, GAME_NAME);
@@ -415,12 +428,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         startActivity(goToPopWindow);
     }
 
-    private Integer calculateScore() {
-        int step = steps;
-        int timeInSec = totalTimeTaken.intValue() / 1000;
-        Integer score = new Integer(10000 / (step + timeInSec));
-        return score;
-    }
 
     private void cutImageToTiles() {
         int width = backgroundImage.getWidth();
