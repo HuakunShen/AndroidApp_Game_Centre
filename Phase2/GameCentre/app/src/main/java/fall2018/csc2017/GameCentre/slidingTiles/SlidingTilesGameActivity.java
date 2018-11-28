@@ -47,7 +47,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 
     private SlidingTilesGameController controller;
 
-    private boolean gameRunning;
     private TextView timeDisplay;
     /**
      * The board manager.
@@ -80,21 +79,14 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     private LocalTime startingTime;
     private Long preStartTime;
     private Long totalTimeTaken;
-    private int steps;
+
 
     /**
      * Warning message
      */
     private TextView warning;
 
-    /**
-     * The main save file.
-     */
-    private String gameStateFile;
-    /**
-     * A temporary save file.
-     */
-    private String tempGameStateFile;
+
 
     private int difficulty;
     private Bitmap backgroundImage;
@@ -114,9 +106,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         startingTime = LocalTime.now();
 
         setupUser();
-        setupFile();
-        loadFromFile(tempGameStateFile);
         setupController();
+        loadFromFile(controller.getTempGameStateFile());
+        controller.setBoardManager(boardManager);
+
         createTileButtons(this);
         setContentView(R.layout.activity_main);
         setupTime();
@@ -141,8 +134,9 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     }
 
     private void setupController() {
-        controller = new SlidingTilesGameController(this, db, user, boardManager, gameStateFile,
-                tempGameStateFile);
+        controller = new SlidingTilesGameController(this, user);
+        controller.setupFile();
+
     }
 
     /**
@@ -155,29 +149,16 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
 //        loadFromFile(userFile);
     }
 
-    /**
-     * setup file of the game
-     * get the filename of where the game state should be saved
-     */
-    private void setupFile() {
-//        controller.setupFile();
 
-        if (!db.dataExists(user.getUsername(), GAME_NAME)) {
-            db.addData(user.getUsername(), GAME_NAME);
-        }
-//        gameStateFile = controller.getDataFile();
-//        tempGameStateFile = controller.getTempDataFile();
-        gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
-        tempGameStateFile = "temp_" + gameStateFile;
-    }
+
 
     /**
      * setup initial step base on the record in boardmanager
      */
     private void setUpStep() {
         stepDisplay = findViewById(R.id.stepDisplayTextView);
-        this.steps = boardManager.getStepsTaken();
-        stepDisplay.setText(String.format("%s", "Steps: " + Integer.toString(steps)));
+        controller.setupSteps();
+        stepDisplay.setText(String.format("%s", "Steps: " + Integer.toString(controller.getSteps())));
     }
 
 
@@ -186,7 +167,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      */
     private void setupTime() {
         if(!boardManager.boardSolved())
-            gameRunning = true;
+            controller.setGameRunning(true);
         Timer timer = new Timer();
         preStartTime = boardManager.getTimeTaken();
         timeDisplay = findViewById(R.id.time_display_view);
@@ -194,11 +175,11 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                if(gameRunning){
-//                    timeDisplay.setText(timeToString(time + preStartTime));
+                if(controller.isGameRunning()){
                     timeDisplay.setText(controller.convertTime(time + preStartTime));
                     totalTimeTaken = time + preStartTime;
                     boardManager.setTimeTaken(time + preStartTime);
+
                 }
             }
         };
@@ -315,7 +296,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     protected void onResume() {
         super.onResume();
-        stepDisplay.setText(String.format("%s", "Steps: " + Integer.toString(this.steps)));
+        stepDisplay.setText(String.format("%s", "Steps: " + Integer.toString(controller.getSteps())));
         timeDisplay.setText(controller.convertTime(boardManager.getTimeTaken()));
     }
 
@@ -325,8 +306,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     protected void onPause() {
         super.onPause();
-        saveToFile(tempGameStateFile);
-        saveToFile(gameStateFile);
+        saveToFile(controller.getTempGameStateFile());
+        saveToFile(controller.getGameStateFile());
     }
 
     private void addUndoButtonListener() {
@@ -368,8 +349,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                 ObjectInputStream input = new ObjectInputStream(inputStream);
                 if (fileName.equals(userFile)) {
                     user = (User) input.readObject();
-                } else if (fileName.equals(gameStateFile) ||
-                        fileName.equals(tempGameStateFile)) {
+                } else if (fileName.equals(controller.getGameStateFile()) ||
+                        fileName.equals(controller.getTempGameStateFile())) {
                     boardManager = (SlidingTilesBoardManager) input.readObject();
                 }
                 inputStream.close();
@@ -394,7 +375,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                     this.openFileOutput(fileName, MODE_PRIVATE));
             if (fileName.equals(userFile)) {
                 outputStream.writeObject(user);
-            } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
+            } else if (fileName.equals(controller.getGameStateFile()) || fileName.equals(controller.getTempGameStateFile())) {
                 outputStream.writeObject(boardManager);
             }
             outputStream.close();
@@ -406,16 +387,15 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     public void update(Observable o, Object arg) {
         display();
-        this.steps++;
-        this.stepDisplay.setText("Steps: " + Integer.toString(steps));
-        boardManager.setStepsTaken(steps);
+        controller.setSteps(controller.getSteps() + 1);
+        this.stepDisplay.setText("Steps: " + Integer.toString(controller.getSteps()));
         if (boardManager.boardSolved()) {
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            Integer score = controller.calculateScore(steps, totalTimeTaken);
+            Integer score = controller.calculateScore(totalTimeTaken);
             user.updateScore(GAME_NAME, score);
             saveToFile(userFile);
             db.updateScore(user, GAME_NAME);
-            gameRunning=false;
+            controller.setGameRunning(false);
             popScoreWindow(score);
         }
     }
