@@ -46,6 +46,7 @@ public class User implements Serializable {
 
     /**
      * Return avatar.
+     *
      * @return avatar.
      */
     public byte[] getAvatar() {
@@ -54,6 +55,7 @@ public class User implements Serializable {
 
     /**
      * Set avatar
+     *
      * @param avatar
      */
     public void setAvatar(byte[] avatar) {
@@ -176,7 +178,7 @@ public class User implements Serializable {
      */
     public List<List<String>> getScoreboardData() {
         List<List<String>> datalist = new ArrayList<>();
-        for (String game: score.keySet()) {
+        for (String game : score.keySet()) {
             List<String> data = new ArrayList<>();
             data.add(game);
             data.add(username);
