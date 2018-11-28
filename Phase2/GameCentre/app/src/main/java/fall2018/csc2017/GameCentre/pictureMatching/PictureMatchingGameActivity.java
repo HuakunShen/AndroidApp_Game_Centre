@@ -339,7 +339,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                 Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
                 Integer score = calculateScore();
                 user.updateScore(GAME_NAME, score);
-                boardManager = new MatchingBoardManager(4, "number");
                 saveToFile(userFile);
                 db.updateScore(user, GAME_NAME);
                 popScoreWindow(score);

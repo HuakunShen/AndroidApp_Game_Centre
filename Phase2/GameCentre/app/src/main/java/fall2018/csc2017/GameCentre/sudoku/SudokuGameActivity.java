@@ -479,8 +479,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = calculateScore();
             boolean newRecord = user.updateScore(GAME_NAME, score);
-            SudokuBoardManager.setLevelOfDifficulty(2);
-            boardManager = new SudokuBoardManager();
             saveToFile(userFile);
             db.updateScore(user, GAME_NAME);
             popScoreWindow(score, newRecord);
