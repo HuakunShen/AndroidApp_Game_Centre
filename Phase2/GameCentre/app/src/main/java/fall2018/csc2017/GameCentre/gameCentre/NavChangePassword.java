@@ -9,10 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import fall2018.csc2017.GameCentre.data.SQLDatabase;
@@ -20,10 +17,7 @@ import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 
 public class NavChangePassword extends AppCompatActivity {
-    /**
-     * Username of current user
-     */
-    private String username;
+
     /**
      * Database used to save user, game and score info
      */
@@ -32,10 +26,6 @@ public class NavChangePassword extends AppCompatActivity {
      * User object of current user
      */
     private User user;
-    /**
-     * Button used to confirm changes of setting, such as password and avatar
-     */
-    private Button confirmButton;
     /**
      * Input text box of original password
      */
@@ -74,7 +64,7 @@ public class NavChangePassword extends AppCompatActivity {
      * Add confirm button listener, execute changes of setting when clicked
      */
     private void addConfirmButton() {
-        confirmButton = findViewById(R.id.confirm_button);
+        Button confirmButton = findViewById(R.id.confirm_button);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +76,7 @@ public class NavChangePassword extends AppCompatActivity {
                             "Passwords Do Not Match", Toast.LENGTH_SHORT).show();
                 } else {
                     user.setPassword(new_password.getText().toString());
-                    saveToFile(db.getUserFile(username));
+                    saveToFile(db.getUserFile(user.getUsername()));
                     Toast.makeText(NavChangePassword.this,
                             "Password change successfully", Toast.LENGTH_SHORT).show();
                 }
@@ -96,6 +86,7 @@ public class NavChangePassword extends AppCompatActivity {
 
     /**
      * Check original password to make sure it's the right user changing password
+     *
      * @param originalPassword input original password
      * @return true if input password matches user's password, false otherwise
      */
@@ -106,7 +97,8 @@ public class NavChangePassword extends AppCompatActivity {
 
     /**
      * Make sure new password is entered correctly
-     * @param newPassword input new password
+     *
+     * @param newPassword     input new password
      * @param ReenterPassword input of repeat new password
      * @return true if two password matches, false otherwise
      */
@@ -121,13 +113,10 @@ public class NavChangePassword extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra("user");
     }
 
-    /**
-     * load user from file specified by filename
-     * @param fileName input filename where user object is stored
-     */
 
     /**
      * Save user object to file specified by fileName.
+     *
      * @param fileName the name of the file where user object is stored
      */
     public void saveToFile(String fileName) {
