@@ -302,7 +302,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     protected void onResume() {
         super.onResume();
         stepDisplay.setText("Steps: " + Integer.toString(this.steps));
-        String text = "Time: " + timeToString(boardManager.getTimeTaken());
+        String text = timeToString(boardManager.getTimeTaken());
         timeDisplay.setText(text);
     }
 
@@ -402,6 +402,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             user.updateScore(GAME_NAME, score);
             saveToFile(userFile);
             db.updateScore(user, GAME_NAME);
+            gameRunning=false;
             popScoreWindow(score);
         }
     }
