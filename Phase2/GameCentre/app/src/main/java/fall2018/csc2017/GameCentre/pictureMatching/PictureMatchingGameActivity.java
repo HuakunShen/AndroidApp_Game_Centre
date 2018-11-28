@@ -344,7 +344,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
             }, 100);
         }
             display();
-            if (boardManager.boardSolved()) {
+            if (true) {
                 Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
                 Integer score = calculateScore();
                 user.updateScore(GAME_NAME, score);
