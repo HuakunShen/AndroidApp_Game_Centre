@@ -45,6 +45,8 @@ import static android.graphics.Bitmap.createBitmap;
 public class SlidingTilesGameActivity extends AppCompatActivity implements Observer,
         LoadSaveSerializable {
 
+    private boolean gameRunning;
+    private TextView timeDisplay;
     /**
      * The board manager.
      */
@@ -170,16 +172,20 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Time counting, setup initial time based on the record in boardmanager
      */
     private void setupTime() {
+        if(!boardManager.boardSolved())
+            gameRunning = true;
         Timer timer = new Timer();
         preStartTime = boardManager.getTimeTaken();
-        final TextView timeDisplay = findViewById(R.id.time_display_view);
+        timeDisplay = findViewById(R.id.time_display_view);
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                timeDisplay.setText(timeToString(time + preStartTime));
-                totalTimeTaken = time + preStartTime;
-                boardManager.setTimeTaken(time + preStartTime);
+                if(gameRunning){
+                    timeDisplay.setText(timeToString(time + preStartTime));
+                    totalTimeTaken = time + preStartTime;
+                    boardManager.setTimeTaken(time + preStartTime);
+                }
             }
         };
         timer.schedule(task2, 0, 1000);
@@ -296,6 +302,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     protected void onResume() {
         super.onResume();
         stepDisplay.setText("Steps: " + Integer.toString(this.steps));
+        String text = "Time: " + timeToString(boardManager.getTimeTaken());
+        timeDisplay.setText(text);
     }
 
     /**

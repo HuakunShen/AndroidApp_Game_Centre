@@ -38,6 +38,8 @@ import fall2018.csc2017.GameCentre.util.popScore;
 
 public class SudokuGameActivity extends AppCompatActivity implements Observer, LoadSaveSerializable {
 
+    private TextView timeDisplay;
+    private boolean gameRunning;
     /**
      * The board manager.
      */
@@ -100,6 +102,13 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
         addUndoButtonListener();
         addEraseButtonListener();
         addHintButtonListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String text = "Time: " + timeToString(boardManager.getTimeTaken());
+        timeDisplay.setText(text);
     }
 
     /**
@@ -277,16 +286,20 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
      * Time counting, setup initial time based on the record in boardmanager
      */
     private void setupTime() {
+        if (!boardManager.boardSolved())
+            gameRunning = true;
         Timer timer = new Timer();
         preStartTime = boardManager.getTimeTaken();
-        final TextView timeDisplay = findViewById(R.id.sudoku_time_text);
+        timeDisplay = findViewById(R.id.sudoku_time_text);
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                timeDisplay.setText(String.format("Time: %s", timeToString(time + preStartTime)));
-                totalTimeTaken = time + preStartTime;
-                boardManager.setTimeTaken(time + preStartTime);
+                if(gameRunning){
+                    timeDisplay.setText(String.format("Time: %s", timeToString(time + preStartTime)));
+                    totalTimeTaken = time + preStartTime;
+                    boardManager.setTimeTaken(time + preStartTime);
+                }
             }
         };
         timer.schedule(task2, 0, 1000);
@@ -481,6 +494,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer, L
             boolean newRecord = user.updateScore(GAME_NAME, score);
             saveToFile(userFile);
             db.updateScore(user, GAME_NAME);
+            gameRunning = false;
             popScoreWindow(score, newRecord);
         }
     }
