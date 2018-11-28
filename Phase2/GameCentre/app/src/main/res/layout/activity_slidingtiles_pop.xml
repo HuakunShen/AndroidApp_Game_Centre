@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="400dp"
     android:layout_height="300dp">
 
@@ -15,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="import your image here:"
+        android:text="@string/import_your_image_here"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/select_image"
@@ -34,7 +33,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="New Game"
+        android:text="@string/new_game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -69,7 +68,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Select Game Difficulty"
+        android:text="@string/select_game_difficulty"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/list_diff_sele"
@@ -111,7 +110,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:hint="Undo Limit"
+        android:hint="@string/undo_limit"
         android:inputType="number"
         android:textColorHint="#cac2c2"
         app:layout_constraintBottom_toTopOf="@+id/NewGameButton"
@@ -145,15 +144,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="With Number"
-            android:textSize="14dp" />
+            android:text="@string/with_number"
+            android:textSize="14sp" />
 
         <RadioButton
             android:id="@+id/withImageButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="With Image"
-            android:textSize="14dp" />
+            android:text="@string/with_image"
+            android:textSize="14sp" />
     </RadioGroup>
 </android.support.constraint.ConstraintLayout>
