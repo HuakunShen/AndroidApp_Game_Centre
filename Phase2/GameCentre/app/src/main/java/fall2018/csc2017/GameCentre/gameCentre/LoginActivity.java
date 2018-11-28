@@ -17,7 +17,6 @@ import java.io.ObjectOutputStream;
 
 import fall2018.csc2017.GameCentre.data.*;
 import fall2018.csc2017.GameCentre.R;
-import fall2018.csc2017.GameCentre.util.popScore;
 
 public class LoginActivity extends AppCompatActivity {
     /**
@@ -44,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         db = new SQLDatabase(this);
         // Make sure admin is always a user in database
-        if (!db.userExists("admin")){
+        if (!db.userExists("admin")) {
             user = new User("admin", "admin");
             db.addUser(user);
             saveToFile(db.getUserFile("admin"));
@@ -64,25 +63,25 @@ public class LoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            String username = usernameEntered.getText().toString();
-            String password = passwordEntered.getText().toString();
-            if (!db.userExists(username)) {
-                Toast.makeText(LoginActivity.this, "Username Does Not Exist", Toast.LENGTH_SHORT).show();
-            }else{
-                String userFile = db.getUserFile(username);
-                loadFromFile(userFile);
-                if (user.checkPassword(password)){
-                    Intent intent = new Intent(getApplication(), GameCentreInterfaceActivity.class);
-                    intent.putExtra("user", username);
-                    intent.putExtra("userObj", user);
-                    startActivity(intent);
-
+                String username = usernameEntered.getText().toString();
+                String password = passwordEntered.getText().toString();
+                if (!db.userExists(username)) {
+                    Toast.makeText(LoginActivity.this, "Username Does Not Exist", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
-                    usernameEntered.setText("");
-                    passwordEntered.setText("");
+                    String userFile = db.getUserFile(username);
+                    loadFromFile(userFile);
+                    if (user.checkPassword(password)) {
+                        Intent intent = new Intent(getApplication(), GameCentreInterfaceActivity.class);
+                        intent.putExtra("user", username);
+                        intent.putExtra("userObj", user);
+                        startActivity(intent);
+
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
+                        usernameEntered.setText("");
+                        passwordEntered.setText("");
+                    }
                 }
-            }
             }
         });
     }
@@ -102,7 +101,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     /**
-     *load fileName to user
+     * load fileName to user
+     *
      * @param fileName the name of the file.
      */
     private void loadFromFile(String fileName) {
@@ -125,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * save user to filename
+     *
      * @param fileName the name of the file.
      */
     private void saveToFile(String fileName) {

@@ -31,8 +31,17 @@ import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesStartingActivity;
 import fall2018.csc2017.GameCentre.sudoku.SudokuStartingActivity;
 
 public class GameCentreInterfaceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    /**
+     * the user object that stores the user information.
+     */
     private User user;
+    /**
+     * the name of the user.
+     */
     private String username;
+    /**
+     * the database that stores the user and game information.
+     */
     private SQLDatabase db;
 
     /**
@@ -175,7 +184,7 @@ public class GameCentreInterfaceActivity extends AppCompatActivity implements Na
     /**
      * Load data from filename.
      *
-     * @param fileName
+     * @param fileName the name of the file.
      */
     private void loadFromFile(String fileName) {
 
