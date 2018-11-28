@@ -70,7 +70,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     private TextView stepDisplay;
     private User user;
 //    private String username;
-//    private String userFile;
+    private String userFile;
     private SQLDatabase db;
     //time
     private LocalTime startingTime;
@@ -139,8 +139,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     private void setupUser() {
         user = (User) getIntent().getSerializableExtra("user");
 //        username = getIntent().getStringExtra("user");
-//        userFile = db.getUserFile(username);
-        loadFromFile(user.getFile(GAME_NAME));
+        userFile = db.getUserFile(user.getUsername());
+        loadFromFile(userFile);
     }
 
     /**
@@ -345,7 +345,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(user.getFile(GAME_NAME))) {
+                if (fileName.equals(userFile)) {
                     user = (User) input.readObject();
                 } else if (fileName.equals(gameStateFile) ||
                         fileName.equals(tempGameStateFile)) {
@@ -371,7 +371,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(user.getFile(GAME_NAME))) {
+            if (fileName.equals(userFile)) {
                 outputStream.writeObject(user);
             } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
                 outputStream.writeObject(boardManager);
@@ -392,7 +392,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = calculateScore();
             user.updateScore(GAME_NAME, score);
-            saveToFile(user.getFile(GAME_NAME));
+            saveToFile(userFile);
             db.updateScore(user, GAME_NAME);
             popScoreWindow(score);
         }

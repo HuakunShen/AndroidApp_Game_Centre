@@ -60,9 +60,9 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 //     * the name of current user.
 //     */
 //    private String username;
-//    /**
-//     * the file of current user.
-//     */
+    /**
+     * the file of current user.
+     */
     private String userFile;
     /**
      * the database for saving and loading information.

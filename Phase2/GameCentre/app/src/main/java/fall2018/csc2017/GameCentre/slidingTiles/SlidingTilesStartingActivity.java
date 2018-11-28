@@ -26,6 +26,7 @@ import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 public class SlidingTilesStartingActivity extends AppCompatActivity {
 
     private User user;
+    private String userFile;
 
     private SQLDatabase db;
     /**
@@ -69,6 +70,7 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
      */
     private void setupUser() {
         user = (User) getIntent().getSerializableExtra("user");
+        userFile = db.getUserFile(user.getUsername());
     }
 
     /**
