@@ -6,11 +6,25 @@ import java.util.HashMap;
 import java.util.List;
 
 public class User implements Serializable {
-
+    /**
+     * the name of current user.
+     */
     private String username;
+    /**
+     * The password of the current user.
+     */
     private String password;
+    /**
+     * the nickname of the current user.
+     */
     private String nickname;
+    /**
+     * A HashMap that store per game per score.
+     */
     private HashMap<String, Integer> score;
+    /**
+     * the byte array that stores the picture of avatar.
+     */
     private byte[] avatar;
 
     /**
