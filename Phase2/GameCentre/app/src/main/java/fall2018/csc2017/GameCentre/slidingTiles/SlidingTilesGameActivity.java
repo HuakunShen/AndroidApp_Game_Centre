@@ -392,6 +392,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = calculateScore();
             user.updateScore(GAME_NAME, score);
+            boardManager = new SlidingTilesBoardManager(4);
             saveToFile(userFile);
             db.updateScore(user, GAME_NAME);
             popScoreWindow(score);
