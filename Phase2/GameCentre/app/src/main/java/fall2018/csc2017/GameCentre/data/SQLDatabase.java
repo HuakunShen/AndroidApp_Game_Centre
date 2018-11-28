@@ -12,25 +12,43 @@ import java.util.List;
 
 public class SQLDatabase extends SQLiteOpenHelper {
 
+    /**
+     * the name of the database.
+     */
     private static final String DB_NAME = "gameCentreDatabase";
+    /**
+     * the name of the user table.
+     */
     private static final String USER_TABLE_NAME = "userTable";
+    /**
+     * the name of the data table.
+     */
     private static final String DATA_TABLE_NAME = "dataTable";
-
+    /**
+     * the name of user.
+     */
     private static final String KEY_USERNAME = "username";
+    /**
+     * the type of the game
+     */
     private static final String KEY_GAME = "gameType";
+    /**
+     * the score for per user per game.
+     */
     private static final String KEY_SCORE = "score";
+    /**
+     * the name of the file.
+     */
     private static final String KEY_FILE = "fileAddress";
 
-    private Context context;
 
     /**
      * Constructor of database handler, this object manipulates database, and contains two tables
      *
-     * @param context
+     * @param context the context of the activity.
      */
     public SQLDatabase(Context context) {
         super(context, DB_NAME, null, 1);
-        this.context = context;
     }
 
     @Override
@@ -80,9 +98,9 @@ public class SQLDatabase extends SQLiteOpenHelper {
      * return true if data exists in dataTable. By data, we mean username with gameType exists in
      * data table, since they are the keys. Score and file address don't matter.
      *
-     * @param username
-     * @param game
-     * @return
+     * @param username the name of the user
+     * @param game     the type of the game
+     * @return true if data exists.
      */
     public boolean dataExists(String username, String game) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -107,7 +125,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
      * If user exists, there will be error because username is the primary key,
      * but the program won't stop, error message only shown in log.d
      *
-     * @param user
+     * @param user the user object that stores user information.
      */
     public void addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -149,8 +167,8 @@ public class SQLDatabase extends SQLiteOpenHelper {
      * Call userExists() before calling this method, user must exist in the table in order to get
      * the file address.
      *
-     * @param username
-     * @return
+     * @param username the name of the user.
+     * @return the file name of the current user.
      */
     public String getUserFile(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -176,9 +194,9 @@ public class SQLDatabase extends SQLiteOpenHelper {
      * return highest score of a user in a game.
      * call dataExists() first to check if data exists.
      *
-     * @param user
-     * @param game
-     * @return
+     * @param user the name of the current user.
+     * @param game the type of the game.
+     * @return the score of the user with specific game.
      */
     public int getScore(String user, String game) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -201,9 +219,9 @@ public class SQLDatabase extends SQLiteOpenHelper {
      * return dataFile address, which is a serialized object containing current game state
      * get the file address and deserialize the object, then data could be accessed.
      *
-     * @param username
-     * @param game
-     * @return
+     * @param username the name of the user.
+     * @param game     the type of the game.
+     * @return the name of the data file.
      */
     public String getDataFile(String username, String game) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -234,9 +252,9 @@ public class SQLDatabase extends SQLiteOpenHelper {
      * <p>
      * Every time Game is over, update user object's score first then update the score in database.
      *
-     * @param user
-     * @param game
-     * @return
+     * @param user the user object that store the user information.
+     * @param game the type of the game.
+     * @return the update score.
      */
     public int updateScore(User user, String game) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -254,12 +272,17 @@ public class SQLDatabase extends SQLiteOpenHelper {
     }
 
 
-
+    /**
+     * get all the scores by each game.
+     *
+     * @param game_type the type of the game.
+     * @return the list of list, the inner list contains the game type, name of the user, score and its rank.
+     */
     public List<List<String>> getScoreByGame(String game_type) {
         SQLiteDatabase db = this.getReadableDatabase();
         List<List<String>> dataList = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_GAME +
-                " =? AND " + KEY_SCORE + " <> 0 ORDER BY " + KEY_SCORE + " DESC",
+                        " =? AND " + KEY_SCORE + " <> 0 ORDER BY " + KEY_SCORE + " DESC",
                 new String[]{game_type});
         if (cursor.moveToFirst()) {
             int rank = 1;
