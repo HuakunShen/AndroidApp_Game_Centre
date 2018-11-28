@@ -20,9 +20,21 @@ import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.popScore;
 
 public class LoginActivity extends AppCompatActivity {
+    /**
+     * the name that user entered.
+     */
     private EditText usernameEntered;
+    /**
+     * the password that the user entered.
+     */
     private EditText passwordEntered;
+    /**
+     * Database that store user and game information.
+     */
     private SQLDatabase db;
+    /**
+     * the user object that store the user information.
+     */
     private User user;
 
 
@@ -91,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      *load fileName to user
-     * @param fileName
+     * @param fileName the name of the file.
      */
     private void loadFromFile(String fileName) {
 
@@ -113,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * save user to filename
-     * @param fileName
+     * @param fileName the name of the file.
      */
     private void saveToFile(String fileName) {
         try {

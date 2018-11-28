@@ -99,7 +99,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
      * data table, since they are the keys. Score and file address don't matter.
      *
      * @param username the name of the user
-     * @param game the type of the game
+     * @param game     the type of the game
      * @return true if data exists.
      */
     public boolean dataExists(String username, String game) {
@@ -220,7 +220,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
      * get the file address and deserialize the object, then data could be accessed.
      *
      * @param username the name of the user.
-     * @param game the type of the game.
+     * @param game     the type of the game.
      * @return the name of the data file.
      */
     public String getDataFile(String username, String game) {
@@ -274,6 +274,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
 
     /**
      * get all the scores by each game.
+     *
      * @param game_type the type of the game.
      * @return the list of list, the inner list contains the game type, name of the user, score and its rank.
      */
@@ -281,7 +282,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         List<List<String>> dataList = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_GAME +
-                " =? AND " + KEY_SCORE + " <> 0 ORDER BY " + KEY_SCORE + " DESC",
+                        " =? AND " + KEY_SCORE + " <> 0 ORDER BY " + KEY_SCORE + " DESC",
                 new String[]{game_type});
         if (cursor.moveToFirst()) {
             int rank = 1;
