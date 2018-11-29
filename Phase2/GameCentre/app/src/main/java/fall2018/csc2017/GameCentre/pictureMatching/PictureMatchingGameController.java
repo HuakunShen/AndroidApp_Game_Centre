@@ -143,9 +143,10 @@ public class PictureMatchingGameController {
         return 10000 / (timeInSec);
     }
 
-    void updateScore(int score){
-        user.updateScore(GAME_NAME, score);
+    boolean updateScore(int score){
+        boolean newRecord = user.updateScore(GAME_NAME, score);
         db.updateScore(user, GAME_NAME);
+        return newRecord;
     }
 
     public void loadFromFile() {

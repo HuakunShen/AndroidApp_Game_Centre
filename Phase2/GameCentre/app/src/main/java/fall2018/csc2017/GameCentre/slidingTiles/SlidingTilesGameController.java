@@ -319,9 +319,10 @@ public class SlidingTilesGameController {
     /**
      * Update the user's score to the database.
      */
-    void updateScore(int score) {
-        user.updateScore(GAME_NAME, score);
+    boolean updateScore(int score) {
+        boolean newRecord = user.updateScore(GAME_NAME, score);
         db.updateScore(user, GAME_NAME);
+        return newRecord;
     }
 
     /**

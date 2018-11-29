@@ -158,18 +158,19 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         if (controller.boardSolved()) {
             Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = controller.calculateScore(totalTimeTaken);
-            controller.updateScore(score);
+            boolean newRecord = controller.updateScore(score);
             controller.saveToFile(controller.getUserFile());
             controller.setGameRunning(false);
-            popScoreWindow(score);
+            popScoreWindow(score, newRecord);
         }
     }
 
-    private void popScoreWindow(Integer score) {
+    private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
         goToPopWindow.putExtra("user", controller.getUser());
         goToPopWindow.putExtra("gameType", GAME_NAME);
+        goToPopWindow.putExtra("newRecord", newRecord);
         startActivity(goToPopWindow);
     }
 

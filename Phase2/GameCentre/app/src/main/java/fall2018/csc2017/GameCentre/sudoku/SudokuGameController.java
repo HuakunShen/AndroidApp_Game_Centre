@@ -30,15 +30,11 @@ public class SudokuGameController {
     private static final String GAME_NAME = "Sudoku";
 
     private List<Button> cellButtons;
-    private Resources resources;
-    private String packageName;
 
     SudokuGameController(Context context, User user){
         this.context = context;
         this.db = new SQLDatabase(context);
         this.user = user;
-        this.packageName = context.getPackageName();
-        this.resources = context.getResources();
     }
 
     public List<Button> getCellButtons() {
@@ -132,9 +128,9 @@ public class SudokuGameController {
     }
 
     boolean updateScore(int score){
-        boolean result = user.updateScore(GAME_NAME, score);
+        boolean newRecord = user.updateScore(GAME_NAME, score);
         db.updateScore(user, GAME_NAME);
-        return result;
+        return newRecord;
     }
 
     public void loadFromFile() {

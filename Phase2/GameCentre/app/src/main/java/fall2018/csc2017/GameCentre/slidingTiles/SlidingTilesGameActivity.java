@@ -228,11 +228,12 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         });
     }
 
-    private void popScoreWindow(Integer score) {
+    private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
         goToPopWindow.putExtra("user", logicalController.getUser());
         goToPopWindow.putExtra("gameType", GAME_NAME);
+        goToPopWindow.putExtra("newRecord", newRecord);
         startActivity(goToPopWindow);
     }
 
@@ -249,10 +250,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         if (logicalController.gameFinished()) {
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = logicalController.calculateScore(totalTimeTaken);
-            logicalController.updateScore(score);
+            boolean newRecord = logicalController.updateScore(score);
             logicalController.saveToFile(logicalController.getUserFile());
             logicalController.setGameRunning(false);
-            popScoreWindow(score);
+            popScoreWindow(score, newRecord);
         }
     }
 }

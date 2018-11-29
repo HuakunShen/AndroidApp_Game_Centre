@@ -18,6 +18,7 @@ import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 public class popScore extends Activity {
     private String game_name;
     private User user;
+    private boolean newRecord;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
