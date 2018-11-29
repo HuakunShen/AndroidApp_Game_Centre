@@ -32,31 +32,74 @@ import static android.graphics.Bitmap.createBitmap;
 
 public class SlidingTilesNewGamePop extends AppCompatActivity {
 
+    /**
+     * User file of the game.
+     */
     private User user;
-    //    private String username;
+
+    /**
+     * The name of the user's file.
+     */
     private String userFile;
+
+    /**
+     * The database for user data.
+     */
     private SQLDatabase db;
+
     /**
      * The main save file.
      */
     private String gameStateFile;
+
     /**
      * A temporary save file.
      */
     private String tempGameStateFile;
+
     /**
      * The board manager.
      */
     public static final String GAME_NAME = "SlidingTiles";
+
+    /**
+     * The boardManager for the game.
+     */
     private SlidingTilesBoardManager boardManager;
 
+    /**
+     * The image code.
+     */
     private static final int SELECT_IMAGE_CODE = 1801;
+
+    /**
+     * Import button on the user interface.
+     */
     private ImageButton importButton;
+
+    /**
+     *
+     */
     private Bitmap bitmapCut;
+
+    /**
+     * The level of difficulty selected.
+     */
     private int selected_difficulty;
+
+    /**
+     * The level of difficulty available.
+     */
     private String[] list_diff = new String[]{"Easy(3x3)", "Normal(4x4)", "Hard(5x5)"};
+
+    /**
+     * The maximum undo limit that can be set by the user.
+     */
     private static final int MAX_UNDO_LIMIT = 20;
 
+    /**
+     * Dispatch onCreate() to fragments.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,20 +175,28 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         }
     }
 
+    /**
+     * Cut the input bitmap to the correct size that fits into a tile.
+     */
     private Bitmap cutToTileRatio(Bitmap bitmapUncut) {
         int width = bitmapUncut.getWidth();
         int height = bitmapUncut.getHeight();
         if (width * 320 > height * 250) {
             int x = (width - height * 250 / 320) / 2;
-            return createBitmap(bitmapUncut, x, 0, width - 2 * x, height, null, false);
+            return createBitmap(bitmapUncut, x, 0,
+                    width - 2 * x, height, null, false);
         } else if (width * 320 < height * 250) {
             int y = (height - width * 320 / 250) / 2;
-            return createBitmap(bitmapUncut, 0, y, width, height - 2 * y, null, false);
+            return createBitmap(bitmapUncut, 0, y,
+                    width, height - 2 * y, null, false);
         } else {
             return bitmapUncut;
         }
     }
 
+    /**
+     * Set up the radio button.
+     */
     private void addRadioButtonListener() {
         RadioButton withImageButton = findViewById(R.id.withImageButton);
         RadioButton withNumberButton = findViewById(R.id.withNumberButton);
@@ -168,12 +219,14 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         });
     }
 
+    /**
+     * Set up the spinner for level of difficulty selection.
+     */
     private void addDiffSpinnerListener() {
         Spinner select_diff = findViewById(R.id.list_diff_sele);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, list_diff);
         select_diff.setAdapter(arrayAdapter);
-
         select_diff.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -183,7 +236,6 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 selected_difficulty = 4;
@@ -200,7 +252,6 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String inputStr = undoLimit.getText().toString();
                 int input;
                 if (inputStr.matches("")) {
@@ -208,7 +259,6 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
                 } else {
                     input = Integer.parseInt(inputStr);
                 }
-
                 if (input > MAX_UNDO_LIMIT) {
                     Toast.makeText(SlidingTilesNewGamePop.this, "Exceeds Undo Limit: "
                             + MAX_UNDO_LIMIT, Toast.LENGTH_SHORT).show();
@@ -243,9 +293,10 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
         finish();
     }
 
-
+    /**
+     * Load the saved boardManager or user.
+     */
     private void loadFromFile(String fileName) {
-
         try {
             InputStream inputStream = this.openFileInput(fileName);
             if (inputStream != null) {
@@ -268,8 +319,6 @@ public class SlidingTilesNewGamePop extends AppCompatActivity {
 
     /**
      * Save the board manager to fileName.
-     *
-     * @param fileName the name of the file
      */
     public void saveToFile(String fileName) {
         try {

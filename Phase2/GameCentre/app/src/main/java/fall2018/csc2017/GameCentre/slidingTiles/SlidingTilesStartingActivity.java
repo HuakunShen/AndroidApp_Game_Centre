@@ -25,22 +25,39 @@ import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
  */
 public class SlidingTilesStartingActivity extends AppCompatActivity {
 
+    /**
+     * The user of the game.
+     */
     private User user;
+
+    /**
+     * The name of the userFile saved locally.
+     */
     private String userFile;
 
+    /**
+     * The database for game info.
+     */
     private SQLDatabase db;
+
     /**
      * The main save file.
      */
     private String gameStateFile;
+
     /**
      * A temporary save file.
      */
     private String tempGameStateFile;
+
     /**
      * The board manager.
      */
     public static final String GAME_NAME = "SlidingTiles";
+
+    /**
+     * The board's manager.
+     */
     private SlidingTilesBoardManager boardManager;
 
 
@@ -133,6 +150,9 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Set up the score board button.
+     */
     private void addScoreboardButtonListener() {
         ImageButton scoreboardButton = findViewById(R.id.scoreboardButton);
         scoreboardButton.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +168,9 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Make a toast that could display the input message.
+     */
     private void makeToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }

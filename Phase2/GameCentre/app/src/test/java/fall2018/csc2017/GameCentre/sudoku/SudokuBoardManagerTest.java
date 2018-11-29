@@ -96,7 +96,7 @@ public class SudokuBoardManagerTest {
     }
 
     /**
-     * This test the functionality boardSolved().
+     * This test the functionality gameFinished().
      */
     @Test
     public void boardSolved() {

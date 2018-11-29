@@ -43,7 +43,7 @@
 //    @Test
 //    public void testIsSolved() {
 ////        swapFirstTwoTiles();
-//        assertEquals(false, boardManager.boardSolved());
+//        assertEquals(false, boardManager.gameFinished());
 //    }
 //
 ////    /**
@@ -139,7 +139,7 @@
 ////    }
 //
 //    /**
-//     *  whether solvable method works.
+//     *  whether isSolvable method works.
 //     */
 //    @Test
 //    public void testSolvableThreeByThree() {
@@ -147,14 +147,14 @@
 //        ArrayList<Tile> listOfTile = transformIntoTile(listOfNum);
 //        setUpCorrectThreeByThree(listOfTile);
 //        if(boardManager.getTotalInversion(listOfNum)%2==0){
-//            assertTrue(boardManager.solvable());
+//            assertTrue(boardManager.isSolvable());
 //        } else{
-//            assertFalse(boardManager.solvable());
+//            assertFalse(boardManager.isSolvable());
 //        }
 //    }
 //
 //    /**
-//     *  whether solvable method works.
+//     *  whether isSolvable method works.
 //     */
 //    @Test
 //    public void testSolvableFourByFour(){
@@ -163,21 +163,21 @@
 //        setUpCorrectFourByFour(listOfTile);
 //        if(boardManager.getTotalInversion(listOfNum)%2==0){
 //            if(boardManager.blankPosition()%2!=0){
-//                assertTrue(boardManager.solvable());
+//                assertTrue(boardManager.isSolvable());
 //            }else{
-//                assertFalse(boardManager.solvable());
+//                assertFalse(boardManager.isSolvable());
 //            }
 //        } else{
 //            if(boardManager.blankPosition()%2==0){
-//                assertTrue(boardManager.solvable());
+//                assertTrue(boardManager.isSolvable());
 //            }else{
-//                assertFalse(boardManager.solvable());
+//                assertFalse(boardManager.isSolvable());
 //            }
 //        }
 //    }
 //
 //    /**
-//     *  whether solvable method works.
+//     *  whether isSolvable method works.
 //     */
 //    @Test
 //    public void testSolvableFiveByFive() {
@@ -185,9 +185,9 @@
 //        ArrayList<Tile> listOfTile = transformIntoTile(listOfNum);
 //        setUpCorrectFiveByFive(listOfTile);
 //        if(boardManager.getTotalInversion(listOfNum)%2==0){
-//            assertTrue(boardManager.solvable());
+//            assertTrue(boardManager.isSolvable());
 //        } else{
-//            assertFalse(boardManager.solvable());
+//            assertFalse(boardManager.isSolvable());
 //        }
 //    }
 //

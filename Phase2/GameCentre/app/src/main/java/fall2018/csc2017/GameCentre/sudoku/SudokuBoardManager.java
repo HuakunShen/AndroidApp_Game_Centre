@@ -38,7 +38,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     private StateStack<Integer[]> undoStack;
 
     /**
-     * The default number of undo time.
+     * The default number of performUndo time.
      */
     private static final int DEFAULT_UNDO_LIMIT = 20;
 
@@ -119,14 +119,14 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     }
 
     /**
-     * Add a move to the undo stack.
+     * Add a move to the performUndo stack.
      */
     private void addUndo(Integer[] move) {
         undoStack.put(move);
     }
 
 //    /**
-//     * Set undo limit.
+//     * Set performUndo limit.
 //     */
 //    public void setCapacity(int input) {
 //        this.undoStack.setCapacity(input);
@@ -143,14 +143,14 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     }
 
     /**
-     * Returns if undo is available.
+     * Returns if performUndo is available.
      */
     boolean undoAvailable() {
         return !undoStack.isEmpty();
     }
 
     /**
-     * Get the undo step.
+     * Get the performUndo step.
      */
     Integer[] popUndo() {
         return undoStack.pop();
@@ -218,7 +218,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     }
 
     /**
-     * Do all steps of an undo
+     * Do all steps of an performUndo
      */
     void undo() {
         if (currentCell != null && undoStack.size() > 1) {
@@ -236,7 +236,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
             currentCell.setHighlighted(false);
         updateValue(value, true);
         currentCell.setFaceValue(currentCell.getFaceValue());
-        // Highlight the next cell in undo stack
+        // Highlight the next cell in performUndo stack
         if (!undoStack.isEmpty()) {
             move = this.undoStack.get();
             position = move[0];

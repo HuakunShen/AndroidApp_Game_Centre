@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import fall2018.csc2017.GameCentre.data.StateStack;
-
 import static org.junit.Assert.*;
 
 public class SlidingTilesBoardManagerTest {
@@ -87,11 +85,11 @@ public class SlidingTilesBoardManagerTest {
     }
 
     /**
-     * This tests the functionality of solvable().
+     * This tests the functionality of isSolvable().
      */
     @Test
     public void solvable() {
-        assertTrue(boardManager.solvable());
+        assertTrue(boardManager.isSolvable());
     }
 
     /**
@@ -110,7 +108,7 @@ public class SlidingTilesBoardManagerTest {
     }
 
     /**
-     * This tests the functionality of boardSolved().
+     * This tests the functionality of gameFinished().
      */
     @Test
     public void boardSolved() {

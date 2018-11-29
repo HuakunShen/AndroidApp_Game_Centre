@@ -32,19 +32,16 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
     public SlidingTilesBoard(List<Integer> tiles, int difficulty) {
         this.difficulty = difficulty;
         this.tiles = new Integer[difficulty][difficulty];
-        Iterator<Integer> iter = tiles.iterator();
-
+        Iterator<Integer> iterator = tiles.iterator();
         for (int row = 0; row != difficulty; row++) {
             for (int col = 0; col != difficulty; col++) {
-                this.tiles[row][col] = iter.next();
+                this.tiles[row][col] = iterator.next();
             }
         }
     }
 
     /**
      * Return the number of tiles on the board.
-     *
-     * @return the number of tiles on the board
      */
     int numTiles() {
         return difficulty * difficulty;
@@ -52,10 +49,6 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
 
     /**
      * Return the tile at (row, col)
-     *
-     * @param row the tile row
-     * @param col the tile column
-     * @return the tile at (row, col)
      */
     public Integer getTile(int row, int col) {
         return tiles[row][col];
@@ -76,6 +69,10 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
         setChanged();
         notifyObservers();
     }
+
+    /**
+     * The getter function of level of difficulty.
+     */
     public int getDifficulty() {
         return difficulty;
     }
@@ -93,20 +90,29 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
      * The iterator class for board.
      */
     public class BoardIterator implements Iterator<Integer> {
+
+        /**
+         * The following index to be returned.
+         */
         int nextIndex = 0;
 
+        /**
+         * Determines whether the iterator has reached the end.
+         */
         @Override
         public boolean hasNext() {
-            return nextIndex != difficulty * difficulty;
+            return nextIndex != numTiles();
         }
 
+        /**
+         * Returns the next element in the iterator if available.
+         */
         @Override
         public Integer next() {
             int row = nextIndex / difficulty;
             int col = nextIndex % difficulty;
-            Integer tile = tiles[row][col];
             nextIndex++;
-            return tile;
+            return tiles[row][col];
         }
     }
 }

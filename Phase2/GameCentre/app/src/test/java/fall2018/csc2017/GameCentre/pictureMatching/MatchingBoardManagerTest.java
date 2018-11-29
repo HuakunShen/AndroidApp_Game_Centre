@@ -58,7 +58,7 @@
 //
 //    @Test
 //    public void testBoardSolved() {
-//        assertTrue(manager.boardSolved());
+//        assertTrue(manager.gameFinished());
 //
 //    }
 //
