@@ -29,6 +29,12 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
     /**
      * Manage a new shuffled board.
      */
+
+    /**
+     * Constructor of MatchingBoardManager
+     * @param difficulty Level of difficulty determined by user
+     * @param theme theme of background (number, animal or emoji)
+     */
     MatchingBoardManager(int difficulty, String theme) {
         this.theme = theme;
         List<PictureTile> tiles = new ArrayList<>();
@@ -58,22 +64,26 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
         }
     }
 
+
     /**
-     * Return the current board.
+     * Board getter
+     * @return current board
      */
     public MatchingBoard getBoard() {
         return board;
     }
 
+
     /**
-     * Getter function for level of difficulty for the game.
+     * getter of difficulty
+     * @return current board's difficulty
      */
     int getDifficulty() {
         return board.getDifficulty();
     }
 
     /**
-     * get the theme of current game
+     * theme getter
      * @return the theme of the current board game.
      */
     public String getTheme() {
@@ -81,14 +91,16 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
     }
 
     /**
-     * The getter function for the time taken.
+     * timeTaken getter
+     * @return time
      */
     public long getTimeTaken() {
         return timeTaken;
     }
 
     /**
-     * The setter function for the time taken.
+     * timeTaken setter
+     * @param timeTakenSoFar new time taken so far after a game is finished or paused
      */
     public void setTimeTaken(long timeTakenSoFar) {
         this.timeTaken = timeTakenSoFar;
