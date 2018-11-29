@@ -144,6 +144,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             logicalController.setGameRunning(true);
         Timer timer = new Timer();
         final long preStartTime = logicalController.getBoardManager().getTimeTaken();
+        totalTimeTaken = preStartTime;
         timeDisplay = findViewById(R.id.time_display_view);
         TimerTask task2 = new TimerTask() {
             @Override
