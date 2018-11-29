@@ -27,6 +27,7 @@ import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.popScore;
 
 public class SudokuGameActivity extends AppCompatActivity implements Observer {
+
     /**
      * Controller object for this activity
      */
@@ -71,6 +72,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      * List of Buttons (from 1-9) for number input
      */
     private Button[] buttons;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -270,9 +273,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
                 if (controller.isGameRunning()) {
-                    timeDisplay.setText(String.format("Time: %s", controller.convertTime(time +
-                            preStartTime)));
                     totalTimeTaken = time + preStartTime;
+                    timeDisplay.setText(String.format("Time: %s",
+                            controller.convertTime(totalTimeTaken)));
+
                     controller.getBoardManager().setTimeTaken(time + preStartTime);
                 }
             }
@@ -366,10 +370,17 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     }
 
     /**
+<<<<<<< HEAD
      * Pop up window that shows user the score he/she gets
      * @param score Score that is to be displayed on popup window
      * @param newRecord Indicator that determines which text is to be displayed (New Record: or
      *                  Your Highest Score Was
+=======
+     * This activate pop window.
+     *
+     * @param score
+     * @param newRecord
+>>>>>>> 769a1ad8476f2f6fb63a1a82a94952ee0c934930
      */
     private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);

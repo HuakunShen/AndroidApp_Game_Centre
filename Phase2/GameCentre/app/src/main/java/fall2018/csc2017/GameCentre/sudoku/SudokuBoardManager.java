@@ -16,7 +16,6 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     private SudokuBoard board;
 
 
-
     private int hint;
 
     /**
@@ -46,6 +45,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      * The level of difficulty.
      */
     private static Integer levelOfDifficulty = 2;
+
 
     /**
      * Manage a new shuffled board.
@@ -85,14 +85,27 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         this.undoStack = new StateStack<>(DEFAULT_UNDO_LIMIT);
     }
 
+    /**
+     * Get hint number.
+     *
+     * @return hint number
+     */
     public int getHint() {
         return hint;
     }
 
+    /**
+     * Set hints number.
+     *
+     * @param hint
+     */
     public void setHint(int hint) {
         this.hint = hint;
     }
 
+    /**
+     * Reduce hint.
+     */
     public void reduceHint() {
         this.hint--;
     }
@@ -125,19 +138,20 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         undoStack.put(move);
     }
 
-//    /**
-//     * Set performUndo limit.
-//     */
-//    public void setCapacity(int input) {
-//        this.undoStack.setCapacity(input);
-//    }
-
-
+    /**
+     * Set current cell.
+     *
+     * @param currentCell
+     */
     public void setCurrentCell(Cell currentCell) {
         this.currentCell = currentCell;
     }
 
-
+    /**
+     * Return current cells.
+     *
+     * @return current cells
+     */
     Cell getCurrentCell() {
         return currentCell;
     }
@@ -187,6 +201,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
 
     /**
      * When a cell is taped, set it to be currentCell and highlight it.
+     *
      * @param position The position of the cell taped.
      */
     public void makeMove(int position) {

@@ -26,12 +26,26 @@ import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 
 public class SudokuStartingActivity extends AppCompatActivity {
 
+    /**
+     * The Resource.
+     */
     public static Resources RESOURCES;
     public static String PACKAGE_NAME;
+    /**
+     * The maximum ubdo limit.
+     */
     private static final int MAX_UNDO_LIMIT = 20;
+    /**
+     * The user.
+     */
     private User user;
-    //    private String username;
+    /**
+     * The userFile.
+     */
     private String userFile;
+    /**
+     * The database.
+     */
     private SQLDatabase db;
     /**
      * The main save file.
@@ -60,8 +74,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku_starting);
         db = new SQLDatabase(this);
-
-//        username = getIntent().getStringExtra("user");
         PACKAGE_NAME = getApplicationContext().getPackageName();
         RESOURCES = getResources();
         setupUser();
