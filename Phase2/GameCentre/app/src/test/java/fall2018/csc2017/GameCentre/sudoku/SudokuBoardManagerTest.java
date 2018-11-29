@@ -3,25 +3,34 @@ package fall2018.csc2017.GameCentre.sudoku;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class SudokuBoardManagerTest {
 
-    private SudokuBoardManager manager;
+    private SudokuBoardManager boardManager;
     private int moveTaken;
 
     /**
      * Set up necessary steps for following test cases.
      */
-    @Before
     public void setUp() {
-        manager = new SudokuBoardManager();
-        moveTaken = findEditablePosition(manager.getBoard());
-        manager.makeMove(moveTaken);
-        int move = findEditablePosition(manager.getBoard());
-        manager.updateValue(move, false);
-        manager.undo();
-        manager.setHintAvailable(5);
+        SudokuBoardManager.setLevelOfDifficulty(2);
+        boardManager = new SudokuBoardManager();
+        moveTaken = findEditablePosition(boardManager.getBoard());
+        boardManager.makeMove(moveTaken);
+        int move = findEditablePosition(boardManager.getBoard());
+        boardManager.updateValue(move, false);
+        boardManager.undo();
+        boardManager.setHintAvailable(5);
+    }
+
+    /**
+     * Make a solved SudokuBoard.
+     */
+    private void setUpCorrect() {
+        this.boardManager = new SudokuBoardManager();
     }
 
     /**
@@ -47,17 +56,17 @@ public class SudokuBoardManagerTest {
      * This test the functionality getHintAvailable() and setHintAvailable().
      */
     @Test
-    public void getAndSetHint() {
-        assertEquals(5, manager.getHintAvailable());
-    }
-
-    /**
-     * This test the functionality reduceHint().
-     */
-    @Test
-    public void reduceHint() {
-        manager.reduceHint();
-        assertEquals(4, manager.getHintAvailable());
+    public void hintFunction() {
+        setUp();
+        assertEquals(5, boardManager.getHintAvailable());
+        boardManager.reduceHint();
+        assertEquals(4, boardManager.getHintAvailable());
+        boardManager.reduceHint();
+        boardManager.reduceHint();
+        boardManager.reduceHint();
+        boardManager.reduceHint();
+        boardManager.reduceHint();
+        assertEquals(0, boardManager.getHintAvailable());
     }
 
     /**
@@ -65,16 +74,8 @@ public class SudokuBoardManagerTest {
      */
     @Test
     public void getBoard() {
-        assertNotNull(manager.getBoard());
-    }
-
-    /**
-     * This test the functionality getTimeTaken() and setTimeTaken().
-     */
-    @Test
-    public void getAndSetTimeTaken() {
-        manager.setTimeTaken(6);
-        assertEquals(6, manager.getTimeTaken());
+        setUp();
+        assertNotNull(boardManager.getBoard());
     }
 
     /**
@@ -82,16 +83,37 @@ public class SudokuBoardManagerTest {
      */
     @Test
     public void setAndGetCurrentCell() {
-        manager.setCurrentCell(new Cell(1, 2, 3));
-        assertNotNull(manager.getCurrentCell());
+        setUp();
+        boardManager.makeMove(80);
+        assertEquals(boardManager.getBoard().getCell(8, 8).getFaceValue(),
+                boardManager.getCurrentCell().getFaceValue());
+        boardManager.makeMove(2);
+        assertEquals(boardManager.getBoard().getCell(0, 2).getFaceValue(),
+                boardManager.getCurrentCell().getFaceValue());
+
     }
 
     /**
      * This test the functionality undoAvailable().
      */
     @Test
-    public void undoAvailable() {
-        assertFalse(manager.undoAvailable());
+    public void makeMoveAndUndoFunction() {
+        setUp();
+        assertFalse(boardManager.undoAvailable());
+        int oldValue = boardManager.getBoard().getCell(0, 2).getFaceValue();
+        boardManager.makeMove(2);
+        boardManager.updateValue(9, false);
+        boardManager.makeMove(3);
+        assertEquals(9,
+                (int) boardManager.getBoard().getCell(0, 2).getFaceValue());
+        assertTrue(boardManager.undoAvailable());
+        boardManager.undo();
+        assertFalse(boardManager.undoAvailable());
+        assertEquals(oldValue, (int) boardManager.getBoard().getCell(0, 2).getFaceValue());
+        boardManager.updateValue(2, true);
+        assertEquals(2,
+                (int) boardManager.getBoard().getCell(0, 2).getFaceValue());
+        assertFalse(boardManager.undoAvailable());
     }
 
     /**
@@ -99,7 +121,11 @@ public class SudokuBoardManagerTest {
      */
     @Test
     public void boardSolved() {
-        assertFalse(manager.boardSolved());
+        setUp();
+        assertFalse(boardManager.boardSolved());
+        SudokuBoardManager.setLevelOfDifficulty(10);
+        setUpCorrect();
+        assertTrue(boardManager.boardSolved());
     }
 
     /**
@@ -107,7 +133,159 @@ public class SudokuBoardManagerTest {
      */
     @Test
     public void isValidTap() {
-        assertTrue(manager.isValidTap(moveTaken));
+        setUp();
+        assertTrue(boardManager.isValidTap(moveTaken));
+    }
+
+    /**
+     * Checks whether each row has numbers 1 to 9.
+     */
+    @Test
+    public void horizontallySetUp() {
+        setUpCorrect();
+        SudokuBoard board = boardManager.getBoard();
+        ArrayList<ArrayList<Integer>> horizontal =
+                new ArrayList<ArrayList<Integer>>();
+        for (int row = 0; row < 9; row++) {
+            ArrayList<Integer> rows = new ArrayList<Integer>();
+            for (int column = 0; column < 9; column++) {
+                rows.add(board.getCell(row, column).getSolutionValue());
+            }
+            horizontal.add(rows);
+        }
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                assertTrue(horizontal.get(row).contains(column + 1));
+            }
+        }
+    }
+
+    /**
+     * Checks whether each column has numbers 1 to 9.
+     */
+    @Test
+    public void verticallySetUp() {
+        setUpCorrect();
+        SudokuBoard board = boardManager.getBoard();
+        ArrayList<ArrayList<Integer>> horizontal =
+                new ArrayList<ArrayList<Integer>>();
+        for (int column = 0; column < 9; column++) {
+            ArrayList<Integer> rows = new ArrayList<Integer>();
+            for (int row = 0; row < 9; row++) {
+                rows.add(board.getCell(row, column).getSolutionValue());
+            }
+            horizontal.add(rows);
+        }
+        boolean result = true;
+        for (int column = 0; column < 9; column++) {
+            for (int row = 0; row < 9; row++) {
+                if (!horizontal.get(column).contains(row + 1)) {
+                    result = false;
+                    break;
+                };
+            }
+        }
+        assertTrue(result);
+    }
+
+    /**
+     * Checks whether each column has numbers 1 to 9.
+     */
+    @Test
+    public void boxSetUp() {
+        setUpCorrect();
+        SudokuBoard board = boardManager.getBoard();
+        ArrayList<ArrayList<Integer>> boxes =
+                new ArrayList<ArrayList<Integer>>();
+        int columnStarting = 0;
+        int rowStarting = 0;
+        while (columnStarting != 9) {
+            ArrayList<Integer> box = new ArrayList<Integer>();
+            for (int column = columnStarting;
+                 column < columnStarting + 3;
+                 column++) {
+                if (column == columnStarting) {
+                    box = new ArrayList<Integer>();
+                }
+                for (int row = rowStarting; row < rowStarting + 3; row++) {
+                    box.add(board.getCell(row, column).getSolutionValue());
+                }
+            }
+            boxes.add(box);
+            if (rowStarting == 6) {
+                rowStarting = 0;
+                columnStarting += 3;
+            } else {
+                rowStarting += 3;
+            }
+        }
+        boolean result = true;
+        for (int boxNumber = 0; boxNumber < 9; boxNumber++) {
+            for (int boxIndex = 0; boxIndex < 9; boxIndex++) {
+                if (!boxes.get(boxNumber).contains(boxIndex + 1)) {
+                    result = false;
+                    break;
+                };
+            }
+        }
+        assertTrue(result);
+    }
+
+    /**
+     * Test whether the level of difficulty works properly.
+     */
+    @Test
+    public void levelOfDifficultyEasy() {
+        SudokuBoardManager.setLevelOfDifficulty(1);
+        setUpCorrect();
+        int count = 0;
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                if (boardManager.getBoard().getCell(row, column)
+                        .getFaceValue().equals(0)) {
+                    count += 1;
+                }
+            }
+        }
+        assertEquals(count, 18);
+    }
+
+    /**
+     * Test whether the level of difficulty works properly.
+     */
+    @Test
+    public void levelOfDifficultyMedium() {
+        SudokuBoardManager.setLevelOfDifficulty(2);
+        setUpCorrect();
+        int count = 0;
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                if (boardManager.getBoard().getCell(row, column)
+                        .getFaceValue().equals(0)) {
+                    count += 1;
+                }
+            }
+        }
+        assertEquals(count, 36);
+    }
+
+    /**
+     * Test whether the level of difficulty works properly.
+     */
+    @Test
+    public void levelOfDifficultyHard() {
+        SudokuBoardManager.setLevelOfDifficulty(3);
+        setUpCorrect();
+        int count = 0;
+        for (int row = 0; row < 9; row++) {
+            for (int column = 0; column < 9; column++) {
+                if (boardManager.getBoard().getCell(row, column)
+                        .getFaceValue().equals(0)) {
+                    count += 1;
+                }
+            }
+        }
+        assertEquals(count, 54);
     }
 
 }

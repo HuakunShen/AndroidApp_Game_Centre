@@ -8,6 +8,8 @@ import java.util.Random;
 import fall2018.csc2017.GameCentre.data.StateStack;
 import fall2018.csc2017.GameCentre.util.BoardManagerForBoardGames;
 
+import static java.lang.Integer.max;
+
 /**
  * The SudokuBoardManager class.
  */
@@ -76,7 +78,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
             case 3: editable = 54;
                     setHintAvailable(3);
                     break;
-            default:editable = 36;
+            default:editable = 0;
                     setHintAvailable(5);
                     break;
         }
@@ -113,7 +115,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      * Reduce hintAvailable.
      */
     public void reduceHint() {
-        hintAvailable--;
+        hintAvailable = max(0, hintAvailable - 1);
     }
 
     /**
@@ -211,7 +213,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
             currentCell.setHighlighted(false);
             currentCell.setFaceValue(currentCell.getFaceValue());
         }
-        currentCell = this.board.getCell(position / SudokuBoard.NUM_COL,
+        currentCell = board.getCell(position / SudokuBoard.NUM_COL,
                 position % SudokuBoard.NUM_ROW);
         currentCell.setHighlighted(true);
         currentCell.setFaceValue(currentCell.getFaceValue());
