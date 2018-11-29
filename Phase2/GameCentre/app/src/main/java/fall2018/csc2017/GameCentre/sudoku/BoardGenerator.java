@@ -2,6 +2,9 @@ package fall2018.csc2017.GameCentre.sudoku;
 
 import java.util.Random;
 
+/**
+ * The BoardGenerator class.
+ */
 public class BoardGenerator {
 
     /**

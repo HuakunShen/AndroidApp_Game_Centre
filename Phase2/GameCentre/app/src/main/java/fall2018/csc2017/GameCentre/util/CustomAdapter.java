@@ -14,13 +14,29 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The CustomAdapter class.
+ */
 public class CustomAdapter extends BaseAdapter {
+
+    /**
+     * List of button.
+     */
     private List<Button> mButtons;
+    /**
+     * The column width and column height.
+     */
     private int mColumnWidth, mColumnHeight;
 
+
+    /**
+     * The CustomAdapter constructor.
+     * @param buttons
+     * @param columnWidth
+     * @param columnHeight
+     */
     public CustomAdapter(List<Button> buttons, int columnWidth, int columnHeight) {
         mButtons = buttons;
         mColumnWidth = columnWidth;

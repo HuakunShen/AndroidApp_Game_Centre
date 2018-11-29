@@ -6,6 +6,9 @@ import java.util.List;
 
 import fall2018.csc2017.GameCentre.util.BoardForBoardGames;
 
+/**
+ * The SudokuBoard class.
+ */
 public class SudokuBoard extends BoardForBoardGames implements Serializable {
 
     /**
