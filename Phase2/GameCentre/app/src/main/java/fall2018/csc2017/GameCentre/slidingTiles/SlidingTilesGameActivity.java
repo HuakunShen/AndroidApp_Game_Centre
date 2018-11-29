@@ -24,6 +24,7 @@ import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -37,26 +38,19 @@ import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.popScore;
 
-import static android.graphics.Bitmap.createBitmap;
-
 /**
  * The game activity.
  */
-public class SlidingTilesGameActivity extends AppCompatActivity implements Observer,
-        LoadSaveSerializable {
+public class SlidingTilesGameActivity extends AppCompatActivity implements Observer {
 
     private SlidingTilesGameController controller;
 
     private TextView timeDisplay;
-    /**
-     * The board manager.
-     */
-    private SlidingTilesBoardManager boardManager;
 
     /**
      * The buttons to display.
      */
-    private ArrayList<Button> tileButtons;
+    private List<Button> tileButtons;
 
     /**
      * Display steps
@@ -67,50 +61,29 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     // Grid View and calculated column height and width based on device size
     private GestureDetectGridView gridView;
     private static int columnWidth, columnHeight;
-
     private static final String GAME_NAME = "SlidingTiles";
-
     private TextView stepDisplay;
-    private User user;
-//    private String username;
-    private String userFile;
-    private SQLDatabase db;
     //time
     private LocalTime startingTime;
-    private Long preStartTime;
     private Long totalTimeTaken;
-
-
     /**
      * Warning message
      */
     private TextView warning;
 
-
-
-    private int difficulty;
-    private Bitmap backgroundImage;
-    private Bitmap[] tileImages;
-
-    private String PACKAGE_NAME;
-    private Resources RESOURCES;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        db = new SQLDatabase(this);
 
-        PACKAGE_NAME = getApplicationContext().getPackageName();
-        RESOURCES = getResources();
+
         startingTime = LocalTime.now();
 
-        setupUser();
         setupController();
-        loadFromFile(controller.getTempGameStateFile());
-        controller.setBoardManager(boardManager);
-
-        createTileButtons(this);
+        controller.setResourceAndPackage();
+//
+//        controller.setBoardManager(boardManager);
+        controller.loadFromFile();
+        tileButtons = controller.createTileButtons();
         setContentView(R.layout.activity_main);
         setupTime();
         setUpStep();
@@ -119,35 +92,18 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         addUndoButtonListener();
         addWarningTextViewListener();
         addStepDisplayListener();
+//        tileImages = new Bitmap[difficulty * difficulty];
+        controller.setupTileImagesAndBackground();
 
-        difficulty = boardManager.getBoard().getDifficulty();
-        tileImages = new Bitmap[difficulty * difficulty];
-
-
-        try {
-            byte[] tmpImage = boardManager.getImageBackground();
-            backgroundImage = BitmapFactory.decodeByteArray(tmpImage, 0, tmpImage.length);
-            cutImageToTiles();
-        }catch (Exception e) {
-            convertNumberToTiles();
-        }
     }
 
     private void setupController() {
-        controller = new SlidingTilesGameController(this, user);
+        controller = new SlidingTilesGameController(this,
+                (User) getIntent().getSerializableExtra("user"));
         controller.setupFile();
 
     }
 
-    /**
-     * setup user object according to username and define the value of userFile (where user
-     * object is saved)
-     */
-    private void setupUser() {
-        user = (User) getIntent().getSerializableExtra("user");
-        userFile = db.getUserFile(user.getUsername());
-//        loadFromFile(userFile);
-    }
 
 
 
@@ -166,20 +122,19 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Time counting, setup initial time based on the record in boardmanager
      */
     private void setupTime() {
-        if(!boardManager.boardSolved())
+        if(!controller.boardSolved())
             controller.setGameRunning(true);
         Timer timer = new Timer();
-        preStartTime = boardManager.getTimeTaken();
+        final long preStartTime = controller.getBoardManager().getTimeTaken();
         timeDisplay = findViewById(R.id.time_display_view);
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
                 if(controller.isGameRunning()){
-                    timeDisplay.setText(controller.convertTime(time + preStartTime));
                     totalTimeTaken = time + preStartTime;
-                    boardManager.setTimeTaken(time + preStartTime);
-
+                    timeDisplay.setText(controller.convertTime(totalTimeTaken));
+                    controller.getBoardManager().setTimeTaken(totalTimeTaken);
                 }
             }
         };
@@ -203,36 +158,13 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     }
 
     /**
-     * convert time in milli seconds (long type) to String which will be displayed
-     */
-    String timeToString(long time) {
-        Integer hour = (int) (time / 3600000);
-        Integer min = (int) ((time % 3600000) / 60000);
-        Integer sec = (int) ((time % 3600000 % 60000) / 1000);
-        String hourStr = hour.toString();
-        String minStr = min.toString();
-        String secStr = sec.toString();
-        if (hour < 10) {
-            hourStr = "0" + hourStr;
-        }
-        if (min < 10) {
-            minStr = "0" + minStr;
-        }
-        if (sec < 10) {
-            secStr = "0" + secStr;
-        }
-        return hourStr + ":" + minStr + ":" + secStr;
-    }
-
-
-    /**
      * Setup the gridview where the tiles are located
      */
     private void addGridViewToActivity() {
         gridView = findViewById(R.id.grid);
-        gridView.setNumColumns(boardManager.getBoard().getDifficulty());
-        gridView.setBoardManager(boardManager);
-        boardManager.getBoard().addObserver(this);
+        gridView.setNumColumns(controller.getBoard().getDifficulty());
+        gridView.setBoardManager(controller.getBoardManager());
+        controller.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -243,8 +175,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
 
-                        columnWidth = (displayWidth / boardManager.getBoard().getDifficulty());
-                        columnHeight = (displayHeight / boardManager.getBoard().getDifficulty());
+                        columnWidth = (displayWidth / controller.getBoard().getDifficulty());
+                        columnHeight = (displayHeight / controller.getBoard().getDifficulty());
 
                         display();
                     }
@@ -257,47 +189,16 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      */
     // Display
     public void display() {
-        updateTileButtons();
+        controller.updateTileButtons();
         gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
     }
 
-
-    /**
-     * Create the buttons for displaying the tiles.
-     *
-     * @param context the context
-     */
-    private void createTileButtons(Context context) {
-//        tileButtons = controller.createTileButtons();
-        tileButtons = new ArrayList<>();
-        for (int row = 0; row != boardManager.getBoard().getDifficulty(); row++) {
-            for (int col = 0; col != boardManager.getBoard().getDifficulty(); col++) {
-                Button tmp = new Button(context);
-                this.tileButtons.add(tmp);
-            }
-        }
-    }
-
-    /**
-     * Update the backgrounds on the buttons to match the tiles.
-     */
-    private void updateTileButtons() {
-        SlidingTilesBoard board = boardManager.getBoard();
-        int nextPos = 0;
-        for (Button b : tileButtons) {
-            int row = nextPos / boardManager.getBoard().getDifficulty();
-            int col = nextPos % boardManager.getBoard().getDifficulty();
-            int tile_id = board.getTile(row, col);
-            b.setBackground(new BitmapDrawable(getResources(), tileImages[tile_id - 1]));
-            nextPos++;
-        }
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
         stepDisplay.setText(String.format("%s", "Steps: " + Integer.toString(controller.getSteps())));
-        timeDisplay.setText(controller.convertTime(boardManager.getTimeTaken()));
+        timeDisplay.setText(controller.convertTime(controller.getBoardManager().getTimeTaken()));
     }
 
     /**
@@ -315,9 +216,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (boardManager.undoAvailable()) {
-                    boardManager.move(boardManager.popUndo());
-                } else {
+                if (!controller.undo()){
                     warning.setText("Exceeds Undo-Limit!");
                     warning.setVisibility(View.VISIBLE);
                     warning.setError("Exceeds Undo-Limit! ");
@@ -341,28 +240,30 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      *
      * @param fileName the name of the file
      */
-    public void loadFromFile(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(userFile)) {
-                    user = (User) input.readObject();
-                } else if (fileName.equals(controller.getGameStateFile()) ||
-                        fileName.equals(controller.getTempGameStateFile())) {
-                    boardManager = (SlidingTilesBoardManager) input.readObject();
-                }
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
+//    public void loadFromFile(String fileName) {
+//        try {
+//            InputStream inputStream = this.openFileInput(fileName);
+//            if (inputStream != null) {
+//                ObjectInputStream input = new ObjectInputStream(inputStream);
+//
+//
+//
+//                if (fileName.equals(controller.getUserFile())) {
+//                    user = (User) input.readObject();
+//                } else if (fileName.equals(controller.getGameStateFile()) ||
+//                        fileName.equals(controller.getTempGameStateFile())) {
+//                    boardManager = (SlidingTilesBoardManager) input.readObject();
+//                }
+//                inputStream.close();
+//            }
+//        } catch (FileNotFoundException e) {
+//            Log.e("login activity", "File not found: " + e.toString());
+//        } catch (IOException e) {
+//            Log.e("login activity", "Can not read file: " + e.toString());
+//        } catch (ClassNotFoundException e) {
+//            Log.e("login activity", "File contained unexpected data type: " + e.toString());
+//        }
+//    }
 
     /**
      * Save the board manager to fileName.
@@ -373,10 +274,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(userFile)) {
-                outputStream.writeObject(user);
+            if (fileName.equals(controller.getUserFile())) {
+                outputStream.writeObject(controller.getUser());
             } else if (fileName.equals(controller.getGameStateFile()) || fileName.equals(controller.getTempGameStateFile())) {
-                outputStream.writeObject(boardManager);
+                outputStream.writeObject(controller.getBoardManager());
             }
             outputStream.close();
         } catch (IOException e) {
@@ -389,12 +290,11 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         display();
         controller.setSteps(controller.getSteps() + 1);
         this.stepDisplay.setText("Steps: " + Integer.toString(controller.getSteps()));
-        if (boardManager.boardSolved()) {
+        if (controller.boardSolved()) {
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = controller.calculateScore(totalTimeTaken);
-            user.updateScore(GAME_NAME, score);
-            saveToFile(userFile);
-            db.updateScore(user, GAME_NAME);
+            controller.updateScore(score);
+            saveToFile(controller.getUserFile());
             controller.setGameRunning(false);
             popScoreWindow(score);
         }
@@ -403,35 +303,11 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     private void popScoreWindow(Integer score) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
-        goToPopWindow.putExtra("user", user);
+        goToPopWindow.putExtra("user", controller.getUser());
         goToPopWindow.putExtra("gameType", GAME_NAME);
         startActivity(goToPopWindow);
     }
 
 
-    private void cutImageToTiles() {
-        int width = backgroundImage.getWidth();
-        int height = backgroundImage.getHeight();
 
-        int count = 0;
-        for (int i = 0; i < difficulty; i++) {
-            for (int j = 0; j < difficulty; j++) {
-                tileImages[count] = createBitmap(backgroundImage, i * (width / difficulty),
-                        j * (height / difficulty), width / difficulty, height / difficulty, null, false);
-                count++;
-            }
-        }
-        tileImages[difficulty * difficulty - 1]
-                = BitmapFactory.decodeResource(RESOURCES, R.drawable.tile_empty);
-    }
-
-    private void convertNumberToTiles() {
-        for (int i = 0; i < difficulty * difficulty; i++) {
-            String name = "tile_"  + Integer.toString(i + 1);
-            int numImage = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
-            tileImages[i] = BitmapFactory.decodeResource(RESOURCES, numImage);
-        }
-        tileImages[difficulty * difficulty - 1]
-                = BitmapFactory.decodeResource(RESOURCES, R.drawable.tile_empty);
-    }
 }
