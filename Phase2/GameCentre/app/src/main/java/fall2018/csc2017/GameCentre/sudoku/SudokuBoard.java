@@ -12,9 +12,15 @@ public class SudokuBoard extends BoardForBoardGames implements Serializable {
      * The cells on the board.
      */
     private Cell[][] cells = new Cell[9][9];
-
+    /**
+     * Number of rows.
+     */
     final static int NUM_ROW = 9;
+    /**
+     * Number of columns.
+     */
     final static int NUM_COL = 9;
+
 
     /**
      * A new board of cells in row-major order.
@@ -34,6 +40,10 @@ public class SudokuBoard extends BoardForBoardGames implements Serializable {
 
     /**
      * Get the box at the ith row and jth column
+     *
+     * @param row
+     * @param column
+     * @return cell
      */
     public Cell getCell(int row, int column) {
         return this.cells[row][column];
@@ -42,6 +52,10 @@ public class SudokuBoard extends BoardForBoardGames implements Serializable {
     /**
      * Check whether the box at the ith row and jth column
      * has been correctly solved.
+     *
+     * @param row
+     * @param col
+     * @return whether the cell is solved
      */
     boolean checkCell(int row, int col) {
         return this.cells[row][col].checkValue();
@@ -50,6 +64,10 @@ public class SudokuBoard extends BoardForBoardGames implements Serializable {
     /**
      * Check whether the face value of box at the ith row and
      * jth column can be edited.
+     *
+     * @param row
+     * @param col
+     * @return whether the cell is editable
      */
     boolean checkEditable(int row, int col) {
         return this.cells[row][col].isEditable();
