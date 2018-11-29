@@ -28,6 +28,9 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * Grid View and calculated column height and width based on device size
      */
     private GestureDetectGridView gridView;
+    /**
+     * column width and height of each row and column of gridView
+     */
     private static int columnWidth, columnHeight;
     /**
      * The name of the current game.
@@ -42,6 +45,9 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * the total time
      */
     private Long totalTimeTaken;
+    /**
+     * Controller object for this activity
+     */
     private PictureMatchingGameController controller;
 
 
@@ -57,6 +63,10 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         addGridViewToActivity();
     }
 
+
+    /**
+     * Create and setup controller
+     */
     private void setupController() {
         controller = new PictureMatchingGameController(this, (User)getIntent().getSerializableExtra("user"));
         controller.setupFile();
@@ -140,6 +150,22 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 
     @Override
     public void update(Observable o, Object arg) {
+        setupTimeDelay();
+        display();
+        if (controller.boardSolved()) {
+            Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
+            Integer score = controller.calculateScore(totalTimeTaken);
+            boolean newRecord = controller.updateScore(score);
+            controller.saveToFile(controller.getUserFile());
+            controller.setGameRunning(false);
+            popScoreWindow(score, newRecord);
+        }
+    }
+
+    /**
+     * A time delay of 0.5 second for the pictures to turn over
+     */
+    private void setupTimeDelay() {
         if (controller.getBoardManager().check2tiles()) {
             final android.os.Handler handler = new android.os.Handler();
             handler.postDelayed(new Runnable() {
@@ -152,19 +178,17 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                         Toast.makeText(getApplication(), "slow down!", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }, 100);
-        }
-        display();
-        if (controller.boardSolved()) {
-            Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            Integer score = controller.calculateScore(totalTimeTaken);
-            boolean newRecord = controller.updateScore(score);
-            controller.saveToFile(controller.getUserFile());
-            controller.setGameRunning(false);
-            popScoreWindow(score, newRecord);
+            }, 500);
         }
     }
 
+
+    /**
+     * Pop up window that shows user the score he/she gets
+     * @param score Score that is to be displayed on popup window
+     * @param newRecord Indicator that determines which text is to be displayed (New Record: or
+     *                  Your Highest Score Was
+     */
     private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
