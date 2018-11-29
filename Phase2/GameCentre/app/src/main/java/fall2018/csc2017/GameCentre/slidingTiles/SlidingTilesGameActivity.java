@@ -5,18 +5,14 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -144,7 +140,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Setup the initial time based on the record in the board's manager.
      */
     private void setupTime() {
-        if(!logicalController.gameFinished())
+        if (!logicalController.gameFinished())
             logicalController.setGameRunning(true);
         Timer timer = new Timer();
         final long preStartTime = logicalController.getBoardManager().getTimeTaken();
@@ -153,7 +149,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                if(logicalController.isGameRunning()){
+                if (logicalController.isGameRunning()) {
                     totalTimeTaken = time + preStartTime;
                     timeDisplay.setText(logicalController.convertTime(totalTimeTaken));
                     logicalController.getBoardManager().setTimeTaken(totalTimeTaken);
@@ -212,7 +208,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
-                if (!logicalController.performUndo()){
+                if (!logicalController.performUndo()) {
                     warning.setText("Exceeds Undo-Limit!");
                     warning.setVisibility(View.VISIBLE);
                     warning.setError("Exceeds Undo-Limit! ");
