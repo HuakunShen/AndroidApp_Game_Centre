@@ -21,10 +21,17 @@ import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 
 public class MatchingNewGamePop extends AppCompatActivity {
-
+    /**
+     * the User object that store the user information.
+     */
     private User user;
-//    private String username;
+    /**
+     * the name of the user file.
+     */
     private String userFile;
+    /**
+     * the database that stores the user and game information.
+     */
     private SQLDatabase db;
     /**
      * The main save file.
@@ -35,11 +42,16 @@ public class MatchingNewGamePop extends AppCompatActivity {
      */
     private String tempGameStateFile;
     /**
-     * The board manager.
+     * the name of the current game.
      */
     public static final String GAME_NAME = "PictureMatch";
+    /**
+     * The board manager.
+     */
     private MatchingBoardManager boardManager;
-
+    /**
+     * the difficulty that we selected.
+     */
     private int selected_difficulty;
     private String[] list_diff = new String[]{"Easy(4x4)", "Normal(6x6)", "Hard(8x8)"};
 

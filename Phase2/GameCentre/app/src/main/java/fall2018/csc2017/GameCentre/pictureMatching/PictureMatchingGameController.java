@@ -20,71 +20,157 @@ import fall2018.csc2017.GameCentre.data.User;
 import static android.content.Context.MODE_PRIVATE;
 
 public class PictureMatchingGameController {
-
+    /**
+     * Context of MatchingBoardGameActivity
+     */
     private final Context context;
+    /**
+     * Database that stores user file address and game state
+     */
     private SQLDatabase db;
+    /**
+     * User object of current user
+     */
     private User user;
+    /**
+     * File that saves serialized BoardManager Object
+     */
     private String gameStateFile;
+    /**
+     * Game status, true if game is solved, false otherwise
+     */
     private boolean gameRunning;
+    /**
+     * File that saves serialized BoardManager Object
+     */
     private String tempGameStateFile;
+    /**
+     * current BoardManager
+     */
     private MatchingBoardManager boardManager;
+    /**
+     * Name of current game
+     */
     private static final String GAME_NAME = "PictureMatch";
-
+    /**
+     * A collection of buttons that is to be manipulated and displayed
+     */
     private List<Button> tileButtons;
+    /**
+     * Resource of context (gameActivity)
+     */
     private Resources resources;
+    /**
+     * The packageName
+     */
     private String packageName;
 
+    /**
+     * Constructor of the controller class
+     * @param context MatchingPictureGameActivity
+     * @param user user object of current user
+     */
     PictureMatchingGameController(Context context, User user){
         this.context = context;
         this.db = new SQLDatabase(context);
         this.user = user;
         this.packageName = context.getPackageName();
         this.resources = context.getResources();
-
     }
 
+    /**
+     *
+     * @return list of tileButtons that's going to be displayed
+     */
     public List<Button> getTileButtons() {
         return tileButtons;
     }
 
+    /**
+     * Used to determine whether the timer should keep counting
+     * @return true of game is not ended (board is not solved), false otherwise
+     */
     public boolean isGameRunning() {
         return gameRunning;
     }
 
+    /**
+     * set whether the game is running.
+     * @param gameRunning state of game, whether game is still running
+     */
     public void setGameRunning(boolean gameRunning) {
         this.gameRunning = gameRunning;
     }
 
+    /**
+     * set boardManager to a new boardManager.
+     * @param boardManager the new boardManager that we want to assign to.
+     */
     public void setBoardManager(MatchingBoardManager boardManager) {
         this.boardManager = boardManager;
     }
 
-    public String getGameStateFile() {
+    /**
+     * get the game state file
+     * @return the string of game state file.
+     */
+    String getGameStateFile() {
         return gameStateFile;
     }
 
-    public String getTempGameStateFile() {
+    /**
+     * get the temporary game state file.
+     * @return the the temporary game state file.
+     */
+    String getTempGameStateFile() {
         return tempGameStateFile;
     }
 
+    /**
+     * get boardManager
+     * @return boardManager
+     */
     public MatchingBoardManager getBoardManager() {
         return boardManager;
     }
+
+    /**
+     * get the board of the boardManager.
+     * @return the board of the boardManager.
+     */
     public MatchingBoard getBoard(){
         return boardManager.getBoard();
     }
+
+    /**
+     * get the User object that store the information of the current user.
+     * @return the User object that represent the current user.
+     */
     public User getUser() {
         return user;
     }
+
+    /**
+     * get the user file
+     * @return the user file.
+     */
     String getUserFile(){
         return db.getUserFile(user.getUsername());
     }
+
+    /**
+     * set up the game state file.
+     */
     void setupFile(){
         if (!db.dataExists(user.getUsername(), GAME_NAME))
             db.addData(user.getUsername(), GAME_NAME);
         gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
         tempGameStateFile = "temp_" + gameStateFile;
     }
+
+    /**
+     * create the tile buttons for displaying.
+     */
     void createTileButtons(){
         tileButtons = new ArrayList<>();
         for (int row = 0; row != boardManager.getBoard().getDifficulty(); row++) {
@@ -96,6 +182,9 @@ public class PictureMatchingGameController {
         }
     }
 
+    /**
+     * update the tileButtons after make a move.
+     */
     void updateTileButtons(){
         MatchingBoard board = boardManager.getBoard();
         int nextPos = 0;
@@ -120,6 +209,11 @@ public class PictureMatchingGameController {
         }
     }
 
+    /**
+     * covert the time to proper format.
+     * @param time the time that we want to convert.
+     * @return the converted time.
+     */
     String convertTime(long time) {
         Integer hour = (int) (time / 3600000);
         Integer min = (int) ((time % 3600000) / 60000);
@@ -138,17 +232,31 @@ public class PictureMatchingGameController {
         }
         return hourStr + ":" + minStr + ":" + secStr;
     }
+
+    /**
+     * calculate the score according to the totalTimeTaken.
+     * @param totalTimeTaken the time for calculating score.
+     * @return the calculated score.
+     */
     Integer calculateScore(Long totalTimeTaken) {
         int timeInSec = totalTimeTaken.intValue() / 1000;
         return 10000 / (timeInSec);
     }
 
+    /**
+     * update the score in user object and database.
+     * @param score the score that we wanted to store.
+     * @return whether the score is updated.
+     */
     boolean updateScore(int score){
         boolean newRecord = user.updateScore(GAME_NAME, score);
         db.updateScore(user, GAME_NAME);
         return newRecord;
     }
 
+    /**
+     * load the boardManager from the file.
+     */
     public void loadFromFile() {
         try {
             InputStream inputStream = context.openFileInput(tempGameStateFile);
@@ -186,6 +294,10 @@ public class PictureMatchingGameController {
         }
     }
 
+    /**
+     * whether the board is solved.
+     * @return whether the board is solved,
+     */
     public boolean boardSolved() {
         return boardManager.boardSolved();
     }

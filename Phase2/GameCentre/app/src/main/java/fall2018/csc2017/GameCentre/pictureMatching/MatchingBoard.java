@@ -150,6 +150,10 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
         }
     }
 
+    /**
+     * get the difficulty of the current board game.
+     * @return the difficulty of the game.
+     */
     public int getDifficulty() {
         return difficulty;
     }

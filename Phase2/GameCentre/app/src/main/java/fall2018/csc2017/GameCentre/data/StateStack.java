@@ -52,7 +52,6 @@ public class StateStack<E> implements Serializable {
         if (stack.size() == capacity) {
             stack.remove(0);
             stack.add(item);
-            Log.d("Push into Stack", "stackSize = " + ((Integer) stack.size()).toString());
         } else {
             stack.add(item);
         }

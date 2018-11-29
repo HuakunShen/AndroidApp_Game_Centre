@@ -32,49 +32,50 @@ import fall2018.csc2017.GameCentre.util.popScore;
 public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
     /**
-     * The SudokuGameController.
+     * Controller object for this activity
      */
     private SudokuGameController controller;
     /**
-     * The timeDisplay.
+     * TextView for displaying time
      */
     private TextView timeDisplay;
     /**
-     * The GestureDetectGridView.
+     * GridView for displaying cells
      */
     private GestureDetectGridView gridView;
     /**
-     * The columnWidth and columnHeight.
+     * column width and height of each row and column of gridView
      */
     private static int columnWidth, columnHeight;
     /**
-     * The game name.
+     * Game name of current game
      */
     private static final String GAME_NAME = "Sudoku";
     /**
-     * The starting time.
+     * Time when the game starts or loads
      */
     private LocalTime startingTime;
     /**
-     * The pre-start time.
+     * Time loaded from previous saved game
      */
     private Long preStartTime = 0L;
     /**
-     * The totalTimeTaken.
+     * Total time taken before the board is solved
      */
     private Long totalTimeTaken;
     /**
-     * Warning message
+     * Warning message TextView Display
      */
     private TextView warning;
     /**
-     * The hint text.
+     * Hint TextView Display
      */
     private TextView hintText;
     /**
-     * The list of buttons.
+     * List of Buttons (from 1-9) for number input
      */
-    private Button[] numButtons;
+    private Button[] buttons;
+
 
 
     @Override
@@ -98,7 +99,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     }
 
     /**
-     * Set up controller.
+     * Create and setup controller
      */
     private void setupController() {
         controller = new SudokuGameController(this, (User) getIntent().getSerializableExtra("user"));
@@ -127,24 +128,24 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     private void setUpButtons() {
         LinearLayout numLayout = findViewById(R.id.numButtons);
 
-        numButtons = new Button[9];
-        for (int tmp = 0; tmp < numButtons.length; tmp++) {
-            numButtons[tmp] = new Button(this);
-            numButtons[tmp].setId(1800 + tmp);
-            numButtons[tmp].setText(String.format("%s", Integer.toString(tmp + 1)));
+        buttons = new Button[9];
+        for (int tmp = 0; tmp < buttons.length; tmp++) {
+            buttons[tmp] = new Button(this);
+            buttons[tmp].setId(1800 + tmp);
+            buttons[tmp].setText(String.format("%s", Integer.toString(tmp + 1)));
 
             RelativeLayout.LayoutParams btParams = new RelativeLayout.LayoutParams(100, 50);
             btParams.leftMargin = 3;
             btParams.topMargin = 5;
             btParams.width = 115;
             btParams.height = 115;
-            numLayout.addView(numButtons[tmp], btParams);
+            numLayout.addView(buttons[tmp], btParams);
 
-            numButtons[tmp].setOnClickListener(new View.OnClickListener() {
+            buttons[tmp].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for (int tmp = 0; tmp < numButtons.length; tmp++) {
-                        if (v == numButtons[tmp])
+                    for (int tmp = 0; tmp < buttons.length; tmp++) {
+                        if (v == buttons[tmp])
                             controller.getBoardManager().updateValue(tmp + 1, false);
                     }
                 }
@@ -221,9 +222,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                 if (controller.getBoardManager().getHint() > 0) {
                     if (currentCell != null &&
                             !currentCell.getFaceValue().equals(currentCell.getSolutionValue())) {
-                        controller.getBoardManager().updateValue(currentCell.getSolutionValue(), false);
+                        controller.getBoardManager().updateValue(currentCell.getSolutionValue(),
+                                false);
                         controller.getBoardManager().reduceHint();
-                        String hintDisplay = "Hint: " + String.valueOf(controller.getBoardManager().getHint());
+                        String hintDisplay = "Hint: " +
+                                String.valueOf(controller.getBoardManager().getHint());
                         hintText.setText(hintDisplay);
                     }
                 } else {
@@ -273,8 +276,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
                 if (controller.isGameRunning()) {
-                    timeDisplay.setText(String.format("Time: %s", controller.convertTime(time + preStartTime)));
                     totalTimeTaken = time + preStartTime;
+                    timeDisplay.setText(String.format("Time: %s",
+                            controller.convertTime(totalTimeTaken)));
+
                     controller.getBoardManager().setTimeTaken(time + preStartTime);
                 }
             }
@@ -368,10 +373,17 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     }
 
     /**
+<<<<<<< HEAD
+     * Pop up window that shows user the score he/she gets
+     * @param score Score that is to be displayed on popup window
+     * @param newRecord Indicator that determines which text is to be displayed (New Record: or
+     *                  Your Highest Score Was
+=======
      * This activate pop window.
      *
      * @param score
      * @param newRecord
+>>>>>>> 769a1ad8476f2f6fb63a1a82a94952ee0c934930
      */
     private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
