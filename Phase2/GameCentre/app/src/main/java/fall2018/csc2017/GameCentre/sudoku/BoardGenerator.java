@@ -9,6 +9,7 @@ public class BoardGenerator {
      */
     private Integer[][] board = new Integer[9][9];
 
+
     /**
      * Constructor for the BoardGenerator Class.
      */
@@ -26,6 +27,8 @@ public class BoardGenerator {
 
     /**
      * Getter function for the board.
+     *
+     * @return 2d list of integers
      */
     Integer[][] getBoard() {
         return board;
@@ -59,6 +62,8 @@ public class BoardGenerator {
 
     /**
      * Shuffle the game board.
+     *
+     * @param check
      */
     private void juniorBoardShuffler(int check) {
         int k1 = 0, k2 = 0;
@@ -79,6 +84,8 @@ public class BoardGenerator {
 
     /**
      * Further Shuffle the GameBoard.
+     *
+     * @param check
      */
     private void seniorBoardShuffler(int check) {
         Random r = new Random();
@@ -107,6 +114,9 @@ public class BoardGenerator {
 
     /**
      * Switch two rows on the game board.
+     *
+     * @param row1
+     * @param row2
      */
     private void switchRows(int row1, int row2) {
         int cache;
@@ -119,6 +129,9 @@ public class BoardGenerator {
 
     /**
      * Switch two columns on the game board.
+     *
+     * @param col1
+     * @param col2
      */
     private void switchColumns(int col1, int col2) {
         int cache;
@@ -131,6 +144,9 @@ public class BoardGenerator {
 
     /**
      * Switch two groups of rows in the game board.
+     *
+     * @param group1
+     * @param group2
      */
     private void switchHorizontalGroups(int group1, int group2) {
         int row1 = 3 * group1 - 3;
@@ -149,6 +165,9 @@ public class BoardGenerator {
 
     /**
      * Switch two groups of columns in the game board.
+     *
+     * @param group1
+     * @param group2
      */
     private void switchVerticalGroups(int group1, int group2) {
         int row1 = 3 * group1 - 3;

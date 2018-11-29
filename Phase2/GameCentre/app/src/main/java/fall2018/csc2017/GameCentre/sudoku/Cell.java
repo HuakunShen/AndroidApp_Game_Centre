@@ -41,8 +41,13 @@ public class Cell implements Serializable {
      */
     private int col;
 
+
     /**
      * The constructor for Cell.
+     *
+     * @param row
+     * @param col
+     * @param value
      */
     Cell(int row, int col, int value) {
         this.row = row;
@@ -54,6 +59,8 @@ public class Cell implements Serializable {
 
     /**
      * Get the solution of the box.
+     *
+     * @return solutionValue
      */
     public Integer getSolutionValue() {
         return solutionValue;
@@ -61,6 +68,8 @@ public class Cell implements Serializable {
 
     /**
      * Get the face value of the box.
+     *
+     * @return faceValue
      */
     public Integer getFaceValue() {
         return faceValue;
@@ -68,6 +77,8 @@ public class Cell implements Serializable {
 
     /**
      * Set the face value of the box.
+     *
+     * @param faceValue
      */
     void setFaceValue(Integer faceValue) {
         this.faceValue = faceValue;
@@ -96,6 +107,9 @@ public class Cell implements Serializable {
     /**
      * Returns whether the user successfully figured
      * out the value of the box.
+     *
+     * @return whether user user successfully figured
+     * out the value of the box.
      */
     boolean checkValue() {
         return faceValue.equals(solutionValue);
@@ -103,13 +117,15 @@ public class Cell implements Serializable {
 
     /**
      * Returns whether the box is editable.
+     *
+     * @return whether the cell is editable
      */
     boolean isEditable() {
         return editable;
     }
 
     /**
-     * Make the box editable;
+     * Make the box editable.
      */
     void makeEditable() {
         this.editable = true;
@@ -117,16 +133,11 @@ public class Cell implements Serializable {
 
     /**
      * Returns the background of the cell.
+     *
+     * @return background value
      */
     int getBackground() {
         return background;
-    }
-
-    /**
-     * Returns whether the cell is highlighted.
-     */
-    boolean isHighlighted() {
-        return highlighted;
     }
 
     /**
