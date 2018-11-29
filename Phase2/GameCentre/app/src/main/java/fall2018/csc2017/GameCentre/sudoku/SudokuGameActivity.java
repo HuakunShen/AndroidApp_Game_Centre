@@ -1,12 +1,10 @@
 package fall2018.csc2017.GameCentre.sudoku;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -15,48 +13,66 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
-import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 import fall2018.csc2017.GameCentre.util.popScore;
 
 public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
+    /**
+     * The SudokuGameController.
+     */
     private SudokuGameController controller;
+    /**
+     * The timeDisplay.
+     */
     private TextView timeDisplay;
-
-    // Grid View and calculated column height and width based on device size
+    /**
+     * The GestureDetectGridView.
+     */
     private GestureDetectGridView gridView;
+    /**
+     * The columnWidth and columnHeight.
+     */
     private static int columnWidth, columnHeight;
-
+    /**
+     * The game name.
+     */
     private static final String GAME_NAME = "Sudoku";
-    //time
+    /**
+     * The starting time.
+     */
     private LocalTime startingTime;
+    /**
+     * The pre-start time.
+     */
     private Long preStartTime = 0L;
+    /**
+     * The totalTimeTaken.
+     */
     private Long totalTimeTaken;
     /**
      * Warning message
      */
     private TextView warning;
-
+    /**
+     * The hint text.
+     */
     private TextView hintText;
+    /**
+     * The list of buttons.
+     */
     private Button[] numButtons;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +94,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         addHintButtonListener();
     }
 
+    /**
+     * Set up controller.
+     */
     private void setupController() {
-        controller = new SudokuGameController(this, (User)getIntent().getSerializableExtra("user"));
+        controller = new SudokuGameController(this, (User) getIntent().getSerializableExtra("user"));
         controller.setupFile();
     }
 
@@ -250,7 +269,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                if(controller.isGameRunning()){
+                if (controller.isGameRunning()) {
                     timeDisplay.setText(String.format("Time: %s", controller.convertTime(time + preStartTime)));
                     totalTimeTaken = time + preStartTime;
                     controller.getBoardManager().setTimeTaken(time + preStartTime);
@@ -345,7 +364,12 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         }
     }
 
-
+    /**
+     * This activate pop window.
+     *
+     * @param score
+     * @param newRecord
+     */
     private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
@@ -355,7 +379,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
         startActivity(goToPopWindow);
     }
-
 
 
 }

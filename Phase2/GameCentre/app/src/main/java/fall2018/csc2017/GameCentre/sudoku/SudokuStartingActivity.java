@@ -74,8 +74,6 @@ public class SudokuStartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudoku_starting);
         db = new SQLDatabase(this);
-
-//        username = getIntent().getStringExtra("user");
         PACKAGE_NAME = getApplicationContext().getPackageName();
         RESOURCES = getResources();
         setupUser();
