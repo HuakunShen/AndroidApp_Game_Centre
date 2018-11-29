@@ -60,7 +60,7 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
     /**
      * A tile with a background id; look up and set the id.
      *
-     * @param id
+     * @param id the id of pictureTile.
      */
     PictureTile(int id) {
         this.id = id;
