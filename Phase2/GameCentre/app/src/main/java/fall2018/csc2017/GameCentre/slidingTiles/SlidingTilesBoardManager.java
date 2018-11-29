@@ -252,16 +252,16 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
         Integer below = row == board.getDifficulty() - 1 ? null : board.getTile(row + 1, col);
         Integer left = col == 0 ? null : board.getTile(row, col - 1);
         if (above != null && above == blankId) {
-            this.board.swapTiles(row - 1, col, row, col);
+            board.swapTiles(row - 1, col, row, col);
             return (row - 1) * board.getDifficulty() + col;
         } else if (below != null && below == blankId) {
-            this.board.swapTiles(row + 1, col, row, col);
+            board.swapTiles(row + 1, col, row, col);
             return (row + 1) * board.getDifficulty() + col;
         } else if (left != null && left == blankId) {
-            this.board.swapTiles(row, col - 1, row, col);
+            board.swapTiles(row, col - 1, row, col);
             return row * board.getDifficulty() + (col - 1);
         } else {
-            this.board.swapTiles(row, col + 1, row, col);
+            board.swapTiles(row, col + 1, row, col);
             return row * board.getDifficulty() + (col + 1);
         }
     }

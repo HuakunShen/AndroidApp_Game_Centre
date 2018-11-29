@@ -76,7 +76,6 @@ public class PictureMatchingGameController {
         this.user = user;
         this.packageName = context.getPackageName();
         this.resources = context.getResources();
-
     }
 
     /**

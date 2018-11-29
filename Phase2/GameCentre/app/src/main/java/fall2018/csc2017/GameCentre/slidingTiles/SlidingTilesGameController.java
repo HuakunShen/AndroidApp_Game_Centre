@@ -173,6 +173,13 @@ public class SlidingTilesGameController {
     }
 
     /**
+     * Getter function for tile buttons.
+     */
+    List<Button> getTileButtons() {
+        return tileButtons;
+    }
+
+    /**
      * The setter function for gameRunning instance.
      */
     void setGameRunning(boolean gameRunning) {
@@ -184,10 +191,6 @@ public class SlidingTilesGameController {
      */
     boolean isGameRunning() {
         return gameRunning;
-    }
-
-    List<Button> getTileButtons() {
-        return tileButtons;
     }
 
     /**

@@ -17,13 +17,19 @@ public class SlidingTilesBoardManagerTest {
     /**
      * This sets up necessary steps for the following tests.
      */
-    @Before
     public void setUp() {
+        setUpCorrect();
+        boardManager.makeMove(7);
+        boardManager.setStepsTaken(1);
+    }
+
+    /**
+     * Set up the board for testing.
+     */
+    private void setUpCorrect() {
         List<Integer> tiles = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
         board = new SlidingTilesBoard(tiles, 3);
         boardManager = new SlidingTilesBoardManager(board);
-        boardManager.makeMove(7);
-        boardManager.setStepsTaken(1);
     }
 
     /**
@@ -31,6 +37,9 @@ public class SlidingTilesBoardManagerTest {
      */
     @Test
     public void getBoard() {
+        setUp();
+        assertEquals(board, boardManager.getBoard());
+        setUpCorrect();
         assertEquals(board, boardManager.getBoard());
     }
 
@@ -38,41 +47,44 @@ public class SlidingTilesBoardManagerTest {
      * This tests the functionality of setCapacity() and getCapacity().
      */
     @Test
-    public void setAndGetCapacity() {
+    public void undoAndMoveMethodsTest() {
+        setUpCorrect();
+        assertEquals(3, boardManager.getCapacity());
         boardManager.setCapacity(2);
         assertEquals(2, boardManager.getCapacity());
-    }
+        boardManager.move(7);
+        assertFalse(boardManager.undoAvailable());
+        boardManager.move(8);
+        assertFalse(boardManager.undoAvailable());
+        boardManager.makeMove(7);
+        boardManager.makeMove(6);
+        boardManager.makeMove(3);
+        assertEquals(6, (int) boardManager.popUndo());
+        assertEquals(7, (int) boardManager.popUndo());
+        assertFalse(boardManager.undoAvailable());
 
-    /**
-     * This tests the functionality of undoAvailable().
-     */
-    @Test
-    public void undoAvailable() {
+        setUpCorrect();
+        boardManager.setCapacity(3);
+        boardManager.makeMove(7);
+        boardManager.makeMove(6);
+        boardManager.makeMove(3);
+        assertEquals(6, (int) boardManager.popUndo());
+        assertEquals(7, (int) boardManager.popUndo());
         assertTrue(boardManager.undoAvailable());
     }
 
     /**
-     * This tests the functionality of popUndo().
+     * This tests the steps tracking function of the board.
      */
     @Test
-    public void popUndo() {
-        assertEquals((Integer) 8, boardManager.popUndo());
-    }
-
-    /**
-     * This tests the functionality of getDifficulty().
-     */
-    @Test
-    public void getDifficulty() {
-        assertEquals(3, boardManager.getDifficulty());
-    }
-
-    /**
-     * This tests the functionality of getStepsTaken().
-     */
-    @Test
-    public void getStepsTaken() {
-        assertEquals(1, boardManager.getStepsTaken());
+    public void stepSettingAndGettingTest() {
+        setUpCorrect();
+        boardManager.move(7);
+        assertEquals(0, boardManager.getStepsTaken());
+        boardManager.makeMove(6);
+        assertEquals(0, boardManager.getStepsTaken());
+        boardManager.setStepsTaken(10);
+        assertEquals(10, boardManager.getStepsTaken());
     }
 
     /**
@@ -80,6 +92,7 @@ public class SlidingTilesBoardManagerTest {
      */
     @Test
     public void getAndSetTimeTaken() {
+        setUpCorrect();
         boardManager.setTimeTaken(5);
         assertEquals(5, boardManager.getTimeTaken());
     }
@@ -89,6 +102,23 @@ public class SlidingTilesBoardManagerTest {
      */
     @Test
     public void solvable() {
+        setUpCorrect();
+        assertEquals(1, boardManager.blankPosition());
+        assertTrue(boardManager.isSolvable());
+        board.swapTiles(0, 0, 0, 1);
+        assertFalse(boardManager.isSolvable());
+    }
+
+    /**
+     * This tests the functionality of isSolvable().
+     */
+    @Test
+    public void newBoardSolvable() {
+        boardManager = new SlidingTilesBoardManager(3);
+        assertTrue(boardManager.isSolvable());
+        boardManager = new SlidingTilesBoardManager(4);
+        assertTrue(boardManager.isSolvable());
+        boardManager = new SlidingTilesBoardManager(5);
         assertTrue(boardManager.isSolvable());
     }
 
@@ -97,14 +127,8 @@ public class SlidingTilesBoardManagerTest {
      */
     @Test
     public void getImageBackground() {
+        setUp();
         assertNull(boardManager.getImageBackground());
-    }
-
-    /**
-     * This tests the functionality of setImageBackground().
-     */
-    @Test
-    public void setImageBackground() {
     }
 
     /**
@@ -112,7 +136,10 @@ public class SlidingTilesBoardManagerTest {
      */
     @Test
     public void boardSolved() {
+        setUp();
         assertFalse(boardManager.boardSolved());
+        setUpCorrect();
+        assertTrue(boardManager.boardSolved());
     }
 
     /**
@@ -120,23 +147,15 @@ public class SlidingTilesBoardManagerTest {
      */
     @Test
     public void isValidTap() {
+        setUp();
         assertFalse(boardManager.isValidTap(1));
-    }
-
-    /**
-     * This tests the functionality of move().
-     */
-    @Test
-    public void move() {
-        boardManager.move(8);
-    }
-
-    /**
-     * This tests the functionality of addUndo().
-     */
-    @Test
-    public void addUndo() {
-        boardManager.addUndo(8);
-        assertEquals((Integer) 8, boardManager.popUndo());
+        setUpCorrect();
+        assertTrue(boardManager.isValidTap(7));
+        boardManager.makeMove(7);
+        assertTrue(boardManager.isValidTap(6));
+        boardManager.makeMove(6);
+        assertTrue(boardManager.isValidTap(3));
+        boardManager.makeMove(3);
+        assertFalse(boardManager.isValidTap(1));
     }
 }
