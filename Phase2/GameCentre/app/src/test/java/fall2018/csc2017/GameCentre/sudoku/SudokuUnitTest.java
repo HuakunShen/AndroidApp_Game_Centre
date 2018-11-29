@@ -179,7 +179,6 @@ public class SudokuUnitTest {
             }
         }
         assertEquals(count, 54);
-
     }
 
 

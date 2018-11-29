@@ -7,7 +7,6 @@ import static org.junit.Assert.*;
 
 public class SudokuBoardManagerTest {
 
-
     private SudokuBoardManager manager;
     private int moveTaken;
 
@@ -22,7 +21,7 @@ public class SudokuBoardManagerTest {
         int move = findEditablePosition(manager.getBoard());
         manager.updateValue(move, false);
         manager.undo();
-        manager.setHint(5);
+        manager.setHintAvailable(5);
     }
 
     /**
@@ -45,11 +44,11 @@ public class SudokuBoardManagerTest {
     }
 
     /**
-     * This test the functionality getHint() and setHint().
+     * This test the functionality getHintAvailable() and setHintAvailable().
      */
     @Test
     public void getAndSetHint() {
-        assertEquals(5, manager.getHint());
+        assertEquals(5, manager.getHintAvailable());
     }
 
     /**
@@ -58,7 +57,7 @@ public class SudokuBoardManagerTest {
     @Test
     public void reduceHint() {
         manager.reduceHint();
-        assertEquals(4, manager.getHint());
+        assertEquals(4, manager.getHintAvailable());
     }
 
     /**
