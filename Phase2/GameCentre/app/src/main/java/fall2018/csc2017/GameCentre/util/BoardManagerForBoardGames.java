@@ -4,7 +4,9 @@ import java.util.Observable;
 
 import fall2018.csc2017.GameCentre.data.StateStack;
 
-
+/**
+ * The BoardManagerForBoardGames class.
+ */
 public abstract class BoardManagerForBoardGames extends Observable {
 
     /**
@@ -32,6 +34,7 @@ public abstract class BoardManagerForBoardGames extends Observable {
      */
     private StateStack undoStack;
 
+
     /**
      * The default Constructor for the SlidingTilesBoard Manager.
      */
@@ -45,7 +48,6 @@ public abstract class BoardManagerForBoardGames extends Observable {
         this.board = board;
     }
 
-    ;
 
     /**
      * Return the current board.
@@ -54,6 +56,8 @@ public abstract class BoardManagerForBoardGames extends Observable {
 
     /**
      * Getter function for the time the user used.
+     *
+     * @return time taken
      */
     public abstract long getTimeTaken();
 
@@ -64,11 +68,15 @@ public abstract class BoardManagerForBoardGames extends Observable {
 
     /**
      * Returns whether the sudoku puzzle has been solved.
+     *
+     * @return whether the sudoku puzzle has been solved
      */
     public abstract boolean boardSolved();
 
     /**
      * Return whether the tap is valid.
+     *
+     * @return whether the tap is valid
      */
     public abstract boolean isValidTap(int position);
 

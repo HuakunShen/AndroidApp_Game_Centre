@@ -23,7 +23,9 @@ import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 
-
+/**
+ * The SudokuStartingActivity class.
+ */
 public class SudokuStartingActivity extends AppCompatActivity {
 
     /**

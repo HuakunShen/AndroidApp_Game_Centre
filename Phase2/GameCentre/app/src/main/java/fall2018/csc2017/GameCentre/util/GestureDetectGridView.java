@@ -15,8 +15,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.GridView;
 
-import fall2018.csc2017.GameCentre.slidingTiles.SlidingTilesBoardManager;
-
+/**
+ * The GestureDetectGridView class.
+ */
 public class GestureDetectGridView extends GridView {
     public static final int SWIPE_MIN_DISTANCE = 100;
     public static final int SWIPE_MAX_OFF_PATH = 100;

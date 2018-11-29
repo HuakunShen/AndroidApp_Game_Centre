@@ -8,6 +8,9 @@ import java.util.Random;
 import fall2018.csc2017.GameCentre.data.StateStack;
 import fall2018.csc2017.GameCentre.util.BoardManagerForBoardGames;
 
+/**
+ * The SudokuBoardManager class.
+ */
 public class SudokuBoardManager extends BoardManagerForBoardGames implements Serializable {
 
     /**
@@ -263,25 +266,3 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         notifyObservers();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

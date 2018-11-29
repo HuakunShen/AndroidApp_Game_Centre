@@ -26,6 +26,9 @@ import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.popScore;
 
+/**
+ * The SudokuGameActivity class.
+ */
 public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
     /**
