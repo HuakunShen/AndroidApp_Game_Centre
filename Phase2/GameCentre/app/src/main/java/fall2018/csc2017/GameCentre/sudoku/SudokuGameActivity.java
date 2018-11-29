@@ -335,7 +335,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         display();
-        if (controller.getBoardManager().boardSolved()) {
+        if (controller.boardSolved()) {
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = controller.calculateScore(totalTimeTaken);
             boolean newRecord = controller.updateScore(score);

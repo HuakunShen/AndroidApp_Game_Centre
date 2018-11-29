@@ -55,14 +55,6 @@ public class SudokuGameController {
      * The list of cell buttons.
      */
     private List<Button> cellButtons;
-    /**
-     * The resource.
-     */
-    private Resources resources;
-    /**
-     * The packageName.
-     */
-    private String packageName;
 
 
     /**
@@ -75,8 +67,6 @@ public class SudokuGameController {
         this.context = context;
         this.db = new SQLDatabase(context);
         this.user = user;
-        this.packageName = context.getPackageName();
-        this.resources = context.getResources();
     }
 
     /**
@@ -255,9 +245,9 @@ public class SudokuGameController {
      * @return whether succeed
      */
     boolean updateScore(int score){
-        boolean result = user.updateScore(GAME_NAME, score);
+        boolean newRecord = user.updateScore(GAME_NAME, score);
         db.updateScore(user, GAME_NAME);
-        return result;
+        return newRecord;
     }
 
     /**
