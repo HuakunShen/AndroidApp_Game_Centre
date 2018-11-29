@@ -1,31 +1,18 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
@@ -38,19 +25,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      */
     private TextView timeDisplay;
     /**
-     * whether the game is finished.
-     */
-    private boolean gameRunning;
-    /**
-     * The board manager.
-     */
-    private MatchingBoardManager boardManager;
-
-    /**
-     * The buttons to display.
-     */
-    private List<Button> tileButtons;
-    /**
      * Grid View and calculated column height and width based on device size
      */
     private GestureDetectGridView gridView;
@@ -62,137 +36,66 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     /**
      * Current User.
      */
-    private User user;
-    /**
-     * the file of current user.
-     */
-    private String userFile;
-    /**
-     * the database for saving and loading information.
-     */
-    private SQLDatabase db;
-    /**
-     * the time you start the game
-     */
+
     private LocalTime startingTime;
-    /**
-     * the time duration of the last time you saved the game.
-     */
-    private Long preStartTime;
     /**
      * the total time
      */
     private Long totalTimeTaken;
-    /**
-     * The main save file.
-     */
-    private String gameStateFile;
-    /**
-     * A temporary save file.
-     */
-    private String tempGameStateFile;
-    /**
-     * the name of the package.
-     */
-    private String PACKAGE_NAME;
-    /**
-     * place where store pictures.
-     */
-    private Resources RESOURCES;
+    private PictureMatchingGameController controller;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PACKAGE_NAME = getApplicationContext().getPackageName();
-        RESOURCES = getResources();
         startingTime = LocalTime.now();
-        db = new SQLDatabase(this);
-        setupUser();
-        setupFile();
-        loadFromFile(tempGameStateFile);
-        createTileButtons(this);
+        setupController();
+        controller.loadFromFile();
+        controller.createTileButtons();
         setContentView(R.layout.activity_picturematching_game);
         setupTime();
         addGridViewToActivity();
     }
 
-    /**
-     * setup user object according to username and define the value of userFile (where user
-     * object is saved)
-     */
-    private void setupUser() {
-        user = (User) getIntent().getSerializableExtra("user");
-//        username = getIntent().getStringExtra("user");
-        userFile = db.getUserFile(user.getUsername());
-        loadFromFile(userFile);
+    private void setupController() {
+        controller = new PictureMatchingGameController(this, (User)getIntent().getSerializableExtra("user"));
+        controller.setupFile();
     }
 
-    /**
-     * setup file of the game
-     * get the filename of where the game state should be saved
-     */
-    private void setupFile() {
-        if (!db.dataExists(user.getUsername(), GAME_NAME)) {
-            db.addData(user.getUsername(), GAME_NAME);
-        }
-        gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
-        tempGameStateFile = "temp_" + gameStateFile;
-    }
 
     /**
      * Time counting, setup initial time based on the record in boardmanager
      */
     private void setupTime() {
-        if (!boardManager.boardSolved())
-            gameRunning = true;
+        if (!controller.boardSolved())
+            controller.setGameRunning(true);
         Timer timer = new Timer();
-        preStartTime = boardManager.getTimeTaken();
+        final Long preStartTime = controller.getBoardManager().getTimeTaken();
         timeDisplay = findViewById(R.id.time_display_view_in_picturematching);
+        totalTimeTaken = preStartTime;
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                String text = "Time: " + timeToString(time + preStartTime);
-                if(gameRunning){
-                    timeDisplay.setText(text);
+                if(controller.isGameRunning()){
                     totalTimeTaken = time + preStartTime;
-                    boardManager.setTimeTaken(time + preStartTime);
+                    timeDisplay.setText(controller.convertTime(totalTimeTaken));
+                    controller.getBoardManager().setTimeTaken(totalTimeTaken);
                 }
             }
         };
         timer.schedule(task2, 0, 1000);
     }
 
-    /**
-     * convert time in milli seconds (long type) to String which will be displayed
-     */
-    String timeToString(long time) {
-        Integer hour = (int) (time / 3600000);
-        Integer min = (int) ((time % 3600000) / 60000);
-        Integer sec = (int) ((time % 3600000 % 60000) / 1000);
-        String hourStr = hour.toString();
-        String minStr = min.toString();
-        String secStr = sec.toString();
-        if (hour < 10) {
-            hourStr = "0" + hourStr;
-        }
-        if (min < 10) {
-            minStr = "0" + minStr;
-        }
-        if (sec < 10) {
-            secStr = "0" + secStr;
-        }
-        return hourStr + ":" + minStr + ":" + secStr;
-    }
 
     /**
      * Setup the gridview where the tiles are located
      */
     private void addGridViewToActivity() {
         gridView = findViewById(R.id.PictureMatchingGrid);
-        gridView.setNumColumns(boardManager.getDifficulty());
-        gridView.setBoardManager(boardManager);
-        boardManager.getBoard().addObserver(this);
+        gridView.setNumColumns(controller.getBoardManager().getDifficulty());
+        gridView.setBoardManager(controller.getBoardManager());
+        controller.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -201,8 +104,8 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                         gridView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
-                        columnWidth = (displayWidth / boardManager.getDifficulty());
-                        columnHeight = (displayHeight / boardManager.getDifficulty());
+                        columnWidth = (displayWidth / controller.getBoardManager().getDifficulty());
+                        columnHeight = (displayHeight / controller.getBoardManager().getDifficulty());
                         display();
                     }
                 });
@@ -213,58 +116,14 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * of positions, and then call the adapter to set the view.
      */
     public void display() {
-        updateTileButtons();
-        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
-    }
-
-
-    /**
-     * Create the buttons for displaying the tiles.
-     *
-     * @param context the context
-     */
-    private void createTileButtons(Context context) {
-        tileButtons = new ArrayList<>();
-        for (int row = 0; row != boardManager.getDifficulty(); row++) {
-            for (int col = 0; col != boardManager.getDifficulty(); col++) {
-                Button tmp = new Button(context);
-                tmp.setBackgroundResource(R.drawable.picturematching_tile_back);
-                this.tileButtons.add(tmp);
-            }
-        }
-    }
-
-    /**
-     * Update the backgrounds on the buttons to match the tiles.
-     */
-    private void updateTileButtons() {
-        MatchingBoard board = boardManager.getBoard();
-        int nextPos = 0;
-        for (Button b : tileButtons) {
-            int row = nextPos / boardManager.getDifficulty();
-            int col = nextPos % boardManager.getDifficulty();
-            PictureTile currentTile = board.getTile(row,col);
-            switch (currentTile.getState()){
-                case PictureTile.FLIP:
-                    String name = "pm_" + boardManager.getTheme() + "_" + Integer.toString(currentTile.getId());
-                    int id = RESOURCES.getIdentifier(name, "drawable", PACKAGE_NAME);
-                    b.setBackgroundResource(id);
-                    break;
-                case PictureTile.COVERED:
-                    b.setBackgroundResource(R.drawable.picturematching_tile_back);
-                    break;
-                case PictureTile.SOLVED:
-                    b.setBackgroundResource(R.drawable.picturematching_tile_done);
-                    break;
-            }
-            nextPos++;
-        }
+        controller.updateTileButtons();
+        gridView.setAdapter(new CustomAdapter(controller.getTileButtons(), columnWidth, columnHeight));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        String text = "Time: " + timeToString(boardManager.getTimeTaken());
+        String text = "Time: " + controller.convertTime(controller.getBoardManager().getTimeTaken());
         timeDisplay.setText(text);
     }
 
@@ -274,97 +133,44 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     @Override
     protected void onPause() {
         super.onPause();
-        saveToFile(tempGameStateFile);
-        saveToFile(gameStateFile);
+        controller.saveToFile(controller.getTempGameStateFile());
+        controller.saveToFile(controller.getGameStateFile());
     }
 
-
-    /**
-     * Load the board manager from fileName.
-     *
-     * @param fileName the name of the file
-     */
-    private void loadFromFile(String fileName) {
-
-        try {
-            InputStream inputStream = this.openFileInput(fileName);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                if (fileName.equals(userFile)) {
-                    user = (User) input.readObject();
-                } else if (fileName.equals(gameStateFile) ||
-                        fileName.equals(tempGameStateFile)) {
-                    boardManager = (MatchingBoardManager) input.readObject();
-                }
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
-    /**
-     * Save the board manager to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(userFile)) {
-                outputStream.writeObject(user);
-            } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
-                outputStream.writeObject(boardManager);
-            }
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
 
     @Override
     public void update(Observable o, Object arg) {
-        if (boardManager.check2tiles()) {
+        if (controller.getBoardManager().check2tiles()) {
             final android.os.Handler handler = new android.os.Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        if (boardManager.check2tiles())
-                            boardManager.getBoard().solveTile();
+                        if (controller.getBoardManager().check2tiles())
+                            controller.getBoardManager().getBoard().solveTile();
                     } catch (Exception e) {
                         Toast.makeText(getApplication(), "slow down!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }, 100);
         }
-            display();
-            if (boardManager.boardSolved()) {
-                Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
-                Integer score = calculateScore();
-                user.updateScore(GAME_NAME, score);
-                saveToFile(userFile);
-                db.updateScore(user, GAME_NAME);
-                gameRunning = false;
-                popScoreWindow(score);
-            }
+        display();
+        if (controller.boardSolved()) {
+            Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
+            Integer score = controller.calculateScore(totalTimeTaken);
+            controller.updateScore(score);
+            controller.saveToFile(controller.getUserFile());
+            controller.setGameRunning(false);
+            popScoreWindow(score);
         }
+    }
 
     private void popScoreWindow(Integer score) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
-        goToPopWindow.putExtra("user", user);
+        goToPopWindow.putExtra("user", controller.getUser());
         goToPopWindow.putExtra("gameType", GAME_NAME);
         startActivity(goToPopWindow);
     }
 
-    private Integer calculateScore() {
-        int timeInSec = totalTimeTaken.intValue() / 1000;
-        return 10000 / (timeInSec);
-    }
 }
