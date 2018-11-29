@@ -1,12 +1,10 @@
 package fall2018.csc2017.GameCentre.sudoku;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -15,48 +13,64 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
-import fall2018.csc2017.GameCentre.util.LoadSaveSerializable;
 import fall2018.csc2017.GameCentre.util.popScore;
 
 public class SudokuGameActivity extends AppCompatActivity implements Observer {
-
+    /**
+     * Controller object for this activity
+     */
     private SudokuGameController controller;
+    /**
+     * TextView for displaying time
+     */
     private TextView timeDisplay;
-
-    // Grid View and calculated column height and width based on device size
+    /**
+     * GridView for displaying cells
+     */
     private GestureDetectGridView gridView;
+    /**
+     * column width and height of each row and column of gridView
+     */
     private static int columnWidth, columnHeight;
-
+    /**
+     * Game name of current game
+     */
     private static final String GAME_NAME = "Sudoku";
-    //time
+    /**
+     * Time when the game starts or loads
+     */
     private LocalTime startingTime;
+    /**
+     * Time loaded from previous saved game
+     */
     private Long preStartTime = 0L;
+    /**
+     * Total time taken before the board is solved
+     */
     private Long totalTimeTaken;
     /**
-     * Warning message
+     * Warning message TextView Display
      */
     private TextView warning;
-
+    /**
+     * Hint TextView Display
+     */
     private TextView hintText;
-    private Button[] numButtons;
+    /**
+     * List of Buttons (from 1-9) for number input
+     */
+    private Button[] buttons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +92,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         addHintButtonListener();
     }
 
+    /**
+     * Create and setup controller
+     */
     private void setupController() {
-        controller = new SudokuGameController(this, (User)getIntent().getSerializableExtra("user"));
+        controller = new SudokuGameController(this, (User) getIntent().getSerializableExtra("user"));
         controller.setupFile();
     }
 
@@ -105,24 +122,24 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     private void setUpButtons() {
         LinearLayout numLayout = findViewById(R.id.numButtons);
 
-        numButtons = new Button[9];
-        for (int tmp = 0; tmp < numButtons.length; tmp++) {
-            numButtons[tmp] = new Button(this);
-            numButtons[tmp].setId(1800 + tmp);
-            numButtons[tmp].setText(String.format("%s", Integer.toString(tmp + 1)));
+        buttons = new Button[9];
+        for (int tmp = 0; tmp < buttons.length; tmp++) {
+            buttons[tmp] = new Button(this);
+            buttons[tmp].setId(1800 + tmp);
+            buttons[tmp].setText(String.format("%s", Integer.toString(tmp + 1)));
 
             RelativeLayout.LayoutParams btParams = new RelativeLayout.LayoutParams(100, 50);
             btParams.leftMargin = 3;
             btParams.topMargin = 5;
             btParams.width = 115;
             btParams.height = 115;
-            numLayout.addView(numButtons[tmp], btParams);
+            numLayout.addView(buttons[tmp], btParams);
 
-            numButtons[tmp].setOnClickListener(new View.OnClickListener() {
+            buttons[tmp].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for (int tmp = 0; tmp < numButtons.length; tmp++) {
-                        if (v == numButtons[tmp])
+                    for (int tmp = 0; tmp < buttons.length; tmp++) {
+                        if (v == buttons[tmp])
                             controller.getBoardManager().updateValue(tmp + 1, false);
                     }
                 }
@@ -199,9 +216,11 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                 if (controller.getBoardManager().getHint() > 0) {
                     if (currentCell != null &&
                             !currentCell.getFaceValue().equals(currentCell.getSolutionValue())) {
-                        controller.getBoardManager().updateValue(currentCell.getSolutionValue(), false);
+                        controller.getBoardManager().updateValue(currentCell.getSolutionValue(),
+                                false);
                         controller.getBoardManager().reduceHint();
-                        String hintDisplay = "Hint: " + String.valueOf(controller.getBoardManager().getHint());
+                        String hintDisplay = "Hint: " +
+                                String.valueOf(controller.getBoardManager().getHint());
                         hintText.setText(hintDisplay);
                     }
                 } else {
@@ -250,8 +269,9 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                if(controller.isGameRunning()){
-                    timeDisplay.setText(String.format("Time: %s", controller.convertTime(time + preStartTime)));
+                if (controller.isGameRunning()) {
+                    timeDisplay.setText(String.format("Time: %s", controller.convertTime(time +
+                            preStartTime)));
                     totalTimeTaken = time + preStartTime;
                     controller.getBoardManager().setTimeTaken(time + preStartTime);
                 }
@@ -345,7 +365,12 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         }
     }
 
-
+    /**
+     * Pop up window that shows user the score he/she gets
+     * @param score Score that is to be displayed on popup window
+     * @param newRecord Indicator that determines which text is to be displayed (New Record: or
+     *                  Your Highest Score Was
+     */
     private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
@@ -355,7 +380,6 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
         startActivity(goToPopWindow);
     }
-
 
 
 }
