@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,22 +20,73 @@ import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 
+import static android.content.Context.MODE_PRIVATE;
 import static android.graphics.Bitmap.createBitmap;
 
 public class SlidingTilesGameController {
+    /**
+     * The Context of the activity.
+     */
     private final Context context;
+
+    /**
+     * The database for game info.
+     */
     private SQLDatabase db;
+
+    /**
+     * The user of the game.
+     */
     private User user;
-    private String gameStateFile;
+
+    /**
+     * The file name of the game state file to be output.
+     */
+    private String gameStateFile, tempGameStateFile;
+
+    /**
+     * The number of steps which the user has taken.
+     */
     private int steps;
+
+    /**
+     * The status of the game.
+     */
     private boolean gameRunning;
-    private String tempGameStateFile;
+
+    /**
+     * The board's manager.
+     */
     private SlidingTilesBoardManager boardManager;
+
+    /**
+     * The name of the game.
+     */
     private static final String GAME_NAME = "SlidingTiles";
+
+    /**
+     * The list of buttons on the gridView.
+     */
     private List<Button> tileButtons;
+
+    /**
+     * The background image of the game.
+     */
     private Bitmap backgroundImage;
+
+    /**
+     * The formatted picture that will be used as the buttons' backgrounds.
+     */
     private Bitmap[] tileImages;
+
+    /**
+     * The resources for the activity.
+     */
     private Resources resources;
+
+    /**
+     * The name of the package.
+     */
     private String packageName;
 
     /**
@@ -44,6 +96,8 @@ public class SlidingTilesGameController {
         this.context = context;
         this.db = new SQLDatabase(context);
         this.user = user;
+        this.packageName = context.getApplicationContext().getPackageName();
+        this.resources = context.getResources();
     }
 
     /**
@@ -105,14 +159,6 @@ public class SlidingTilesGameController {
     }
 
     /**
-     * Setter function for packageName and resources.
-     */
-    void setResourceAndPackage() {
-        packageName = context.getApplicationContext().getPackageName();
-        resources = context.getResources();
-    }
-
-    /**
      * Getter function of the name of the file of game state.
      */
     String getGameStateFile() {
@@ -140,10 +186,14 @@ public class SlidingTilesGameController {
         return gameRunning;
     }
 
+    List<Button> getTileButtons() {
+        return tileButtons;
+    }
+
     /**
      * Set up the tile buttons of the game.
      */
-    List<Button> createTileButtons() {
+    void createTileButtons() {
         tileButtons = new ArrayList<>();
         for (int row = 0; row != getBoard().getDifficulty(); row++) {
             for (int col = 0; col != getBoard().getDifficulty(); col++) {
@@ -151,7 +201,6 @@ public class SlidingTilesGameController {
                 tileButtons.add(tmp);
             }
         }
-        return tileButtons;
     }
 
     /**
@@ -306,6 +355,26 @@ public class SlidingTilesGameController {
             Log.e("login activity", "Can not read file: " + e.toString());
         } catch (ClassNotFoundException e) {
             Log.e("login activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
+    /**
+     * Save the board manager to fileName.
+     *
+     * @param fileName the name of the file
+     */
+    public void saveToFile(String fileName) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(
+                    context.openFileOutput(fileName, MODE_PRIVATE));
+            if (fileName.equals(db.getUserFile(user.getUsername()))) {
+                outputStream.writeObject(user);
+            } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
+                outputStream.writeObject(boardManager);
+            }
+            outputStream.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
         }
     }
 }

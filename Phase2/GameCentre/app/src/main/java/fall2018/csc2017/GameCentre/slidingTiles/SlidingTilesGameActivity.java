@@ -44,11 +44,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     private TextView timeDisplay, displayStep;
 
     /**
-     * The buttons to display.
-     */
-    private List<Button> tileButtons;
-
-    /**
      * Grid View for the game.
      */
     private GestureDetectGridView gridView;
@@ -86,7 +81,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         super.onCreate(savedInstanceState);
         startingTime = LocalTime.now();
         setupController();
-        logicalController.setResourceAndPackage();
         logicalController.loadFromFile();
         logicalController.createTileButtons();
         setContentView(R.layout.activity_main);
@@ -115,8 +109,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     protected void onPause() {
         super.onPause();
-        saveToFile(logicalController.getTempGameStateFile());
-        saveToFile(logicalController.getGameStateFile());
+        logicalController.saveToFile(logicalController.getTempGameStateFile());
+        logicalController.saveToFile(logicalController.getGameStateFile());
     }
 
     /**
@@ -125,7 +119,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      */
     public void display() {
         logicalController.updateTileButtons();
-        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
+        gridView.setAdapter(new CustomAdapter(logicalController.getTileButtons(), columnWidth, columnHeight));
     }
 
     /**
@@ -246,26 +240,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     }
 
     /**
-     * Save the board manager to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(logicalController.getUserFile())) {
-                outputStream.writeObject(logicalController.getUser());
-            } else if (fileName.equals(logicalController.getGameStateFile()) || fileName.equals(logicalController.getTempGameStateFile())) {
-                outputStream.writeObject(logicalController.getBoardManager());
-            }
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
-
-    /**
      * Update the game activity when the observable objects notify the Activity
      * change(s) has/have been made.
      */
@@ -279,7 +253,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = logicalController.calculateScore(totalTimeTaken);
             logicalController.updateScore(score);
-            saveToFile(logicalController.getUserFile());
+            logicalController.saveToFile(logicalController.getUserFile());
             logicalController.setGameRunning(false);
             popScoreWindow(score);
         }
