@@ -187,7 +187,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                 public void run() {
                     try {
                         if (controller.getBoardManager().check2tiles())
-                            controller.getBoardManager().getBoard().solveTile();
+                            controller.getBoardManager().solveTile();
                     } catch (Exception e) {
                         Toast.makeText(getApplication(), "slow down!", Toast.LENGTH_SHORT).show();
                     }

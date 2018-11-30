@@ -141,6 +141,9 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
                 && !currentTile.getState().equals(PictureTile.FLIP);
     }
 
+    public void solveTile() {
+        board.solveTile();
+    }
     /**
      * Performs changes to the board.
      *
@@ -149,7 +152,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
     public void makeMove(int position) {
         int row = position / board.getDifficulty();
         int col = position % board.getDifficulty();
-        this.board.flipTile(row, col);
+        board.flipTile(row, col);
         if (check2tiles()) {
             notifyObservers();
         }

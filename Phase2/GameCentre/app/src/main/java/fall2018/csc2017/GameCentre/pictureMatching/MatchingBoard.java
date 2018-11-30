@@ -44,31 +44,6 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
     private int row2 = -1;
 
     /**
-     * Getter function of index of column of the first tile selected.
-     */
-    int getCol1() {
-        return col1;
-    }
-
-    /**
-     * Getter function of index of column of the second tile selected.
-     */
-    int getCol2() {
-        return col2;
-    }
-
-    /**
-     * Return the tile at (row, col)
-     *
-     * @param row the tile row
-     * @param col the tile column
-     * @return the tile at (row, col)
-     */
-    PictureTile getTile(int row, int col) {
-        return tiles[row][col];
-    }
-
-    /**
      * A new board of tiles in row-major order.
      * Precondition: len(tiles) == NUM_ROWS * NUM_COLS
      *
@@ -83,6 +58,31 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
                 this.tiles[row][col] = iter.next();
             }
         }
+    }
+
+    /**
+     * Return the tile at (row, col)
+     *
+     * @param row the tile row
+     * @param col the tile column
+     * @return the tile at (row, col)
+     */
+    PictureTile getTile(int row, int col) {
+        return tiles[row][col];
+    }
+
+    /**
+     * Getter function of index of column of the first tile selected.
+     */
+    int getCol1() {
+        return col1;
+    }
+
+    /**
+     * Getter function of index of column of the second tile selected.
+     */
+    int getCol2() {
+        return col2;
     }
 
     /**
@@ -115,10 +115,7 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
             tile1.setState(PictureTile.COVERED);
             tile2.setState(PictureTile.COVERED);
         }
-        this.col1 = -1;
-        this.row1 = -1;
-        this.col2 = -1;
-        this.row2 = -1;
+        this.col1 = this.row1 = this.col2 = this.row2 = -1;
         setChanged();
         notifyObservers();
     }
@@ -131,6 +128,9 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
         return difficulty;
     }
 
+    /**
+     * Returns an iterator of board.
+     */
     @Override
     @NonNull
     public Iterator<PictureTile> iterator() {
