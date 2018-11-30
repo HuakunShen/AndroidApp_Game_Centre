@@ -80,11 +80,11 @@ public class SudokuBoardManagerTest {
     public void setAndGetCurrentCell() {
         setUp();
         boardManager.makeMove(80);
-        assertEquals(boardManager.getBoard().getCell(8, 8).getFaceValue(),
-                boardManager.getCurrentCell().getFaceValue());
+        assertEquals(boardManager.getBoard().getCell(8, 8),
+                boardManager.getCurrentCell());
         boardManager.makeMove(2);
-        assertEquals(boardManager.getBoard().getCell(0, 2).getFaceValue(),
-                boardManager.getCurrentCell().getFaceValue());
+        assertEquals(boardManager.getBoard().getCell(0, 2),
+                boardManager.getCurrentCell());
 
     }
 
@@ -100,9 +100,12 @@ public class SudokuBoardManagerTest {
         boardManager.makeMove(2);
         boardManager.updateValue(9, false);
         boardManager.makeMove(3);
+        boardManager.updateValue(1, false);
         assertEquals(9,
                 (int) boardManager.getBoard().getCell(0,
                         2).getFaceValue());
+        assertTrue(boardManager.undoAvailable());
+        boardManager.undo();
         assertTrue(boardManager.undoAvailable());
         boardManager.undo();
         assertFalse(boardManager.undoAvailable());
@@ -248,6 +251,7 @@ public class SudokuBoardManagerTest {
     public void levelOfDifficultyEasy() {
         SudokuBoardManager.setLevelOfDifficulty(1);
         setUpCorrect();
+        assertEquals(1, (int) boardManager.getLevelOfDifficulty());
         int count = 0;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
@@ -267,6 +271,7 @@ public class SudokuBoardManagerTest {
     public void levelOfDifficultyMedium() {
         SudokuBoardManager.setLevelOfDifficulty(2);
         setUpCorrect();
+        assertEquals(2, (int) boardManager.getLevelOfDifficulty());
         int count = 0;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {
@@ -286,6 +291,7 @@ public class SudokuBoardManagerTest {
     public void levelOfDifficultyHard() {
         SudokuBoardManager.setLevelOfDifficulty(3);
         setUpCorrect();
+        assertEquals(3, (int) boardManager.getLevelOfDifficulty());
         int count = 0;
         for (int row = 0; row < 9; row++) {
             for (int column = 0; column < 9; column++) {

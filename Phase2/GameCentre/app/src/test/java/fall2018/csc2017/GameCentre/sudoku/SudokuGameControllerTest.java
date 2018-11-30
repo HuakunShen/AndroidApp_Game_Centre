@@ -50,7 +50,7 @@ public class SudokuGameControllerTest {
     @Test
     public void calculateScore() {
         Integer time = controller.calculateScore(1000L);
-        assertEquals(10000, (Object)time);
+        assertEquals(20000, (Object)time);
     }
 
     @Test

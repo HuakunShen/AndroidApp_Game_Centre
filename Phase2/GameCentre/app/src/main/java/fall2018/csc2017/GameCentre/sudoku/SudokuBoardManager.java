@@ -217,14 +217,14 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      */
     public void makeMove(int position) {
         currentPos = position;
-        if (currentCell != null) {
-            currentCell.setHighlighted(false);
-            currentCell.setFaceValue(currentCell.getFaceValue());
+        if (getCurrentCell() != null) {
+            getCurrentCell().setHighlighted(false);
+            getCurrentCell().setFaceValue(getCurrentCell().getFaceValue());
         }
-        currentCell = board.getCell(position / SudokuBoard.NUM_COL,
-                position % SudokuBoard.NUM_ROW);
-        currentCell.setHighlighted(true);
-        currentCell.setFaceValue(currentCell.getFaceValue());
+        setCurrentCell(board.getCell(position / SudokuBoard.NUM_COL,
+                position % SudokuBoard.NUM_ROW));
+        getCurrentCell().setHighlighted(true);
+        getCurrentCell().setFaceValue(getCurrentCell().getFaceValue());
         setChanged();
         notifyObservers();
     }
@@ -282,8 +282,8 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         if (!undoStack.isEmpty()) {
             move = this.undoStack.get();
             position = move[0];
-            currentCell = board.getCell(position / SudokuBoard.NUM_COL,
-                    position % SudokuBoard.NUM_ROW);
+            setCurrentCell(board.getCell(position / SudokuBoard.NUM_COL,
+                    position % SudokuBoard.NUM_ROW));
             currentCell.setHighlighted(true);
             currentPos = position;
             currentCell.setFaceValue(currentCell.getFaceValue());

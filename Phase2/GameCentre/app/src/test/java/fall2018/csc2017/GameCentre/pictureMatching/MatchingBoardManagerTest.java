@@ -151,21 +151,21 @@ public class MatchingBoardManagerTest {
     public void multipleBoardManagerThemeCorrectness() {
         MatchingBoardManager boardManager1 =
                 new MatchingBoardManager(4, "number");
-        assertEquals("number", boardManager1.getTheme());
         MatchingBoardManager boardManager2 =
                 new MatchingBoardManager(4, "emoji");
-        assertEquals("emoji", boardManager2.getTheme());
         MatchingBoardManager boardManager3 =
                 new MatchingBoardManager(4, "animal");
-        assertEquals("animal", boardManager3.getTheme());
         MatchingBoardManager boardManager4 =
                 new MatchingBoardManager(6, "number");
-        assertEquals("number", boardManager4.getTheme());
         MatchingBoardManager boardManager5 =
                 new MatchingBoardManager(6, "emoji");
-        assertEquals("emoji", boardManager5.getTheme());
         MatchingBoardManager boardManager6 =
                 new MatchingBoardManager(6, "animal");
+        assertEquals("number", boardManager1.getTheme());
+        assertEquals("emoji", boardManager2.getTheme());
+        assertEquals("animal", boardManager3.getTheme());
+        assertEquals("number", boardManager4.getTheme());
+        assertEquals("emoji", boardManager5.getTheme());
         assertEquals("animal", boardManager6.getTheme());
     }
 
