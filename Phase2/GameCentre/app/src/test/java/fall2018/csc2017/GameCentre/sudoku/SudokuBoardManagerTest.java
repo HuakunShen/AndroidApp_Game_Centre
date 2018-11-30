@@ -67,15 +67,10 @@ public class SudokuBoardManagerTest {
         boardManager.reduceHint();
         boardManager.reduceHint();
         assertEquals(0, boardManager.getHintAvailable());
-    }
-
-    /**
-     * This test the functionality getBoard().
-     */
-    @Test
-    public void getBoard() {
-        setUp();
-        assertNotNull(boardManager.getBoard());
+        boardManager.setHintAvailable(1);
+        assertEquals(1, boardManager.getHintAvailable());
+        boardManager.reduceHint();
+        assertEquals(0, boardManager.getHintAvailable());
     }
 
     /**
@@ -100,19 +95,23 @@ public class SudokuBoardManagerTest {
     public void makeMoveAndUndoFunction() {
         setUp();
         assertFalse(boardManager.undoAvailable());
-        int oldValue = boardManager.getBoard().getCell(0, 2).getFaceValue();
+        int oldValue = boardManager.getBoard().getCell(0,
+                2).getFaceValue();
         boardManager.makeMove(2);
         boardManager.updateValue(9, false);
         boardManager.makeMove(3);
         assertEquals(9,
-                (int) boardManager.getBoard().getCell(0, 2).getFaceValue());
+                (int) boardManager.getBoard().getCell(0,
+                        2).getFaceValue());
         assertTrue(boardManager.undoAvailable());
         boardManager.undo();
         assertFalse(boardManager.undoAvailable());
-        assertEquals(oldValue, (int) boardManager.getBoard().getCell(0, 2).getFaceValue());
+        assertEquals(oldValue, (int) boardManager.getBoard().getCell(0,
+                2).getFaceValue());
         boardManager.updateValue(2, true);
         assertEquals(2,
-                (int) boardManager.getBoard().getCell(0, 2).getFaceValue());
+                (int) boardManager.getBoard().getCell(0,
+                        2).getFaceValue());
         assertFalse(boardManager.undoAvailable());
     }
 
@@ -158,6 +157,17 @@ public class SudokuBoardManagerTest {
                 assertTrue(horizontal.get(row).contains(column + 1));
             }
         }
+    }
+
+    /**
+     * This tests setter and getter function for time taken.
+     */
+    @Test
+    public void timeTaken() {
+        setUpCorrect();
+        assertEquals(0L, boardManager.getTimeTaken());
+        boardManager.setTimeTaken(10);
+        assertEquals(10, boardManager.getTimeTaken());
     }
 
     /**
