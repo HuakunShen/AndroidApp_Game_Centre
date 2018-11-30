@@ -7,9 +7,7 @@ https://github.com/DaveNOTDavid/sample-puzzle/blob/master/app/src/main/java/com/
 This extension of GridView contains built in logic for handling swipes between buttons
  */
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -19,37 +17,66 @@ import android.widget.GridView;
  * The GestureDetectGridView class.
  */
 public class GestureDetectGridView extends GridView {
+    /**
+     *the minimum swipe distance.
+     */
     public static final int SWIPE_MIN_DISTANCE = 100;
-    public static final int SWIPE_MAX_OFF_PATH = 100;
-    public static final int SWIPE_THRESHOLD_VELOCITY = 100;
+    /**
+     * the gesture detector.
+     */
     private GestureDetector gDetector;
+    /**
+     * the movement controller.
+     */
     private MovementController mController;
+    /**
+     * the fling confirmed.
+     */
     private boolean mFlingConfirmed = false;
+    /**
+     * touchX
+     */
     private float mTouchX;
+    /**
+     * touchY
+     */
     private float mTouchY;
 
+
+    /**
+     * constructor of grid view.
+     * @param context the context from the activity.
+     */
     public GestureDetectGridView(Context context) {
         super(context);
         init(context);
     }
 
+    /**
+     * the constructor for gesture grid view
+     * @param context the context from the activity.
+     * @param attrs the attributeSet
+     */
     public GestureDetectGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
+    /**
+     * the constructor for gesture grid view
+     * @param context the context from the activity.
+     * @param attrs the attributeSet
+     * @param defStyleAttr the defStyleAttr.
+     */
     public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) // API 21
-    public GestureDetectGridView(Context context, AttributeSet attrs, int defStyleAttr,
-                                 int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
-    }
-
+    /**
+     * init method
+     * @param context the context from activity
+     */
     private void init(final Context context) {
         mController = new MovementController();
         gDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {

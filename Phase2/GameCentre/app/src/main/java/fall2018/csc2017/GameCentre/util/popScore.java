@@ -16,9 +16,16 @@ import fall2018.csc2017.GameCentre.gameCentre.GameCentreInterfaceActivity;
 import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 
 public class popScore extends Activity {
+    /**
+     * the name of the game.
+     */
     private String game_name;
+    /**
+     * the user object that store the user information.
+     */
     private User user;
-    private boolean newRecord;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,11 +36,17 @@ public class popScore extends Activity {
         setupBackToMenuButton();
     }
 
+    /**
+     * get the intent from previous activity.
+     */
     private void setupGetIntentExtra() {
         game_name = getIntent().getStringExtra("gameType");
         user = (User) getIntent().getSerializableExtra("user");
     }
 
+    /**
+     * setup the menu button.
+     */
     private void setupBackToMenuButton() {
         Button backToMenuButton = findViewById(R.id.backButton);
         backToMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +60,9 @@ public class popScore extends Activity {
         });
     }
 
+    /**
+     * setup the score board button.
+     */
     private void setupScoreboardButton() {
         Button scoreboardButton = findViewById(R.id.popScoreToScoreboard);
         scoreboardButton.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +77,9 @@ public class popScore extends Activity {
         });
     }
 
+    /**
+     * setup the pop up window.
+     */
     private void setupPopUpWindow() {
         int score = getIntent().getIntExtra("score", 0);
         boolean newRecord = getIntent().getBooleanExtra("newRecord", false);
@@ -73,7 +92,6 @@ public class popScore extends Activity {
         TextView scoreDisplay = findViewById(R.id.scoreDisplay);
         scoreDisplay.setText(String.valueOf(score));
 
-
         TextView newRecordDisplay = findViewById(R.id.newRecordDisplay);
         String toDisplay;
         if (newRecord)
@@ -82,6 +100,4 @@ public class popScore extends Activity {
             toDisplay = "Your Highest Score Was: " + user.getScore(game_name);
         newRecordDisplay.setText(toDisplay);
     }
-
-
 }

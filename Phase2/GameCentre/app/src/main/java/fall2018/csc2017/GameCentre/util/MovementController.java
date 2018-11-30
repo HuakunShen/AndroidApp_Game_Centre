@@ -10,10 +10,11 @@ public class MovementController {
      */
     private BoardManagerForBoardGames boardManager = null;
 
+
     /**
      * Default constructor for movement controller.
      */
-    public MovementController() {
+    MovementController() {
     }
 
     /**
@@ -26,7 +27,7 @@ public class MovementController {
     /**
      * Performs tap movement for the game.
      */
-    public void processTapMovement(Context context, int position, boolean display) {
+    void processTapMovement(Context context, int position, boolean display) {
         if (boardManager.isValidTap(position)) {
             boardManager.makeMove(position);
         } else {
