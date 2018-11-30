@@ -219,7 +219,7 @@ public class SlidingTilesGameController {
      */
     Integer calculateScore(Long totalTimeTaken) {
         int timeInSec = totalTimeTaken.intValue() / 1000;
-        return 10000 / (steps + timeInSec);
+        return 10000 / (steps + timeInSec) * (boardManager.getDifficulty() - 2);
     }
 
     /**
