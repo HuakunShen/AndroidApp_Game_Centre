@@ -33,21 +33,22 @@ For example: Scoreboard for game ```Sliding Tiles```
 
 ### Data
 
-* Score data are stored in user object and SQLDatabase
+* Score data are stored in user object and SQL Database
 
 * For Scoreboard by user, we access user object and get the list of data (Game Name, Username, Score)
 
-  * Score data are stored in a hashmap, where ```Game Name``` is the key and ```Score```is the value.
-  * The hashmap in user object only stores score data for the user (no other user's score)
+  * Score data are stored in a HashMap, where ```Game Name``` is the key and ```Score```is the value.
+  * The HashMap in user object only stores score data for the user (no other user's score)
   * Thus accessing the score data is very fast
 
 * For Scoreboard by game, we access SQL Database to get a list of data (Rank, Game, User, Score) with a SQL query (data sorted by score in Descending Order )
 
   ### SQL Database Table: dataTable
 
-  | username | game   | score | file                  |
-  | -------- | ------ | ----- | --------------------- |
-  | admin    | Sudoku | 100   | admin_sudoku_data.ser |
+  | username | game         | score | file                        |
+  | -------- | ------------ | ----- | --------------------------- |
+  | admin    | Sudoku       | 100   | admin_sudoku_data.ser       |
+  | Jason    | SlidingTiles | 90    | Jason_SlidingTiles_data.ser |
 
 * In this way, we don't have to load every user object to access the data.
 
