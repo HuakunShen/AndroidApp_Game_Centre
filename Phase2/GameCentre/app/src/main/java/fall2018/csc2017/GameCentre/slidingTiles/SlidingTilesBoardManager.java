@@ -236,7 +236,7 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      *
      * @return position
      */
-    public int blankPosition() {
+    int blankPosition() {
         for (int i = 0; i < board.getDifficulty(); i++) {
             for (int j = 0; j < board.getDifficulty(); j++) {
                 if (board.getTile(i, j) == board.numTiles()) {
@@ -289,7 +289,7 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      * @param position the position
      * @return move
      */
-    public int move(int position) {
+    int move(int position) {
         int row = position / board.getDifficulty();
         int col = position % board.getDifficulty();
         int blankId = board.numTiles();
