@@ -237,10 +237,10 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      * @return position
      */
     int blankPosition() {
-        for (int i = 0; i < board.getDifficulty(); i++) {
-            for (int j = 0; j < board.getDifficulty(); j++) {
+        for (int i = 0; i < getDifficulty(); i++) {
+            for (int j = 0; j < getDifficulty(); j++) {
                 if (board.getTile(i, j) == board.numTiles()) {
-                    return board.getDifficulty() - i;
+                    return getDifficulty() - i;
                 }
             }
         }
@@ -269,13 +269,13 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      * @return whether the tile at position is surrounded by a blank tile
      */
     public boolean isValidTap(int position) {
-        int row = position / board.getDifficulty();
-        int col = position % board.getDifficulty();
+        int row = position / getDifficulty();
+        int col = position % getDifficulty();
         int blankId = board.numTiles();
         Integer above = row == 0 ? null : board.getTile(row - 1, col);
-        Integer below = row == board.getDifficulty() - 1 ? null : board.getTile(row + 1, col);
+        Integer below = row == getDifficulty() - 1 ? null : board.getTile(row + 1, col);
         Integer left = col == 0 ? null : board.getTile(row, col - 1);
-        Integer right = col == board.getDifficulty() - 1 ? null : board.getTile(row, col + 1);
+        Integer right = col == getDifficulty() - 1 ? null : board.getTile(row, col + 1);
         return (below != null && below == blankId)
                 || (above != null && above == blankId)
                 || (left != null && left == blankId)
@@ -290,24 +290,24 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
      * @return move
      */
     int move(int position) {
-        int row = position / board.getDifficulty();
-        int col = position % board.getDifficulty();
+        int row = position / getDifficulty();
+        int col = position % getDifficulty();
         int blankId = board.numTiles();
         Integer above = row == 0 ? null : board.getTile(row - 1, col);
-        Integer below = row == board.getDifficulty() - 1 ? null : board.getTile(row + 1, col);
+        Integer below = row == getDifficulty() - 1 ? null : board.getTile(row + 1, col);
         Integer left = col == 0 ? null : board.getTile(row, col - 1);
         if (above != null && above == blankId) {
             board.swapTiles(row - 1, col, row, col);
-            return (row - 1) * board.getDifficulty() + col;
+            return (row - 1) * getDifficulty() + col;
         } else if (below != null && below == blankId) {
             board.swapTiles(row + 1, col, row, col);
-            return (row + 1) * board.getDifficulty() + col;
+            return (row + 1) * getDifficulty() + col;
         } else if (left != null && left == blankId) {
             board.swapTiles(row, col - 1, row, col);
-            return row * board.getDifficulty() + (col - 1);
+            return row * getDifficulty() + (col - 1);
         } else {
             board.swapTiles(row, col + 1, row, col);
-            return row * board.getDifficulty() + (col + 1);
+            return row * getDifficulty() + (col + 1);
         }
     }
 

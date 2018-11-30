@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import fall2018.csc2017.GameCentre.sudoku.SudokuBoardManager;
+
 import static org.junit.Assert.*;
 
 public class SlidingTilesBoardManagerTest {
@@ -129,6 +131,8 @@ public class SlidingTilesBoardManagerTest {
     public void getImageBackground() {
         setUp();
         assertNull(boardManager.getImageBackground());
+        boardManager.setImageBackground(new byte[16]);
+        assertEquals(0, boardManager.getImageBackground()[0]);
     }
 
     /**
@@ -152,10 +156,12 @@ public class SlidingTilesBoardManagerTest {
         setUpCorrect();
         assertTrue(boardManager.isValidTap(7));
         boardManager.makeMove(7);
-        assertTrue(boardManager.isValidTap(6));
-        boardManager.makeMove(6);
-        assertTrue(boardManager.isValidTap(3));
-        boardManager.makeMove(3);
-        assertFalse(boardManager.isValidTap(1));
+        assertTrue(boardManager.isValidTap(4));
+        boardManager.makeMove(4);
+        assertTrue(boardManager.isValidTap(5));
+        boardManager.makeMove(5);
+        assertTrue(boardManager.isValidTap(8));
+        boardManager.makeMove(8);
+        assertFalse(boardManager.isValidTap(8));
     }
 }
