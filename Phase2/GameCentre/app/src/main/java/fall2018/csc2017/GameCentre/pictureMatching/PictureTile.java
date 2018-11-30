@@ -1,13 +1,11 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 
 /**
  * A Tile in a sliding tiles puzzle.
  */
-public class PictureTile implements Comparable<PictureTile>, Serializable {
+public class PictureTile implements Serializable {
 
     /**
      * The unique id.
@@ -29,6 +27,17 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
      * the state of pictureTile
      */
     private String state;
+
+
+    /**
+     * A tile with a background id; look up and set the id.
+     *
+     * @param id the id of pictureTile.
+     */
+    PictureTile(int id) {
+        this.id = id;
+        this.state = COVERED;
+    }
 
     /**
      * Return the tile id.
@@ -55,20 +64,5 @@ public class PictureTile implements Comparable<PictureTile>, Serializable {
      */
     void setState(String state) {
         this.state = state;
-    }
-
-    /**
-     * A tile with a background id; look up and set the id.
-     *
-     * @param id the id of pictureTile.
-     */
-    PictureTile(int id) {
-        this.id = id;
-        this.state = COVERED;
-    }
-
-    @Override
-    public int compareTo(@NonNull PictureTile tile) {
-        return tile.id - this.id;
     }
 }
