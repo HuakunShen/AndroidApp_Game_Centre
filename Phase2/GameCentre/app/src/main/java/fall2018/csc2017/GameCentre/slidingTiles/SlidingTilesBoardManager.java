@@ -46,6 +46,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * Manage a new shuffled board.
+     *
+     * @param difficulty the level of difficulty
      */
     SlidingTilesBoardManager(int difficulty) {
         List<Integer> tiles = new ArrayList<>();
@@ -55,7 +57,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
         }
         Collections.shuffle(tiles);
         board = new SlidingTilesBoard(tiles, difficulty);
-        do {Collections.shuffle(tiles);
+        do {
+            Collections.shuffle(tiles);
             board = new SlidingTilesBoard(tiles, difficulty);
         } while (!isSolvable());
         undoStack = new StateStack<>(DEFAULT_UNDO_LIMIT);
@@ -63,14 +66,18 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * Manage a prepared board.
+     *
+     * @param board SlidingTilesBoard
      */
-    public SlidingTilesBoardManager(SlidingTilesBoard board) {
+    SlidingTilesBoardManager(SlidingTilesBoard board) {
         this.board = board;
         this.undoStack = new StateStack<>(DEFAULT_UNDO_LIMIT);
     }
 
     /**
      * The getter function for the board.
+     *
+     * @return SlidingTilesBoard
      */
     public SlidingTilesBoard getBoard() {
         return this.board;
@@ -78,11 +85,17 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * Getter function for the number of performUndo allowed to perform.
+     *
+     * @return capacity
      */
-    int getCapacity() {return this.undoStack.getCapacity();}
+    int getCapacity() {
+        return this.undoStack.getCapacity();
+    }
 
     /**
      * Set performUndo limit.
+     *
+     * @param input capacity
      */
     void setCapacity(int input) {
         this.undoStack.setCapacity(input);
@@ -90,6 +103,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * Get level of difficulty of the board.
+     *
+     * @return difficulty
      */
     public int getDifficulty() {
         return board.getDifficulty();
@@ -97,6 +112,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * The getter function for the steps taken.
+     *
+     * @return steps taken
      */
     int getStepsTaken() {
         return stepsTaken;
@@ -104,6 +121,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * The setter function for the steps taken.
+     *
+     * @param stepsTakenSoFar steps taken so far
      */
     void setStepsTaken(int stepsTakenSoFar) {
         this.stepsTaken = stepsTakenSoFar;
@@ -111,6 +130,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * The getter function for the time taken.
+     *
+     * @return time taken
      */
     public long getTimeTaken() {
         return timeTaken;
@@ -118,6 +139,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * The setter function for the time taken.
+     *
+     * @param timeTakenSoFar time taken so far
      */
     public void setTimeTaken(long timeTakenSoFar) {
         this.timeTaken = timeTakenSoFar;
@@ -125,20 +148,26 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * Return the current image background in byte array.
+     *
+     * @return image background
      */
-    public byte[] getImageBackground() {
+    byte[] getImageBackground() {
         return imageBackground;
     }
 
     /**
      * Set the image background of the board.
+     *
+     * @param imageBackground the background of the image
      */
-    public void setImageBackground(byte[] imageBackground) {
+    void setImageBackground(byte[] imageBackground) {
         this.imageBackground = imageBackground;
     }
 
     /**
      * Returns if performUndo is available.
+     *
+     * @return whether undo available
      */
     boolean undoAvailable() {
         return !undoStack.isEmpty();
@@ -146,13 +175,17 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * Add a move to the performUndo stack.
+     *
+     * @param move the move
      */
-    public void addUndo(Integer move) {
+    private void addUndo(Integer move) {
         undoStack.put(move);
     }
 
     /**
      * Get the performUndo step.
+     *
+     * @return the item popped
      */
     Integer popUndo() {
         return undoStack.pop();
@@ -160,8 +193,10 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * Determines whether the tile board is isSolvable.
+     *
+     * @return whether solvable
      */
-    public boolean isSolvable() {
+    boolean isSolvable() {
         Iterator<Integer> tiles = board.iterator();
         ArrayList<Integer> listOfTiles = new ArrayList<>(board.numTiles());
         while (tiles.hasNext()) {
@@ -172,14 +207,17 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
         } else {
             return blankPosition() % 2 == 0 && getTotalInversion(listOfTiles) % 2 != 0 ||
                     blankPosition() % 2 != 0 && getTotalInversion(listOfTiles) % 2 == 0;
-            }
         }
+    }
 
     /**
      * Return the number of inversions in a list of Integer.
      * Note: This is a helper function for isSolvable.
+     *
+     * @param listOfTiles list of tiles
+     * @return number of inversions
      */
-    public int getTotalInversion(ArrayList<Integer> listOfTiles) {
+    private int getTotalInversion(ArrayList<Integer> listOfTiles) {
         int totalInversion = 0;
         for (int i = 0; i < board.numTiles() - 1; i++) {
             for (int j = i + 1; j < board.numTiles(); j++) {
@@ -195,6 +233,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
     /**
      * Return the index of row which the blank tile is in.
      * Note: This is a helper function for isSolvable.
+     *
+     * @return position
      */
     public int blankPosition() {
         for (int i = 0; i < board.getDifficulty(); i++) {
@@ -209,6 +249,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * Return whether the tiles are in row-major order.
+     *
+     * @return whether solved
      */
     public boolean boardSolved() {
         Iterator<Integer> iterator = board.iterator();
@@ -243,6 +285,9 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
     /**
      * Performs an in-undoable move and returns the position
      * of the blank tile before the move.
+     *
+     * @param position the position
+     * @return move
      */
     public int move(int position) {
         int row = position / board.getDifficulty();
@@ -268,6 +313,8 @@ public class SlidingTilesBoardManager extends BoardManagerForBoardGames implemen
 
     /**
      * Performs the an undoable move.
+     *
+     * @param position the position
      */
     public void makeMove(int position) {
         addUndo(move(position));

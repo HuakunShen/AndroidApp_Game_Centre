@@ -31,11 +31,6 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
     private User user;
 
     /**
-     * The name of the userFile saved locally.
-     */
-    private String userFile;
-
-    /**
      * The database for game info.
      */
     private SQLDatabase db;
@@ -79,15 +74,12 @@ public class SlidingTilesStartingActivity extends AppCompatActivity {
         addSaveButtonListener();
     }
 
-
-
     /**
      * setup user object according to username and define the value of userFile (where user
      * object is saved)
      */
     private void setupUser() {
         user = (User) getIntent().getSerializableExtra("user");
-        userFile = db.getUserFile(user.getUsername());
     }
 
     /**

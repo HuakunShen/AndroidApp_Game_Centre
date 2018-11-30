@@ -1,8 +1,8 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,16 +14,23 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
-import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.gameCentre.ScoreBoardActivity;
 
 public class PictureMatchingStartingActivity extends AppCompatActivity {
-
+    /**
+     * the user object.
+     */
     private User user;
-    //    private String username;
+    /**
+     * the name of the user file.
+     */
     private String userFile;
+    /**
+     * the database
+     */
     private SQLDatabase db;
     /**
      * The main save file.
@@ -37,6 +44,9 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
      * The board manager.
      */
     public static final String GAME_NAME = "PictureMatch";
+    /**
+     * the matchingBoardManager.
+     */
     private MatchingBoardManager boardManager;
 
     @Override
@@ -56,16 +66,27 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         addScoreboardButtonListener();
     }
 
+    /**
+     * Make message into toast
+     *
+     * @param message toast format of message
+     */
     private void makeToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Set up the user.
+     */
     private void setupUser() {
         user = (User) getIntent().getSerializableExtra("user");
         userFile = db.getUserFile(user.getUsername());
         loadFromFile(userFile);
     }
 
+    /**
+     * Set up the file.
+     */
     private void setupFile() {
         if (!db.dataExists(user.getUsername(), GAME_NAME)) {
             db.addData(user.getUsername(), GAME_NAME);
@@ -84,6 +105,9 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         startActivity(tmp);
     }
 
+    /**
+     * Add scoreBoard button.
+     */
     private void addScoreboardButtonListener() {
         Button scoreboardButton = findViewById(R.id.scoreboardButton_picturematching);
         scoreboardButton.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +123,9 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Add load button.
+     */
     private void addLoadButtonListener() {
         Button loadButton = findViewById(R.id.PictureMatchingLoadButton);
         loadButton.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +139,9 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Add start button.
+     */
     private void addStartButtonListener() {
         Button startButton = findViewById(R.id.PictureMatchingNewGameButton);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +155,11 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Load from fileName
+     *
+     * @param fileName the name of the file
+     */
     private void loadFromFile(String fileName) {
         try {
             InputStream inputStream = this.openFileInput(fileName);

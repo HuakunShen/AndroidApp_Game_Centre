@@ -29,7 +29,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
      *
      * @param tiles the tiles for the board
      */
-    public SlidingTilesBoard(List<Integer> tiles, int difficulty) {
+    SlidingTilesBoard(List<Integer> tiles, int difficulty) {
         this.difficulty = difficulty;
         this.tiles = new Integer[difficulty][difficulty];
         Iterator<Integer> iterator = tiles.iterator();
@@ -42,6 +42,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
 
     /**
      * Return the number of tiles on the board.
+     * @return the number of tiles
      */
     int numTiles() {
         return difficulty * difficulty;
@@ -49,8 +50,9 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
 
     /**
      * Return the tile at (row, col)
+     * @return tile
      */
-    public Integer getTile(int row, int col) {
+    Integer getTile(int row, int col) {
         return tiles[row][col];
     }
 
@@ -62,7 +64,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
      * @param row2 the second tile row
      * @param col2 the second tile col
      */
-    public void swapTiles(int row1, int col1, int row2, int col2) {
+    void swapTiles(int row1, int col1, int row2, int col2) {
         int t = this.tiles[row1][col1];
         this.tiles[row1][col1] = this.tiles[row2][col2];
         this.tiles[row2][col2] = t;
@@ -72,6 +74,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
 
     /**
      * The getter function of level of difficulty.
+     * @return difficulty
      */
     public int getDifficulty() {
         return difficulty;
@@ -79,6 +82,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
 
     /**
      * Returns the iterator of tiles.
+     * @return iterator of Integer
      */
     @NonNull
     @Override
@@ -88,6 +92,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
 
     /**
      * The iterator class for board.
+     * @deprecated BoardIterator
      */
     public class BoardIterator implements Iterator<Integer> {
 
@@ -98,6 +103,8 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
 
         /**
          * Determines whether the iterator has reached the end.
+         *
+         * @return whether the iterator has reached the end
          */
         @Override
         public boolean hasNext() {
@@ -106,6 +113,7 @@ public class SlidingTilesBoard extends BoardForBoardGames implements Serializabl
 
         /**
          * Returns the next element in the iterator if available.
+         * @return next item
          */
         @Override
         public Integer next() {

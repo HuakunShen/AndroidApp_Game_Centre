@@ -19,11 +19,11 @@ public class BoardGenerator {
     BoardGenerator() {
         boardInitializer();
         for (int n = 0; n < 100; n++) {
-            juniorBoardShuffler(0);
+            juniorBoardShuffler(false);
             seniorBoardShuffler(0);
         }
         for (int n = 0; n < 100; n++) {
-            juniorBoardShuffler(1);
+            juniorBoardShuffler(true);
             seniorBoardShuffler(1);
         }
     }
@@ -66,9 +66,9 @@ public class BoardGenerator {
     /**
      * Shuffle the game board.
      *
-     * @param check
+     * @param switcRow
      */
-    private void juniorBoardShuffler(int check) {
+    private void juniorBoardShuffler(boolean switcRow) {
         int k1 = 0, k2 = 0;
         int startingIndex = 0;
         Random r = new Random();
@@ -77,9 +77,9 @@ public class BoardGenerator {
                 k1 = r.nextInt(3) + startingIndex;
                 k2 = r.nextInt(3) + startingIndex;
             }
-            if (check == 1)
+            if (switcRow)
                 switchRows(k1, k2);
-            else if (check == 0)
+            else if (switcRow)
                 switchColumns(k1, k2);
             startingIndex += 3;
         }

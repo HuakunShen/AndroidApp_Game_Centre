@@ -22,9 +22,9 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
-import fall2018.csc2017.GameCentre.R;
 
 
 /**
@@ -155,9 +155,9 @@ public class NavSetting extends AppCompatActivity {
      * Adapted from https://stackoverflow.com/questions/7620401/how-to-convert-byte-array-to-bitmap
      * and https://stackoverflow.com/questions/4989182/converting-java-bitmap-to-byte-array.
      *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode the request code
+     * @param resultCode the result code
+     * @param data the data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -182,7 +182,7 @@ public class NavSetting extends AppCompatActivity {
     /**
      * Load user object from filename.
      *
-     * @param fileName
+     * @param fileName the name of the file
      */
     private void loadFromFile(String fileName) {
 

@@ -1,8 +1,8 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -53,10 +53,20 @@ public class MatchingNewGamePop extends AppCompatActivity {
      * the difficulty that we selected.
      */
     private int selected_difficulty;
-    private String[] list_diff = new String[]{"Easy(4x4)", "Normal(6x6)", "Hard(8x8)"};
-
+    /**
+     * The list of String for different difficulty.
+     */
+    private String[] list_diff = new String[]{"Easy(4x4)", "Normal(6x6)", "Hard(8x8)" };
+    /**
+     * the selected theme.
+     */
     private String selected_theme;
-    private String[] list_theme = new String[]{"number", "animal", "emoji"};
+    /**
+     * the list of the themes.
+     */
+    private String[] list_theme = new String[]{"number", "animal", "emoji" };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +81,9 @@ public class MatchingNewGamePop extends AppCompatActivity {
         addNewGameButtonListener();
     }
 
+    /**
+     * add spinner listener.
+     */
     private void addDiffSpinnerListener() {
         Spinner select_diff = findViewById(R.id.match_diff_select);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
@@ -94,6 +107,9 @@ public class MatchingNewGamePop extends AppCompatActivity {
         });
     }
 
+    /**
+     * add theme spinner.
+     */
     private void addThemeSpinnerListener() {
         final Spinner select_theme = findViewById(R.id.match_theme_select);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
@@ -117,6 +133,9 @@ public class MatchingNewGamePop extends AppCompatActivity {
         });
     }
 
+    /**
+     * add new game button.
+     */
     private void addNewGameButtonListener() {
         Button startButton = findViewById(R.id.match_new_game);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +174,11 @@ public class MatchingNewGamePop extends AppCompatActivity {
         tempGameStateFile = "temp_" + gameStateFile;
     }
 
+    /**
+     * load from fileName file.
+     *
+     * @param fileName the name of the file.
+     */
     private void loadFromFile(String fileName) {
 
         try {

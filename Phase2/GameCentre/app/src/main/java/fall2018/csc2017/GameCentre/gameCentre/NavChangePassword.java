@@ -12,9 +12,9 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
-import fall2018.csc2017.GameCentre.R;
 
 public class NavChangePassword extends AppCompatActivity {
 
@@ -47,8 +47,6 @@ public class NavChangePassword extends AppCompatActivity {
         setupUser();
         setupEditTexts();
         addConfirmButton();
-
-
     }
 
     /**

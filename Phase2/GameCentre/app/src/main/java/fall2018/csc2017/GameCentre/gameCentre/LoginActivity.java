@@ -1,8 +1,8 @@
 package fall2018.csc2017.GameCentre.gameCentre;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +15,9 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import fall2018.csc2017.GameCentre.data.*;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
+import fall2018.csc2017.GameCentre.data.User;
 
 public class LoginActivity extends AppCompatActivity {
     /**

@@ -1,8 +1,8 @@
 package fall2018.csc2017.GameCentre.gameCentre;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,9 +12,9 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
-import fall2018.csc2017.GameCentre.R;
 
 public class SignUpActivity extends AppCompatActivity {
     /**
@@ -41,6 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
      * the user object that stores the user information.
      */
     private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,15 +68,13 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = passwordInput.getText().toString();
                 String password_repeat = password_repeat_Input.getText().toString();
                 Object[] message = checkInput(username, password, password_repeat);
-                if ((boolean) message[0]){
+                if ((boolean) message[0]) {
                     user = new User(username, password);
                     if (!nickname.equals(""))
                         user.setNickname(nickname);
                     db.addUser(user);
                     saveToFile(db.getUserFile(username));
                 }
-
-
                 Toast.makeText(getApplication(), (String) message[1], Toast.LENGTH_SHORT).show();
                 if (message[0].equals(true)) {
                     startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
@@ -86,6 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     /**
      * save user to file
+     *
      * @param fileName the name of the file.
      */
     private void saveToFile(String fileName) {
@@ -101,8 +101,9 @@ public class SignUpActivity extends AppCompatActivity {
 
     /**
      * check whether the input is proper.
-     * @param username the name of the user.
-     * @param password the password of the current user.
+     *
+     * @param username        the name of the user.
+     * @param password        the password of the current user.
      * @param password_repeat the password that re-entered.
      * @return an array of object with length 2, the first one is boolean type and the second one is corresponding message.
      */
@@ -111,7 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
         if (username.equals("")) {
             result[0] = false;
             result[1] = "Username Cannot Be Empty";
-        } else if (username.contains(" ")){
+        } else if (username.contains(" ")) {
             result[0] = false;
             result[1] = "Username Should Not Contain Spaces";
         } else if (db.userExists(username)) {

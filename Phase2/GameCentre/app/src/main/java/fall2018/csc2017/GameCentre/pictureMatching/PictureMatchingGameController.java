@@ -1,6 +1,7 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
 import android.content.Context;
+
 import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 
@@ -38,14 +39,20 @@ public class PictureMatchingGameController {
 
     /**
      * Constructor of the controller class
+     *
      * @param context MatchingPictureGameActivity
-     * @param user user object of current user
+     * @param user    user object of current user
      */
-    PictureMatchingGameController(Context context, User user){
+    PictureMatchingGameController(Context context, User user) {
         this.db = new SQLDatabase(context);
         this.user = user;
     }
 
+    /**
+     * set the database
+     *
+     * @param db the new database.
+     */
     public void setDb(SQLDatabase db) {
         this.db = db;
     }
@@ -53,6 +60,7 @@ public class PictureMatchingGameController {
 
     /**
      * Used to determine whether the timer should keep counting
+     *
      * @return true of game is not ended (board is not solved), false otherwise
      */
     boolean isGameRunning() {
@@ -61,6 +69,7 @@ public class PictureMatchingGameController {
 
     /**
      * set whether the game is running.
+     *
      * @param gameRunning state of game, whether game is still running
      */
     void setGameRunning(boolean gameRunning) {
@@ -69,6 +78,7 @@ public class PictureMatchingGameController {
 
     /**
      * set boardManager to a new boardManager.
+     *
      * @param boardManager the new boardManager that we want to assign to.
      */
     public void setBoardManager(MatchingBoardManager boardManager) {
@@ -77,6 +87,7 @@ public class PictureMatchingGameController {
 
     /**
      * get the game state file
+     *
      * @return the string of game state file.
      */
     String getGameStateFile() {
@@ -85,6 +96,7 @@ public class PictureMatchingGameController {
 
     /**
      * get the temporary game state file.
+     *
      * @return the the temporary game state file.
      */
     String getTempGameStateFile() {
@@ -93,6 +105,7 @@ public class PictureMatchingGameController {
 
     /**
      * get boardManager
+     *
      * @return boardManager
      */
     public MatchingBoardManager getBoardManager() {
@@ -101,14 +114,16 @@ public class PictureMatchingGameController {
 
     /**
      * get the board of the boardManager.
+     *
      * @return the board of the boardManager.
      */
-    public MatchingBoard getBoard(){
+    public MatchingBoard getBoard() {
         return boardManager.getBoard();
     }
 
     /**
      * get the User object that store the information of the current user.
+     *
      * @return the User object that represent the current user.
      */
     public User getUser() {
@@ -117,16 +132,17 @@ public class PictureMatchingGameController {
 
     /**
      * get the user file
+     *
      * @return the user file.
      */
-    String getUserFile(){
+    String getUserFile() {
         return db.getUserFile(user.getUsername());
     }
 
     /**
      * set up the game state file.
      */
-    void setupFile(){
+    void setupFile() {
         if (!db.dataExists(user.getUsername(), GAME_NAME))
             db.addData(user.getUsername(), GAME_NAME);
         gameStateFile = db.getDataFile(user.getUsername(), GAME_NAME);
@@ -136,6 +152,7 @@ public class PictureMatchingGameController {
 
     /**
      * covert the time to proper format.
+     *
      * @param time the time that we want to convert.
      * @return the converted time.
      */
@@ -160,6 +177,7 @@ public class PictureMatchingGameController {
 
     /**
      * calculate the score according to the totalTimeTaken.
+     *
      * @param totalTimeTaken the time for calculating score.
      * @return the calculated score.
      */
@@ -170,10 +188,11 @@ public class PictureMatchingGameController {
 
     /**
      * update the score in user object and database.
+     *
      * @param score the score that we wanted to store.
      * @return whether the score is updated.
      */
-    boolean updateScore(int score){
+    boolean updateScore(int score) {
         boolean newRecord = user.updateScore(GAME_NAME, score);
         db.updateScore(user, GAME_NAME);
         return newRecord;
@@ -181,6 +200,7 @@ public class PictureMatchingGameController {
 
     /**
      * whether the board is solved.
+     *
      * @return whether the board is solved,
      */
     public boolean boardSolved() {

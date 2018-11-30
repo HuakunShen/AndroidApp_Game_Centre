@@ -73,6 +73,8 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
 
     /**
      * Getter function of index of column of the first tile selected.
+     *
+     * @return the col number of the first tile.
      */
     int getCol1() {
         return col1;
@@ -80,6 +82,8 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
 
     /**
      * Getter function of index of column of the second tile selected.
+     *
+     * @return the column number of the second tile.
      */
     int getCol2() {
         return col2;
@@ -87,6 +91,9 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
 
     /**
      * Flip the tile at the ith row and jth column.
+     *
+     * @param row the row number of the tile
+     * @param col the column number of the tile.
      */
     void flipTile(int row, int col) {
         if (col1 == -1 && row1 == -1) {
@@ -122,15 +129,13 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
 
     /**
      * get the difficulty of the current board game.
+     *
      * @return the difficulty of the game.
      */
     public int getDifficulty() {
         return difficulty;
     }
 
-    /**
-     * Returns an iterator of board.
-     */
     @Override
     @NonNull
     public Iterator<PictureTile> iterator() {

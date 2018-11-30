@@ -2,25 +2,18 @@ package fall2018.csc2017.GameCentre.gameCentre;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.util.List;
 
-import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 
 public class ScoreBoardActivity extends AppCompatActivity {
@@ -52,11 +45,11 @@ public class ScoreBoardActivity extends AppCompatActivity {
     /**
      * the String to be displayed in scoreboard activity.
      */
-    private final String[] byUserTitle = new String[]{"Game", "Username", "Highest Score"};
+    private final String[] byUserTitle = new String[]{"Game", "Username", "Highest Score" };
     /**
      * the string to be displayed in scoreboard activity.
      */
-    private final String[] byGameTitle = new String[]{"Rank", "Game", "User", "Score"};
+    private final String[] byGameTitle = new String[]{"Rank", "Game", "User", "Score" };
     /**
      * the string byUser
      */
@@ -131,6 +124,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
 
     /**
      * set up the title content.
+     *
      * @return title content string array.
      */
     private String[] setupTitleContent() {
@@ -160,6 +154,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
 
     /**
      * configure the titles.
+     *
      * @param titles the titles of string.
      */
     private void addConfigTitles(String[] titles) {

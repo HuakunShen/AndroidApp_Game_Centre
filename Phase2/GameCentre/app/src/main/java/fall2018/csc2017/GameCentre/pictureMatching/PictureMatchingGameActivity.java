@@ -23,8 +23,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
-import fall2018.csc2017.GameCentre.data.User;
+
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.popScore;
@@ -49,7 +50,6 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     /**
      * Current User.
      */
-
     private LocalTime startingTime;
     /**
      * the total time
@@ -82,7 +82,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * Create and setup controller
      */
     private void setupController() {
-        controller = new PictureMatchingGameController(this, (User)getIntent().getSerializableExtra("user"));
+        controller = new PictureMatchingGameController(this, (User) getIntent().getSerializableExtra("user"));
         controller.setupFile();
     }
 
@@ -101,7 +101,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                if(controller.isGameRunning()){
+                if (controller.isGameRunning()) {
                     totalTimeTaken = time + preStartTime;
                     timeDisplay.setText(controller.convertTime(totalTimeTaken));
                     controller.getBoardManager().setTimeTaken(totalTimeTaken);
@@ -199,7 +199,8 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 
     /**
      * Pop up window that shows user the score he/she gets
-     * @param score Score that is to be displayed on popup window
+     *
+     * @param score     Score that is to be displayed on popup window
      * @param newRecord Indicator that determines which text is to be displayed (New Record: or
      *                  Your Highest Score Was
      */
@@ -215,7 +216,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     /**
      * create the tile buttons for displaying.
      */
-    void createTileButtons(){
+    void createTileButtons() {
         tileButtons = new ArrayList<>();
         for (int row = 0; row != controller.getBoardManager().getBoard().getDifficulty(); row++) {
             for (int col = 0; col != controller.getBoardManager().getBoard().getDifficulty(); col++) {
@@ -229,14 +230,14 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     /**
      * update the tileButtons after make a move.
      */
-    void updateTileButtons(){
+    void updateTileButtons() {
         MatchingBoard board = controller.getBoardManager().getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
             int row = nextPos / controller.getBoardManager().getDifficulty();
             int col = nextPos % controller.getBoardManager().getDifficulty();
-            PictureTile currentTile = board.getTile(row,col);
-            switch (currentTile.getState()){
+            PictureTile currentTile = board.getTile(row, col);
+            switch (currentTile.getState()) {
                 case PictureTile.FLIP:
                     String name = "pm_" + controller.getBoardManager().getTheme() + "_" + Integer.toString(currentTile.getId());
                     int id = getResources().getIdentifier(name, "drawable", getPackageName());
@@ -282,7 +283,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(controller.getUserFile())){
+            if (fileName.equals(controller.getUserFile())) {
                 outputStream.writeObject(controller.getUser());
             } else if (fileName.equals(controller.getGameStateFile()) || fileName.equals(controller.getTempGameStateFile())) {
                 outputStream.writeObject(controller.getBoardManager());

@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -29,8 +29,8 @@ import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.R;
+import fall2018.csc2017.GameCentre.data.User;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.popScore;
@@ -94,9 +94,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      */
     private Bitmap backgroundImage;
 
-    /**
-     * Dispatch onCreate() to fragments.
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,9 +112,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         setupTileImagesAndBackground();
     }
 
-    /**
-     * Dispatch onResume() to fragments.
-     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -124,9 +119,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         timeDisplay.setText(logicalController.convertTime(logicalController.getBoardManager().getTimeTaken()));
     }
 
-    /**
-     * Dispatch onPause() to fragments.
-     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -331,6 +323,12 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         }
     }
 
+    /**
+     * Activate the pop window.
+     *
+     * @param score     score get
+     * @param newRecord new record
+     */
     private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
@@ -340,10 +338,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         startActivity(goToPopWindow);
     }
 
-    /**
-     * Update the game activity when the observable objects notify the Activity
-     * change(s) has/have been made.
-     */
     @Override
     public void update(Observable o, Object arg) {
         display();

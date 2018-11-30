@@ -32,8 +32,9 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
 
     /**
      * Constructor of MatchingBoardManager
+     *
      * @param difficulty Level of difficulty determined by user
-     * @param theme theme of background (number, animal or emoji)
+     * @param theme      theme of background (number, animal or emoji)
      */
     MatchingBoardManager(int difficulty, String theme) {
         this.theme = theme;
@@ -48,9 +49,10 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
 
     /**
      * Add pictureTiles to the list.
-     * @param tiles the tiles List that contains pictureTile.
+     *
+     * @param tiles    the tiles List that contains pictureTile.
      * @param numTiles the id of the picture Tile.
-     * @param tileNum the Total number of tiles need to be added.
+     * @param tileNum  the Total number of tiles need to be added.
      */
     void addPictureTileToList(List<PictureTile> tiles, int numTiles, int tileNum) {
         if (tileNum < numTiles / 4) {
@@ -66,6 +68,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
 
     /**
      * Board setter
+     *
      * @param board the board to be set.
      */
     public void setBoard(MatchingBoard board) {
@@ -74,6 +77,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
 
     /**
      * Board getter
+     *
      * @return current board
      */
     public MatchingBoard getBoard() {
@@ -82,6 +86,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
 
     /**
      * getter of difficulty
+     *
      * @return current board's difficulty
      */
     int getDifficulty() {
@@ -90,6 +95,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
 
     /**
      * theme getter
+     *
      * @return the theme of the current board game.
      */
     public String getTheme() {
@@ -98,6 +104,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
 
     /**
      * timeTaken getter
+     *
      * @return time
      */
     public long getTimeTaken() {
@@ -106,6 +113,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
 
     /**
      * timeTaken setter
+     *
      * @param timeTakenSoFar new time taken so far after a game is finished or paused
      */
     public void setTimeTaken(long timeTakenSoFar) {
@@ -141,9 +149,13 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
                 && !currentTile.getState().equals(PictureTile.FLIP);
     }
 
-    public void solveTile() {
+    /**
+     * whether the board is solved.
+     */
+    void solveTile() {
         board.solveTile();
     }
+
     /**
      * Performs changes to the board.
      *
@@ -160,6 +172,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
 
     /**
      * check whether two tiles are flipped.
+     *
      * @return true if two tiles are flipped else false.
      */
     boolean check2tiles() {
