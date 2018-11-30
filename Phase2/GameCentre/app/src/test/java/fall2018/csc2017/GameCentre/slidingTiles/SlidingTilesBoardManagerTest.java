@@ -93,8 +93,8 @@ public class SlidingTilesBoardManagerTest {
      * This tests the functionality of getTimeTaken() and setTimeTaken().
      */
     @Test
-    public void getAndSetTimeTaken() {
-        setUpCorrect();
+    public void getAndSetTimeAndSetpsTaken() {
+        setUp();
         boardManager.setTimeTaken(5);
         assertEquals(5, boardManager.getTimeTaken());
     }
@@ -129,7 +129,7 @@ public class SlidingTilesBoardManagerTest {
      */
     @Test
     public void getImageBackground() {
-        setUp();
+        setUp ();
         assertNull(boardManager.getImageBackground());
         boardManager.setImageBackground(new byte[16]);
         assertEquals(0, boardManager.getImageBackground()[0]);
@@ -151,8 +151,6 @@ public class SlidingTilesBoardManagerTest {
      */
     @Test
     public void isValidTap() {
-        setUp();
-        assertFalse(boardManager.isValidTap(1));
         setUpCorrect();
         assertTrue(boardManager.isValidTap(7));
         boardManager.makeMove(7);
