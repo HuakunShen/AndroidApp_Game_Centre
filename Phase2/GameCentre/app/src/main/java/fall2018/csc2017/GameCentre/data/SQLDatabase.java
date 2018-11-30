@@ -74,8 +74,8 @@ public class SQLDatabase extends SQLiteOpenHelper {
     /**
      * Return true if User exists in the UserTable
      *
-     * @param username
-     * @return
+     * @param username the name of the user
+     * @return whether the user exists.
      */
     public boolean userExists(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -198,7 +198,7 @@ public class SQLDatabase extends SQLiteOpenHelper {
      * @param game the type of the game.
      * @return the score of the user with specific game.
      */
-    public int getScore(String user, String game) {
+    int getScore(String user, String game) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + KEY_USERNAME
                 + " =? AND " + KEY_GAME + " =? ", new String[]{user, game});

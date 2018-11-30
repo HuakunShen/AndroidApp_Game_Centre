@@ -1,7 +1,5 @@
 package fall2018.csc2017.GameCentre.data;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -29,6 +27,7 @@ public class StateStack<E> implements Serializable {
 
     /**
      * Return the capacity of stack.
+     *
      * @return capacity
      */
     public int getCapacity() {
@@ -37,7 +36,8 @@ public class StateStack<E> implements Serializable {
 
     /**
      * set performUndo limit (capacity for this stack)
-     * @param capacity
+     *
+     * @param capacity the capacity of the stateStack.
      */
     public void setCapacity(int capacity) {
         this.capacity = capacity;
