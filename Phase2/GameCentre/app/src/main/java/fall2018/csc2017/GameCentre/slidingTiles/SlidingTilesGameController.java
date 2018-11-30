@@ -2,32 +2,11 @@ package fall2018.csc2017.GameCentre.slidingTiles;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
-import android.widget.Button;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 
-import static android.content.Context.MODE_PRIVATE;
-import static android.graphics.Bitmap.createBitmap;
-
 public class SlidingTilesGameController {
-    /**
-     * The Context of the activity.
-     */
-    private final Context context;
 
     /**
      * The database for game info.
@@ -64,40 +43,13 @@ public class SlidingTilesGameController {
      */
     private static final String GAME_NAME = "SlidingTiles";
 
-    /**
-     * The list of buttons on the gridView.
-     */
-    private List<Button> tileButtons;
-
-    /**
-     * The background image of the game.
-     */
-    private Bitmap backgroundImage;
-
-    /**
-     * The formatted picture that will be used as the buttons' backgrounds.
-     */
-    private Bitmap[] tileImages;
-
-    /**
-     * The resources for the activity.
-     */
-    private Resources resources;
-
-    /**
-     * The name of the package.
-     */
-    private String packageName;
 
     /**
      * Constructor of SlidingTilesGameController class.
      */
     SlidingTilesGameController(Context context, User user) {
-        this.context = context;
         this.db = new SQLDatabase(context);
         this.user = user;
-        this.packageName = context.getApplicationContext().getPackageName();
-        this.resources = context.getResources();
     }
 
     /**
@@ -172,12 +124,6 @@ public class SlidingTilesGameController {
         return tempGameStateFile;
     }
 
-    /**
-     * Getter function for tile buttons.
-     */
-    List<Button> getTileButtons() {
-        return tileButtons;
-    }
 
     /**
      * The setter function for gameRunning instance.
@@ -191,34 +137,6 @@ public class SlidingTilesGameController {
      */
     boolean isGameRunning() {
         return gameRunning;
-    }
-
-    /**
-     * Set up the tile buttons of the game.
-     */
-    void createTileButtons() {
-        tileButtons = new ArrayList<>();
-        for (int row = 0; row != getBoard().getDifficulty(); row++) {
-            for (int col = 0; col != getBoard().getDifficulty(); col++) {
-                Button tmp = new Button(context);
-                tileButtons.add(tmp);
-            }
-        }
-    }
-
-    /**
-     * Update the tile buttons on the board.
-     */
-    void updateTileButtons() {
-        SlidingTilesBoard board = getBoard();
-        int nextPos = 0;
-        for (Button b : tileButtons) {
-            int row = nextPos / getBoard().getDifficulty();
-            int col = nextPos % getBoard().getDifficulty();
-            int tile_id = board.getTile(row, col);
-            b.setBackground(new BitmapDrawable(context.getResources(), tileImages[tile_id - 1]));
-            nextPos++;
-        }
     }
 
     /**
@@ -239,19 +157,7 @@ public class SlidingTilesGameController {
         this.steps = boardManager.getStepsTaken();
     }
 
-    /**
-     * Set up the tile images and background.
-     */
-    void setupTileImagesAndBackground() {
-        tileImages = new Bitmap[boardManager.getDifficulty() * boardManager.getDifficulty()];
-        try {
-            byte[] tmpImage = boardManager.getImageBackground();
-            backgroundImage = BitmapFactory.decodeByteArray(tmpImage, 0, tmpImage.length);
-            imageConverter();
-        } catch (Exception e) {
-            integerConverter();
-        }
-    }
+
 
     /**
      * Convert the time into the format of HH:MM:SS
@@ -273,42 +179,6 @@ public class SlidingTilesGameController {
             secStr = "0" + secStr;
         }
         return hourStr + ":" + minStr + ":" + secStr;
-    }
-
-    /**
-     * Convert image to multiple button-size images which could
-     * be used and tile button backgrounds.
-     */
-    private void imageConverter() {
-        int width = backgroundImage.getWidth();
-        int height = backgroundImage.getHeight();
-        int count = 0;
-        for (int i = 0; i < boardManager.getDifficulty(); i++) {
-            for (int j = 0; j < boardManager.getDifficulty(); j++) {
-                tileImages[count++] = createBitmap(backgroundImage,
-                        i * (width / boardManager.getDifficulty()),
-                        j * (height / boardManager.getDifficulty()),
-                        width / boardManager.getDifficulty(),
-                        height / boardManager.getDifficulty(),
-                        null,
-                        false);
-            }
-        }
-        tileImages[boardManager.getDifficulty() * boardManager.getDifficulty() - 1]
-                = BitmapFactory.decodeResource(resources, R.drawable.tile_empty);
-    }
-
-    /**
-     * Converts integer numbers to tile images.
-     */
-    private void integerConverter() {
-        for (int i = 0; i < boardManager.getDifficulty() * boardManager.getDifficulty(); i++) {
-            String name = "tile_" + Integer.toString(i + 1);
-            int numImage = resources.getIdentifier(name, "drawable", packageName);
-            tileImages[i] = BitmapFactory.decodeResource(resources, numImage);
-        }
-        tileImages[boardManager.getDifficulty() * boardManager.getDifficulty() - 1]
-                = BitmapFactory.decodeResource(resources, R.drawable.tile_empty);
     }
 
     /**
@@ -342,43 +212,4 @@ public class SlidingTilesGameController {
         }
     }
 
-    /**
-     * Load the saved Board Manager from fire base.
-     */
-    public void loadFromFile() {
-        try {
-            InputStream inputStream = context.openFileInput(tempGameStateFile);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (SlidingTilesBoardManager) input.readObject();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
-    /**
-     * Save the board manager to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    context.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(db.getUserFile(user.getUsername()))) {
-                outputStream.writeObject(user);
-            } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
-                outputStream.writeObject(boardManager);
-            }
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
-    }
 }

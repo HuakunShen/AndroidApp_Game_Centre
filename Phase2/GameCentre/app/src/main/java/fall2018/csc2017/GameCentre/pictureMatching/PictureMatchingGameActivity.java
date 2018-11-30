@@ -292,5 +292,4 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
-
 }

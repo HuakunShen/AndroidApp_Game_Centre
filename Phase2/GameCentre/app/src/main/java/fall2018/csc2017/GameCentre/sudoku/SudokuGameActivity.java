@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -13,8 +14,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -75,6 +83,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      * List of Buttons (from 1-9) for number input
      */
     private Button[] buttons;
+    /**
+     * The list of cell buttons.
+     */
+    private List<Button> cellButtons;
 
 
 
@@ -83,8 +95,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         startingTime = LocalTime.now();
         setupController();
-        controller.loadFromFile();
-        controller.createCellButton();
+        loadFromFile();
+        createCellButton();
         setContentView(R.layout.activity_sudoku_game);
         setupTime();
 
@@ -315,7 +327,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     private void initializeCellButtons() {
         SudokuBoard board = controller.getBoard();
         int nextPos = 0;
-        for (Button b : controller.getCellButtons()) {
+        for (Button b : cellButtons) {
             Cell cell = board.getCell(nextPos / 9, nextPos % 9);
             b.setTextSize(20);
             if (cell.isEditable()) {
@@ -331,7 +343,40 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             b.setBackgroundResource(cell.getBackground());
             nextPos++;
         }
-        gridView.setAdapter(new CustomAdapter(controller.getCellButtons(), columnWidth, columnHeight));
+        gridView.setAdapter(new CustomAdapter(cellButtons, columnWidth, columnHeight));
+    }
+
+    /**
+     * Create cell buttons.
+     */
+    void createCellButton(){
+        SudokuBoard board = controller.getBoardManager().getBoard();
+        cellButtons = new ArrayList<>();
+        for (int row = 0; row != 9; row++) {
+            for (int col = 0; col != 9; col++) {
+                Button tmp = new Button(this);
+                tmp.setBackgroundResource(board.getCell(row, col).getBackground());
+                this.cellButtons.add(tmp);
+            }
+        }
+    }
+
+    /**
+     * Update cell buttons.
+     */
+    void updateCellButtons(){
+        SudokuBoard board = controller.getBoardManager().getBoard();
+        int nextPos = 0;
+        for (Button b : cellButtons) {
+            Cell cell = board.getCell(nextPos / 9, nextPos % 9);
+            if (cell.getFaceValue() == 0) {
+                b.setText("");
+            } else {
+                b.setText(String.format("%s", cell.getFaceValue().toString()));
+            }
+            b.setBackgroundResource(cell.getBackground());
+            nextPos++;
+        }
     }
 
     /**
@@ -340,8 +385,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      */
     // Display
     public void display() {
-        controller.updateCellButtons();
-        gridView.setAdapter(new CustomAdapter(controller.getCellButtons(), columnWidth, columnHeight));
+        updateCellButtons();
+        gridView.setAdapter(new CustomAdapter(cellButtons, columnWidth, columnHeight));
     }
 
     /**
@@ -355,8 +400,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             controller.getBoardManager().getCurrentCell().setFaceValue(controller.getBoardManager().getCurrentCell().getFaceValue());
         }
         controller.getBoardManager().setCurrentCell(null);
-        controller.saveToFile(controller.getTempGameStateFile());
-        controller.saveToFile(controller.getGameStateFile());
+        saveToFile(controller.getTempGameStateFile());
+        saveToFile(controller.getGameStateFile());
     }
 
     @Override
@@ -366,7 +411,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = controller.calculateScore(totalTimeTaken);
             boolean newRecord = controller.updateScore(score);
-            controller.saveToFile(controller.getUserFile());
+            saveToFile(controller.getUserFile());
             controller.setGameRunning(false);
             popScoreWindow(score, newRecord);
         }
@@ -388,5 +433,44 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         startActivity(goToPopWindow);
     }
 
+    /**
+     * Load boardManager from file.
+     */
+    public void loadFromFile() {
+        try {
+            InputStream inputStream = this.openFileInput(controller.getTempGameStateFile());
+            if (inputStream != null) {
+                ObjectInputStream input = new ObjectInputStream(inputStream);
+                controller.setBoardManager((SudokuBoardManager) input.readObject());
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("login activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
+    /**
+     * Save the board manager to fileName.
+     *
+     * @param fileName the name of the file
+     */
+    public void saveToFile(String fileName) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(
+                    this.openFileOutput(fileName, MODE_PRIVATE));
+            if (fileName.equals(controller.getUserFile())) {
+                outputStream.writeObject(controller.getUser());
+            } else if (fileName.equals(controller.getGameStateFile()) || fileName.equals(controller.getTempGameStateFile())) {
+                outputStream.writeObject(controller.getBoardManager());
+            }
+            outputStream.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
 
 }

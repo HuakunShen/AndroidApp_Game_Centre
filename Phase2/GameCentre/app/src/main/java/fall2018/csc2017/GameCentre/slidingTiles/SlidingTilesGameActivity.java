@@ -2,17 +2,28 @@ package fall2018.csc2017.GameCentre.slidingTiles;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
@@ -23,6 +34,8 @@ import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.popScore;
+
+import static android.graphics.Bitmap.createBitmap;
 
 /**
  * The game activity.
@@ -68,6 +81,18 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Warning message
      */
     private TextView warning;
+    /**
+     * The list of buttons on the gridView.
+     */
+    private List<Button> tileButtons;
+    /**
+     * The formatted picture that will be used as the buttons' backgrounds.
+     */
+    private Bitmap[] tileImages;
+    /**
+     * The background image of the game.
+     */
+    private Bitmap backgroundImage;
 
     /**
      * Dispatch onCreate() to fragments.
@@ -77,8 +102,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         super.onCreate(savedInstanceState);
         startingTime = LocalTime.now();
         setupController();
-        logicalController.loadFromFile();
-        logicalController.createTileButtons();
+        loadFromFile();
+        createTileButtons();
         setContentView(R.layout.activity_main);
         setupTime();
         setUpStep();
@@ -86,7 +111,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         addUndoButtonListener();
         addWarningTextViewListener();
         addStepDisplayListener();
-        logicalController.setupTileImagesAndBackground();
+        setupTileImagesAndBackground();
     }
 
     /**
@@ -105,8 +130,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     protected void onPause() {
         super.onPause();
-        logicalController.saveToFile(logicalController.getTempGameStateFile());
-        logicalController.saveToFile(logicalController.getGameStateFile());
+        saveToFile(logicalController.getTempGameStateFile());
+        saveToFile(logicalController.getGameStateFile());
     }
 
     /**
@@ -114,8 +139,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * of positions, and then call the adapter to set the view.
      */
     public void display() {
-        logicalController.updateTileButtons();
-        gridView.setAdapter(new CustomAdapter(logicalController.getTileButtons(), columnWidth, columnHeight));
+        updateTileButtons();
+        gridView.setAdapter(new CustomAdapter(tileButtons, columnWidth, columnHeight));
     }
 
     /**
@@ -228,6 +253,84 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
         });
     }
 
+    /**
+     * Set up the tile images and background.
+     */
+    void setupTileImagesAndBackground() {
+        tileImages = new Bitmap[logicalController.getBoardManager().getDifficulty() * logicalController.getBoardManager().getDifficulty()];
+        try {
+            byte[] tmpImage = logicalController.getBoardManager().getImageBackground();
+            backgroundImage = BitmapFactory.decodeByteArray(tmpImage, 0, tmpImage.length);
+            imageConverter();
+        } catch (Exception e) {
+            integerConverter();
+        }
+    }
+
+    /**
+     * Convert image to multiple button-size images which could
+     * be used and tile button backgrounds.
+     */
+    private void imageConverter() {
+        int width = backgroundImage.getWidth();
+        int height = backgroundImage.getHeight();
+        int count = 0;
+        for (int i = 0; i < logicalController.getBoardManager().getDifficulty(); i++) {
+            for (int j = 0; j < logicalController.getBoardManager().getDifficulty(); j++) {
+                tileImages[count++] = createBitmap(backgroundImage,
+                        i * (width / logicalController.getBoardManager().getDifficulty()),
+                        j * (height / logicalController.getBoardManager().getDifficulty()),
+                        width / logicalController.getBoardManager().getDifficulty(),
+                        height / logicalController.getBoardManager().getDifficulty(),
+                        null,
+                        false);
+            }
+        }
+        tileImages[logicalController.getBoardManager().getDifficulty() * logicalController.getBoardManager().getDifficulty() - 1]
+                = BitmapFactory.decodeResource(getResources(), R.drawable.tile_empty);
+    }
+
+    /**
+     * Converts integer numbers to tile images.
+     */
+    private void integerConverter() {
+        for (int i = 0; i < logicalController.getBoardManager().getDifficulty() * logicalController.getBoardManager().getDifficulty(); i++) {
+            String name = "tile_" + Integer.toString(i + 1);
+            int numImage = getResources().getIdentifier(name, "drawable", getPackageName());
+            tileImages[i] = BitmapFactory.decodeResource(getResources(), numImage);
+        }
+        tileImages[logicalController.getBoardManager().getDifficulty() * logicalController.getBoardManager().getDifficulty() - 1]
+                = BitmapFactory.decodeResource(getResources(), R.drawable.tile_empty);
+    }
+
+    /**
+     * Set up the tile buttons of the game.
+     */
+    void createTileButtons() {
+        tileButtons = new ArrayList<>();
+        for (int row = 0; row != logicalController.getBoard().getDifficulty(); row++) {
+            for (int col = 0; col != logicalController.getBoard().getDifficulty(); col++) {
+                Button tmp = new Button(this);
+                tileButtons.add(tmp);
+            }
+        }
+    }
+
+    /**
+     * Update the tile buttons on the board.
+     */
+    void updateTileButtons() {
+        SlidingTilesBoard board = logicalController.getBoard();
+        int nextPos = 0;
+        for (Button b : tileButtons) {
+            int row = nextPos / logicalController.getBoard().getDifficulty();
+            int col = nextPos % logicalController.getBoard().getDifficulty();
+            int tile_id = board.getTile(row, col);
+            b.setBackground(new BitmapDrawable(this.getResources(), tileImages[tile_id - 1]));
+            nextPos++;
+        }
+    }
+
     private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
@@ -251,9 +354,49 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = logicalController.calculateScore(totalTimeTaken);
             boolean newRecord = logicalController.updateScore(score);
-            logicalController.saveToFile(logicalController.getUserFile());
+            saveToFile(logicalController.getUserFile());
             logicalController.setGameRunning(false);
             popScoreWindow(score, newRecord);
+        }
+    }
+
+    /**
+     * Load the saved Board Manager from fire base.
+     */
+    public void loadFromFile() {
+        try {
+            InputStream inputStream = this.openFileInput(logicalController.getTempGameStateFile());
+            if (inputStream != null) {
+                ObjectInputStream input = new ObjectInputStream(inputStream);
+                logicalController.setBoardManager((SlidingTilesBoardManager) input.readObject());
+                inputStream.close();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        } catch (ClassNotFoundException e) {
+            Log.e("login activity", "File contained unexpected data type: " + e.toString());
+        }
+    }
+
+    /**
+     * Save the board manager to fileName.
+     *
+     * @param fileName the name of the file
+     */
+    public void saveToFile(String fileName) {
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(
+                    this.openFileOutput(fileName, MODE_PRIVATE));
+            if (fileName.equals(logicalController.getUserFile())) {
+                outputStream.writeObject(logicalController.getUser());
+            } else if (fileName.equals(logicalController.getGameStateFile()) || fileName.equals(logicalController.getTempGameStateFile())) {
+                outputStream.writeObject(logicalController.getBoardManager());
+            }
+            outputStream.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
         }
     }
 }

@@ -29,6 +29,7 @@ public class PictureMatchingGameControllerTest {
         MatchingBoardManager boardManager = new MatchingBoardManager(2, "emoji");
         controller.setBoardManager(boardManager);
     }
+
     @Test
     public void setupFileTest() {
         when(db.dataExists(controller.getUser().getUsername(), "PictureMatch")).thenReturn(false);
@@ -54,7 +55,6 @@ public class PictureMatchingGameControllerTest {
         assertTrue(controller.updateScore(1000));
     }
 
-
     @Test
     public void boardSolvedTest() {
         assertFalse(controller.boardSolved());
@@ -70,5 +70,4 @@ public class PictureMatchingGameControllerTest {
         controller.setGameRunning(false);
         assertFalse(controller.isGameRunning());
     }
-
 }
