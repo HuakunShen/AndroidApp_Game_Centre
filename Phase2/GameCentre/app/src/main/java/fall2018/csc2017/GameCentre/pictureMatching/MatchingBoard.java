@@ -123,6 +123,14 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
         notifyObservers();
     }
 
+    /**
+     * get the difficulty of the current board game.
+     * @return the difficulty of the game.
+     */
+    public int getDifficulty() {
+        return difficulty;
+    }
+
     @Override
     @NonNull
     public Iterator<PictureTile> iterator() {
@@ -148,13 +156,5 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
             nextIndex++;
             return tile;
         }
-    }
-
-    /**
-     * get the difficulty of the current board game.
-     * @return the difficulty of the game.
-     */
-    public int getDifficulty() {
-        return difficulty;
     }
 }

@@ -241,12 +241,12 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Update the game activity when the observable objects notify the Activity
      * change(s) has/have been made.
      */
-    @SuppressLint("SetTextI18n")
     @Override
     public void update(Observable o, Object arg) {
         display();
         logicalController.setSteps(logicalController.getSteps() + 1);
-        displayStep.setText("Steps: " + Integer.toString(logicalController.getSteps()));
+        displayStep.setText(String.format("%s", "Steps: " +
+                Integer.toString(logicalController.getSteps())));
         if (logicalController.gameFinished()) {
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
             Integer score = logicalController.calculateScore(totalTimeTaken);

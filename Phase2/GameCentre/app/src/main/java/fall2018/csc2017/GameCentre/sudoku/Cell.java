@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import fall2018.csc2017.GameCentre.R;
 
+/**
+ * The Cell class.
+ */
 public class Cell implements Serializable {
 
     /**

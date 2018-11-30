@@ -18,6 +18,9 @@ import fall2018.csc2017.GameCentre.data.User;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * The SudokuGameController class.
+ */
 public class SudokuGameController {
     /**
      * The context.

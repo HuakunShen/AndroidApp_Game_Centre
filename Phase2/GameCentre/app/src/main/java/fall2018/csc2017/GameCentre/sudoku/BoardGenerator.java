@@ -2,6 +2,9 @@ package fall2018.csc2017.GameCentre.sudoku;
 
 import java.util.Random;
 
+/**
+ * The BoardGenerator class.
+ */
 public class BoardGenerator {
 
     /**
@@ -44,11 +47,11 @@ public class BoardGenerator {
             boxValue = firstBoxValue;
             for (int column = 0; column < 9; column++) {
                 if (boxValue <= 9) {
-                    board[row][column] = boxValue;
+                    board[column][row] = boxValue;
                     boxValue++;
                 } else {
                     boxValue = 1;
-                    board[row][column] = boxValue;
+                    board[column][row] = boxValue;
                     boxValue++;
                 }
             }
@@ -91,24 +94,22 @@ public class BoardGenerator {
         Random r = new Random();
         int k1;
         int k2;
-        for (int n = 0; n < 100; n++) {
-            if (check == 0) {
+        if (check == 0) {
+            k1 = r.nextInt(3) + 1;
+            k2 = r.nextInt(3) + 1;
+            while (k1 == k2) {
                 k1 = r.nextInt(3) + 1;
                 k2 = r.nextInt(3) + 1;
-                while (k1 == k2) {
-                    k1 = r.nextInt(3) + 1;
-                    k2 = r.nextInt(3) + 1;
-                }
-                switchVerticalGroups(k1, k2);
-            } else if (check == 1) {
-                k1 = r.nextInt(3) + 1;
-                k2 = r.nextInt(3) + 1;
-                while (k1 == k2) {
-                    k1 = r.nextInt(3) + 1;
-                    k2 = r.nextInt(3) + 1;
-                }
-                switchHorizontalGroups(k1, k2);
             }
+            switchVerticalGroups(k1, k2);
+        } else if (check == 1) {
+            k1 = r.nextInt(3) + 1;
+            k2 = r.nextInt(3) + 1;
+            while (k1 == k2) {
+                k1 = r.nextInt(3) + 1;
+                k2 = r.nextInt(3) + 1;
+            }
+            switchHorizontalGroups(k1, k2);
         }
     }
 

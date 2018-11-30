@@ -44,12 +44,11 @@ public class PictureMatchingStartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picturematching_starting);
         db = new SQLDatabase(this);
-//        username = getIntent().getStringExtra("user");
 
         setupUser();
         setupFile();
 
-        boardManager = new MatchingBoardManager(4, "Number");
+        boardManager = new MatchingBoardManager(4, "number");
         saveToFile(tempGameStateFile);
 
         addStartButtonListener();

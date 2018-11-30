@@ -8,6 +8,11 @@ import java.util.Random;
 import fall2018.csc2017.GameCentre.data.StateStack;
 import fall2018.csc2017.GameCentre.util.BoardManagerForBoardGames;
 
+import static java.lang.Integer.max;
+
+/**
+ * The SudokuBoardManager class.
+ */
 public class SudokuBoardManager extends BoardManagerForBoardGames implements Serializable {
 
     /**
@@ -15,15 +20,19 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      */
     private SudokuBoard board;
 
-
-    private int hint;
+    /**
+     * The number of hints the user has.
+     */
+    private int hintAvailable;
 
     /**
      * The cell currently selected
      */
     private Cell currentCell;
 
-
+    /**
+     * The position which the user has selected.
+     */
     private int currentPos;
 
     /**
@@ -51,7 +60,6 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      * Manage a new shuffled board.
      */
     public SudokuBoardManager() {
-        super();
         List<Cell> cells = new ArrayList<>();
         Integer[][] newBoard = new BoardGenerator().getBoard();
         for (int row = 0; row < 9; row++) {
@@ -59,16 +67,20 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
                 cells.add(new Cell(row, column, newBoard[row][column]));
             }
         }
-        Integer editable = 0;
-        if (levelOfDifficulty == 1) {
-            editable = 18;
-            hint = 20;
-        } else if (levelOfDifficulty == 2) {
-            editable = 36;
-            hint = 5;
-        } else if (levelOfDifficulty == 3) {
-            editable = 54;
-            hint = 3;
+        Integer editable;
+        switch (levelOfDifficulty) {
+            case 1: editable = 18;
+                    setHintAvailable(20);
+                    break;
+            case 2: editable = 36;
+                    setHintAvailable(5);
+                    break;
+            case 3: editable = 54;
+                    setHintAvailable(3);
+                    break;
+            default:editable = 0;
+                    setHintAvailable(5);
+                    break;
         }
         Integer changed = 0;
         while (!changed.equals(editable)) {
@@ -86,28 +98,24 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     }
 
     /**
-     * Get hint number.
-     *
-     * @return hint number
+     * Getter function for number of hints available.
      */
-    public int getHint() {
-        return hint;
+    public int getHintAvailable() {
+        return hintAvailable;
     }
 
     /**
-     * Set hints number.
-     *
-     * @param hint
+     * Setter function for number of hints available.
      */
-    public void setHint(int hint) {
-        this.hint = hint;
+    public void setHintAvailable(int hint) {
+        this.hintAvailable = hint;
     }
 
     /**
-     * Reduce hint.
+     * Reduce hintAvailable.
      */
     public void reduceHint() {
-        this.hint--;
+        hintAvailable = max(0, hintAvailable - 1);
     }
 
     /**
@@ -139,21 +147,24 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     }
 
     /**
-     * Set current cell.
-     *
-     * @param currentCell
+     * Setter function for the cell which the user selected.
      */
-    public void setCurrentCell(Cell currentCell) {
+    void setCurrentCell(Cell currentCell) {
         this.currentCell = currentCell;
     }
 
     /**
-     * Return current cells.
-     *
-     * @return current cells
+     * Getter function for the cell which the user selected.
      */
     Cell getCurrentCell() {
         return currentCell;
+    }
+
+    /**
+     * Setter for level of difficulty.
+     */
+    static void setLevelOfDifficulty(int levelOfDifficulty) {
+        SudokuBoardManager.levelOfDifficulty = levelOfDifficulty;
     }
 
     /**
@@ -166,16 +177,8 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     /**
      * Get the performUndo step.
      */
-    Integer[] popUndo() {
+    private Integer[] popUndo() {
         return undoStack.pop();
-    }
-
-
-    /**
-     * Setter for level of difficulty.
-     */
-    public static void setLevelOfDifficulty(int levelOfDifficulty) {
-        SudokuBoardManager.levelOfDifficulty = levelOfDifficulty;
     }
 
     /**
@@ -210,7 +213,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
             currentCell.setHighlighted(false);
             currentCell.setFaceValue(currentCell.getFaceValue());
         }
-        currentCell = this.board.getCell(position / SudokuBoard.NUM_COL,
+        currentCell = board.getCell(position / SudokuBoard.NUM_COL,
                 position % SudokuBoard.NUM_ROW);
         currentCell.setHighlighted(true);
         currentCell.setFaceValue(currentCell.getFaceValue());
@@ -265,25 +268,3 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         notifyObservers();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

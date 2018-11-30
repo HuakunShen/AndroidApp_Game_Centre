@@ -26,6 +26,9 @@ import fall2018.csc2017.GameCentre.util.CustomAdapter;
 import fall2018.csc2017.GameCentre.util.GestureDetectGridView;
 import fall2018.csc2017.GameCentre.util.popScore;
 
+/**
+ * The SudokuGameActivity class.
+ */
 public class SudokuGameActivity extends AppCompatActivity implements Observer {
 
     /**
@@ -115,7 +118,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      */
     private void setUpHintDisplay() {
         hintText = findViewById(R.id.hintTextView);
-        String hintDisplay = "Hint: " + String.valueOf(controller.getBoardManager().getHint());
+        String hintDisplay = "Hint: " + String.valueOf(controller.getBoardManager().getHintAvailable());
         hintText.setText(hintDisplay);
     }
 
@@ -216,14 +219,14 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
             @Override
             public void onClick(View view) {
                 Cell currentCell = controller.getBoardManager().getCurrentCell();
-                if (controller.getBoardManager().getHint() > 0) {
+                if (controller.getBoardManager().getHintAvailable() > 0) {
                     if (currentCell != null &&
                             !currentCell.getFaceValue().equals(currentCell.getSolutionValue())) {
                         controller.getBoardManager().updateValue(currentCell.getSolutionValue(),
                                 false);
                         controller.getBoardManager().reduceHint();
                         String hintDisplay = "Hint: " +
-                                String.valueOf(controller.getBoardManager().getHint());
+                                String.valueOf(controller.getBoardManager().getHintAvailable());
                         hintText.setText(hintDisplay);
                     }
                 } else {
@@ -370,17 +373,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     }
 
     /**
-<<<<<<< HEAD
      * Pop up window that shows user the score he/she gets
      * @param score Score that is to be displayed on popup window
      * @param newRecord Indicator that determines which text is to be displayed (New Record: or
      *                  Your Highest Score Was
-=======
-     * This activate pop window.
-     *
-     * @param score
-     * @param newRecord
->>>>>>> 769a1ad8476f2f6fb63a1a82a94952ee0c934930
      */
     private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);

@@ -9,6 +9,9 @@ import java.util.List;
 import fall2018.csc2017.GameCentre.util.BoardManagerForBoardGames;
 
 
+/**
+ * Manage a board for Picture Matching Game..
+ */
 public class MatchingBoardManager extends BoardManagerForBoardGames implements Serializable {
 
     /**
@@ -26,8 +29,11 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      */
     private String theme;
 
+
     /**
-     * Manage a new shuffled board.
+     * Constructor of MatchingBoardManager
+     * @param difficulty Level of difficulty determined by user
+     * @param theme theme of background (number, animal or emoji)
      */
     MatchingBoardManager(int difficulty, String theme) {
         this.theme = theme;
@@ -46,7 +52,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      * @param numTiles the id of the picture Tile.
      * @param tileNum the Total number of tiles need to be added.
      */
-    private void addPictureTileToList(List<PictureTile> tiles, int numTiles, int tileNum) {
+    void addPictureTileToList(List<PictureTile> tiles, int numTiles, int tileNum) {
         if (tileNum < numTiles / 4) {
             tiles.add(new PictureTile(tileNum + 1));
         } else if (tileNum >= numTiles / 4 && tileNum < numTiles / 2) {
@@ -59,21 +65,31 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
     }
 
     /**
-     * Return the current board.
+     * Board setter
+     * @param board the board to be set.
+     */
+    public void setBoard(MatchingBoard board) {
+        this.board = board;
+    }
+
+    /**
+     * Board getter
+     * @return current board
      */
     public MatchingBoard getBoard() {
         return board;
     }
 
     /**
-     * Getter function for level of difficulty for the game.
+     * getter of difficulty
+     * @return current board's difficulty
      */
     int getDifficulty() {
         return board.getDifficulty();
     }
 
     /**
-     * get the theme of current game
+     * theme getter
      * @return the theme of the current board game.
      */
     public String getTheme() {
@@ -81,14 +97,16 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
     }
 
     /**
-     * The getter function for the time taken.
+     * timeTaken getter
+     * @return time
      */
     public long getTimeTaken() {
         return timeTaken;
     }
 
     /**
-     * The setter function for the time taken.
+     * timeTaken setter
+     * @param timeTakenSoFar new time taken so far after a game is finished or paused
      */
     public void setTimeTaken(long timeTakenSoFar) {
         this.timeTaken = timeTakenSoFar;
