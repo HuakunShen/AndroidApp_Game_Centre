@@ -1,29 +1,12 @@
 package fall2018.csc2017.GameCentre.pictureMatching;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
-import android.widget.Button;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import fall2018.csc2017.GameCentre.R;
 import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
 
-import static android.content.Context.MODE_PRIVATE;
 
 public class PictureMatchingGameController {
-    /**
-     * Context of MatchingBoardGameActivity
-     */
-    private final Context context;
+
     /**
      * Database that stores user file address and game state
      */
@@ -52,18 +35,6 @@ public class PictureMatchingGameController {
      * Name of current game
      */
     private static final String GAME_NAME = "PictureMatch";
-    /**
-     * A collection of buttons that is to be manipulated and displayed
-     */
-    private List<Button> tileButtons;
-    /**
-     * Resource of context (gameActivity)
-     */
-    private Resources resources;
-    /**
-     * The packageName
-     */
-    private String packageName;
 
     /**
      * Constructor of the controller class
@@ -71,27 +42,20 @@ public class PictureMatchingGameController {
      * @param user user object of current user
      */
     PictureMatchingGameController(Context context, User user){
-        this.context = context;
         this.db = new SQLDatabase(context);
         this.user = user;
-        this.packageName = context.getPackageName();
-        this.resources = context.getResources();
-
     }
 
-    /**
-     *
-     * @return list of tileButtons that's going to be displayed
-     */
-    public List<Button> getTileButtons() {
-        return tileButtons;
+    public void setDb(SQLDatabase db) {
+        this.db = db;
     }
+
 
     /**
      * Used to determine whether the timer should keep counting
      * @return true of game is not ended (board is not solved), false otherwise
      */
-    public boolean isGameRunning() {
+    boolean isGameRunning() {
         return gameRunning;
     }
 
@@ -99,7 +63,7 @@ public class PictureMatchingGameController {
      * set whether the game is running.
      * @param gameRunning state of game, whether game is still running
      */
-    public void setGameRunning(boolean gameRunning) {
+    void setGameRunning(boolean gameRunning) {
         this.gameRunning = gameRunning;
     }
 
@@ -169,46 +133,6 @@ public class PictureMatchingGameController {
         tempGameStateFile = "temp_" + gameStateFile;
     }
 
-    /**
-     * create the tile buttons for displaying.
-     */
-    void createTileButtons(){
-        tileButtons = new ArrayList<>();
-        for (int row = 0; row != boardManager.getBoard().getDifficulty(); row++) {
-            for (int col = 0; col != boardManager.getBoard().getDifficulty(); col++) {
-                Button tmp = new Button(context);
-                tmp.setBackgroundResource(R.drawable.picturematching_tile_back);
-                tileButtons.add(tmp);
-            }
-        }
-    }
-
-    /**
-     * update the tileButtons after make a move.
-     */
-    void updateTileButtons(){
-        MatchingBoard board = boardManager.getBoard();
-        int nextPos = 0;
-        for (Button b : tileButtons) {
-            int row = nextPos / boardManager.getDifficulty();
-            int col = nextPos % boardManager.getDifficulty();
-            PictureTile currentTile = board.getTile(row,col);
-            switch (currentTile.getState()){
-                case PictureTile.FLIP:
-                    String name = "pm_" + boardManager.getTheme() + "_" + Integer.toString(currentTile.getId());
-                    int id = resources.getIdentifier(name, "drawable", packageName);
-                    b.setBackgroundResource(id);
-                    break;
-                case PictureTile.COVERED:
-                    b.setBackgroundResource(R.drawable.picturematching_tile_back);
-                    break;
-                case PictureTile.SOLVED:
-                    b.setBackgroundResource(R.drawable.picturematching_tile_done);
-                    break;
-            }
-            nextPos++;
-        }
-    }
 
     /**
      * covert the time to proper format.
@@ -253,46 +177,6 @@ public class PictureMatchingGameController {
         boolean newRecord = user.updateScore(GAME_NAME, score);
         db.updateScore(user, GAME_NAME);
         return newRecord;
-    }
-
-    /**
-     * load the boardManager from the file.
-     */
-    public void loadFromFile() {
-        try {
-            InputStream inputStream = context.openFileInput(tempGameStateFile);
-            if (inputStream != null) {
-                ObjectInputStream input = new ObjectInputStream(inputStream);
-                boardManager = (MatchingBoardManager) input.readObject();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            Log.e("login activity", "File contained unexpected data type: " + e.toString());
-        }
-    }
-
-    /**
-     * Save the board manager to fileName.
-     *
-     * @param fileName the name of the file
-     */
-    public void saveToFile(String fileName) {
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(
-                    context.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(db.getUserFile(user.getUsername()))) {
-                outputStream.writeObject(user);
-            } else if (fileName.equals(gameStateFile) || fileName.equals(tempGameStateFile)) {
-                outputStream.writeObject(boardManager);
-            }
-            outputStream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
     }
 
     /**
