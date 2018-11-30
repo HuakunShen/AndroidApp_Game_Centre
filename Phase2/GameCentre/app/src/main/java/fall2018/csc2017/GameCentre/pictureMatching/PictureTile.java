@@ -53,7 +53,7 @@ public class PictureTile implements Serializable {
      *
      * @return the state of the current tile.
      */
-    String getState() {
+    public String getState() {
         return state;
     }
 

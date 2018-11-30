@@ -67,7 +67,7 @@ public class MatchingBoard extends BoardForBoardGames implements Serializable, I
      * @param col the tile column
      * @return the tile at (row, col)
      */
-    PictureTile getTile(int row, int col) {
+    public PictureTile getTile(int row, int col) {
         return tiles[row][col];
     }
 

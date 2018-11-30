@@ -27,11 +27,12 @@ public class MovementController {
     /**
      * Performs tap movement for the game.
      */
-    void processTapMovement(Context context, int position, boolean display) {
+    void processTapMovement(Context context, int position) {
         if (boardManager.isValidTap(position)) {
             boardManager.makeMove(position);
         } else {
             Toast.makeText(context, "Invalid Tap", Toast.LENGTH_SHORT).show();
         }
+
     }
 }

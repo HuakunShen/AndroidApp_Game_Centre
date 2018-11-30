@@ -59,7 +59,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     /**
      * Manage a new shuffled board.
      */
-    SudokuBoardManager() {
+    public SudokuBoardManager() {
         List<Cell> cells = new ArrayList<>();
         Integer[][] newBoard = new BoardGenerator().getBoard();
         for (int row = 0; row < 9; row++) {

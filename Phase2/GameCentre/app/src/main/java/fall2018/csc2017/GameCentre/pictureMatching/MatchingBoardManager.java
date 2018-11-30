@@ -36,7 +36,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
      * @param difficulty Level of difficulty determined by user
      * @param theme      theme of background (number, animal or emoji)
      */
-    MatchingBoardManager(int difficulty, String theme) {
+    public MatchingBoardManager(int difficulty, String theme) {
         this.theme = theme;
         List<PictureTile> tiles = new ArrayList<>();
         final int numTiles = difficulty * difficulty;
