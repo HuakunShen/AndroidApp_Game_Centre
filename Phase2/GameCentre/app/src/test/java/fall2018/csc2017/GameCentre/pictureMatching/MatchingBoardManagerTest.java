@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 /**
  * JUnit tests for MatchingBoard and MatchingBoardManager.
  *
- * @author Weiqing Wangp
+ * @author Weiqing Wang
  */
 public class MatchingBoardManagerTest {
 
@@ -189,6 +189,18 @@ public class MatchingBoardManagerTest {
         setUpCorrect(4);
         boardManager.makeMove(0);
         boardManager.makeMove(4);
+        boardManager.solveTile();
+        assertFalse(boardManager.isValidTap(0));
+        assertTrue(boardManager.isValidTap(1));
+        setUpCorrect(6);
+        boardManager.makeMove(0);
+        boardManager.makeMove(9);
+        boardManager.solveTile();
+        assertFalse(boardManager.isValidTap(0));
+        assertTrue(boardManager.isValidTap(1));
+        setUpCorrect(8);
+        boardManager.makeMove(0);
+        boardManager.makeMove(16);
         boardManager.solveTile();
         assertFalse(boardManager.isValidTap(0));
         assertTrue(boardManager.isValidTap(1));
