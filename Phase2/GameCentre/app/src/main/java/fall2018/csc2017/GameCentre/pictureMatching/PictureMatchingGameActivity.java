@@ -58,7 +58,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     /**
      * Controller object for this activity
      */
-    private PictureMatchingGameController controller;
+    private PictureMatchingGameController logicalController;
     /**
      * A collection of buttons that is to be manipulated and displayed
      */
@@ -79,11 +79,11 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
 
 
     /**
-     * Create and setup controller
+     * Create and setup logicalController
      */
     private void setupController() {
-        controller = new PictureMatchingGameController(this, (User) getIntent().getSerializableExtra("user"));
-        controller.setupFile();
+        logicalController = new PictureMatchingGameController(this, (User) getIntent().getSerializableExtra("user"));
+        logicalController.setupFile();
     }
 
 
@@ -91,20 +91,20 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * Time counting, setup initial time based on the record in boardmanager
      */
     private void setupTime() {
-        if (!controller.boardSolved())
-            controller.setGameRunning(true);
+        if (!logicalController.boardSolved())
+            logicalController.setGameRunning(true);
         Timer timer = new Timer();
-        final Long preStartTime = controller.getBoardManager().getTimeTaken();
+        final Long preStartTime = logicalController.getBoardManager().getTimeTaken();
         timeDisplay = findViewById(R.id.time_display_view_in_picturematching);
         totalTimeTaken = preStartTime;
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                if (controller.isGameRunning()) {
+                if (logicalController.isGameRunning()) {
                     totalTimeTaken = time + preStartTime;
-                    timeDisplay.setText(controller.convertTime(totalTimeTaken));
-                    controller.getBoardManager().setTimeTaken(totalTimeTaken);
+                    timeDisplay.setText(logicalController.convertTime(totalTimeTaken));
+                    logicalController.getBoardManager().setTimeTaken(totalTimeTaken);
                 }
             }
         };
@@ -117,9 +117,9 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      */
     private void addGridViewToActivity() {
         gridView = findViewById(R.id.PictureMatchingGrid);
-        gridView.setNumColumns(controller.getBoardManager().getDifficulty());
-        gridView.setBoardManager(controller.getBoardManager());
-        controller.getBoard().addObserver(this);
+        gridView.setNumColumns(logicalController.getBoardManager().getDifficulty());
+        gridView.setBoardManager(logicalController.getBoardManager());
+        logicalController.getBoard().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -128,8 +128,8 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
                         gridView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         int displayWidth = gridView.getMeasuredWidth();
                         int displayHeight = gridView.getMeasuredHeight();
-                        columnWidth = (displayWidth / controller.getBoardManager().getDifficulty());
-                        columnHeight = (displayHeight / controller.getBoardManager().getDifficulty());
+                        columnWidth = (displayWidth / logicalController.getBoardManager().getDifficulty());
+                        columnHeight = (displayHeight / logicalController.getBoardManager().getDifficulty());
                         display();
                     }
                 });
@@ -147,7 +147,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     @Override
     protected void onResume() {
         super.onResume();
-        String text = "Time: " + controller.convertTime(controller.getBoardManager().getTimeTaken());
+        String text = "Time: " + logicalController.convertTime(logicalController.getBoardManager().getTimeTaken());
         timeDisplay.setText(text);
     }
 
@@ -157,8 +157,8 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     @Override
     protected void onPause() {
         super.onPause();
-        saveToFile(controller.getTempGameStateFile());
-        saveToFile(controller.getGameStateFile());
+        saveToFile(logicalController.getTempGameStateFile());
+        saveToFile(logicalController.getGameStateFile());
     }
 
 
@@ -166,12 +166,12 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     public void update(Observable o, Object arg) {
         setupTimeDelay();
         display();
-        if (controller.boardSolved()) {
+        if (logicalController.boardSolved()) {
             Toast.makeText(PictureMatchingGameActivity.this, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            Integer score = controller.calculateScore(totalTimeTaken);
-            boolean newRecord = controller.updateScore(score);
-            saveToFile(controller.getUserFile());
-            controller.setGameRunning(false);
+            Integer score = logicalController.calculateScore(totalTimeTaken);
+            boolean newRecord = logicalController.updateScore(score);
+            saveToFile(logicalController.getUserFile());
+            logicalController.setGameRunning(false);
             popScoreWindow(score, newRecord);
         }
     }
@@ -180,14 +180,14 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * A time delay of 0.5 second for the pictures to turn over
      */
     private void setupTimeDelay() {
-        if (controller.getBoardManager().check2tiles()) {
+        if (logicalController.getBoardManager().check2tiles()) {
             final android.os.Handler handler = new android.os.Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        if (controller.getBoardManager().check2tiles())
-                            controller.getBoardManager().solveTile();
+                        if (logicalController.getBoardManager().check2tiles())
+                            logicalController.getBoardManager().solveTile();
                     } catch (Exception e) {
                         Toast.makeText(getApplication(), "slow down!", Toast.LENGTH_SHORT).show();
                     }
@@ -207,7 +207,7 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
     private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
-        goToPopWindow.putExtra("user", controller.getUser());
+        goToPopWindow.putExtra("user", logicalController.getUser());
         goToPopWindow.putExtra("gameType", GAME_NAME);
         goToPopWindow.putExtra("newRecord", newRecord);
         startActivity(goToPopWindow);
@@ -218,8 +218,8 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      */
     void createTileButtons() {
         tileButtons = new ArrayList<>();
-        for (int row = 0; row != controller.getBoardManager().getBoard().getDifficulty(); row++) {
-            for (int col = 0; col != controller.getBoardManager().getBoard().getDifficulty(); col++) {
+        for (int row = 0; row != logicalController.getBoardManager().getBoard().getDifficulty(); row++) {
+            for (int col = 0; col != logicalController.getBoardManager().getBoard().getDifficulty(); col++) {
                 Button tmp = new Button(this);
                 tmp.setBackgroundResource(R.drawable.picturematching_tile_back);
                 tileButtons.add(tmp);
@@ -231,15 +231,15 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      * update the tileButtons after make a move.
      */
     void updateTileButtons() {
-        MatchingBoard board = controller.getBoardManager().getBoard();
+        MatchingBoard board = logicalController.getBoardManager().getBoard();
         int nextPos = 0;
         for (Button b : tileButtons) {
-            int row = nextPos / controller.getBoardManager().getDifficulty();
-            int col = nextPos % controller.getBoardManager().getDifficulty();
+            int row = nextPos / logicalController.getBoardManager().getDifficulty();
+            int col = nextPos % logicalController.getBoardManager().getDifficulty();
             PictureTile currentTile = board.getTile(row, col);
             switch (currentTile.getState()) {
                 case PictureTile.FLIP:
-                    String name = "pm_" + controller.getBoardManager().getTheme() + "_" + Integer.toString(currentTile.getId());
+                    String name = "pm_" + logicalController.getBoardManager().getTheme() + "_" + Integer.toString(currentTile.getId());
                     int id = getResources().getIdentifier(name, "drawable", getPackageName());
                     b.setBackgroundResource(id);
                     break;
@@ -259,10 +259,10 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
      */
     public void loadFromFile() {
         try {
-            InputStream inputStream = this.openFileInput(controller.getTempGameStateFile());
+            InputStream inputStream = this.openFileInput(logicalController.getTempGameStateFile());
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                controller.setBoardManager((MatchingBoardManager) input.readObject());
+                logicalController.setBoardManager((MatchingBoardManager) input.readObject());
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -283,10 +283,10 @@ public class PictureMatchingGameActivity extends AppCompatActivity implements Ob
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(controller.getUserFile())) {
-                outputStream.writeObject(controller.getUser());
-            } else if (fileName.equals(controller.getGameStateFile()) || fileName.equals(controller.getTempGameStateFile())) {
-                outputStream.writeObject(controller.getBoardManager());
+            if (fileName.equals(logicalController.getUserFile())) {
+                outputStream.writeObject(logicalController.getUser());
+            } else if (fileName.equals(logicalController.getGameStateFile()) || fileName.equals(logicalController.getTempGameStateFile())) {
+                outputStream.writeObject(logicalController.getBoardManager());
             }
             outputStream.close();
         } catch (IOException e) {

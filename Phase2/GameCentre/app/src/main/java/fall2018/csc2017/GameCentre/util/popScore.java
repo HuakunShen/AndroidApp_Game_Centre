@@ -33,7 +33,6 @@ public class popScore extends Activity {
         setupGetIntentExtra();
         setupPopUpWindow();
         setupScoreboardButton();
-        setupBackToMenuButton();
     }
 
     /**
@@ -44,21 +43,7 @@ public class popScore extends Activity {
         user = (User) getIntent().getSerializableExtra("user");
     }
 
-    /**
-     * setup the menu button.
-     */
-    private void setupBackToMenuButton() {
-        Button backToMenuButton = findViewById(R.id.backButton);
-        backToMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplication(), GameCentreInterfaceActivity.class);
-                intent.putExtra("user",
-                        user.getUsername());
-                startActivity(intent);
-            }
-        });
-    }
+
 
     /**
      * setup the score board button.
@@ -73,6 +58,7 @@ public class popScore extends Activity {
                 intent.putExtra("user", user);
                 intent.putExtra("gameType", game_name);
                 startActivity(intent);
+                finish();
             }
         });
     }

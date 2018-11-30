@@ -42,7 +42,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     /**
      * Controller object for this activity
      */
-    private SudokuGameController controller;
+    private SudokuGameController logicalController;
     /**
      * TextView for displaying time
      */
@@ -111,17 +111,17 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     }
 
     /**
-     * Create and setup controller
+     * Create and setup logicalController
      */
     private void setupController() {
-        controller = new SudokuGameController(this, (User) getIntent().getSerializableExtra("user"));
-        controller.setupFile();
+        logicalController = new SudokuGameController(this, (User) getIntent().getSerializableExtra("user"));
+        logicalController.setupFile();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        String text = "Time: " + controller.convertTime(controller.getBoardManager().getTimeTaken());
+        String text = "Time: " + logicalController.convertTime(logicalController.getBoardManager().getTimeTaken());
         timeDisplay.setText(text);
     }
 
@@ -130,7 +130,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      */
     private void setUpHintDisplay() {
         hintText = findViewById(R.id.hintTextView);
-        String hintDisplay = "Hint: " + String.valueOf(controller.getBoardManager().getHintAvailable());
+        String hintDisplay = "Hint: " + String.valueOf(logicalController.getBoardManager().getHintAvailable());
         hintText.setText(hintDisplay);
     }
 
@@ -158,7 +158,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                 public void onClick(View v) {
                     for (int tmp = 0; tmp < buttons.length; tmp++) {
                         if (v == buttons[tmp])
-                            controller.getBoardManager().updateValue(tmp + 1, false);
+                            logicalController.getBoardManager().updateValue(tmp + 1, false);
                     }
                 }
             });
@@ -173,14 +173,14 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                while (controller.getBoardManager().undoAvailable()) {
-                    controller.getBoardManager().undo();
+                while (logicalController.getBoardManager().undoAvailable()) {
+                    logicalController.getBoardManager().undo();
                 }
-                Cell currentCell = controller.getBoardManager().getCurrentCell();
+                Cell currentCell = logicalController.getBoardManager().getCurrentCell();
                 if (currentCell != null) {
                     currentCell.setHighlighted(false);
                     currentCell.setFaceValue(currentCell.getFaceValue());
-                    controller.getBoardManager().setCurrentCell(null);
+                    logicalController.getBoardManager().setCurrentCell(null);
                 }
                 display();
             }
@@ -196,8 +196,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (controller.getBoardManager().undoAvailable())
-                    controller.getBoardManager().undo();
+                if (logicalController.getBoardManager().undoAvailable())
+                    logicalController.getBoardManager().undo();
                 else
                     displayWarning("Exceeds Undo-Limit!");
 
@@ -214,9 +214,9 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         eraseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (controller.getBoardManager().getCurrentCell() != null &&
-                        controller.getBoardManager().getCurrentCell().getFaceValue() != 0)
-                    controller.getBoardManager().updateValue(0, false);
+                if (logicalController.getBoardManager().getCurrentCell() != null &&
+                        logicalController.getBoardManager().getCurrentCell().getFaceValue() != 0)
+                    logicalController.getBoardManager().updateValue(0, false);
                 display();
             }
         });
@@ -230,15 +230,15 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cell currentCell = controller.getBoardManager().getCurrentCell();
-                if (controller.getBoardManager().getHintAvailable() > 0) {
+                Cell currentCell = logicalController.getBoardManager().getCurrentCell();
+                if (logicalController.getBoardManager().getHintAvailable() > 0) {
                     if (currentCell != null &&
                             !currentCell.getFaceValue().equals(currentCell.getSolutionValue())) {
-                        controller.getBoardManager().updateValue(currentCell.getSolutionValue(),
+                        logicalController.getBoardManager().updateValue(currentCell.getSolutionValue(),
                                 false);
-                        controller.getBoardManager().reduceHint();
+                        logicalController.getBoardManager().reduceHint();
                         String hintDisplay = "Hint: " +
-                                String.valueOf(controller.getBoardManager().getHintAvailable());
+                                String.valueOf(logicalController.getBoardManager().getHintAvailable());
                         hintText.setText(hintDisplay);
                     }
                 } else {
@@ -278,21 +278,21 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      * Time counting, setup initial time based on the record in boardmanager
      */
     private void setupTime() {
-        if (!controller.boardSolved())
-            controller.setGameRunning(true);
+        if (!logicalController.boardSolved())
+            logicalController.setGameRunning(true);
         Timer timer = new Timer();
-        preStartTime = controller.getBoardManager().getTimeTaken();
+        preStartTime = logicalController.getBoardManager().getTimeTaken();
         timeDisplay = findViewById(R.id.sudoku_time_text);
         TimerTask task2 = new TimerTask() {
             @Override
             public void run() {
                 long time = Duration.between(startingTime, LocalTime.now()).toMillis();
-                if (controller.isGameRunning()) {
+                if (logicalController.isGameRunning()) {
                     totalTimeTaken = time + preStartTime;
                     timeDisplay.setText(String.format("Time: %s",
-                            controller.convertTime(totalTimeTaken)));
+                            logicalController.convertTime(totalTimeTaken)));
 
-                    controller.getBoardManager().setTimeTaken(time + preStartTime);
+                    logicalController.getBoardManager().setTimeTaken(time + preStartTime);
                 }
             }
         };
@@ -305,8 +305,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     private void addGridViewToActivity() {
         gridView = findViewById(R.id.SudokuGrid);
         gridView.setNumColumns(9);
-        gridView.setBoardManager(controller.getBoardManager());
-        controller.getBoardManager().addObserver(this);
+        gridView.setBoardManager(logicalController.getBoardManager());
+        logicalController.getBoardManager().addObserver(this);
         // Observer sets up desired dimensions as well as calls our display function
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -325,7 +325,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      * Initialize the backgrounds on the buttons to match the tiles.
      */
     private void initializeCellButtons() {
-        SudokuBoard board = controller.getBoard();
+        SudokuBoard board = logicalController.getBoard();
         int nextPos = 0;
         for (Button b : cellButtons) {
             Cell cell = board.getCell(nextPos / 9, nextPos % 9);
@@ -350,7 +350,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      * Create cell buttons.
      */
     void createCellButton(){
-        SudokuBoard board = controller.getBoardManager().getBoard();
+        SudokuBoard board = logicalController.getBoardManager().getBoard();
         cellButtons = new ArrayList<>();
         for (int row = 0; row != 9; row++) {
             for (int col = 0; col != 9; col++) {
@@ -365,7 +365,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      * Update cell buttons.
      */
     void updateCellButtons(){
-        SudokuBoard board = controller.getBoardManager().getBoard();
+        SudokuBoard board = logicalController.getBoardManager().getBoard();
         int nextPos = 0;
         for (Button b : cellButtons) {
             Cell cell = board.getCell(nextPos / 9, nextPos % 9);
@@ -395,24 +395,24 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     @Override
     protected void onPause() {
         super.onPause();
-        if (controller.getBoardManager().getCurrentCell() != null) {
-            controller.getBoardManager().getCurrentCell().setHighlighted(false);
-            controller.getBoardManager().getCurrentCell().setFaceValue(controller.getBoardManager().getCurrentCell().getFaceValue());
+        if (logicalController.getBoardManager().getCurrentCell() != null) {
+            logicalController.getBoardManager().getCurrentCell().setHighlighted(false);
+            logicalController.getBoardManager().getCurrentCell().setFaceValue(logicalController.getBoardManager().getCurrentCell().getFaceValue());
         }
-        controller.getBoardManager().setCurrentCell(null);
-        saveToFile(controller.getTempGameStateFile());
-        saveToFile(controller.getGameStateFile());
+        logicalController.getBoardManager().setCurrentCell(null);
+        saveToFile(logicalController.getTempGameStateFile());
+        saveToFile(logicalController.getGameStateFile());
     }
 
     @Override
     public void update(Observable o, Object arg) {
         display();
-        if (controller.boardSolved()) {
+        if (logicalController.boardSolved()) {
             Toast.makeText(this, "YOU WIN!", Toast.LENGTH_SHORT).show();
-            Integer score = controller.calculateScore(totalTimeTaken);
-            boolean newRecord = controller.updateScore(score);
-            saveToFile(controller.getUserFile());
-            controller.setGameRunning(false);
+            Integer score = logicalController.calculateScore(totalTimeTaken);
+            boolean newRecord = logicalController.updateScore(score);
+            saveToFile(logicalController.getUserFile());
+            logicalController.setGameRunning(false);
             popScoreWindow(score, newRecord);
         }
     }
@@ -426,7 +426,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
     private void popScoreWindow(Integer score, boolean newRecord) {
         Intent goToPopWindow = new Intent(getApplication(), popScore.class);
         goToPopWindow.putExtra("score", score);
-        goToPopWindow.putExtra("user", controller.getUser());
+        goToPopWindow.putExtra("user", logicalController.getUser());
         goToPopWindow.putExtra("gameType", GAME_NAME);
         goToPopWindow.putExtra("newRecord", newRecord);
 
@@ -438,10 +438,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
      */
     public void loadFromFile() {
         try {
-            InputStream inputStream = this.openFileInput(controller.getTempGameStateFile());
+            InputStream inputStream = this.openFileInput(logicalController.getTempGameStateFile());
             if (inputStream != null) {
                 ObjectInputStream input = new ObjectInputStream(inputStream);
-                controller.setBoardManager((SudokuBoardManager) input.readObject());
+                logicalController.setBoardManager((SudokuBoardManager) input.readObject());
                 inputStream.close();
             }
         } catch (FileNotFoundException e) {
@@ -462,10 +462,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(
                     this.openFileOutput(fileName, MODE_PRIVATE));
-            if (fileName.equals(controller.getUserFile())) {
-                outputStream.writeObject(controller.getUser());
-            } else if (fileName.equals(controller.getGameStateFile()) || fileName.equals(controller.getTempGameStateFile())) {
-                outputStream.writeObject(controller.getBoardManager());
+            if (fileName.equals(logicalController.getUserFile())) {
+                outputStream.writeObject(logicalController.getUser());
+            } else if (fileName.equals(logicalController.getGameStateFile()) || fileName.equals(logicalController.getTempGameStateFile())) {
+                outputStream.writeObject(logicalController.getBoardManager());
             }
             outputStream.close();
         } catch (IOException e) {
