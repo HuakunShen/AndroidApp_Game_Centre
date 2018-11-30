@@ -44,7 +44,7 @@ public class MatchingBoardManagerTest {
 
     @Test
     public void testBoardSolved() {
-        assertTrue(boardManager.gameFinished());
+        assertTrue(boardManager.boardSolved());
 
     }
 
