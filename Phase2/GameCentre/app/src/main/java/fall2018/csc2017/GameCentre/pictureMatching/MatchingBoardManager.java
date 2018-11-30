@@ -148,7 +148,7 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
     public void makeMove(int position) {
         int row = position / board.getDifficulty();
         int col = position % board.getDifficulty();
-        this.board.flipTile(row, col);
+        board.flipTile(row, col);
         if (check2tiles()) {
             notifyObservers();
         }

@@ -34,7 +34,7 @@ public class SudokuBoardManagerTest {
     }
 
     /**
-     * This is a helper function for setUp. It helps to find a position in the sudoku board
+     * This is a helper function for setUpCorrect. It helps to find a position in the sudoku board
      * that is editable.
      * @param board the board
      * @return a editable position
