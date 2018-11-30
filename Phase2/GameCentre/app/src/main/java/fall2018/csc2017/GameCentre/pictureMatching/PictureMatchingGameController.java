@@ -183,7 +183,7 @@ public class PictureMatchingGameController {
      */
     Integer calculateScore(Long totalTimeTaken) {
         int timeInSec = totalTimeTaken.intValue() / 1000;
-        return 10000 / (timeInSec);
+        return 10000 / (timeInSec) * (boardManager.getDifficulty() - 1);
     }
 
     /**

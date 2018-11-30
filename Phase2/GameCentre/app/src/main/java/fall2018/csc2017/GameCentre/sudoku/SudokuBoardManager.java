@@ -168,6 +168,14 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     }
 
     /**
+     * Getter for levelOfDifficulty
+     * @return a integer that represents the level of difficulty
+     */
+    public static Integer getLevelOfDifficulty() {
+        return levelOfDifficulty;
+    }
+
+    /**
      * Returns if performUndo is available.
      */
     boolean undoAvailable() {
