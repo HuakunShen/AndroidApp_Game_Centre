@@ -115,8 +115,10 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     @Override
     protected void onResume() {
         super.onResume();
-        displayStep.setText(String.format("%s", "Steps: " + Integer.toString(logicalController.getSteps())));
-        timeDisplay.setText(logicalController.convertTime(logicalController.getBoardManager().getTimeTaken()));
+        displayStep.setText(String.format("%s", "Steps: " +
+                Integer.toString(logicalController.getSteps())));
+        timeDisplay.setText(logicalController.
+                convertTime(logicalController.getBoardManager().getTimeTaken()));
     }
 
     @Override
@@ -150,7 +152,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
     private void setUpStep() {
         displayStep = findViewById(R.id.stepDisplayTextView);
         logicalController.setupSteps();
-        displayStep.setText(String.format("%s", "Steps: " + Integer.toString(logicalController.getSteps())));
+        displayStep.setText(String.format("%s", "Steps: " +
+                Integer.toString(logicalController.getSteps())));
     }
 
     /**
@@ -240,6 +243,7 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                             displayStep.setVisibility(View.VISIBLE);
                         }
                     }, 1000);
+
                 }
             }
         });
@@ -249,7 +253,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Set up the tile images and background.
      */
     void setupTileImagesAndBackground() {
-        tileImages = new Bitmap[logicalController.getBoardManager().getDifficulty() * logicalController.getBoardManager().getDifficulty()];
+        tileImages = new Bitmap[logicalController.getBoardManager().getDifficulty() *
+                logicalController.getBoardManager().getDifficulty()];
         try {
             byte[] tmpImage = logicalController.getBoardManager().getImageBackground();
             backgroundImage = BitmapFactory.decodeByteArray(tmpImage, 0, tmpImage.length);
@@ -278,7 +283,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                         false);
             }
         }
-        tileImages[logicalController.getBoardManager().getDifficulty() * logicalController.getBoardManager().getDifficulty() - 1]
+        tileImages[logicalController.getBoardManager().getDifficulty() *
+                logicalController.getBoardManager().getDifficulty() - 1]
                 = BitmapFactory.decodeResource(getResources(), R.drawable.tile_empty);
     }
 
@@ -286,12 +292,14 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
      * Converts integer numbers to tile images.
      */
     private void integerConverter() {
-        for (int i = 0; i < logicalController.getBoardManager().getDifficulty() * logicalController.getBoardManager().getDifficulty(); i++) {
+        for (int i = 0; i < logicalController.getBoardManager().getDifficulty() *
+                logicalController.getBoardManager().getDifficulty(); i++) {
             String name = "tile_" + Integer.toString(i + 1);
             int numImage = getResources().getIdentifier(name, "drawable", getPackageName());
             tileImages[i] = BitmapFactory.decodeResource(getResources(), numImage);
         }
-        tileImages[logicalController.getBoardManager().getDifficulty() * logicalController.getBoardManager().getDifficulty() - 1]
+        tileImages[logicalController.getBoardManager().getDifficulty() *
+                logicalController.getBoardManager().getDifficulty() - 1]
                 = BitmapFactory.decodeResource(getResources(), R.drawable.tile_empty);
     }
 
@@ -385,7 +393,8 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                     this.openFileOutput(fileName, MODE_PRIVATE));
             if (fileName.equals(logicalController.getUserFile())) {
                 outputStream.writeObject(logicalController.getUser());
-            } else if (fileName.equals(logicalController.getGameStateFile()) || fileName.equals(logicalController.getTempGameStateFile())) {
+            } else if (fileName.equals(logicalController.getGameStateFile()) ||
+                    fileName.equals(logicalController.getTempGameStateFile())) {
                 outputStream.writeObject(logicalController.getBoardManager());
             }
             outputStream.close();
