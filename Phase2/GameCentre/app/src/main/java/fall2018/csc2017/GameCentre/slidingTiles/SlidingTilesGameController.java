@@ -1,7 +1,6 @@
 package fall2018.csc2017.GameCentre.slidingTiles;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import fall2018.csc2017.GameCentre.data.SQLDatabase;
 import fall2018.csc2017.GameCentre.data.User;
@@ -54,6 +53,8 @@ public class SlidingTilesGameController {
 
     /**
      * Getter function for the file of the user in the database.
+     *
+     * @return user file
      */
     public String getUserFile() {
         return db.getUserFile(user.getUsername());
@@ -61,6 +62,8 @@ public class SlidingTilesGameController {
 
     /**
      * Returns the user file of the current user of the game.
+     *
+     * @return user
      */
     public User getUser() {
         return user;
@@ -68,6 +71,8 @@ public class SlidingTilesGameController {
 
     /**
      * Returns whether the user has successfully finished the task of the game.
+     *
+     * @return whether the game solved
      */
     boolean gameFinished() {
         return boardManager.boardSolved();
@@ -75,6 +80,8 @@ public class SlidingTilesGameController {
 
     /**
      * The getter function of the Board's manager.
+     *
+     * @return SlidingTilesBoardManager
      */
     public SlidingTilesBoardManager getBoardManager() {
         return boardManager;
@@ -82,6 +89,8 @@ public class SlidingTilesGameController {
 
     /**
      * Returns the board of the game.
+     *
+     * @return SlidingTilesBoard
      */
     public SlidingTilesBoard getBoard() {
         return boardManager.getBoard();
@@ -89,6 +98,8 @@ public class SlidingTilesGameController {
 
     /**
      * Returns the steps that has been taken by the user.
+     *
+     * @return steps the steps taken
      */
     public int getSteps() {
         return steps;
@@ -97,6 +108,8 @@ public class SlidingTilesGameController {
     /**
      * Setter function of the steps taken by the user.
      * Recorded data in the board's manager is also updated.
+     *
+     * @param steps the steps taken
      */
     public void setSteps(int steps) {
         this.steps = steps;
@@ -105,13 +118,26 @@ public class SlidingTilesGameController {
 
     /**
      * Setter function of the boardManager.
+     *
+     * @param boardManager the board manager
      */
     public void setBoardManager(SlidingTilesBoardManager boardManager) {
         this.boardManager = boardManager;
     }
 
     /**
+     * Set the database of the controller.
+     *
+     * @param db the database
+     */
+    public void setDb(SQLDatabase db) {
+        this.db = db;
+    }
+
+    /**
      * Getter function of the name of the file of game state.
+     *
+     * @return gameStateFile
      */
     String getGameStateFile() {
         return gameStateFile;
@@ -119,14 +145,17 @@ public class SlidingTilesGameController {
 
     /**
      * Getter function of the name of the temporary file of game state.
+     *
+     * @return tempGameStateFile
      */
     String getTempGameStateFile() {
         return tempGameStateFile;
     }
 
-
     /**
      * The setter function for gameRunning instance.
+     *
+     * @param gameRunning if the game is still running
      */
     void setGameRunning(boolean gameRunning) {
         this.gameRunning = gameRunning;
@@ -157,10 +186,11 @@ public class SlidingTilesGameController {
         this.steps = boardManager.getStepsTaken();
     }
 
-
-
     /**
      * Convert the time into the format of HH:MM:SS
+     *
+     * @param time time taken
+     * @return string format of time
      */
     String convertTime(long time) {
         Integer hour = (int) (time / 3600000);
@@ -183,6 +213,9 @@ public class SlidingTilesGameController {
 
     /**
      * Calculate and return the score of the user.
+     *
+     * @param totalTimeTaken
+     * @return score
      */
     Integer calculateScore(Long totalTimeTaken) {
         int timeInSec = totalTimeTaken.intValue() / 1000;
@@ -191,6 +224,9 @@ public class SlidingTilesGameController {
 
     /**
      * Update the user's score to the database.
+     *
+     * @param score the score
+     * @return score
      */
     boolean updateScore(int score) {
         boolean newRecord = user.updateScore(GAME_NAME, score);
@@ -211,5 +247,4 @@ public class SlidingTilesGameController {
             return false;
         }
     }
-
 }
