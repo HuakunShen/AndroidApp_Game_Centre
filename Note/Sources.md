@@ -1,3 +1,5 @@
+# SOURCE
+
 ## Puzzle Solvability
 
 * https://www.geeksforgeeks.org/check-instance-15-puzzle-solvable/
@@ -22,3 +24,11 @@ https://www.nytimes.com/2017/07/17/technology/apple-new-emoji.html
 https://www.abc.es/cultura/libros/abci-pinocho-en-emoticonos-emojis-201801021734_noticia.html
 
 https://emojiisland.com/products/thinking-face-emoji-icon
+
+## Android SQLite
+
+https://developer.android.com/reference/android/database/sqlite/SQLiteDatabase
+
+## Sudoku board generator
+
+https://blog.forret.com/2006/08/14/a-sudoku-challenge-generator/

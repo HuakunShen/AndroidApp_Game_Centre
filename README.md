@@ -4,7 +4,7 @@
 
 * Choose a new directory for this project
 * git clone <https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0613> with terminal or git bash
-* `Open an existing Android Studio project`from the directory you chose above (group_0613/Phase2/GameCentre)
+* `Open an existing Android Studio project`from the directory you chose above (group_0613/Phase2/GameCentre) select `GameCentre`
 * Build and run the project
 
 ## Meeting Notes
@@ -33,6 +33,7 @@
      * Hard mode has 3 hints
    * Erase Button: select a cell and click erase will erase that single cell
    * Score is calculated according to difficulty and time taken to solve the game.
+   * After game is done and score is calculated, user can no longer play with the same board (board will be displayed if loaded, but disabled for playing)
 
 3. Picture Match
 
@@ -115,3 +116,21 @@
 * Sudoku has both Undo and Autosave functions
 * Picture Match has Autosave function
 
+
+
+
+## Source
+
+Souces are recorded in a file called ```source.md``` in Note folder. 
+
+We never copy code from anywhere. We only learn the ideas and copied some pictures from the website.
+
+## Note
+
+In git log,
+
+- ```Huakun``` and ```Huakun Shen``` are the same person
+- ```Jato Xiang``` is actually ```Jiatao Xiang```
+- ```Xu Wang``` and ```xu wang``` are the same person
+
+## 
