@@ -65,7 +65,7 @@ public class Cell implements Serializable {
      *
      * @return solutionValue
      */
-    public Integer getSolutionValue() {
+    Integer getSolutionValue() {
         return solutionValue;
     }
 
@@ -74,14 +74,14 @@ public class Cell implements Serializable {
      *
      * @return faceValue
      */
-    public Integer getFaceValue() {
+    Integer getFaceValue() {
         return faceValue;
     }
 
     /**
      * Set the face value of the box.
      *
-     * @param faceValue
+     * @param faceValue the faceValue.
      */
     void setFaceValue(Integer faceValue) {
         this.faceValue = faceValue;

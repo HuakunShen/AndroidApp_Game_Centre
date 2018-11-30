@@ -44,11 +44,11 @@ public class SudokuBoard extends BoardForBoardGames implements Serializable {
     /**
      * Get the box at the ith row and jth column
      *
-     * @param row
-     * @param column
+     * @param row the row of the cell
+     * @param column the column of the cell.
      * @return cell
      */
-    public Cell getCell(int row, int column) {
+    Cell getCell(int row, int column) {
         return this.cells[row][column];
     }
 
@@ -56,8 +56,8 @@ public class SudokuBoard extends BoardForBoardGames implements Serializable {
      * Check whether the box at the ith row and jth column
      * has been correctly solved.
      *
-     * @param row
-     * @param col
+     * @param row the row of the cell
+     * @param col teh column of the cell.
      * @return whether the cell is solved
      */
     boolean checkCell(int row, int col) {
@@ -68,8 +68,8 @@ public class SudokuBoard extends BoardForBoardGames implements Serializable {
      * Check whether the face value of box at the ith row and
      * jth column can be edited.
      *
-     * @param row
-     * @param col
+     * @param row the row of the cell.
+     * @param col the column of the cell.
      * @return whether the cell is editable
      */
     boolean checkEditable(int row, int col) {

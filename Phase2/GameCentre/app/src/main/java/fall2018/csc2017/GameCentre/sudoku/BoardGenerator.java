@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * The BoardGenerator class.
  */
-public class BoardGenerator {
+class BoardGenerator {
 
     /**
      * The board (to be) generated.
@@ -20,11 +20,11 @@ public class BoardGenerator {
         boardInitializer();
         for (int n = 0; n < 100; n++) {
             juniorBoardShuffler(false);
-            seniorBoardShuffler(0);
+            seniorBoardShuffler(false);
         }
         for (int n = 0; n < 100; n++) {
             juniorBoardShuffler(true);
-            seniorBoardShuffler(1);
+            seniorBoardShuffler(true);
         }
     }
 
@@ -66,9 +66,9 @@ public class BoardGenerator {
     /**
      * Shuffle the game board.
      *
-     * @param switcRow
+     * @param switchRow whether switchRow or Column
      */
-    private void juniorBoardShuffler(boolean switcRow) {
+    private void juniorBoardShuffler(boolean switchRow) {
         int k1 = 0, k2 = 0;
         int startingIndex = 0;
         Random r = new Random();
@@ -77,9 +77,9 @@ public class BoardGenerator {
                 k1 = r.nextInt(3) + startingIndex;
                 k2 = r.nextInt(3) + startingIndex;
             }
-            if (switcRow)
+            if (switchRow)
                 switchRows(k1, k2);
-            else if (switcRow)
+            else
                 switchColumns(k1, k2);
             startingIndex += 3;
         }
@@ -88,13 +88,14 @@ public class BoardGenerator {
     /**
      * Further Shuffle the GameBoard.
      *
-     * @param check
+     * @param switchHorizontalGroup determines whether vertical groups are switched or vertical
+     *                              are switched
      */
-    private void seniorBoardShuffler(int check) {
+    private void seniorBoardShuffler(boolean switchHorizontalGroup) {
         Random r = new Random();
         int k1;
         int k2;
-        if (check == 0) {
+        if (switchHorizontalGroup) {
             k1 = r.nextInt(3) + 1;
             k2 = r.nextInt(3) + 1;
             while (k1 == k2) {
@@ -102,7 +103,7 @@ public class BoardGenerator {
                 k2 = r.nextInt(3) + 1;
             }
             switchVerticalGroups(k1, k2);
-        } else if (check == 1) {
+        } else {
             k1 = r.nextInt(3) + 1;
             k2 = r.nextInt(3) + 1;
             while (k1 == k2) {
@@ -116,8 +117,8 @@ public class BoardGenerator {
     /**
      * Switch two rows on the game board.
      *
-     * @param row1
-     * @param row2
+     * @param row1 the first row
+     * @param row2 the second row
      */
     private void switchRows(int row1, int row2) {
         int cache;
@@ -131,8 +132,8 @@ public class BoardGenerator {
     /**
      * Switch two columns on the game board.
      *
-     * @param col1
-     * @param col2
+     * @param col1 the first column.
+     * @param col2 the second column.
      */
     private void switchColumns(int col1, int col2) {
         int cache;
@@ -146,8 +147,8 @@ public class BoardGenerator {
     /**
      * Switch two groups of rows in the game board.
      *
-     * @param group1
-     * @param group2
+     * @param group1 the first group.
+     * @param group2 the second group.
      */
     private void switchHorizontalGroups(int group1, int group2) {
         int row1 = 3 * group1 - 3;
@@ -167,8 +168,8 @@ public class BoardGenerator {
     /**
      * Switch two groups of columns in the game board.
      *
-     * @param group1
-     * @param group2
+     * @param group1 the first group.
+     * @param group2 the second group.
      */
     private void switchVerticalGroups(int group1, int group2) {
         int row1 = 3 * group1 - 3;

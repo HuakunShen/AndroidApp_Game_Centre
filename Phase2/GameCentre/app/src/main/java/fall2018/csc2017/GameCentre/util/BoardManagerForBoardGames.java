@@ -2,52 +2,17 @@ package fall2018.csc2017.GameCentre.util;
 
 import java.util.Observable;
 
-import fall2018.csc2017.GameCentre.data.StateStack;
-
 /**
  * The BoardManagerForBoardGames class.
  */
 public abstract class BoardManagerForBoardGames extends Observable {
 
-    /**
-     * The board begin managed.
-     */
-    private BoardForBoardGames board;
-
-    /**
-     * The time has taken so far.
-     */
-    private long timeTaken;
-
-    /**
-     * The level of difficulty.
-     */
-    private static Integer levelOfDifficulty = 2;
-
-    /**
-     * The steps the user has taken so far.
-     */
-    private Integer stepsTaken;
-
-    /**
-     * The undoStack storing steps has taken.(limited capacity)
-     */
-    private StateStack undoStack;
-
 
     /**
      * The default Constructor for the SlidingTilesBoard Manager.
      */
-    public BoardManagerForBoardGames() {
+    protected BoardManagerForBoardGames() {
     }
-
-    /**
-     * Manage a board that has been pre-populated.
-     */
-    public BoardManagerForBoardGames(BoardForBoardGames board) {
-        this.board = board;
-    }
-
 
     /**
      * Return the current board.

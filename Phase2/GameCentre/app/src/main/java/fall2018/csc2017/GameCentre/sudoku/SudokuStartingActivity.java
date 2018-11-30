@@ -32,11 +32,10 @@ public class SudokuStartingActivity extends AppCompatActivity {
      * The Resource.
      */
     public static Resources RESOURCES;
-    public static String PACKAGE_NAME;
     /**
-     * The maximum ubdo limit.
+     * the name of the package.
      */
-    private static final int MAX_UNDO_LIMIT = 20;
+    public static String PACKAGE_NAME;
     /**
      * The user.
      */
@@ -68,7 +67,7 @@ public class SudokuStartingActivity extends AppCompatActivity {
     /**
      * Levels of difficulty.
      */
-    private String[] list_diff = new String[]{"Easy", "Normal", "Hard"};
+    private String[] list_diff = new String[]{"Easy", "Normal", "Hard" };
 
 
     @Override

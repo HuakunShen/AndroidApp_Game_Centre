@@ -194,8 +194,6 @@ public class SudokuGameController {
         return newRecord;
     }
 
-
-
     /**
      * Return whether board is solved.
      *

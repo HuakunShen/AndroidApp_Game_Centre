@@ -33,9 +33,10 @@ public class CustomAdapter extends BaseAdapter {
 
     /**
      * The CustomAdapter constructor.
-     * @param buttons
-     * @param columnWidth
-     * @param columnHeight
+     *
+     * @param buttons the buttons for display.
+     * @param columnWidth the column width.
+     * @param columnHeight the column height.
      */
     public CustomAdapter(List<Button> buttons, int columnWidth, int columnHeight) {
         mButtons = buttons;

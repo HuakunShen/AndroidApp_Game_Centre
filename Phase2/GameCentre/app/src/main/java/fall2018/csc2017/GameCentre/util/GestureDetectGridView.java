@@ -74,7 +74,7 @@ public class GestureDetectGridView extends GridView {
     }
 
     /**
-     * init method
+     * init method for the gesture grid view.
      * @param context the context from activity
      */
     private void init(final Context context) {
@@ -130,6 +130,10 @@ public class GestureDetectGridView extends GridView {
         return gDetector.onTouchEvent(ev);
     }
 
+    /**
+     * set new boardManager to grid View
+     * @param boardManager the new boardManager.
+     */
     public void setBoardManager(BoardManagerForBoardGames boardManager) {
         mController.setBoardManager(boardManager);
     }

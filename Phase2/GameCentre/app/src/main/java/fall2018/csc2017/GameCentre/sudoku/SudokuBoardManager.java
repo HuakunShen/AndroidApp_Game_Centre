@@ -48,7 +48,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     /**
      * The default number of performUndo time.
      */
-    private static final int DEFAULT_UNDO_LIMIT = 20;
+    private static final int MAX_UNDO_LIMIT = 20;
 
     /**
      * The level of difficulty.
@@ -59,7 +59,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
     /**
      * Manage a new shuffled board.
      */
-    public SudokuBoardManager() {
+    SudokuBoardManager() {
         List<Cell> cells = new ArrayList<>();
         Integer[][] newBoard = new BoardGenerator().getBoard();
         for (int row = 0; row < 9; row++) {
@@ -94,27 +94,27 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         }
         this.board = new SudokuBoard(cells);
         this.timeTaken = 0L;
-        this.undoStack = new StateStack<>(DEFAULT_UNDO_LIMIT);
+        this.undoStack = new StateStack<>(MAX_UNDO_LIMIT);
     }
 
     /**
      * Getter function for number of hints available.
      */
-    public int getHintAvailable() {
+    int getHintAvailable() {
         return hintAvailable;
     }
 
     /**
      * Setter function for number of hints available.
      */
-    public void setHintAvailable(int hint) {
+    void setHintAvailable(int hint) {
         this.hintAvailable = hint;
     }
 
     /**
      * Reduce hintAvailable.
      */
-    public void reduceHint() {
+    void reduceHint() {
         hintAvailable = max(0, hintAvailable - 1);
     }
 
@@ -171,7 +171,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      * Getter for levelOfDifficulty
      * @return a integer that represents the level of difficulty
      */
-    public static Integer getLevelOfDifficulty() {
+    static Integer getLevelOfDifficulty() {
         return levelOfDifficulty;
     }
 
@@ -247,12 +247,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
      * Do all steps of an performUndo
      */
     void undo() {
-        if (currentCell != null && undoStack.size() > 1) {
-            // De-highlight cell
-            currentCell.setHighlighted(false);
-            currentCell.setFaceValue(0);
-        }
-        // Undo
+        dehighlightCell();
         Integer[] move = popUndo();
         int position = move[0];
         int value = move[1];
@@ -262,7 +257,28 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
             currentCell.setHighlighted(false);
         updateValue(value, true);
         currentCell.setFaceValue(currentCell.getFaceValue());
-        // Highlight the next cell in performUndo stack
+        highlightNextCell();
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * de-highlight the cell.
+     */
+    private void dehighlightCell() {
+        if (currentCell != null && undoStack.size() > 1) {
+            // De-highlight cell
+            currentCell.setHighlighted(false);
+            currentCell.setFaceValue(0);
+        }
+    }
+
+    /**
+     * highlight the next cell, the helper of undo method.
+     */
+    private void highlightNextCell() {
+        Integer[] move;
+        int position;
         if (!undoStack.isEmpty()) {
             move = this.undoStack.get();
             position = move[0];
@@ -272,7 +288,5 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
             currentPos = position;
             currentCell.setFaceValue(currentCell.getFaceValue());
         }
-        setChanged();
-        notifyObservers();
     }
 }
