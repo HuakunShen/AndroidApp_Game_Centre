@@ -140,6 +140,9 @@ public class MatchingBoardManager extends BoardManagerForBoardGames implements S
                 && !currentTile.getState().equals(PictureTile.FLIP);
     }
 
+    public void solveTile() {
+        board.solveTile();
+    }
     /**
      * Performs changes to the board.
      *

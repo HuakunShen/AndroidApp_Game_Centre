@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 /**
  * JUnit tests for MatchingBoard and MatchingBoardManager.
  *
- * @author Weiqing Wang
+ * @author Weiqing Wangp
  */
 public class MatchingBoardManagerTest {
 
@@ -42,7 +42,7 @@ public class MatchingBoardManagerTest {
             for (int index = 0; index < typeOfTiles; index++) {
                 boardManager.makeMove(time * 2 * typeOfTiles + index);
                 boardManager.makeMove((time * 2 + 1) * typeOfTiles + index);
-                boardManager.getBoard().solveTile();
+                boardManager.solveTile();
             }
         }
     }
@@ -58,7 +58,7 @@ public class MatchingBoardManagerTest {
         boardManager.makeMove(4);
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(1, 0).getState());
-        boardManager.getBoard().solveTile();
+        boardManager.solveTile();
         assertEquals(PictureTile.SOLVED, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.SOLVED, boardManager.getBoard().getTile(1, 0).getState());
     }
@@ -74,7 +74,7 @@ public class MatchingBoardManagerTest {
         boardManager.makeMove(9);
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(1, 3).getState());
-        boardManager.getBoard().solveTile();
+        boardManager.solveTile();
         assertEquals(PictureTile.SOLVED, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.SOLVED, boardManager.getBoard().getTile(1, 3).getState());
     }
@@ -90,7 +90,7 @@ public class MatchingBoardManagerTest {
         boardManager.makeMove(16);
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(2, 0).getState());
-        boardManager.getBoard().solveTile();
+        boardManager.solveTile();
         assertEquals(PictureTile.SOLVED, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.SOLVED, boardManager.getBoard().getTile(2, 0).getState());
     }
@@ -106,7 +106,7 @@ public class MatchingBoardManagerTest {
         boardManager.getBoard().flipTile(0, 1);
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(0, 1).getState());
-        boardManager.getBoard().solveTile();
+        boardManager.solveTile();
         assertEquals(PictureTile.COVERED, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.COVERED, boardManager.getBoard().getTile(0, 1).getState());
     }
@@ -122,7 +122,7 @@ public class MatchingBoardManagerTest {
         boardManager.getBoard().flipTile(0, 1);
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(0, 1).getState());
-        boardManager.getBoard().solveTile();
+        boardManager.solveTile();
         assertEquals(PictureTile.COVERED, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.COVERED, boardManager.getBoard().getTile(0, 1).getState());
     }
@@ -138,7 +138,7 @@ public class MatchingBoardManagerTest {
         boardManager.getBoard().flipTile(0, 1);
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.FLIP, boardManager.getBoard().getTile(0, 1).getState());
-        boardManager.getBoard().solveTile();
+        boardManager.solveTile();
         assertEquals(PictureTile.COVERED, boardManager.getBoard().getTile(0, 0).getState());
         assertEquals(PictureTile.COVERED, boardManager.getBoard().getTile(0, 1).getState());
     }
@@ -189,7 +189,7 @@ public class MatchingBoardManagerTest {
         setUpCorrect(4);
         boardManager.makeMove(0);
         boardManager.makeMove(4);
-        boardManager.getBoard().solveTile();
+        boardManager.solveTile();
         assertFalse(boardManager.isValidTap(0));
         assertTrue(boardManager.isValidTap(1));
     }
