@@ -243,7 +243,6 @@ public class SlidingTilesGameActivity extends AppCompatActivity implements Obser
                             displayStep.setVisibility(View.VISIBLE);
                         }
                     }, 1000);
-
                 }
             }
         });

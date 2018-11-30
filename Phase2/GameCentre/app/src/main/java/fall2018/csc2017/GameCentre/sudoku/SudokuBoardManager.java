@@ -70,7 +70,7 @@ public class SudokuBoardManager extends BoardManagerForBoardGames implements Ser
         Integer editable;
         switch (levelOfDifficulty) {
             case 1: editable = 18;
-                    setHintAvailable(20);
+                    setHintAvailable(1);
                     break;
             case 2: editable = 36;
                     setHintAvailable(5);
