@@ -157,7 +157,7 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                 @Override
                 public void onClick(View v) {
                     for (int tmp = 0; tmp < buttons.length; tmp++) {
-                        if (v == buttons[tmp])
+                        if (v == buttons[tmp] && logicalController.isGameRunning())
                             logicalController.getBoardManager().updateValue(tmp + 1, false);
                     }
                 }
@@ -173,16 +173,18 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                while (logicalController.getBoardManager().undoAvailable()) {
-                    logicalController.getBoardManager().undo();
+                if (logicalController.isGameRunning()) {
+                    while (logicalController.getBoardManager().undoAvailable()) {
+                        logicalController.getBoardManager().undo();
+                    }
+                    Cell currentCell = logicalController.getBoardManager().getCurrentCell();
+                    if (currentCell != null) {
+                        currentCell.setHighlighted(false);
+                        currentCell.setFaceValue(currentCell.getFaceValue());
+                        logicalController.getBoardManager().setCurrentCell(null);
+                    }
+                    display();
                 }
-                Cell currentCell = logicalController.getBoardManager().getCurrentCell();
-                if (currentCell != null) {
-                    currentCell.setHighlighted(false);
-                    currentCell.setFaceValue(currentCell.getFaceValue());
-                    logicalController.getBoardManager().setCurrentCell(null);
-                }
-                display();
             }
         });
     }
@@ -196,11 +198,12 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (logicalController.getBoardManager().undoAvailable())
-                    logicalController.getBoardManager().undo();
-                else
-                    displayWarning("Exceeds Undo-Limit!");
-
+                if (logicalController.isGameRunning()) {
+                    if (logicalController.getBoardManager().undoAvailable())
+                        logicalController.getBoardManager().undo();
+                    else
+                        displayWarning("Exceeds Undo-Limit!");
+                }
             }
         });
     }
@@ -214,10 +217,12 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         eraseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (logicalController.getBoardManager().getCurrentCell() != null &&
-                        logicalController.getBoardManager().getCurrentCell().getFaceValue() != 0)
-                    logicalController.getBoardManager().updateValue(0, false);
-                display();
+                if (logicalController.isGameRunning()) {
+                    if (logicalController.getBoardManager().getCurrentCell() != null &&
+                            logicalController.getBoardManager().getCurrentCell().getFaceValue() != 0)
+                        logicalController.getBoardManager().updateValue(0, false);
+                    display();
+                }
             }
         });
     }
@@ -230,8 +235,10 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
         hintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Cell currentCell = logicalController.getBoardManager().getCurrentCell();
-                if (logicalController.getBoardManager().getHintAvailable() > 0) {
+                if (logicalController.getBoardManager().getHintAvailable() > 0 &&
+                        logicalController.isGameRunning()) {
                     if (currentCell != null &&
                             !currentCell.getFaceValue().equals(currentCell.getSolutionValue())) {
                         logicalController.getBoardManager().updateValue(currentCell.getSolutionValue(),
@@ -242,7 +249,8 @@ public class SudokuGameActivity extends AppCompatActivity implements Observer {
                         hintText.setText(hintDisplay);
                     }
                 } else {
-                    displayWarning("No More Hint!");
+                    if(logicalController.isGameRunning())
+                        displayWarning("No More Hint!");
                 }
                 display();
             }

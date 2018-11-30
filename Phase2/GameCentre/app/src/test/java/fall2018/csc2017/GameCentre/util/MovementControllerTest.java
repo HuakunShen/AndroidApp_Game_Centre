@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import fall2018.csc2017.GameCentre.pictureMatching.MatchingBoardManager;
-import fall2018.csc2017.GameCentre.sudoku.SudokuBoardManager;
 
 import static org.junit.Assert.*;
 
@@ -26,6 +25,6 @@ public class MovementControllerTest {
     @Test
     public void processTapMovement() {
         movementController.processTapMovement(context, 0);
-        assertTrue(boardManager.getBoard().getTile(0,0).getState().equals("flip"));
+        assertEquals("flip", boardManager.getBoard().getTile(0, 0).getState());
     }
 }
