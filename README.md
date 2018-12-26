@@ -5,7 +5,7 @@
 * Choose a new directory for this project
 * git clone <https://markus.teach.cs.toronto.edu/git/csc207-2018-09-reg/group_0613> with terminal or git bash
 * `Open an existing Android Studio project`from the directory you chose above (group_0613/Phase2/GameCentre) select `GameCentre`
-* Build and run the project
+* Build and run the project (make sure the emiulator runs with the same configuration as it was in Assignment 2: Pixel 2 API27 )
 
 ## Meeting Notes
 
