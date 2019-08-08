@@ -2,21 +2,21 @@
 
 ## Demo
 
-![1565244795084](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\login_page)
+![1565244795084](./readme_img/login_page)
 
-![1565244828232](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\game_list)
+![1565244828232](./readme_img/game_list)
 
-![1565244898211](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\sliding_tiles)
+![1565244898211](./readme_img/sliding_tiles)
 
-![1565244862033](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\sliding_tiles_5x5)
+![1565244862033](./readme_img/sliding_tiles_5x5)
 
-![1565244944956](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\sudoku)
+![1565244944956](./readme_img/sudoku)
 
-![1565244926061](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\sudoku_normal)
+![1565244926061](./readme_img/sudoku_normal)
 
-![1565244969236](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\picture_match)
+![1565244969236](./readme_img/picture_match)
 
-![1565245018689](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\picture_match_6x6)
+![1565245018689](./readme_img/picture_match_6x6)
 
 ## Database
 
@@ -85,13 +85,13 @@
   * Scoreboard by user contains only data of the current user for all games he/she has played
   * Score Data are stored in a hashmap in the user object
   * gameName→Score
-  * ![1565243956808](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\ScoreboardByUser)
+  * ![1565243956808](./readme_img/ScoreboardByUser)
 
 * Scoreboard by game
 
   * Scoreboard by game contains only data of the specific game
-  * ![1565244018338](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\ScoreboardByGame)
-  * ![1565244052728](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\ScoreboardByGame2)
+  * ![1565244018338](./readme_img/ScoreboardByGame)
+  * ![1565244052728](./readme_img/ScoreboardByGame2)
 
 * Scoreboard display
 
@@ -105,10 +105,10 @@
 
   * Each inner list is put into a **TableRow**, and the **TableRow** is added to **TableLayout**
   * Scoreboard by User:
-  * ![1565244113025](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\scoreboard_display)
+  * ![1565244113025](./readme_img/scoreboard_display)
   * Scoreboard By Game
 
-![1565244131145](F:\Documents\CS\AndroidApp_Game_Centre\readme_img\scoreboard_display2)
+![1565244131145](./readme_img/scoreboard_display2)
 
 [PPT Link](./README.pptx)
 
